@@ -42,7 +42,14 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        
+        // Snapping by 0.5f.
+        Vector3 finalPos = draggingItem.transform.position;
+
+        finalPos *= 2;
+        finalPos = new Vector3(Mathf.Round(finalPos.x), Mathf.Round(finalPos.y));
+        finalPos /= 2;
+
+        draggingItem.transform.position = finalPos;
     }
 
     void Update()
