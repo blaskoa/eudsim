@@ -11,6 +11,10 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     // Item we're dragging.
     private GameObject draggingItem;
 
+    private float step = 0.5f;
+    private float buttonDelay = 0f;
+    private float delay = 0.25f;
+
     public void OnBeginDrag(PointerEventData eventData)
     {
         // Setting starting posiitons.
@@ -39,5 +43,60 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public void OnEndDrag(PointerEventData eventData)
     {
         
+    }
+
+    void Update()
+    {
+        // Vector for movement.
+        Vector3 movement = new Vector3();
+
+        decreaseDelay();
+        // Check if any object is selected.
+        if (SelectObject.selectedObject != null && this.gameObject == SelectObject.selectedObject)
+        {
+            // Check if A is pressed.
+            if (Input.GetKey("a"))
+            {
+                movement.x -= step;
+            }
+
+            // Check if D is pressed.
+            if (Input.GetKey("d"))
+            {
+                movement.x += step;
+            }
+            
+            // Check if S is pressed.
+            if (Input.GetKey("s"))
+            {
+                movement.y -= step;
+            }
+
+            // Check if W is pressed.
+            if (Input.GetKey("w"))
+            {
+                movement.y += step;
+            }
+
+            // Button delay has passed and some keys were pressed.
+            if (buttonDelay == 0f && (movement.x != 0f || movement.y != 0f))
+            {
+                SelectObject.selectedObject.transform.position += movement;
+                buttonDelay = delay;
+            }
+        }
+    }
+
+    // To limit users's spamming and make grid-like movement.
+    void decreaseDelay()
+    {
+        if (buttonDelay > 0f)
+        {
+            buttonDelay -= Time.deltaTime;
+        }
+        if (buttonDelay < 0f)
+        {
+            buttonDelay = 0f;
+        }
     }
 }
