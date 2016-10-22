@@ -4,10 +4,10 @@ using UnityEngine.EventSystems;
 using System.Collections;
 using System;
 
-public class Selection : MonoBehaviour {
+public class SelectObject : MonoBehaviour {
     
     // Global variable to allow only one selected item.
-    static GameObject selectedObject;
+    public static GameObject selectedObject;
     public GameObject selectionBox;
 
 	// Initialization: Making object and SelectionBox the same size.
