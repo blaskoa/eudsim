@@ -2,7 +2,7 @@
 using System.Collections;
 using Assets.Skripts.Interfaces;
 
-public class Condensator : MonoBehaviour, ComponentInterface{
+public class GUICapacitorElm : MonoBehaviour, ComponentInterface{
     float capacity;
     float maxVoltage;
 

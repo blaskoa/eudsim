@@ -2,8 +2,9 @@
 using System.Collections;
 using Assets.Skripts.Interfaces;
 
-public class Switch : MonoBehaviour, ComponentInterface{
-    bool state;
+public class GUIInductorElm : MonoBehaviour, ComponentInterface{
+    float inductance;
+    float work;
 
     Connector[] connectors;
 

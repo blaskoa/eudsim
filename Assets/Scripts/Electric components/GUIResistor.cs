@@ -2,7 +2,7 @@
 using System.Collections;
 using Assets.Skripts.Interfaces;
 
-public class Resistor : MonoBehaviour, ComponentInterface {
+public class GUIResistor : MonoBehaviour, ComponentInterface {
     float resistance;
     float resistorTolerance;
     float resistorLoad;

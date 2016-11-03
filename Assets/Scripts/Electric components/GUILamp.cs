@@ -2,10 +2,7 @@
 using System.Collections;
 using Assets.Skripts.Interfaces;
 
-public class Coil : MonoBehaviour, ComponentInterface{
-    float inductance;
-    float work;
-
+public class GUILamp : MonoBehaviour, ComponentInterface{
     Connector[] connectors;
 
     // Use this for initialization

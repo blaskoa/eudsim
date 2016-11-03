@@ -2,7 +2,9 @@
 using System.Collections;
 using Assets.Skripts.Interfaces;
 
-public class Bulb : MonoBehaviour, ComponentInterface{
+public class GUIAnalogSwitch : MonoBehaviour, ComponentInterface{
+    bool state;
+
     Connector[] connectors;
 
     // Use this for initialization

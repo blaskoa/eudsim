@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using SharpCircuit;
+using ClassLibrarySharpCircuit;
 
 public class GUICircuit : MonoBehaviour
 {
