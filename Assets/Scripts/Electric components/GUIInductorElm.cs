@@ -1,20 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Assets.Skripts.Interfaces;
+using ClassLibrarySharpCircuit;
+using leader = ClassLibrarySharpCircuit.Circuit.Lead;
 
-public class GUIInductorElm : MonoBehaviour, ComponentInterface{
-    float inductance;
-    float work;
+public class GUIInductorElm : MonoBehaviour, ComponentInterface
+{
+    public leader[] connectors = new leader[2];
+    InductorElm myComponent = GUICircuit.sim.Create<InductorElm>();
 
-    Connector[] connectors;
-
+    public GUIInductorElm()
+    {
+        connectors[0] = myComponent.leadIn;
+        connectors[1] = myComponent.leadOut;
+    }
     // Use this for initialization
-    void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    void Start()
+    {
+        connectors[0] = myComponent.leadIn;
+        connectors[1] = myComponent.leadOut;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 }

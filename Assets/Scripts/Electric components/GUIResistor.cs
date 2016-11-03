@@ -1,24 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Assets.Skripts.Interfaces;
+using ClassLibrarySharpCircuit;
+using leader = ClassLibrarySharpCircuit.Circuit.Lead;
 
-public class GUIResistor : MonoBehaviour, ComponentInterface {
-    float resistance;
-    float resistorTolerance;
-    float resistorLoad;
-    float allowedVoltage;
-    float temperatureCoefficient;
+public class GUIResistor : MonoBehaviour, ComponentInterface
+{
+    public leader[] connectors = new leader[2];
+    Resistor myComponent = GUICircuit.sim.Create<Resistor>();
 
-    Connector[] connectors;
-    
+    public double getVoltageDelta()
+    {
+        return myComponent.getVoltageDelta();
+    }
+    public GUIResistor()
+    {
+        connectors[0] = myComponent.leadIn;
+        connectors[1] = myComponent.leadOut;
+    }
+    // Use this for initialization
+    void Start()
+    {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	    
-	}
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 }

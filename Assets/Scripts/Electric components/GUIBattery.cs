@@ -1,24 +1,33 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Assets.Skripts.Interfaces;
-//using Assets.Skripts.Circuit;
 using ClassLibrarySharpCircuit;
+using leader = ClassLibrarySharpCircuit.Circuit.Lead;
 
-public class GUIBattery : MonoBehaviour, ComponentInterface {
-    Connector[] connectors;
-    
+public class GUIBattery : MonoBehaviour, ComponentInterface
+{
+    public leader[] connectors = new leader[2];
     VoltageInput myComponent = GUICircuit.sim.Create<VoltageInput>(Voltage.WaveType.DC);
-    Resistor myComponent2 = GUICircuit.sim.Create<Resistor>();
+    Ground myComponentGround = GUICircuit.sim.Create<Ground>();
 
+    public double getVoltageDelta()
+    {
+        return myComponent.getVoltageDelta();
+    }
+    public GUIBattery()
+    {
+        connectors[0] = myComponent.leadPos;
+        connectors[1] = myComponentGround.leadIn;
+    }
     // Use this for initialization
-    void Start () {
-        VoltageInput myComponent = GUICircuit.sim.Create<VoltageInput>(Voltage.WaveType.DC);
-        Resistor myComponent2 = GUICircuit.sim.Create<Resistor>();
-        Debug.Log("toto je debug vypis z GUIBattery");	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 }

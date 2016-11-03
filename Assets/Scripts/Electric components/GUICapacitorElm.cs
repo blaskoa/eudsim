@@ -1,20 +1,30 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Assets.Skripts.Interfaces;
+using ClassLibrarySharpCircuit;
+using leader = ClassLibrarySharpCircuit.Circuit.Lead;
 
-public class GUICapacitorElm : MonoBehaviour, ComponentInterface{
-    float capacity;
-    float maxVoltage;
+public class GUICapacitorElm : MonoBehaviour, ComponentInterface
+{
+    public leader[] connectors = new leader[2];
+    CapacitorElm myComponent = GUICircuit.sim.Create<CapacitorElm>();
 
-    Connector[] connectors;
+    public GUICapacitorElm()
+    {
+        connectors[0] = myComponent.leadIn;
+        connectors[1] = myComponent.leadOut;
+    }
 
     // Use this for initialization
-    void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    void Start()
+    {
+        connectors[0] = myComponent.leadIn;
+        connectors[1] = myComponent.leadOut;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 }
