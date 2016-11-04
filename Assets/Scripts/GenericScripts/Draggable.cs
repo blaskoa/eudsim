@@ -190,7 +190,9 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             // Button delay has passed and some keys were pressed.
             if (buttonDelay == 0f && (movement.x != 0f || movement.y != 0f))
             {
-                SelectObject.selectedObject.transform.position += movement;
+                // Check collision.
+                Vector3 finalPos = checkCollision(SelectObject.selectedObject.transform.position + movement);
+                SelectObject.selectedObject.transform.position = finalPos;
                 buttonDelay = delay;
             }
         }
