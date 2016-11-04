@@ -28,8 +28,10 @@ public class CameraMovement : MonoBehaviour
         // Moving the camera.
         if (Input.GetMouseButton(2))
         {
-            //Moving the item with the mouse.
+            // Moving the item with the mouse.
             Vector2 mouseDiff = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - mousePos;
+            // Reducing the camera movement speed.
+            mouseDiff /= 1.5f;
             Vector3 newPos;
             newPos.x = cameraPos.x + mouseDiff.x;
             newPos.y = cameraPos.y + mouseDiff.y;
