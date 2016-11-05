@@ -41,7 +41,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     }
 
     // Check if dragging object is colliding with some other object.
-    private Vector3 checkCollision(Vector3 finalPos)
+    // Collider is the object that has finished moving and is being checked for collisions.
+    private Vector3 checkCollision(GameObject collider, Vector3 finalPos)
     {
         float xDiff;
         float yDiff;
@@ -52,7 +53,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         foreach (GameObject activeItem in activeItems)
         {
             // Not colliding with itself.
-            if (activeItem.GetInstanceID() == draggingItem.GetInstanceID())
+            if (activeItem.GetInstanceID() == collider.GetInstanceID())
             {
                 continue;
             }
@@ -63,11 +64,11 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             
             if (xDiff > yDiff)
             {
-                finalPos = moveX(activeItem, finalPos);
+                finalPos = moveX(collider, activeItem, finalPos);
             }
             else
             {
-                finalPos = moveY(activeItem, finalPos);
+                finalPos = moveY(collider, activeItem, finalPos);
             }
         }
         // If no collision movement was made, end collision checking.
@@ -78,22 +79,22 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         // Recursive collision checking.
         else
         {
-            return checkCollision(finalPos);
+            return checkCollision(collider, finalPos);
         }
     }
     
     // Moving the item horizontally due to collision.
-    private Vector3 moveX(GameObject activeItem, Vector3 finalPos)
+    private Vector3 moveX(GameObject collider, GameObject activeItem, Vector3 finalPos)
     {
         float colliderDiff;
         // Check for collision.
         if (Mathf.Abs(activeItem.transform.position.x - finalPos.x) <
-                Mathf.Abs(activeItem.GetComponent<BoxCollider2D>().size.x / 2 + draggingItem.GetComponent<BoxCollider2D>().size.x / 2))
+                Mathf.Abs(activeItem.GetComponent<BoxCollider2D>().size.x / 2 + collider.GetComponent<BoxCollider2D>().size.x / 2))
         {
             // Move to the left.
             if (finalPos.x < activeItem.transform.position.x)
             {
-                colliderDiff = (finalPos.x + draggingItem.GetComponent<BoxCollider2D>().size.x / 2) - (activeItem.transform.position.x - activeItem.GetComponent<BoxCollider2D>().size.x / 2);
+                colliderDiff = (finalPos.x + collider.GetComponent<BoxCollider2D>().size.x / 2) - (activeItem.transform.position.x - activeItem.GetComponent<BoxCollider2D>().size.x / 2);
                 colliderDiff = Mathf.Round(colliderDiff * 2) / 2;
                 colliderDiff += 0.5f;
                 finalPos.x -= colliderDiff;
@@ -101,7 +102,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             // Move to the right.
             else
             {
-                colliderDiff = (activeItem.transform.position.x + activeItem.GetComponent<BoxCollider2D>().size.x / 2) - (finalPos.x - draggingItem.GetComponent<BoxCollider2D>().size.x / 2);
+                colliderDiff = (activeItem.transform.position.x + activeItem.GetComponent<BoxCollider2D>().size.x / 2) - (finalPos.x - collider.GetComponent<BoxCollider2D>().size.x / 2);
                 colliderDiff = Mathf.Round(colliderDiff * 2) / 2;
                 colliderDiff += 0.5f;
                 finalPos.x += colliderDiff;
@@ -111,17 +112,17 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     }
 
     // Moving the item horizontally due to collision.
-    private Vector3 moveY(GameObject activeItem, Vector3 finalPos)
+    private Vector3 moveY(GameObject collider, GameObject activeItem, Vector3 finalPos)
     {
         float colliderDiff;
         // Check for collision.
         if (Mathf.Abs(activeItem.transform.position.y - finalPos.y) <
-        Mathf.Abs(activeItem.GetComponent<BoxCollider2D>().size.y / 2 + draggingItem.GetComponent<BoxCollider2D>().size.y / 2))
+        Mathf.Abs(activeItem.GetComponent<BoxCollider2D>().size.y / 2 + collider.GetComponent<BoxCollider2D>().size.y / 2))
         {
             // Move item up.
             if (finalPos.y < activeItem.transform.position.y)
             {
-                colliderDiff = (finalPos.y + draggingItem.GetComponent<BoxCollider2D>().size.y / 2) - (activeItem.transform.position.y - activeItem.GetComponent<BoxCollider2D>().size.y / 2);
+                colliderDiff = (finalPos.y + collider.GetComponent<BoxCollider2D>().size.y / 2) - (activeItem.transform.position.y - activeItem.GetComponent<BoxCollider2D>().size.y / 2);
                 colliderDiff = Mathf.Round(colliderDiff * 2) / 2;
                 colliderDiff += 0.5f;
                 finalPos.y -= colliderDiff;
@@ -129,7 +130,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             // Move item down.
             else
             {
-                colliderDiff = (activeItem.transform.position.y + activeItem.GetComponent<BoxCollider2D>().size.y / 2) - (finalPos.y - draggingItem.GetComponent<BoxCollider2D>().size.y / 2);
+                colliderDiff = (activeItem.transform.position.y + activeItem.GetComponent<BoxCollider2D>().size.y / 2) - (finalPos.y - collider.GetComponent<BoxCollider2D>().size.y / 2);
                 colliderDiff = Mathf.Round(colliderDiff * 2) / 2;
                 colliderDiff += 0.5f;
                 finalPos.y += colliderDiff;
@@ -149,7 +150,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         finalPos /= 2;
 
         // Check if item is colliding with other item at its final location.
-        finalPos = checkCollision(finalPos);
+        finalPos = checkCollision(draggingItem, finalPos);
 
         draggingItem.transform.position = finalPos;
     }
@@ -191,7 +192,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             if (buttonDelay == 0f && (movement.x != 0f || movement.y != 0f))
             {
                 // Check collision.
-                Vector3 finalPos = checkCollision(SelectObject.selectedObject.transform.position + movement);
+                Vector3 finalPos = checkCollision(SelectObject.selectedObject, SelectObject.selectedObject.transform.position + movement);
                 SelectObject.selectedObject.transform.position = finalPos;
                 buttonDelay = delay;
             }
