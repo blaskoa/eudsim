@@ -27,6 +27,13 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             draggingItem = Instantiate(this.gameObject);
             draggingItem.tag = "ActiveItem";
 			draggingItem.transform.localScale = new Vector3(1,1,0);
+			draggingItem.GetComponent<SpriteRenderer>().enabled = true;
+			draggingItem.GetComponent<SpriteRenderer>().sortingLayerName = "ActiveItem";
+			for(int i = 0; i < draggingItem.transform.childCount; i++)
+			{
+            draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingLayerName = "ActiveItem";
+			draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().enabled = true;
+			}
         }
         else
         {
