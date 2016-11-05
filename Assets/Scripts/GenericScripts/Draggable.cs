@@ -26,6 +26,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         {
             draggingItem = Instantiate(this.gameObject);
             draggingItem.tag = "ActiveItem";
+			draggingItem.transform.localScale = new Vector3(1,1,0);
         }
         else
         {
