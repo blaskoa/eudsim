@@ -25,7 +25,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         if (this.gameObject.tag == "ToolboxItem")
         {
             draggingItem = Instantiate(this.gameObject);
-            draggingItem.tag = "Untagged";
+            draggingItem.tag = "ActiveItem";
         }
         else
         {
@@ -40,6 +40,105 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         draggingItem.transform.position = itemPos + mouseDiff;
     }
 
+    // Check if dragging object is colliding with some other object.
+    private Vector3 checkCollision(Vector3 finalPos)
+    {
+        float xDiff;
+        float yDiff;
+        // Copy of original position for comparison if recursive call is needed.
+        Vector3 originalPos = finalPos;
+
+        GameObject[] activeItems = GameObject.FindGameObjectsWithTag("ActiveItem");
+        foreach (GameObject activeItem in activeItems)
+        {
+            // Not colliding with itself.
+            if (activeItem.GetInstanceID() == draggingItem.GetInstanceID())
+            {
+                continue;
+            }
+
+            // Checking if the collision will move item horizontally or vertically.
+            xDiff = Mathf.Abs(activeItem.transform.position.x - finalPos.x);
+            yDiff = Mathf.Abs(activeItem.transform.position.y - finalPos.y);
+            
+            if (xDiff > yDiff)
+            {
+                finalPos = moveX(activeItem, finalPos);
+            }
+            else
+            {
+                finalPos = moveY(activeItem, finalPos);
+            }
+        }
+        // If no collision movement was made, end collision checking.
+        if (finalPos == originalPos)
+        {
+            return finalPos;
+        }
+        // Recursive collision checking.
+        else
+        {
+            return checkCollision(finalPos);
+        }
+    }
+    
+    // Moving the item horizontally due to collision.
+    private Vector3 moveX(GameObject activeItem, Vector3 finalPos)
+    {
+        float colliderDiff;
+        // Check for collision.
+        if (Mathf.Abs(activeItem.transform.position.x - finalPos.x) <
+                Mathf.Abs(activeItem.GetComponent<BoxCollider2D>().size.x / 2 + draggingItem.GetComponent<BoxCollider2D>().size.x / 2))
+        {
+            // Move to the left.
+            if (finalPos.x < activeItem.transform.position.x)
+            {
+                colliderDiff = (finalPos.x + draggingItem.GetComponent<BoxCollider2D>().size.x / 2) - (activeItem.transform.position.x - activeItem.GetComponent<BoxCollider2D>().size.x / 2);
+                colliderDiff = Mathf.Round(colliderDiff * 2) / 2;
+                colliderDiff += 0.5f;
+                finalPos.x -= colliderDiff;
+            }
+            // Move to the right.
+            else
+            {
+                colliderDiff = (activeItem.transform.position.x + activeItem.GetComponent<BoxCollider2D>().size.x / 2) - (finalPos.x - draggingItem.GetComponent<BoxCollider2D>().size.x / 2);
+                colliderDiff = Mathf.Round(colliderDiff * 2) / 2;
+                colliderDiff += 0.5f;
+                finalPos.x += colliderDiff;
+            }
+        }
+        return finalPos;
+    }
+
+    // Moving the item horizontally due to collision.
+    private Vector3 moveY(GameObject activeItem, Vector3 finalPos)
+    {
+        float colliderDiff;
+        // Check for collision.
+        if (Mathf.Abs(activeItem.transform.position.y - finalPos.y) <
+        Mathf.Abs(activeItem.GetComponent<BoxCollider2D>().size.y / 2 + draggingItem.GetComponent<BoxCollider2D>().size.y / 2))
+        {
+            // Move item up.
+            if (finalPos.y < activeItem.transform.position.y)
+            {
+                colliderDiff = (finalPos.y + draggingItem.GetComponent<BoxCollider2D>().size.y / 2) - (activeItem.transform.position.y - activeItem.GetComponent<BoxCollider2D>().size.y / 2);
+                colliderDiff = Mathf.Round(colliderDiff * 2) / 2;
+                colliderDiff += 0.5f;
+                finalPos.y -= colliderDiff;
+            }
+            // Move item down.
+            else
+            {
+                colliderDiff = (activeItem.transform.position.y + activeItem.GetComponent<BoxCollider2D>().size.y / 2) - (finalPos.y - draggingItem.GetComponent<BoxCollider2D>().size.y / 2);
+                colliderDiff = Mathf.Round(colliderDiff * 2) / 2;
+                colliderDiff += 0.5f;
+                finalPos.y += colliderDiff;
+            }
+        }
+            
+        return finalPos;
+    }
+
     public void OnEndDrag(PointerEventData eventData)
     {
         // Snapping by 0.5f.
@@ -48,6 +147,9 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         finalPos *= 2;
         finalPos = new Vector3(Mathf.Round(finalPos.x), Mathf.Round(finalPos.y));
         finalPos /= 2;
+
+        // Check if item is colliding with other item at its final location.
+        finalPos = checkCollision(finalPos);
 
         draggingItem.transform.position = finalPos;
     }
@@ -88,7 +190,9 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             // Button delay has passed and some keys were pressed.
             if (buttonDelay == 0f && (movement.x != 0f || movement.y != 0f))
             {
-                SelectObject.selectedObject.transform.position += movement;
+                // Check collision.
+                Vector3 finalPos = checkCollision(SelectObject.selectedObject.transform.position + movement);
+                SelectObject.selectedObject.transform.position = finalPos;
                 buttonDelay = delay;
             }
         }
