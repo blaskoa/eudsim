@@ -19,15 +19,16 @@ public class GUIBattery : MonoBehaviour, ComponentInterface
         connectors[0] = myComponent.leadPos;
         connectors[1] = myComponentGround.leadIn;
     }
+
     // Use this for initialization
     void Start()
     {
-
+		
     }
 
     // Update is called once per frame
     void Update()
     {
-
+		
     }
 }
