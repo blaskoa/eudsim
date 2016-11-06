@@ -21,11 +21,12 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         mousePos = Camera.main.ScreenToWorldPoint(eventData.position);
         itemPos = this.transform.position;
 
-        // ToolboxItem tagged GameObjects are used to generate new instances for the working panel.
-        if (this.gameObject.tag == "ToolboxItem")
+        // ToolboxItemActive tagged GameObjects are used to generate new instances for the working panel.
+        if (this.gameObject.tag == "ToolboxItemActive")
         {
             draggingItem = Instantiate(this.gameObject);
             draggingItem.tag = "ActiveItem";
+			draggingItem.layer = 8; //Name of 8th layer is ActiveItem
 			draggingItem.transform.localScale = new Vector3(1,1,0);
 			draggingItem.GetComponent<SpriteRenderer>().enabled = true;
 			draggingItem.GetComponent<SpriteRenderer>().sortingLayerName = "ActiveItem";
