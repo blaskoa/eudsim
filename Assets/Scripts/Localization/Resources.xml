@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Languages>
+  <English>
+    <string name="ToolboxText">Toolbox</string>
+    <string name="ErrorLogText">Error Log</string>
+    <string name="ObjectExplorerText">Object Explorer</string>
+    <string name="ObjectPropertiesText">Object Properties</string>
+    <string name="FileText">File</string>
+    <string name="NewProjectText">New Project</string>
+    <string name="OpenText">Open</string>
+    <string name="SaveText">Save</string>
+    <string name="SaveAsText">Save As</string>
+    <string name="EditText">Edit</string>
+    <string name="CutText">Cut</string>
+    <string name="CopyText">Copy</string>
+    <string name="PasteText">Paste</string>
+    <string name="PlayText">Play</string>
+    <string name="PauseText">Pause</string>
+    <string name="SettingsText">Settings</string>
+    <string name="ViewText">View</string>
+    <string name="HelpText">Help</string>
+    <string name="AboutText">About</string>
+    <string name="ManualText">Manual</string>
+    <string name="ReleaseNotesText">Release Notes</string>
+    <string name="ReportBugText">Report Bug</string>
+    <string name="ContactText">Contact</string>
+  </English>
+
+  <Slovak>
+    <string name="ToolboxText">Nástroje</string>
+    <string name="ErrorLogText">Výpis chýb</string>
+    <string name="ObjectExplorerText">Prehliadač objektov</string>
+    <string name="ObjectPropertiesText">Vlastnosti objektu</string>
+    <string name="FileText">Súbor</string>
+    <string name="NewProjectText">Nový projekt</string>
+    <string name="OpenText">Otvoriť</string>
+    <string name="SaveText">Uložiť</string>
+    <string name="SaveAsText">Uložiť ako</string>
+    <string name="EditText">Upraviť</string>
+    <string name="CutText">Vystrihnúť</string>
+    <string name="CopyText">Kopírovať</string>
+    <string name="PasteText">Prilepiť</string>
+    <string name="PlayText">Spustiť</string>
+    <string name="PauseText">Pozastaviť</string>
+    <string name="SettingsText">Nastavenia</string>
+    <string name="ViewText">Zobrazenie</string>
+    <string name="HelpText">Pomoc</string>
+    <string name="AboutText">O programe</string>
+    <string name="ManualText">Manuál</string>
+    <string name="ReleaseNotesText">O verzií</string>
+    <string name="ReportBugText">Nahlásiť chybu</string>
+    <string name="ContactText">Kontakt</string>
+  </Slovak>
+
+</Languages>
