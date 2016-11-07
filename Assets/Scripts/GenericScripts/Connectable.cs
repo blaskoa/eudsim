@@ -28,30 +28,33 @@ public class Connectable : MonoBehaviour
     // When left mouse button is pressed...
     void OnMouseDown()
     {
-        counter.increment();
-        Debug.Log(counter.getCount());
-        if (counter.getCount() == 1)
+        if (this.gameObject.transform.parent.tag == "ActiveItem")
         {
-            counter.setPrevious(this.gameObject);
-        }
-        else if (counter.getCount() == 2
-            && counter.getPrevious() != this.gameObject
-            && !connected.Contains(counter.getPrevious())
-            && counter.getPrevious().transform.parent.gameObject != this.gameObject.transform.parent.gameObject)
-        {
-            connected.Add(counter.getPrevious());
-            GameObject obj2 = GameObject.Find(counter.getPrevious().name);
-            obj2.SendMessage("addConnected", this.gameObject);
-            line = obj.AddComponent<Line>();
-            line.start = counter.getPrevious();
-            line.end = this.gameObject;
-            Instantiate(obj);
-            Destroy(line);
-            counter.resetCount();
-        }
-        else
-        {
-            counter.decrement();
+            counter.increment();
+            Debug.Log(counter.getCount());
+            if (counter.getCount() == 1)
+            {
+                counter.setPrevious(this.gameObject);
+            }
+            else if (counter.getCount() == 2
+                && counter.getPrevious() != this.gameObject
+                && !connected.Contains(counter.getPrevious())
+                && counter.getPrevious().transform.parent.gameObject != this.gameObject.transform.parent.gameObject)
+            {
+                connected.Add(counter.getPrevious());
+                GameObject obj2 = counter.getPrevious();
+                obj2.SendMessage("addConnected", this.gameObject);
+                line = obj.AddComponent<Line>();
+                line.start = counter.getPrevious();
+                line.end = this.gameObject;
+                Instantiate(obj);
+                Destroy(line);
+                counter.resetCount();
+            }
+            else
+            {
+                counter.decrement();
+            }
         }
 
     }
