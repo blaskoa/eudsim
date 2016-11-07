@@ -6,18 +6,26 @@ using leader = ClassLibrarySharpCircuit.Circuit.Lead;
 
 public class GUIResistor : MonoBehaviour, ComponentInterface
 {
-    public leader[] connectors = new leader[2];
-    Resistor myComponent = GUICircuit.sim.Create<Resistor>();
+    public leader[] connectors;
+    Resistor myComponent;
 
-    public double getVoltageDelta()
+    public double resistance
     {
-        return myComponent.getVoltageDelta();
+        get { return myComponent.resistance; }
+        set { myComponent.resistance = value; }
     }
-    public GUIResistor()
+    public double voltageDelta
     {
+        get { return myComponent.getVoltageDelta(); }
+    }
+    public void inicializeGUIResistor()
+    {
+        connectors = new leader[2];
+        myComponent = GUICircuit.sim.Create<Resistor>();
         connectors[0] = myComponent.leadIn;
         connectors[1] = myComponent.leadOut;
     }
+
     // Use this for initialization
     void Start()
     {

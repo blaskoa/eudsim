@@ -6,16 +6,21 @@ using leader = ClassLibrarySharpCircuit.Circuit.Lead;
 
 public class GUIBattery : MonoBehaviour, ComponentInterface
 {
-    public leader[] connectors = new leader[2];
-    VoltageInput myComponent = GUICircuit.sim.Create<VoltageInput>(Voltage.WaveType.DC);
-    Ground myComponentGround = GUICircuit.sim.Create<Ground>();
+    public leader[] connectors;
+    VoltageInput myComponent;
+    Ground myComponentGround;
 
-    public double getVoltageDelta()
+    public double voltageDelta
     {
-        return myComponent.getVoltageDelta();
+        get { return myComponent.getVoltageDelta(); }
+        set { myComponent.maxVoltage = value; }
     }
-    public GUIBattery()
+
+    public void inicializeGUIBattery()
     {
+        connectors = new leader[2];
+        myComponent = GUICircuit.sim.Create<VoltageInput>(Voltage.WaveType.DC);
+        myComponentGround = GUICircuit.sim.Create<Ground>();
         connectors[0] = myComponent.leadPos;
         connectors[1] = myComponentGround.leadIn;
     }
@@ -23,12 +28,12 @@ public class GUIBattery : MonoBehaviour, ComponentInterface
     // Use this for initialization
     void Start()
     {
-		
+
     }
 
     // Update is called once per frame
     void Update()
     {
-		
+
     }
 }

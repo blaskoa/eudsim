@@ -9,6 +9,12 @@ public class GUICapacitorElm : MonoBehaviour, ComponentInterface
     public leader[] connectors = new leader[2];
     CapacitorElm myComponent = GUICircuit.sim.Create<CapacitorElm>();
 
+    public double capacitance
+    {
+        get { return myComponent.capacitance; }
+        set { myComponent.capacitance = value; }
+    }
+
     public GUICapacitorElm()
     {
         connectors[0] = myComponent.leadIn;
