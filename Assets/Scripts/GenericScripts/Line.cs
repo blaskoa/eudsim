@@ -6,23 +6,47 @@ public class Line : MonoBehaviour
 {
 
     LineRenderer line;
-    Transform tr1;
-    Transform tr2;
-    public string name1;
-    public string name2;
+    public GameObject start;
+    public GameObject end;
+    private Vector3 startPos;
+    private Vector3 endPos;
 
     // Use this for initialization
-    void Start () {
-        
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        tr1 = GameObject.Find(name1).transform;
-        tr2 = GameObject.Find(name2).transform;
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        startPos.y = start.transform.parent.gameObject.transform.position.y;
+        endPos.y = end.transform.parent.gameObject.transform.position.y;
+        startPos.z = -1;
+        endPos.z = -1;
+
+        if (start.transform.parent.gameObject.transform.position.x - start.transform.position.x < 0)
+        {
+            startPos.x = start.transform.parent.gameObject.transform.position.x + 0.4f;
+        }
+        else if (start.transform.parent.gameObject.transform.position.x - start.transform.position.x > 0)
+        {
+            startPos.x = start.transform.parent.gameObject.transform.position.x - 0.4f;
+        }
+
+        if (end.transform.parent.gameObject.transform.position.x - end.transform.position.x < 0)
+        {
+            endPos.x = end.transform.parent.gameObject.transform.position.x + 0.4f;
+        }
+        else if (end.transform.parent.gameObject.transform.position.x - end.transform.position.x > 0)
+        {
+            endPos.x = end.transform.parent.gameObject.transform.position.x - 0.4f;
+        }
+
         line = GetComponent<LineRenderer>();
         line.SetVertexCount(2);
-        line.SetPosition(0, tr1.transform.position);
-        line.SetPosition(1, tr2.transform.position);
-	}
+        line.SetPosition(0, startPos);
+        line.SetPosition(1, endPos);
+    }
 }
