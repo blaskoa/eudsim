@@ -7,20 +7,15 @@ using System;
 public class SelectObject : MonoBehaviour {
     
     // Global variable to allow only one selected item.
-    public static GameObject selectedObject;
-    public GameObject selectionBox;
+    public static GameObject SelectedObject;
+    public GameObject SelectionBox;
 
-	// Initialization: Making object and SelectionBox the same size.
-	void Start () {
-        selectionBox.transform.position = this.transform.position;
-        selectionBox.transform.localScale = this.transform.localScale;
-        selectionBox.GetComponent<SpriteRenderer>().enabled = false;
-    }
-
-    // Update is called once per frame
-    void Update()
+    // Initialization: Making object and SelectionBox the same size.
+    void Start ()
     {
-
+        SelectionBox.transform.position = this.transform.position;
+        SelectionBox.transform.localScale = this.transform.localScale;
+        SelectionBox.GetComponent<SpriteRenderer>().enabled = false;
     }
 
     // When left mouse button is pressed...
@@ -33,14 +28,14 @@ public class SelectObject : MonoBehaviour {
         }
 
         // Deselect selected item first.
-        if (selectedObject != null)
+        if (SelectedObject != null)
         {
-            selectedObject.transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = false;
-            selectedObject = this.gameObject;
+            SelectedObject.transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = false;
+            SelectedObject = this.gameObject;
         }
 
         // Select new object.
-        selectedObject = this.gameObject;
-        selectionBox.GetComponent<SpriteRenderer>().enabled = true;
+        SelectedObject = this.gameObject;
+        SelectionBox.GetComponent<SpriteRenderer>().enabled = true;
     }
 }

@@ -4,39 +4,39 @@ using System.Collections;
 public class CamZoom : MonoBehaviour {
 
     // Zooming parameters.
-    private float zoomSize;
-    private float maxZoomIn;
-    private float maxZoomOut;
+    private float _zoomSize;
+    private float _maxZoomIn;
+    private float _maxZoomOut;
 
     // Use this for initialization
     void Start () {
-        zoomSize = 5f;
-        maxZoomIn = 2f;
-        maxZoomOut = 20f;
+        _zoomSize = 5f;
+        _maxZoomIn = 2f;
+        _maxZoomOut = 20f;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
 
         // Scrolling up.
         if (Input.GetAxis("Mouse ScrollWheel") > 0)
         {
             // Checking for max zoom in.
-            if (zoomSize > maxZoomIn)
+            if (_zoomSize > _maxZoomIn)
             {
-                zoomSize -= 1f;
+                _zoomSize -= 1f;
             }
         }
         // Scrolling down.
         else if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {
             // Checking for max zoom out.
-            if (zoomSize < maxZoomOut)
+            if (_zoomSize < _maxZoomOut)
             {
-                zoomSize += 1f;
+                _zoomSize += 1f;
             }
         }
 
-        GetComponent<Camera>().orthographicSize = zoomSize;
-	}
+        GetComponent<Camera>().orthographicSize = _zoomSize;
+    }
 }

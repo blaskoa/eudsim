@@ -5,53 +5,53 @@ using UnityEngine.EventSystems;
 public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     // Mouse and dragged item positions at the start of dragging.
-    private Vector2 mousePos;
-    private Vector2 itemPos;
+    private Vector2 _mousePos;
+    private Vector2 _itemPos;
 
     // Item we're dragging.
-    private GameObject draggingItem;
+    private GameObject _draggingItem;
 
-    private float step = 0.5f;
-    private float buttonDelay = 0f;
-    private float delay = 0.25f;
+    private float _step = 0.5f;
+    private float _buttonDelay = 0f;
+    private float _delay = 0.25f;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         // Setting starting posiitons.
-        mousePos = Camera.main.ScreenToWorldPoint(eventData.position);
-        itemPos = this.transform.position;
+        _mousePos = Camera.main.ScreenToWorldPoint(eventData.position);
+        _itemPos = this.transform.position;
 
         // ToolboxItemActive tagged GameObjects are used to generate new instances for the working panel.
         if (this.gameObject.tag == "ToolboxItemActive")
         {
-            draggingItem = Instantiate(this.gameObject);
-            draggingItem.tag = "ActiveItem";
-			draggingItem.layer = 8; //Name of 8th layer is ActiveItem
-			draggingItem.transform.localScale = new Vector3(1,1,0);
-			draggingItem.GetComponent<SpriteRenderer>().enabled = true;
-			draggingItem.GetComponent<SpriteRenderer>().sortingLayerName = "ActiveItem";
-			for(int i = 0; i < draggingItem.transform.childCount; i++)
+            _draggingItem = Instantiate(this.gameObject);
+            _draggingItem.tag = "ActiveItem";
+			_draggingItem.layer = 8; //Name of 8th layer is ActiveItem
+			_draggingItem.transform.localScale = new Vector3(1,1,0);
+			_draggingItem.GetComponent<SpriteRenderer>().enabled = true;
+			_draggingItem.GetComponent<SpriteRenderer>().sortingLayerName = "ActiveItem";
+			for (int i = 0; i < _draggingItem.transform.childCount; i++)
 			{
-            draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingLayerName = "ActiveItem";
-			draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().enabled = true;
+            _draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingLayerName = "ActiveItem";
+			_draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().enabled = true;
 			}
         }
         else
         {
-            draggingItem = this.gameObject;
+            _draggingItem = this.gameObject;
         }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         //Moving the item with the mouse.
-        Vector2 mouseDiff = (Vector2)Camera.main.ScreenToWorldPoint(eventData.position) - mousePos;
-        draggingItem.transform.position = itemPos + mouseDiff;
+        Vector2 mouseDiff = (Vector2)Camera.main.ScreenToWorldPoint(eventData.position) - _mousePos;
+        _draggingItem.transform.position = _itemPos + mouseDiff;
     }
 
     // Check if dragging object is colliding with some other object.
     // Collider is the object that has finished moving and is being checked for collisions.
-    private Vector3 checkCollision(GameObject collider, Vector3 finalPos)
+    private Vector3 _checkCollision(GameObject collider, Vector3 finalPos)
     {
         float xDiff;
         float yDiff;
@@ -73,13 +73,14 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             
             if (xDiff > yDiff)
             {
-                finalPos = moveX(collider, activeItem, finalPos);
+                finalPos = _moveX(collider, activeItem, finalPos);
             }
             else
             {
-                finalPos = moveY(collider, activeItem, finalPos);
+                finalPos = _moveY(collider, activeItem, finalPos);
             }
         }
+
         // If no collision movement was made, end collision checking.
         if (finalPos == originalPos)
         {
@@ -88,12 +89,12 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         // Recursive collision checking.
         else
         {
-            return checkCollision(collider, finalPos);
+            return _checkCollision(collider, finalPos);
         }
     }
     
     // Moving the item horizontally due to collision.
-    private Vector3 moveX(GameObject collider, GameObject activeItem, Vector3 finalPos)
+    private Vector3 _moveX(GameObject collider, GameObject activeItem, Vector3 finalPos)
     {
         float colliderDiff;
         // Check for collision.
@@ -121,7 +122,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     }
 
     // Moving the item horizontally due to collision.
-    private Vector3 moveY(GameObject collider, GameObject activeItem, Vector3 finalPos)
+    private Vector3 _moveY(GameObject collider, GameObject activeItem, Vector3 finalPos)
     {
         float colliderDiff;
         // Check for collision.
@@ -152,16 +153,16 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public void OnEndDrag(PointerEventData eventData)
     {
         // Snapping by 0.5f.
-        Vector3 finalPos = draggingItem.transform.position;
+        Vector3 finalPos = _draggingItem.transform.position;
 
         finalPos *= 2;
         finalPos = new Vector3(Mathf.Round(finalPos.x), Mathf.Round(finalPos.y));
         finalPos /= 2;
 
         // Check if item is colliding with other item at its final location.
-        finalPos = checkCollision(draggingItem, finalPos);
+        finalPos = _checkCollision(_draggingItem, finalPos);
 
-        draggingItem.transform.position = finalPos;
+        _draggingItem.transform.position = finalPos;
     }
 
     void Update()
@@ -169,55 +170,55 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         // Vector for movement.
         Vector3 movement = new Vector3();
 
-        decreaseDelay();
+        _decreaseDelay();
         // Check if any object is selected.
-        if (SelectObject.selectedObject != null && this.gameObject == SelectObject.selectedObject)
+        if (SelectObject.SelectedObject != null && this.gameObject == SelectObject.SelectedObject)
         {
             // Check if A is pressed.
             if (Input.GetKey("a"))
             {
-                movement.x -= step;
+                movement.x -= _step;
             }
 
             // Check if D is pressed.
             if (Input.GetKey("d"))
             {
-                movement.x += step;
+                movement.x += _step;
             }
             
             // Check if S is pressed.
             if (Input.GetKey("s"))
             {
-                movement.y -= step;
+                movement.y -= _step;
             }
 
             // Check if W is pressed.
             if (Input.GetKey("w"))
             {
-                movement.y += step;
+                movement.y += _step;
             }
 
             // Button delay has passed and some keys were pressed.
-            if (buttonDelay == 0f && (movement.x != 0f || movement.y != 0f))
+            if (_buttonDelay == 0f && (movement.x != 0f || movement.y != 0f))
             {
                 // Check collision.
-                Vector3 finalPos = checkCollision(SelectObject.selectedObject, SelectObject.selectedObject.transform.position + movement);
-                SelectObject.selectedObject.transform.position = finalPos;
-                buttonDelay = delay;
+                Vector3 finalPos = _checkCollision(SelectObject.SelectedObject, SelectObject.SelectedObject.transform.position + movement);
+                SelectObject.SelectedObject.transform.position = finalPos;
+                _buttonDelay = _delay;
             }
         }
     }
 
     // To limit users's spamming and make grid-like movement.
-    void decreaseDelay()
+    private void _decreaseDelay()
     {
-        if (buttonDelay > 0f)
+        if (_buttonDelay > 0f)
         {
-            buttonDelay -= Time.deltaTime;
+            _buttonDelay -= Time.deltaTime;
         }
-        if (buttonDelay < 0f)
+        if (_buttonDelay < 0f)
         {
-            buttonDelay = 0f;
+            _buttonDelay = 0f;
         }
     }
 }
