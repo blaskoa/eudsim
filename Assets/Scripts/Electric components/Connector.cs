@@ -22,14 +22,4 @@ public class Connector : MonoBehaviour
     {
         this.Component = component;
     }
-
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
-
-    }
 }

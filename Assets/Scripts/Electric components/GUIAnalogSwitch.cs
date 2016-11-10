@@ -25,10 +25,4 @@ public class GUIAnalogSwitch : Component2
         connectors[0].assignDllconnector(dllconnectors[0]);
         connectors[1].assignDllconnector(dllconnectors[1]);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

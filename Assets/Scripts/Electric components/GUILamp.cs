@@ -25,10 +25,4 @@ public class GUILamp : Component2
         connectors[0].assignDllconnector(DLLConnectors[0]);
         connectors[1].assignDllconnector(DLLConnectors[1]);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

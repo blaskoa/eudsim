@@ -24,10 +24,4 @@ public class GUICapacitorElm : Component2
         connectors[0].assignDllconnector(DllConnectors[0]);
         connectors[1].assignDllconnector(DllConnectors[1]);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }
