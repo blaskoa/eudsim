@@ -3,13 +3,13 @@ using System.Collections;
 
 public class PlusConnector : Connector
 {
-	void Start ()
+    void Start()
     {
-	
-	}
-	
-	void Update ()
+
+    }
+
+    void Update()
     {
-	
-	}
+
+    }
 }

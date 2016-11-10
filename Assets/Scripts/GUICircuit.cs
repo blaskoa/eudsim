@@ -19,15 +19,15 @@ public class GUICircuit : MonoBehaviour
         res0.Start();
         res1.Start();
 
-        sim.Connect(battery.dllconnectors[0], res0.dllconnectors[0]);
-        sim.Connect(res0.dllconnectors[1], res1.dllconnectors[0]);
-        sim.Connect(res1.dllconnectors[1], battery.dllconnectors[1]);
+        sim.Connect(battery.DLLConnectors[0], res0.DLLConnectors[0]);
+        sim.Connect(res0.DLLConnectors[1], res1.DLLConnectors[0]);
+        sim.Connect(res1.DLLConnectors[1], battery.DLLConnectors[1]);
 
         for (int x = 1; x <= 10; x++)
         {
             sim.doTick();
 
-            Debug.Log("battery voltage " + battery.myComponent.maxVoltage + "res voltage" + res0.myComponent.getVoltageDelta()); // V = I x R
+            Debug.Log("battery voltage " + battery.MyComponent.maxVoltage + "res voltage" + res0.MyComponent.getVoltageDelta()); // V = I x R
         }
 
         Debug.Log("Simulation complete");
@@ -70,13 +70,13 @@ public class GUICircuit : MonoBehaviour
         }
 
         uzol.initialize();
-        Debug.Log(battery.connectors[0].connectedConnectors.Length);
+        Debug.Log(battery.connectors[0].ConnectedConnectors.Length);
 
-        battery.connectors[0].connectedConnectors[0] = uzol;         //prvy konector baterky ma neinicializovany list konectorov ku ktorym sa pripaja
-        lamp.connectors[0].connectedConnectors[0] = uzol;
+        battery.connectors[0].ConnectedConnectors[0] = uzol;         //prvy konector baterky ma neinicializovany list konectorov ku ktorym sa pripaja
+        lamp.connectors[0].ConnectedConnectors[0] = uzol;
 
-        uzol.connectedConnectors[0] = battery.connectors[0];
-        uzol.connectedConnectors[1] = lamp.connectors[1];
+        uzol.ConnectedConnectors[0] = battery.connectors[0];
+        uzol.ConnectedConnectors[1] = lamp.connectors[1];
 
         listOfComponents[0] = battery;
         listOfComponents[1] = lamp;
@@ -109,7 +109,7 @@ public class GUICircuit : MonoBehaviour
         {
             sim.doTick();
 
-            Debug.Log("battery voltage " + battery.myComponent.getVoltageDelta() + "lamp voltage" + lamp.myComponent.getVoltageDelta()); // V = I x R
+            Debug.Log("battery voltage " + battery.MyComponent.getVoltageDelta() + "lamp voltage" + lamp.MyComponent.getVoltageDelta()); // V = I x R
         }
 
         Debug.Log("Simulation complete");

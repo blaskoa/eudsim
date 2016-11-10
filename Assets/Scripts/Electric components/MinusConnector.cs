@@ -2,15 +2,15 @@
 using System.Collections;
 
 public class MinusConnector : Connector
-{ 
-	void Start ()
+{
+    void Start()
     {
-	
-	}
-	
-	
-	void Update ()
+
+    }
+
+
+    void Update()
     {
-	
-	}
+
+    }
 }

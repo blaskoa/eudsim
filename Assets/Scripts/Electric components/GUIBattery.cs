@@ -5,23 +5,23 @@ using leader = ClassLibrarySharpCircuit.Circuit.Lead;
 
 public class GUIBattery : Component2
 {
-    public leader[] dllconnectors;
-    public VoltageInput myComponent;
-    Ground myComponentGround;
+    public leader[] DLLConnectors;
+    public VoltageInput MyComponent;
+    public Ground MyComponentGround;
 
-    public double getVoltageDelta()
+    public double GetVoltageDelta()
     {
-        return myComponent.getVoltageDelta();
+        return MyComponent.getVoltageDelta();
     }
 
     // Use this for initialization
     public void Start()     // public for testing purposes
     {
-        dllconnectors = new leader[2];
-        myComponent = GUICircuit.sim.Create<VoltageInput>(Voltage.WaveType.DC);
-        myComponentGround = GUICircuit.sim.Create<Ground>();
-        dllconnectors[0] = myComponent.leadPos;
-        dllconnectors[1] = myComponentGround.leadIn;
+        DLLConnectors = new leader[2];
+        MyComponent = GUICircuit.sim.Create<VoltageInput>(Voltage.WaveType.DC);
+        MyComponentGround = GUICircuit.sim.Create<Ground>();
+        DLLConnectors[0] = MyComponent.leadPos;
+        DLLConnectors[1] = MyComponentGround.leadIn;
 
         //connectors = GetComponentsInChildren<Connector>();
         connectors[0] = gameObject.AddComponent<Connector>();
@@ -30,8 +30,8 @@ public class GUIBattery : Component2
         connectors[1].initialize();
         connectors[0].assignComponent((Component2)this);
         connectors[1].assignComponent((Component2)this);
-        connectors[0].assignDllconnector(dllconnectors[0]);
-        connectors[1].assignDllconnector(dllconnectors[1]);
+        connectors[0].assignDllconnector(DLLConnectors[0]);
+        connectors[1].assignDllconnector(DLLConnectors[1]);
     }
 
     // Update is called once per frame

@@ -6,15 +6,15 @@ using leader = ClassLibrarySharpCircuit.Circuit.Lead;
 public class GUIAnalogSwitch : Component2
 {
     public leader[] dllconnectors;
-    AnalogSwitch myComponent;
+    public AnalogSwitch MyComponent;
 
     // Use this for initialization
     void Start()
     {
         dllconnectors = new leader[2];
-        myComponent = GUICircuit.sim.Create<AnalogSwitch>();
-        dllconnectors[0] = myComponent.leadIn;
-        dllconnectors[1] = myComponent.leadOut;
+        MyComponent = GUICircuit.sim.Create<AnalogSwitch>();
+        dllconnectors[0] = MyComponent.leadIn;
+        dllconnectors[1] = MyComponent.leadOut;
 
         connectors = GetComponentsInChildren<Connector>();
 

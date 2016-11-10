@@ -4,7 +4,7 @@ using UnityEngine.UI;
  
 public class DebugDisplay : MonoBehaviour 
 {
-	//Debug log text component.
+	//Debug log text Component.
     public Text output;
 	
     void Start () 
