@@ -1,35 +1,35 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Assets.Skripts.Interfaces;
 using ClassLibrarySharpCircuit;
 using leader = ClassLibrarySharpCircuit.Circuit.Lead;
 
-public class GUIResistor : MonoBehaviour, ComponentInterface
+public class GUIResistor : Component2
 {
-    public leader[] connectors;
-    Resistor myComponent;
+    public leader[] dllconnectors;
+    public Resistor myComponent;
 
-    public double resistance
+    public double getVoltageDelta()
     {
-        get { return myComponent.resistance; }
-        set { myComponent.resistance = value; }
+        return myComponent.getVoltageDelta();
     }
-    public double voltageDelta
-    {
-        get { return myComponent.getVoltageDelta(); }
-    }
-    public void inicializeGUIResistor()
-    {
-        connectors = new leader[2];
-        myComponent = GUICircuit.sim.Create<Resistor>();
-        connectors[0] = myComponent.leadIn;
-        connectors[1] = myComponent.leadOut;
-    }
-
+  
     // Use this for initialization
-    void Start()
+    public void Start()
     {
+        dllconnectors = new leader[2];
+        myComponent = GUICircuit.sim.Create<Resistor>();
+        dllconnectors[0] = myComponent.leadIn;
+        dllconnectors[1] = myComponent.leadOut;
 
+        //connectors = GetComponentsInChildren<Connector>();
+        connectors[0] = gameObject.AddComponent<Connector>();
+        connectors[1] = gameObject.AddComponent<Connector>();
+        connectors[0].initialize();
+        connectors[1].initialize();
+        connectors[0].assignComponent((Component2)this);
+        connectors[1].assignComponent((Component2)this);
+        connectors[0].assignDllconnector(dllconnectors[0]);
+        connectors[1].assignDllconnector(dllconnectors[1]);
     }
 
     // Update is called once per frame

@@ -1,17 +1,35 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Assets.Skripts.Interfaces;
+using leader = ClassLibrarySharpCircuit.Circuit.Lead;
 
-public class Connector : MonoBehaviour {
-    Connector[] connectors;
+public class Connector : MonoBehaviour
+{
+    public leader dllconnector = null;
+    public Component2 component = null;
+    public Connector[] connectedConnectors;  
+    
+    public void initialize()
+    {
+        connectedConnectors = new Connector[20];    // zatial max 20 pripojeni 
+    }   
 
-	// Use this for initialization
-	void Start () {
+    public void assignDllconnector(leader dllconnector)
+    {
+        this.dllconnector = dllconnector;
+    }
+
+    public void assignComponent(Component2 component)
+    {
+        this.component = component;
+    }
+   
+	void Start ()
+    {
 	
 	}
 	
-	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 	
 	}
 }
