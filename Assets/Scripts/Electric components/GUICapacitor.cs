@@ -3,7 +3,7 @@ using System.Collections;
 using ClassLibrarySharpCircuit;
 using leader = ClassLibrarySharpCircuit.Circuit.Lead;
 
-public class GUICapacitorElm : Component2
+public class GUICapacitor : Component2
 {
     public leader[] DllConnectors;
     public CapacitorElm MyComponent;

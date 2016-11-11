@@ -3,7 +3,7 @@ using System.Collections;
 using ClassLibrarySharpCircuit;
 using leader = ClassLibrarySharpCircuit.Circuit.Lead;
 
-public class GUIInductorElm : Component2
+public class GUIInductor : Component2
 {
     public leader[] DLLCconnectors;
     public InductorElm MyComponent;
