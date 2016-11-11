@@ -4,49 +4,44 @@ using System.Collections;
 
 public class Line : MonoBehaviour
 {
-
-    LineRenderer line;
-    public GameObject start;
-    public GameObject end;
-    private Vector3 startPos;
-    private Vector3 endPos;
-
-    // Use this for initialization
-    void Start()
-    {
-
-    }
+    
+    LineRenderer _line;
+    public GameObject Begin;
+    public GameObject End;
+    private Vector3 _startPos;
+    private Vector3 _endPos;
 
     // Update is called once per frame
     void Update()
     {
+        //setting positions (x,y,z) of two connected objects with line
+        _startPos.y = Begin.transform.parent.gameObject.transform.position.y;
+        _endPos.y = End.transform.parent.gameObject.transform.position.y;
+        _startPos.z = -1;
+        _endPos.z = -1;
 
-        startPos.y = start.transform.parent.gameObject.transform.position.y;
-        endPos.y = end.transform.parent.gameObject.transform.position.y;
-        startPos.z = -1;
-        endPos.z = -1;
-
-        if (start.transform.parent.gameObject.transform.position.x - start.transform.position.x < 0)
+        //search concrete connector of components (left, right) to set position 
+        if (Begin.transform.parent.gameObject.transform.position.x - Begin.transform.position.x < 0)
         {
-            startPos.x = start.transform.parent.gameObject.transform.position.x + 0.4f;
+            _startPos.x = Begin.transform.parent.gameObject.transform.position.x + 0.4f;
         }
-        else if (start.transform.parent.gameObject.transform.position.x - start.transform.position.x > 0)
+        else if (Begin.transform.parent.gameObject.transform.position.x - Begin.transform.position.x > 0)
         {
-            startPos.x = start.transform.parent.gameObject.transform.position.x - 0.4f;
-        }
-
-        if (end.transform.parent.gameObject.transform.position.x - end.transform.position.x < 0)
-        {
-            endPos.x = end.transform.parent.gameObject.transform.position.x + 0.4f;
-        }
-        else if (end.transform.parent.gameObject.transform.position.x - end.transform.position.x > 0)
-        {
-            endPos.x = end.transform.parent.gameObject.transform.position.x - 0.4f;
+            _startPos.x = Begin.transform.parent.gameObject.transform.position.x - 0.4f;
         }
 
-        line = GetComponent<LineRenderer>();
-        line.SetVertexCount(2);
-        line.SetPosition(0, startPos);
-        line.SetPosition(1, endPos);
+        if (End.transform.parent.gameObject.transform.position.x - End.transform.position.x < 0)
+        {
+            _endPos.x = End.transform.parent.gameObject.transform.position.x + 0.4f;
+        }
+        else if (End.transform.parent.gameObject.transform.position.x - End.transform.position.x > 0)
+        {
+            _endPos.x = End.transform.parent.gameObject.transform.position.x - 0.4f;
+        }
+
+        _line = GetComponent<LineRenderer>();
+        _line.SetVertexCount(2);
+        _line.SetPosition(0, _startPos);
+        _line.SetPosition(1, _endPos);
     }
 }

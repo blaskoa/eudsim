@@ -5,62 +5,61 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 
+//class for objects which  is used to generate lines between components
 public class Connectable : MonoBehaviour
 {
 
-    public List<GameObject> connected;
-    public GameObject obj;
-    private CounterForConnect counter = new CounterForConnect();
-    private Line line;
+    public List<GameObject> Connected;
+    public GameObject Obj;
+    private CounterForConnect _counter = new CounterForConnect();
+    private Line _line;
 
     // Initialization
     void Start()
     {
-        connected = new List<GameObject>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        Connected = new List<GameObject>();
     }
 
     // When left mouse button is pressed...
     void OnMouseDown()
     {
+        //if gameobject is in desktop, not in toolbox
         if (this.gameObject.transform.parent.tag == "ActiveItem")
         {
-            counter.increment();
-            Debug.Log(counter.getCount());
-            if (counter.getCount() == 1)
+            _counter.Increment();
+            //Debug.Log(_counter.GetCount());
+            //find first object to connect
+            if (_counter.GetCount() == 1)
             {
-                counter.setPrevious(this.gameObject);
+                _counter.SetPrevious(this.gameObject);
             }
-            else if (counter.getCount() == 2
-                && counter.getPrevious() != this.gameObject
-                && !connected.Contains(counter.getPrevious())
-                && counter.getPrevious().transform.parent.gameObject != this.gameObject.transform.parent.gameObject)
+            //find second object to connect - connecting these two object with line
+            //cant connect with himself or with connector belonging to the same component 
+            else if (_counter.GetCount() == 2
+                && _counter.GetPrevious() != this.gameObject
+                && !Connected.Contains(_counter.GetPrevious())
+                && _counter.GetPrevious().transform.parent.gameObject != this.gameObject.transform.parent.gameObject)
             {
-                connected.Add(counter.getPrevious());
-                GameObject obj2 = counter.getPrevious();
-                obj2.SendMessage("addConnected", this.gameObject);
-                line = obj.AddComponent<Line>();
-                line.start = counter.getPrevious();
-                line.end = this.gameObject;
-                Instantiate(obj);
-                Destroy(line);
-                counter.resetCount();
+                Connected.Add(_counter.GetPrevious());
+                GameObject obj2 = _counter.GetPrevious();
+                obj2.SendMessage("AddConnected", this.gameObject);
+                _line = Obj.AddComponent<Line>();
+                _line.Begin = _counter.GetPrevious();
+                _line.End = this.gameObject;
+                Instantiate(Obj);
+                Destroy(_line);
+                _counter.ResetCount();
             }
             else
             {
-                counter.decrement();
+                _counter.Decrement();
             }
         }
 
     }
 
-    public void addConnected(GameObject connected)
+    public void AddConnected(GameObject connected)
     {
-        this.connected.Add(connected);
+        this.Connected.Add(connected);
     }
 }

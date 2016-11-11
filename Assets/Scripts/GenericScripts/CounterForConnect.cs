@@ -1,37 +1,38 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//class for computing helpful informations for drawing line between connectors 
 public class CounterForConnect {
 
-    public static int count = 0;
-    public static GameObject previous;
+    private static int _count = 0;
+    private static GameObject _previous;
 
-    public int getCount()
+    public int GetCount()
     {
-        return count;
+        return _count;
     }
 
-    public void increment()
+    public void Increment()
     {
-        count++;
+        _count++;
     }
 
-    public void decrement()
+    public void Decrement()
     {
-        count--;
+        _count--;
     }
 
-    public void resetCount()
+    public void ResetCount()
     {
-        count = 0;
+        _count = 0;
     }
 
-    public void setPrevious(GameObject prev) {
-        previous = prev;
+    public void SetPrevious(GameObject prev) {
+        _previous = prev;
     }
 
-    public GameObject getPrevious()
+    public GameObject GetPrevious()
     {
-        return previous;
+        return _previous;
     }
 }
