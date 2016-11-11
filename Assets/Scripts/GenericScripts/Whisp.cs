@@ -5,8 +5,8 @@ using UnityEngine.UI;
 public class Whisp : MonoBehaviour 
 {
  
-    public DebugDisplay DebugLog;
-    public GameObject Dl;
+    private DebugDisplay _debugLog;
+    private GameObject _dl;
 	
     /*
     Object could call this from their functions by:
@@ -14,14 +14,14 @@ public class Whisp : MonoBehaviour
     */
     void Start()
     {
-        Dl = GameObject.Find("DebugLog");
-        DebugLog = (DebugDisplay) Dl.GetComponent(typeof(DebugDisplay));
+        _dl = GameObject.Find("DebugLog");
+        _debugLog = (DebugDisplay) _dl.GetComponent(typeof(DebugDisplay));
         Say("Hello, I am " + this.gameObject.name + "! :)");
     }
 
     //Send message into debug log.
     public void Say (string arg0) 
     {
-        DebugLog.Write(arg0);
+        _debugLog.Write(arg0);
     } 
 }
