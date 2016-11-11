@@ -17,11 +17,11 @@ public class GUICapacitor : Component2
         DllConnectors[1] = MyComponent.leadOut;
         connectors = GetComponentsInChildren<Connector>();
 
-        connectors[0].initialize();
-        connectors[1].initialize();
-        connectors[0].assignComponent((Component2)this);
-        connectors[1].assignComponent((Component2)this);
-        connectors[0].assignDllconnector(DllConnectors[0]);
-        connectors[1].assignDllconnector(DllConnectors[1]);
+        connectors[0].setConnectedConnectors();
+        connectors[1].setConnectedConnectors();
+        connectors[0].assignComponent(this);
+        connectors[1].assignComponent(this);
+        connectors[0].setDllconnector(DllConnectors[0]);
+        connectors[1].setDllconnector(DllConnectors[1]);
     }
 }

@@ -18,11 +18,11 @@ public class GUIInductor : Component2
 
         connectors = GetComponentsInChildren<Connector>();
 
-        connectors[0].initialize();
-        connectors[1].initialize();
-        connectors[0].assignComponent((Component2)this);
-        connectors[1].assignComponent((Component2)this);
-        connectors[0].assignDllconnector(DLLCconnectors[0]);
-        connectors[1].assignDllconnector(DLLCconnectors[1]);
+        connectors[0].setConnectedConnectors();
+        connectors[1].setConnectedConnectors();
+        connectors[0].assignComponent(this);
+        connectors[1].assignComponent(this);
+        connectors[0].setDllconnector(DLLCconnectors[0]);
+        connectors[1].setDllconnector(DLLCconnectors[1]);
     }
 }

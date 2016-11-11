@@ -8,12 +8,12 @@ public class Connector : MonoBehaviour
     public Component2 Component = null;
     public Connector[] ConnectedConnectors;
 
-    public void initialize()
+    public void setConnectedConnectors()
     {
         ConnectedConnectors = new Connector[20];    // zatial max 20 pripojeni 
     }
 
-    public void assignDllconnector(leader dllconnector)
+    public void setDllconnector(leader dllconnector)
     {
         this.DLLConnector = dllconnector;
     }

@@ -69,7 +69,7 @@ public class GUICircuit : MonoBehaviour
             }
         }
 
-        uzol.initialize();
+        uzol.setConnectedConnectors();
         Debug.Log(battery.connectors[0].ConnectedConnectors.Length);
 
         battery.connectors[0].ConnectedConnectors[0] = uzol;         //prvy konector baterky ma neinicializovany list konectorov ku ktorym sa pripaja

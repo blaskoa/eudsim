@@ -19,12 +19,12 @@ public class ConnectionsOfComponent
 
 public class GraphAlgorithm
 {
-    Stack connectorsFinished = new Stack();
-    Stack connectorsOpened = new Stack();
+    private Stack connectorsFinished = new Stack();
+    private Stack connectorsOpened = new Stack();
 
-    Stack dllconnectorsStack = new Stack();
+    private Stack dllconnectorsStack = new Stack();
 
-    Component searched;
+    private Component searched;
 
     void explore(Connector actual)
     {
