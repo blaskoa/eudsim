@@ -3,7 +3,7 @@
 <Languages>
   <English>
     <string name="ToolboxText">Toolbox</string>
-    <string name="ErrorLogText">Error Log</string>
+    <string name="DebugText">Debug</string>
     <string name="ObjectExplorerText">Object Explorer</string>
     <string name="ObjectPropertiesText">Object Properties</string>
     <string name="FileText">File</string>
@@ -29,7 +29,7 @@
 
   <Slovak>
     <string name="ToolboxText">Nástroje</string>
-    <string name="ErrorLogText">Výpis chýb</string>
+    <string name="DebugText">Debug</string>
     <string name="ObjectExplorerText">Prehliadač objektov</string>
     <string name="ObjectPropertiesText">Vlastnosti objektu</string>
     <string name="FileText">Súbor</string>
