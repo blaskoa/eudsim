@@ -3,15 +3,10 @@ using System.Collections;
 
 public class Rotate : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update () {
         // Check if any object is selected.
-        if (SelectObject.selectedObject != null && this.gameObject == SelectObject.selectedObject)
+        if (SelectObject.SelectedObject != null && this.gameObject == SelectObject.SelectedObject)
         {
             // Check if Q is pressed.
             if (Input.GetKey("q"))
