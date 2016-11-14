@@ -9,6 +9,7 @@ public class Deselect : MonoBehaviour {
         {
             SelectObject.SelectedObject.transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = false;
             SelectObject.SelectedObject = null;
+            EditObjectProperties.Clear();
         }
     }
 }
