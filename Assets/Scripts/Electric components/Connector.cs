@@ -4,9 +4,11 @@ using leader = ClassLibrarySharpCircuit.Circuit.Lead;
 
 public class Connector : MonoBehaviour
 {
+    public string type;
     public leader DLLConnector = null;
     public Component2 Component = null;
     public Connector[] ConnectedConnectors;
+    public int countOfConnected = 0;
 
     public void setConnectedConnectors()
     {

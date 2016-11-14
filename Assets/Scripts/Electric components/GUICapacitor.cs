@@ -12,16 +12,21 @@ public class GUICapacitor : Component2
     void Start()
     {
         DllConnectors = new leader[2];
-        MyComponent = GUICircuit.sim.Create<CapacitorElm>();
-        DllConnectors[0] = MyComponent.leadIn;
-        DllConnectors[1] = MyComponent.leadOut;
-        connectors = GetComponentsInChildren<Connector>();
+        if (this.CompareTag("ActiveItem"))
+        {
+            Debug.Log("insertol som activeItem");
+            MyComponent = GUICircuit.sim.Create<CapacitorElm>();
 
-        connectors[0].setConnectedConnectors();
-        connectors[1].setConnectedConnectors();
-        connectors[0].assignComponent(this);
-        connectors[1].assignComponent(this);
-        connectors[0].setDllconnector(DllConnectors[0]);
-        connectors[1].setDllconnector(DllConnectors[1]);
+            DllConnectors[0] = MyComponent.leadIn;
+            DllConnectors[1] = MyComponent.leadOut;
+            connectors = GetComponentsInChildren<Connector>();
+
+            connectors[0].setConnectedConnectors();
+            connectors[1].setConnectedConnectors();
+            connectors[0].assignComponent(this);
+            connectors[1].assignComponent(this);
+            connectors[0].setDllconnector(DllConnectors[0]);
+            connectors[1].setDllconnector(DllConnectors[1]);
+        }
     }
 }
