@@ -8,6 +8,12 @@ public class GUIResistor : Component2
     public leader[] DLLConnectors;
     public Resistor MyComponent;
 
+    public double Resistance
+    {
+        get { return MyComponent.resistance; }
+        set { MyComponent.resistance = value; }   // GUI check - accept only positive integer
+    }
+
     public double getVoltageDelta()
     {
         return MyComponent.getVoltageDelta();

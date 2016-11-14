@@ -7,7 +7,19 @@ public class GUIInductor : Component2
 {
     public leader[] DLLCconnectors;
     public InductorElm MyComponent;
-    
+
+    public double Inductance
+    {
+        get { return MyComponent.inductance; }
+        set { MyComponent.inductance = value; }   // GUI check - accept only positive integer
+    }
+
+    public bool IsTrapezoidal
+    {
+        get { return MyComponent.isTrapezoidal; }
+        set { MyComponent.isTrapezoidal = value; }   // GUI check - accept only true/ false
+    }
+
     // Use this for initialization
     void Start()
     {

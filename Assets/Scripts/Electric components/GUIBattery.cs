@@ -9,9 +9,10 @@ public class GUIBattery : Component2
     public VoltageInput MyComponent;
     public Ground MyComponentGround;
 
-    public double GetVoltageDelta()
+    public double MaxVoltage
     {
-        return MyComponent.getVoltageDelta();
+        get { return MyComponent.maxVoltage; }
+        set { MyComponent.maxVoltage = value; }   // GUI check - accept only positive integer
     }
 
     // Use this for initialization

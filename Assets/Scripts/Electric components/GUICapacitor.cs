@@ -8,6 +8,12 @@ public class GUICapacitor : Component2
     public leader[] DllConnectors;
     public CapacitorElm MyComponent;
 
+    public double Capacitance
+    {
+        get { return MyComponent.capacitance; }
+        set { MyComponent.capacitance = value; }   // GUI check - accept only positive integer
+    }
+
     // Use this for initialization
     void Start()
     {
