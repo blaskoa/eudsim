@@ -2,6 +2,7 @@
 using System.Collections;
 using ClassLibrarySharpCircuit;
 using leader = ClassLibrarySharpCircuit.Circuit.Lead;
+using System;
 
 public class GUICapacitor : Component2
 {
@@ -12,6 +13,16 @@ public class GUICapacitor : Component2
     {
         get { return MyComponent.capacitance; }
         set { MyComponent.capacitance = value; }   // GUI check - accept only positive integer
+    }
+
+    public override void getProperties()
+    {
+        EditObjectProperties.Add("Capacitance", Capacitance.ToString());
+    }
+
+    public override void setProperties()
+    {
+        
     }
 
     // Use this for initialization

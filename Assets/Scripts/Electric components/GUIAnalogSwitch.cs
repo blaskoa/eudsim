@@ -2,6 +2,7 @@
 using System.Collections;
 using ClassLibrarySharpCircuit;
 using leader = ClassLibrarySharpCircuit.Circuit.Lead;
+using System;
 
 public class GUIAnalogSwitch : Component2
 {
@@ -25,7 +26,16 @@ public class GUIAnalogSwitch : Component2
         }   
     }
 
+    public override void getProperties()
+    {
+        EditObjectProperties.Add("Vypnuty", Vypnuty.ToString());
+    }
 
+    public override void setProperties()
+    {
+        
+    }
+    
     // Use this for initialization
     void Start()
     {

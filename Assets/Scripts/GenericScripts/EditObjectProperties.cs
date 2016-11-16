@@ -29,7 +29,7 @@ public class EditObjectProperties : MonoBehaviour
     }
 
     // Add a property field.
-    public static void Add(string label)
+    public static void Add(string label, string value)
     {
         GameObject newProperty = Instantiate(_propertyPrefab);
         float anchorPosition = FirstAnchor - _fieldNum * AnchorStep;

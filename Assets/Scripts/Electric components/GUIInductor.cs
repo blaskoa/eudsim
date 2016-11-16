@@ -2,6 +2,7 @@
 using System.Collections;
 using ClassLibrarySharpCircuit;
 using leader = ClassLibrarySharpCircuit.Circuit.Lead;
+using System;
 
 public class GUIInductor : Component2
 {
@@ -18,6 +19,17 @@ public class GUIInductor : Component2
     {
         get { return MyComponent.isTrapezoidal; }
         set { MyComponent.isTrapezoidal = value; }   // GUI check - accept only true/ false
+    }
+
+    public override void getProperties()
+    {
+        EditObjectProperties.Add("Inductance", Inductance.ToString());
+        EditObjectProperties.Add("IsTrapezoidal", IsTrapezoidal.ToString());
+    }
+
+    public override void setProperties()
+    {
+
     }
 
     // Use this for initialization

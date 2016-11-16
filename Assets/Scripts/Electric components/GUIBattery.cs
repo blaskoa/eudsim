@@ -2,6 +2,7 @@
 using System.Collections;
 using ClassLibrarySharpCircuit;
 using leader = ClassLibrarySharpCircuit.Circuit.Lead;
+using System;
 
 public class GUIBattery : Component2
 {
@@ -13,6 +14,16 @@ public class GUIBattery : Component2
     {
         get { return MyComponent.maxVoltage; }
         set { MyComponent.maxVoltage = value; }   // GUI check - accept only positive integer
+    }
+
+    public override void getProperties()
+    {
+        EditObjectProperties.Add("Max Voltage", MaxVoltage.ToString());
+    }
+
+    public override void setProperties()
+    {
+        
     }
 
     // Use this for initialization

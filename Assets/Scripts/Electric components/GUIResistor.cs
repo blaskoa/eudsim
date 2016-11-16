@@ -2,6 +2,7 @@
 using System.Collections;
 using ClassLibrarySharpCircuit;
 using leader = ClassLibrarySharpCircuit.Circuit.Lead;
+using System;
 
 public class GUIResistor : Component2
 {
@@ -18,7 +19,17 @@ public class GUIResistor : Component2
     {
         return MyComponent.getVoltageDelta();
     }
-  
+
+    public override void getProperties()
+    {
+        EditObjectProperties.Add("Resistance", Resistance.ToString());
+    }
+
+    public override void setProperties()
+    {
+        
+    }
+
     // Use this for initialization
     public void Start()
     {
