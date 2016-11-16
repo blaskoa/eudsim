@@ -3,6 +3,7 @@ using System.Collections;
 using ClassLibrarySharpCircuit;
 using leader = ClassLibrarySharpCircuit.Circuit.Lead;
 using System;
+using System.Collections.Generic;
 
 public class GUIAnalogSwitch : Component2
 {
@@ -33,7 +34,9 @@ public class GUIAnalogSwitch : Component2
 
     public override void setProperties()
     {
-        
+        List<string> values = EditObjectProperties.Get();
+
+        Vypnuty = Boolean.Parse(values[0]);
     }
     
     // Use this for initialization

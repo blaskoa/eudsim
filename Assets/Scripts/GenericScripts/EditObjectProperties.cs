@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class EditObjectProperties : MonoBehaviour
 {
@@ -37,13 +38,32 @@ public class EditObjectProperties : MonoBehaviour
         newProperty.GetComponent<RectTransform>().anchorMin = new Vector2(_propertyPrefab.GetComponent<RectTransform>().anchorMin.x, anchorPosition);
         newProperty.GetComponent<RectTransform>().anchorMax = new Vector2(_propertyPrefab.GetComponent<RectTransform>().anchorMax.x, anchorPosition);
 
-        newProperty.transform.FindChild("ObjectPropertyLabel").gameObject.GetComponent<Text>().text = label;
+        Text propertyLabel = newProperty.transform.FindChild("ObjectPropertyLabel").gameObject.GetComponent<Text>();
+        propertyLabel.text = label;
+
         GameObject inputFieldGO = newProperty.transform.FindChild("InputField").gameObject;
         InputField inputField = inputFieldGO.GetComponent<InputField>();
         inputField.text = value;
-        
+        Component2 script = SelectObject.SelectedObject.GetComponent<Component2>();
+        inputField.onEndEdit.AddListener(delegate { script.setProperties(); });
+
+
         newProperty.transform.SetParent(_propertyContent.transform, false);
 
         _fieldNum++;
+    }
+
+    // Read User Input
+    public static List<string> Get()
+    {
+        List<string> values = new List<string>();
+        foreach (Transform property in _propertyContent.transform)
+        {
+            GameObject inputFieldGO = property.transform.FindChild("InputField").gameObject;
+            InputField inputField = inputFieldGO.GetComponent<InputField>();
+            values.Add(inputField.text);
+        }
+
+        return values;
     }
 }

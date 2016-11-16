@@ -3,6 +3,7 @@ using System.Collections;
 using ClassLibrarySharpCircuit;
 using leader = ClassLibrarySharpCircuit.Circuit.Lead;
 using System;
+using System.Collections.Generic;
 
 public class GUIBattery : Component2
 {
@@ -23,7 +24,9 @@ public class GUIBattery : Component2
 
     public override void setProperties()
     {
-        
+        List<string> values = EditObjectProperties.Get();
+
+        MaxVoltage = Double.Parse(values[0]);
     }
 
     // Use this for initialization

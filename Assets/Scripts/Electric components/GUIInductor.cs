@@ -3,6 +3,7 @@ using System.Collections;
 using ClassLibrarySharpCircuit;
 using leader = ClassLibrarySharpCircuit.Circuit.Lead;
 using System;
+using System.Collections.Generic;
 
 public class GUIInductor : Component2
 {
@@ -29,7 +30,10 @@ public class GUIInductor : Component2
 
     public override void setProperties()
     {
+        List<string> values = EditObjectProperties.Get();
 
+        Inductance = Double.Parse(values[0]);
+        IsTrapezoidal = Boolean.Parse(values[1]);
     }
 
     // Use this for initialization

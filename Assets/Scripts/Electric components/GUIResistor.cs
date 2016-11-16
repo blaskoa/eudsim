@@ -3,6 +3,7 @@ using System.Collections;
 using ClassLibrarySharpCircuit;
 using leader = ClassLibrarySharpCircuit.Circuit.Lead;
 using System;
+using System.Collections.Generic;
 
 public class GUIResistor : Component2
 {
@@ -27,7 +28,9 @@ public class GUIResistor : Component2
 
     public override void setProperties()
     {
-        
+        List<string> values = EditObjectProperties.Get();
+
+        Resistance = Double.Parse(values[0]);
     }
 
     // Use this for initialization
