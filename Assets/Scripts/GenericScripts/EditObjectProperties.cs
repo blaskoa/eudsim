@@ -38,7 +38,10 @@ public class EditObjectProperties : MonoBehaviour
         newProperty.GetComponent<RectTransform>().anchorMax = new Vector2(_propertyPrefab.GetComponent<RectTransform>().anchorMax.x, anchorPosition);
 
         newProperty.transform.FindChild("ObjectPropertyLabel").gameObject.GetComponent<Text>().text = label;
-
+        GameObject inputFieldGO = newProperty.transform.FindChild("InputField").gameObject;
+        InputField inputField = inputFieldGO.GetComponent<InputField>();
+        inputField.text = value;
+        
         newProperty.transform.SetParent(_propertyContent.transform, false);
 
         _fieldNum++;
