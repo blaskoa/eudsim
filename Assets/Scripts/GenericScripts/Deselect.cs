@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
+using System;
 
-public class Deselect : MonoBehaviour {
+public class Deselect : MonoBehaviour, IPointerClickHandler
+{
     // When left mouse button is pressed...
-    void OnMouseDown()
+    public void OnPointerClick(PointerEventData eventData)
     {
         if (SelectObject.SelectedObject != null)
         {
