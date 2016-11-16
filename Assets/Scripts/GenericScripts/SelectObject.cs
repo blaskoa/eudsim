@@ -19,34 +19,6 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
         SelectionBox.GetComponent<SpriteRenderer>().enabled = false;
     }
 
-    // When left mouse button is pressed...
-    //void OnMouseDown()
-    //{
-    //    // Don't allow selecting Toolbox Items.
-    //    if (this.gameObject.tag == "ToolboxItem")
-    //    {
-    //        return;
-    //    }
-
-    //    // Deselect selected item first.
-    //    if (SelectedObject != null)
-    //    {
-    //        SelectedObject.transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = false;
-    //        SelectedObject = this.gameObject;
-    //    }
-
-    //    // Select new object.
-    //    SelectedObject = this.gameObject;
-    //    SelectionBox.GetComponent<SpriteRenderer>().enabled = true;
-        
-    //    // Clear the Properties Window
-    //    EditObjectProperties.Clear();
-
-    //    // Call the script from component that fills the Properties Window
-    //    Component2 script = SelectedObject.GetComponent<Component2>();
-    //    script.getProperties();
-    //}
-
     public void OnPointerClick(PointerEventData eventData)
     {
         // Don't allow selecting Toolbox Items.
