@@ -26,7 +26,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         {
             _draggingItem = Instantiate(this.gameObject);
             _draggingItem.tag = "ActiveItem";
-			_draggingItem.layer = 8; //Name of 8th layer is ActiveItem
+			_draggingItem.layer = 7; //Name of 8th layer is ActiveItem
 			_draggingItem.transform.localScale = new Vector3(1,1,0);
 			_draggingItem.GetComponent<SpriteRenderer>().enabled = true;
 			_draggingItem.GetComponent<SpriteRenderer>().sortingLayerName = "ActiveItem";
@@ -34,6 +34,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 			{
             _draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingLayerName = "ActiveItem";
 			_draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().enabled = true;
+		    _draggingItem.transform.GetChild(i).gameObject.layer = 8;
 			}
         }
         else

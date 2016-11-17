@@ -32,5 +32,8 @@ public class GUIBattery : Component2
         connectors[1].assignComponent(this);
         connectors[0].setDllconnector(DLLConnectors[0]);
         connectors[1].setDllconnector(DLLConnectors[1]);
+
+        
     }
+
 }
