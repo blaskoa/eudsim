@@ -8,7 +8,7 @@ public class GUIResistor : Component2
     public leader[] DLLConnectors;
     public Resistor MyComponent;
 
-    public double getVoltageDelta()
+    public double GetVoltageDelta()
     {
         return MyComponent.getVoltageDelta();
     }
@@ -24,9 +24,9 @@ public class GUIResistor : Component2
             DLLConnectors[0] = MyComponent.leadIn;
             DLLConnectors[1] = MyComponent.leadOut;
 
-            //connectors = GetComponentsInChildren<Connector>();
-            connectors[0] = gameObject.AddComponent<Connector>();
-            connectors[1] = gameObject.AddComponent<Connector>();
+            connectors = GetComponentsInChildren<Connector>();
+            connectors[0] = this.transform.FindChild("Connector1").GetComponent<Connector>();
+            connectors[1] = this.transform.FindChild("Connector2").GetComponent<Connector>();
             connectors[0].setConnectedConnectors();
             connectors[1].setConnectedConnectors();
             connectors[0].assignComponent(this);

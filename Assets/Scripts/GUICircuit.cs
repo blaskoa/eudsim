@@ -73,13 +73,10 @@ public class GUICircuit : MonoBehaviour
             for (int i = 0; i < sceneItems.Count; i++)
             {
                 if (listOfComponents[i].GetType() == typeof(GUIBattery))
-                    Debug.Log("Ja SOM BATERKA");
+                    Debug.Log("Ja SOM BATERKA" + listOfComponents[i].GetComponent<GUIBattery>().GetVoltageDelta());
                 if (listOfComponents[i].GetType() == typeof(GUIResistor))
-                    Debug.Log("Ja SOM RESISTOR");
+                    Debug.Log("Ja SOM RESISTOR" + listOfComponents[i].GetComponent<GUIResistor>().GetVoltageDelta());
             }
-
-            //  TENTO KOD JE DO BUDUCNA POTREBNY, AVSAK PRE JEDNODUCHSIE DEBUGOVANIE HO ZANEDBAME A ZATIAL VYTVARAME CONNECTIONS PRIAMO PRI CIARACH
-            //  Debug.Log("battery voltage " + battery.MyComponent.getVoltageDelta() + "lamp voltage" + lamp.MyComponent.getVoltageDelta()); // V = I x R
         }
 
         Debug.Log("Simulation complete with" + countOfMadeConnections + "connections");
