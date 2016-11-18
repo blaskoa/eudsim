@@ -2,12 +2,40 @@
 using System.Collections;
 using ClassLibrarySharpCircuit;
 using leader = ClassLibrarySharpCircuit.Circuit.Lead;
+using System;
+using System.Collections.Generic;
 
 public class GUIInductor : Component2
 {
     public leader[] DLLCconnectors;
     public InductorElm MyComponent;
-    
+
+    public double Inductance
+    {
+        get { return MyComponent.inductance; }
+        set { MyComponent.inductance = value; }   // GUI check - accept only positive integer
+    }
+
+    public bool IsTrapezoidal
+    {
+        get { return MyComponent.isTrapezoidal; }
+        set { MyComponent.isTrapezoidal = value; }   // GUI check - accept only true/ false
+    }
+
+    public override void getProperties()
+    {
+        EditObjectProperties.Add("Inductance", Inductance.ToString());
+        EditObjectProperties.Add("IsTrapezoidal", IsTrapezoidal.ToString());
+    }
+
+    public override void setProperties()
+    {
+        List<string> values = EditObjectProperties.Get();
+
+        Inductance = Double.Parse(values[0]);
+        IsTrapezoidal = Boolean.Parse(values[1]);
+    }
+
     // Use this for initialization
     void Start()
     {

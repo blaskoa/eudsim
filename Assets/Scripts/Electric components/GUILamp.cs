@@ -2,11 +2,22 @@
 using System.Collections;
 using ClassLibrarySharpCircuit;
 using leader = ClassLibrarySharpCircuit.Circuit.Lead;
+using System;
 
 public class GUILamp : Component2
 {
     public leader[] DLLConnectors = new leader[2];
     public Lamp MyComponent = GUICircuit.sim.Create<Lamp>();
+
+    public override void getProperties()
+    {
+        
+    }
+
+    public override void setProperties()
+    {
+        
+    }
 
     // Use this for initialization
     public void Start()     // public for testing purposes

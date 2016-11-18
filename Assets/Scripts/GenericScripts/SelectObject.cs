@@ -4,7 +4,8 @@ using UnityEngine.EventSystems;
 using System.Collections;
 using System;
 
-public class SelectObject : MonoBehaviour {
+public class SelectObject : MonoBehaviour, IPointerClickHandler
+{
     
     // Global variable to allow only one selected item.
     public static GameObject SelectedObject;
@@ -18,8 +19,7 @@ public class SelectObject : MonoBehaviour {
         SelectionBox.GetComponent<SpriteRenderer>().enabled = false;
     }
 
-    // When left mouse button is pressed...
-    void OnMouseDown()
+    public void OnPointerClick(PointerEventData eventData)
     {
         // Don't allow selecting Toolbox Items.
         if (this.gameObject.tag == "ToolboxItem")
@@ -37,5 +37,12 @@ public class SelectObject : MonoBehaviour {
         // Select new object.
         SelectedObject = this.gameObject;
         SelectionBox.GetComponent<SpriteRenderer>().enabled = true;
+
+        // Clear the Properties Window
+        EditObjectProperties.Clear();
+
+        // Call the script from component that fills the Properties Window
+        Component2 script = SelectedObject.GetComponent<Component2>();
+        script.getProperties();
     }
 }
