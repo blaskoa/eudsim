@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using System;
 
 //class for objects which  is used to generate lines between components
 public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
@@ -111,4 +112,5 @@ public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             }
         }
     }
+
 }
