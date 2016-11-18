@@ -29,7 +29,7 @@ public class GUIAnalogSwitch : Component2
 
     public override void getProperties()
     {
-        EditObjectProperties.Add("Vypnuty", TurnedOff.ToString());
+        EditObjectProperties.Add("Turned Off?", TurnedOff.ToString());
     }
 
     public override void setProperties()
