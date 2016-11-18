@@ -11,7 +11,7 @@ public class GUIAnalogSwitch : Component2
     public AnalogSwitch MyComponent;
 
 
-    public bool Vypnuty
+    public bool TurnedOff
     {
         get { return MyComponent.open; }
         set                                                 // GUI check - accept only true/ false
@@ -29,14 +29,14 @@ public class GUIAnalogSwitch : Component2
 
     public override void getProperties()
     {
-        EditObjectProperties.Add("Vypnuty", Vypnuty.ToString());
+        EditObjectProperties.Add("Vypnuty", TurnedOff.ToString());
     }
 
     public override void setProperties()
     {
         List<string> values = EditObjectProperties.Get();
 
-        Vypnuty = Boolean.Parse(values[0]);
+        TurnedOff = Boolean.Parse(values[0]);
     }
     
     // Use this for initialization
