@@ -34,7 +34,7 @@ public class EditObjectProperties : MonoBehaviour
     }
 
     // Add a property field.
-    public static void Add(string label, string value)
+    public static void Add(string resourceKey, string value)
     {
         // Instantiate new Property and set its anchor
         GameObject newProperty = Instantiate(_propertyPrefab);
@@ -45,7 +45,8 @@ public class EditObjectProperties : MonoBehaviour
 
         // Set property label
         Text propertyLabel = newProperty.transform.FindChild("ObjectPropertyLabel").gameObject.GetComponent<Text>();
-        propertyLabel.text = label;
+        string labelValue = FindObjectOfType<Localization>().ResourceReader.GetResource(resourceKey);
+        propertyLabel.text = labelValue;
 
         // Set property InputField
         GameObject inputFieldGo = newProperty.transform.FindChild("InputField").gameObject;

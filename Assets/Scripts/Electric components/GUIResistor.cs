@@ -23,7 +23,7 @@ public class GUIResistor : Component2
 
     public override void getProperties()
     {
-        EditObjectProperties.Add("Resistance", Resistance.ToString());
+        EditObjectProperties.Add("ResistancePropertyLabel", Resistance.ToString());
     }
 
     public override void setProperties()

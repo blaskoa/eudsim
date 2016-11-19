@@ -29,14 +29,14 @@ public class GUIAnalogSwitch : Component2
 
     public override void getProperties()
     {
-        EditObjectProperties.Add("Turned Off?", TurnedOff.ToString());
+        EditObjectProperties.Add("TurnedOffPropertyLabel", TurnedOff.ToString());
     }
 
     public override void setProperties()
     {
         List<string> values = EditObjectProperties.Get();
 
-        TurnedOff = Boolean.Parse(values[0]);
+        TurnedOff = bool.Parse(values[0]);
     }
     
     // Use this for initialization

@@ -24,16 +24,16 @@ public class GUIInductor : Component2
 
     public override void getProperties()
     {
-        EditObjectProperties.Add("Inductance", Inductance.ToString());
-        EditObjectProperties.Add("IsTrapezoidal", IsTrapezoidal.ToString());
+        EditObjectProperties.Add("InductancePropertyLabel", Inductance.ToString());
+        EditObjectProperties.Add("TrapezoidalPropertyLabel", IsTrapezoidal.ToString());
     }
 
     public override void setProperties()
     {
         List<string> values = EditObjectProperties.Get();
 
-        Inductance = Double.Parse(values[0]);
-        IsTrapezoidal = Boolean.Parse(values[1]);
+        Inductance = double.Parse(values[0]);
+        IsTrapezoidal = bool.Parse(values[1]);
     }
 
     // Use this for initialization

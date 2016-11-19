@@ -25,6 +25,14 @@
     <string name="ReleaseNotesText">Release Notes</string>
     <string name="ReportBugText">Report Bug</string>
     <string name="ContactText">Contact</string>
+    <string name="CapacitancePropertyLabel">Capacitance</string>
+    <string name="TurnedOffPropertyLabel">Turned Off ?</string>
+    <string name="MaxVoltagePropertyLabel">Max Voltage</string>
+    <string name="InductancePropertyLabel">Inductance</string>
+    <string name="TrapezoidalPropertyLabel">Trapezoidal ?</string>
+    <string name="ResistancePropertyLabel">Resistance</string>
+  
+  
   </English>
 
   <Slovak>
@@ -51,6 +59,12 @@
     <string name="ReleaseNotesText">O verzií</string>
     <string name="ReportBugText">Nahlásiť chybu</string>
     <string name="ContactText">Kontakt</string>
+    <string name="CapacitancePropertyLabel">Kapacita</string>
+    <string name="TurnedOffPropertyLabel">Vypnuté ?</string>
+    <string name="MaxVoltagePropertyLabel">Napätie</string>
+    <string name="InductancePropertyLabel">Indukčnosť</string>
+    <string name="TrapezoidalPropertyLabel">Trapezoidný ?</string>
+    <string name="ResistancePropertyLabel">Odpor</string>
   </Slovak>
 
 </Languages>

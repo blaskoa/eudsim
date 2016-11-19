@@ -8,6 +8,11 @@ public class Deselect : MonoBehaviour, IPointerClickHandler
     // When left mouse button is pressed...
     public void OnPointerClick(PointerEventData eventData)
     {
+        DoDeselect();
+    }
+
+    public void DoDeselect()
+    {
         if (SelectObject.SelectedObject != null)
         {
             SelectObject.SelectedObject.transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = false;

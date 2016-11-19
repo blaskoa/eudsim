@@ -19,14 +19,14 @@ public class GUIBattery : Component2
 
     public override void getProperties()
     {
-        EditObjectProperties.Add("Max Voltage", MaxVoltage.ToString());
+        EditObjectProperties.Add("MaxVoltagePropertyLabel", MaxVoltage.ToString());
     }
 
     public override void setProperties()
     {
         List<string> values = EditObjectProperties.Get();
 
-        MaxVoltage = Double.Parse(values[0]);
+        MaxVoltage = double.Parse(values[0]);
     }
 
     // Use this for initialization

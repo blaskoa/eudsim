@@ -18,14 +18,14 @@ public class GUICapacitor : Component2
 
     public override void getProperties()
     {
-        EditObjectProperties.Add("Capacitance", Capacitance.ToString());
+        EditObjectProperties.Add("CapacitancePropertyLabel", Capacitance.ToString());
     }
 
     public override void setProperties()
     {
         List<string> values = EditObjectProperties.Get();
 
-        Capacitance = Double.Parse(values[0]);
+        Capacitance = double.Parse(values[0]);
     }
 
     // Use this for initialization
