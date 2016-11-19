@@ -5,17 +5,15 @@ using leader = ClassLibrarySharpCircuit.Circuit.Lead;
 
 public class GUINode : Component2
 {
-    public Resistor MyComponent;
 
     // Use this for initialization
     public void Start()
     {
-        if (this.CompareTag("ActiveItem"))
+        if (this.CompareTag("ActiveNode"))
         {
-            //connectors = GetComponentsInChildren<Connector>();
-            connectors[0] = gameObject.AddComponent<Connector>();
+            Debug.Log("insertol som activeItem");
+            connectors[0] = this.transform.FindChild("NodeConnector").GetComponent<Connector>();
             connectors[0].setConnectedConnectors();
-            connectors[0].assignComponent(this);
         }
     }
 }

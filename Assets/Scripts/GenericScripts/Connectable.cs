@@ -24,7 +24,7 @@ public class Connectable : MonoBehaviour
     void OnMouseDown()
     {
         //if gameobject is in desktop, not in toolbox
-        if (this.gameObject.transform.parent.tag == "ActiveItem")
+        if ((this.gameObject.transform.parent.tag == "ActiveItem") || (this.gameObject.transform.parent.tag == "ActiveNode"))
         {
             _counter.Increment();
             //Debug.Log(_counter.GetCount());
@@ -50,7 +50,7 @@ public class Connectable : MonoBehaviour
                 Connector con1 = obj2.GetComponent<Connector>();
                 Connector con2 = this.gameObject.GetComponent<Connector>();
                 //GUICircuit.sim.Connect(con1.DLLConnector, con2.DLLConnector);
-                Debug.Log("Vytvoril som connection");
+                //Debug.Log("Vytvoril som connection");
                 con1.ConnectedConnectors[con1.countOfConnected] = con2;
                 con1.countOfConnected += 1;
                 con2.ConnectedConnectors[con2.countOfConnected] = con1;
