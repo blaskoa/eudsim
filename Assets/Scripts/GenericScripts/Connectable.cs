@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
-using System;
 
 //class for objects which  is used to generate lines between components
 public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
@@ -50,7 +49,7 @@ public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         if (this.gameObject.transform.parent.tag == "ActiveItem")
         {
             //update ending position of line to mouse position by dragging
-            _endPos =Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+            _endPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
             _endPos.z = 0;
             _endPos *= 2;
             _endPos = new Vector3(Mathf.Round(_endPos.x), Mathf.Round(_endPos.y));
@@ -73,6 +72,7 @@ public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                 Vector3 conPos = go.transform.position*2;
                 conPos = new Vector3(Mathf.Round(conPos.x), Mathf.Round(conPos.y));
                 conPos /= 2;
+
                 //searching connector in mouse position in the end of drag
                 if (conPos == _endPos)
                 {

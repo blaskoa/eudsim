@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.EventSystems;
-using System;
 
 public class Line : MonoBehaviour
 {
@@ -14,7 +11,8 @@ public class Line : MonoBehaviour
     private bool _addedCollider = false;
     private Vector3 _oldStartPos;
     private Vector3 _oldEndPos;
-    private bool _selected;
+    private BoxCollider2D _col;
+    public static GameObject SelectedLine;
 
 
     // Update is called once per frame
@@ -53,45 +51,56 @@ public class Line : MonoBehaviour
             _addedCollider = false;
         }
 
+        CheckSelect();     
+
+    }
+
+    //select line with mouse click and change color of selected line
+    private void CheckSelect()
+    {
         if (Input.GetMouseButtonDown(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 100) )
+            RaycastHit2D hitInfo = Physics2D.Raycast(new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y), Vector2.zero, 0);
+
+            if (hitInfo.collider.gameObject.GetComponent<BoxCollider2D>() == _col)
             {
-                if (!_selected)
+                if (SelectedLine != null)
                 {
-                    _line.SetColors(Color.red, Color.red);
-                    _selected = true;
+                    SelectedLine.GetComponent<LineRenderer>().SetColors(Color.black,Color.black);
+                    SelectedLine = this.gameObject;
                 }
-                else
-                {
-                    _line.SetColors(Color.black, Color.black);
-                    _selected = false;
-                }
+
+                SelectedLine = this.gameObject;
+                SelectedLine.GetComponent<LineRenderer>().SetColors(Color.red, Color.red);
             }
         }
-
     }
 
     private void AddColliderToLine()
     {
-        BoxCollider col = new GameObject("Collider").AddComponent<BoxCollider>();
+        _col = new GameObject("Collider").AddComponent<BoxCollider2D>();
 
-        col.transform.parent = _line.transform; // Collider is added as child object of line
-        float lineLegth = Vector3.Distance(_startPos, EndPos); // length of line
-        col.size = new Vector3(lineLegth, 0.3f, 0.0f); // size of collider is set where X is length of line, Y is width of line
-        Vector3 midPoint = (_startPos + EndPos) / 2;
-        col.transform.position = midPoint; // setting position of collider object
+        // Collider is added as child object of line
+        _col.transform.parent = _line.transform; 
+        float lineLegth = Vector2.Distance(_startPos, EndPos);
+
+        // size of collider is set where X is length of line, Y is width of line
+        _col.size = new Vector2(lineLegth, 0.3f); 
+        Vector2 midPoint = (_startPos + EndPos) / 2;
+
+        // setting position of collider object
+        _col.transform.position = midPoint; 
 
         // Following lines calculate the angle between startPos and EndPos
         float angle = (Mathf.Abs(_startPos.y - EndPos.y) / Mathf.Abs(_startPos.x - EndPos.x));
+
         if ((_startPos.y < EndPos.y && _startPos.x > EndPos.x) || (EndPos.y < _startPos.y && EndPos.x > _startPos.x))
         {
             angle *= -1;
         }
+
         angle = Mathf.Rad2Deg * Mathf.Atan(angle);
-        col.transform.Rotate(0, 0, angle);
+        _col.transform.Rotate(0, 0, angle);
     }
 
 }

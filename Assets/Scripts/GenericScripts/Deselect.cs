@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Deselect : MonoBehaviour {
+public class Deselect : MonoBehaviour
+{
     // When left mouse button is pressed...
     void OnMouseDown()
     {
@@ -9,6 +10,12 @@ public class Deselect : MonoBehaviour {
         {
             SelectObject.SelectedObject.transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = false;
             SelectObject.SelectedObject = null;
+        }
+
+        if (Line.SelectedLine != null)
+        {
+            Line.SelectedLine.GetComponent<LineRenderer>().SetColors(Color.black, Color.black);
+            Line.SelectedLine = null;
         }
     }
 }
