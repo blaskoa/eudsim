@@ -36,15 +36,14 @@ public class GUICircuit : MonoBehaviour
 
     void SimulationFlow() // tato funkcia zavola objekty so scenky, prepoji ich umelo, zavola algoritmus na zrusenie uzlov, prepoji zoznamy dllconectorov a spusti simulaciu
     {
-        Component2[] listOfComponents = new Component2[4];
+        Component2[] listOfComponents = new Component2[sceneItems.Count];
 
         GraphAlgorithm algorithm = new GraphAlgorithm();
         sceneItems.CopyTo(listOfComponents, 0);
-        /*   ConnectionsOfComponent[] dllconnectionsOfComponents = algorithm.untangle(listOfComponents);
+        ConnectionsOfComponent[] dllconnectionsOfComponents = algorithm.untangle(listOfComponents);
 
-           Debug.Log(dllconnectionsOfComponents.Length);
-
-           //sim.Connect(dllconnectionsOfComponents[0].dllconnections[0].connectedDllconnectors[0], dllconnectionsOfComponents[0].dllconnections[0].dllconector);
+        //Debug.Log(dllconnectionsOfComponents.Length);
+        
 
            for (int i = 0; i < dllconnectionsOfComponents.Length; i++)
            {
@@ -54,32 +53,31 @@ public class GUICircuit : MonoBehaviour
                    {
                        if (dllconnectionsOfComponents[i].dllconnections[a].dllconector != dllconnectionsOfComponents[i].dllconnections[a].connectedDllconnectors[b])
                        {
-                           Debug.Log(i + a + b);
-                           //sim.Connect(dllconnectionsOfComponents[i].dllconnections[a].dllconector, dllconnectionsOfComponents[i].dllconnections[a].connectedDllconnectors[b]);
+                           //Debug.Log("Komponent cislo: " + i + " konektor ku ktoremu sa pripaja: " + a + " pripajany konektor: " + b + " cislo conections: " + countOfMadeConnections);
+                           sim.Connect(dllconnectionsOfComponents[i].dllconnections[a].dllconector, dllconnectionsOfComponents[i].dllconnections[a].connectedDllconnectors[b]);
                            countOfMadeConnections += 1;
                        }
                    }
                }
            }
-           */
-        Debug.Log("Simulation Begin with" + countOfMadeConnections + "connections");
+
+        Debug.Log("Simulation complete with " + countOfMadeConnections + " connections");
         Debug.Log("Sim Elements count " + sim.elements.Count);
 
 
         for (int x = 1; x <= 1; x++)
         {
             sim.doTick();
-            Debug.Log(sceneItems.Count + "komponentov");
+            Debug.Log(sceneItems.Count + " komponentov");
             for (int i = 0; i < sceneItems.Count; i++)
             {
                 if (listOfComponents[i].GetType() == typeof(GUIBattery))
-                    Debug.Log("Ja SOM BATERKA" + listOfComponents[i].GetComponent<GUIBattery>().GetVoltageDelta());
+                    Debug.Log("Ja SOM BATERKA " + listOfComponents[i].GetComponent<GUIBattery>().GetVoltageDelta());
                 if (listOfComponents[i].GetType() == typeof(GUIResistor))
-                    Debug.Log("Ja SOM RESISTOR" + listOfComponents[i].GetComponent<GUIResistor>().GetVoltageDelta());
+                    Debug.Log("Ja SOM RESISTOR " + listOfComponents[i].GetComponent<GUIResistor>().GetVoltageDelta());
             }
         }
-
-        Debug.Log("Simulation complete with" + countOfMadeConnections + "connections");
+        
     }
 
     // Update is called once per frame

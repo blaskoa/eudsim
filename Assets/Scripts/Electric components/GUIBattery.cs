@@ -27,7 +27,6 @@ public class GUIBattery : Component2
             DLLConnectors[1] = MyComponentGround.leadIn;
 
             connectors[0] = this.transform.FindChild("PlusConnector").GetComponent<Connector>();
-            //GetComponentsInChildren<Connector>();
             connectors[1] = this.transform.FindChild("MinusConnector").GetComponent<Connector>();
             connectors[0].setConnectedConnectors();
             connectors[1].setConnectedConnectors();

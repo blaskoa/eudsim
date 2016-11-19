@@ -23,8 +23,7 @@ public class GUIResistor : Component2
             MyComponent = GUICircuit.sim.Create<Resistor>();
             DLLConnectors[0] = MyComponent.leadIn;
             DLLConnectors[1] = MyComponent.leadOut;
-
-            connectors = GetComponentsInChildren<Connector>();
+            
             connectors[0] = this.transform.FindChild("Connector1").GetComponent<Connector>();
             connectors[1] = this.transform.FindChild("Connector2").GetComponent<Connector>();
             connectors[0].setConnectedConnectors();

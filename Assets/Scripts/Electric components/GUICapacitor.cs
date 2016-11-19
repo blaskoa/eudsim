@@ -19,6 +19,7 @@ public class GUICapacitor : Component2
 
             DllConnectors[0] = MyComponent.leadIn;
             DllConnectors[1] = MyComponent.leadOut;
+
             connectors = GetComponentsInChildren<Connector>();
 
             connectors[0].setConnectedConnectors();

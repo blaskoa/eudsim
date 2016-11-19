@@ -18,8 +18,6 @@ public class GUILamp : Component2
             MyComponent = GUICircuit.sim.Create<Lamp>();
             DLLConnectors[0] = MyComponent.leadIn;
             DLLConnectors[1] = MyComponent.leadOut;
-
-            connectors = GetComponentsInChildren<Connector>();
      
             connectors[0] = this.transform.FindChild("PlusConnector").GetComponent<Connector>();
             connectors[1] = this.transform.FindChild("MinusConnector").GetComponent<Connector>();

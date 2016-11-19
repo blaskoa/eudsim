@@ -37,10 +37,10 @@ public class GraphAlgorithm
 
             if ((actual.DLLConnector != null) && (actual.Component != searched))   // if it is Component connector
             {
-                Debug.Log("Tento konector ma v sebe dllconector a meno jeho komponentu je: " + actual.Component.name + "velkost stacku je: " + dllconnectorsStack.Count);
+                //Debug.Log("Tento konector ma v sebe dllconector a meno jeho komponentu je: " + actual.Component.name + "velkost stacku je: " + dllconnectorsStack.Count);
                 if ((!dllconnectorsStack.Contains(actual.DLLConnector)))  // if that DLLConnector is already in stack
                 {
-                    Debug.Log("Prida sa do stacku pripojenych");
+                    //Debug.Log("Prida sa do stacku pripojenych");
                     dllconnectorsStack.Push(actual.DLLConnector);
                 }
             }
@@ -69,14 +69,14 @@ public class GraphAlgorithm
         {
             connectionsOfComponent[a] = new ConnectionsOfComponent();
             connectionsOfComponent[a].dllconnections = new Dllconnections[components[a].connectors.Length];
-            Debug.Log("Meno prehladavaneho komponenta v untangle: " + components[a].name + " pocet konektorov: " + components[a].connectors.Length);
+            //Debug.Log("Meno prehladavaneho komponenta v untangle: " + components[a].name + " pocet konektorov: " + components[a].connectors.Length);
             searched = components[a];
 
             for (int b = 0; b < components[a].connectors.Length; b++)   // for every conector of a Component
             {
                 connectionsOfComponent[a].dllconnections[b] = new Dllconnections();
                 connectionsOfComponent[a].dllconnections[b].dllconector = components[a].connectors[b].DLLConnector;     // add his dllconector
-                Debug.Log("prehladavany konektor: " + b + " :" + components[a].connectors[b]);
+                //Debug.Log("prehladavany konektor: " + b + " :" + components[a].connectors[b]);
 
 
                 explore(components[a].connectors[b]);    // find all connected dllconectors
