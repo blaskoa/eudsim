@@ -1,17 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using ClassLibrarySharpCircuit;
-using leader = ClassLibrarySharpCircuit.Circuit.Lead;
 
 public class GUICapacitor : Component2
 {
-    public leader[] DllConnectors;
+    public Circuit.Lead[] DllConnectors;
     public CapacitorElm MyComponent;
 
     // Use this for initialization
     void Start()
     {
-        DllConnectors = new leader[2];
+        DllConnectors = new Circuit.Lead[2];
         if (CompareTag("ActiveItem"))
         {
             Debug.Log("activeItem inserted");
@@ -27,8 +26,8 @@ public class GUICapacitor : Component2
             Connectors[1].SetConnectedConnectors();
             Connectors[0].AssignComponent(this);
             Connectors[1].AssignComponent(this);
-            Connectors[0].SetDllconnector(DllConnectors[0]);
-            Connectors[1].SetDllconnector(DllConnectors[1]);
+            Connectors[0].SetDllConnector(DllConnectors[0]);
+            Connectors[1].SetDllConnector(DllConnectors[1]);
         }
     }
 }

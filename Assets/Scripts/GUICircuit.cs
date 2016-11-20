@@ -8,14 +8,6 @@ public class GUICircuit : MonoBehaviour
     private Stack sceneItems = new Stack();
     private int countOfMadeConnections = 0;
 
-    // Use this for initialization
-    public void Sim0()
-    {
-        //simulacia obvodu
-        Debug.Log("Simulation complete");
-    }
-
-    // funkcia bez popisu, nepouzita
     public void RunSimulation()
     {
         GetObjectsFromScene();

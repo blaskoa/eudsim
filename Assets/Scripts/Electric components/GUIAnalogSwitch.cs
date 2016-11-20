@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using ClassLibrarySharpCircuit;
-using leader = ClassLibrarySharpCircuit.Circuit.Lead;
 
 public class GUIAnalogSwitch : Component2
 {
-    public leader[] dllconnectors;
+    public Circuit.Lead[] DllConnectors;
     public AnalogSwitch MyComponent;
 
     // Use this for initialization
@@ -14,10 +13,10 @@ public class GUIAnalogSwitch : Component2
         if (this.CompareTag("ActiveItem"))
         {
             Debug.Log("insertol som activeItem");
-            dllconnectors = new leader[2];
+            DllConnectors = new Circuit.Lead[2];
             MyComponent = GUICircuit.sim.Create<AnalogSwitch>();
-            dllconnectors[0] = MyComponent.leadIn;
-            dllconnectors[1] = MyComponent.leadOut;
+            DllConnectors[0] = MyComponent.leadIn;
+            DllConnectors[1] = MyComponent.leadOut;
 
             Connectors = GetComponentsInChildren<Connector>();
 
@@ -25,8 +24,8 @@ public class GUIAnalogSwitch : Component2
             Connectors[1].SetConnectedConnectors();
             Connectors[0].AssignComponent(this);
             Connectors[1].AssignComponent(this);
-            Connectors[0].SetDllconnector(dllconnectors[0]);
-            Connectors[1].SetDllconnector(dllconnectors[1]);
+            Connectors[0].SetDllConnector(DllConnectors[0]);
+            Connectors[1].SetDllConnector(DllConnectors[1]);
         }
     }
 }

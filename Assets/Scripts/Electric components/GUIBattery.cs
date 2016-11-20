@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using ClassLibrarySharpCircuit;
-using leader = ClassLibrarySharpCircuit.Circuit.Lead;
 
 public class GUIBattery : Component2
 {
-    public leader[] DLLConnectors;
+    public Circuit.Lead[] DllConnectors;
     public VoltageInput MyComponent;
     public Ground MyComponentGround;
 
@@ -20,11 +19,11 @@ public class GUIBattery : Component2
         if (this.CompareTag("ActiveItem"))
         {
             Debug.Log("activeItem inserted");
-            DLLConnectors = new leader[2];
+            DllConnectors = new Circuit.Lead[2];
             MyComponent = GUICircuit.sim.Create<VoltageInput>(Voltage.WaveType.DC);
             MyComponentGround = GUICircuit.sim.Create<Ground>();
-            DLLConnectors[0] = MyComponent.leadPos;
-            DLLConnectors[1] = MyComponentGround.leadIn;
+            DllConnectors[0] = MyComponent.leadPos;
+            DllConnectors[1] = MyComponentGround.leadIn;
 
             Connectors[0] = transform.FindChild("PlusConnector").GetComponent<Connector>();
             Connectors[1] = transform.FindChild("MinusConnector").GetComponent<Connector>();
@@ -32,8 +31,8 @@ public class GUIBattery : Component2
             Connectors[1].SetConnectedConnectors();
             Connectors[0].AssignComponent(this);
             Connectors[1].AssignComponent(this);
-            Connectors[0].SetDllconnector(DLLConnectors[0]);
-            Connectors[1].SetDllconnector(DLLConnectors[1]);
+            Connectors[0].SetDllConnector(DllConnectors[0]);
+            Connectors[1].SetDllConnector(DllConnectors[1]);
         }
     }
 }

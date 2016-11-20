@@ -49,7 +49,7 @@ public class Connectable : MonoBehaviour
                 Instantiate(Obj);
                 Connector con1 = obj2.GetComponent<Connector>();
                 Connector con2 = this.gameObject.GetComponent<Connector>();
-                //GUICircuit.sim.Connect(con1.DLLConnector, con2.DLLConnector);
+                //GUICircuit.sim.Connect(con1.DllConnector, con2.DllConnector);
                 //Debug.Log("Vytvoril som connection");
                 con1.ConnectedConnectors[con1.CountOfConnected] = con2;
                 con1.CountOfConnected += 1;

@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using ClassLibrarySharpCircuit;
-using leader = ClassLibrarySharpCircuit.Circuit.Lead;
 
 public class GUIResistor : Component2
 {
-    public leader[] DLLConnectors;
+    public Circuit.Lead[] DllConnectors;
     public Resistor MyComponent;
 
     public double GetVoltageDelta()
@@ -19,10 +18,10 @@ public class GUIResistor : Component2
         if (CompareTag("ActiveItem"))
         {
             Debug.Log("activeItem inserted");
-            DLLConnectors = new leader[2];
+            DllConnectors = new Circuit.Lead[2];
             MyComponent = GUICircuit.sim.Create<Resistor>();
-            DLLConnectors[0] = MyComponent.leadIn;
-            DLLConnectors[1] = MyComponent.leadOut;
+            DllConnectors[0] = MyComponent.leadIn;
+            DllConnectors[1] = MyComponent.leadOut;
             
             Connectors[0] = transform.FindChild("Connector1").GetComponent<Connector>();
             Connectors[1] = transform.FindChild("Connector2").GetComponent<Connector>();
@@ -30,8 +29,8 @@ public class GUIResistor : Component2
             Connectors[1].SetConnectedConnectors();
             Connectors[0].AssignComponent(this);
             Connectors[1].AssignComponent(this);
-            Connectors[0].SetDllconnector(DLLConnectors[0]);
-            Connectors[1].SetDllconnector(DLLConnectors[1]);
+            Connectors[0].SetDllConnector(DllConnectors[0]);
+            Connectors[1].SetDllConnector(DllConnectors[1]);
         }
     }
 }
