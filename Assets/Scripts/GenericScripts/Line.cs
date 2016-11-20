@@ -16,8 +16,8 @@ public class Line : MonoBehaviour
     private BoxCollider2D _col2;
     public static GameObject SelectedLine;
     private Vector3 _middlePos;
-    public int _typeOfLine = 0;
-    private int _oldTypeOfLine;
+    public string TypeOfLine = "NoBreak";
+    private string _oldTypeOfLine;
 
 
     // Update is called once per frame
@@ -35,7 +35,7 @@ public class Line : MonoBehaviour
             EndPos.z = -1;
 
             //when space did not pressed - no break line
-            if (_typeOfLine == 0)
+            if (TypeOfLine == "NoBreak")
             {
                 _line = GetComponent<LineRenderer>();
                 _line.SetVertexCount(2);
@@ -58,7 +58,7 @@ public class Line : MonoBehaviour
                 }
 
                 //when space was 1 times pressed - right break line
-                if (_typeOfLine == 1)
+                if (TypeOfLine == "RightBreak")
                 {
                     _line = GetComponent<LineRenderer>();
                     _line.SetVertexCount(4);
@@ -72,7 +72,7 @@ public class Line : MonoBehaviour
                 }
 
                 //when space was 2 times pressed - left break line
-                else if (_typeOfLine == 2)
+                else if (TypeOfLine == "LeftBreak")
                 {
                     _line = GetComponent<LineRenderer>();
                     _line.SetVertexCount(4);
@@ -91,7 +91,7 @@ public class Line : MonoBehaviour
             {
                 _oldStartPos = _startPos;
                 _oldEndPos = EndPos;
-                _oldTypeOfLine = _typeOfLine;
+                _oldTypeOfLine = TypeOfLine;
                 AddCollidersToLine();
                 _addedCollider = true;
             }
@@ -107,7 +107,7 @@ public class Line : MonoBehaviour
         }
 
         //destroy old colliders in case that moving electric components or changing type of line
-        if (_addedCollider && (_oldStartPos != _startPos || _oldEndPos != EndPos || _oldTypeOfLine != _typeOfLine))
+        if (_addedCollider && (_oldStartPos != _startPos || _oldEndPos != EndPos || _oldTypeOfLine != TypeOfLine))
         {
             for (int i = 0; i < _line.transform.childCount; i++)
             {
@@ -146,7 +146,7 @@ public class Line : MonoBehaviour
 
     private void AddCollidersToLine()
     {
-        if (_typeOfLine == 0)
+        if (TypeOfLine == "NoBreak")
         {
             _col1 = new GameObject("Collider").AddComponent<BoxCollider2D>();
 
@@ -188,13 +188,13 @@ public class Line : MonoBehaviour
             float lineLegth2 = Vector2.Distance(_middlePos, EndPos);
 
             // size of colliders width and length
-            if (_typeOfLine == 1)
+            if (TypeOfLine == "RightBreak")
             {               
                 _col1.size = new Vector2(lineLegth1, 0.3f);
                 _col2.size = new Vector2(0.3f, lineLegth2);
             }
 
-            else if (_typeOfLine == 2)
+            else if (TypeOfLine == "LeftBreak")
             {
                 _col1.size = new Vector2(0.3f, lineLegth1);
                 _col2.size = new Vector2(lineLegth2, 0.3f);                               

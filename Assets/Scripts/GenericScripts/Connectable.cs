@@ -67,7 +67,7 @@ public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         if (this.gameObject.transform.parent.tag == "ActiveItem")
         {
             //browse all connestors in scene
-            GameObject[] objs = GameObject.FindGameObjectsWithTag("connector");
+            GameObject[] objs = GameObject.FindGameObjectsWithTag("Connector");
             foreach (GameObject go in objs)
             {
                 Vector3 conPos = go.transform.position*2;
