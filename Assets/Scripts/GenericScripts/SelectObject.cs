@@ -21,7 +21,6 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        // Don't allow selecting Toolbox Items.
         if (this.gameObject.tag == "ToolboxItem")
         {
             return;

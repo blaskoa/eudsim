@@ -1,51 +1,108 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using System.Collections;
-using System;
 using System.Collections.Generic;
 
 //class for objects which  is used to generate lines between components
-public class Connectable : MonoBehaviour
+public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
 
     public List<GameObject> Connected;
     public GameObject Obj;
-    private CounterForConnect _counter = new CounterForConnect();
     private Line _line;
+    private Vector3 _endPos;
+
 
     // Initialization
-    void Start()
+    public void Start()
     {
         Connected = new List<GameObject>();
     }
 
-    // When left mouse button is pressed...
-    void OnMouseDown()
+    //add connector object to connector in the ending position to the List of connected connectors 
+    public void AddConnected(GameObject connected)
+    {
+        this.Connected.Add(connected);
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        //if gameobject is in desktop, not in toolbox
+        if (this.gameObject.transform.parent.tag == "ActiveItem")
+        {
+            _endPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+            _endPos.z = 0;
+            _endPos *= 2;
+            _endPos = new Vector3(Mathf.Round(_endPos.x), Mathf.Round(_endPos.y));
+            _endPos /= 2;
+
+            //create line from this object to mouse position
+            _line = Obj.AddComponent<Line>();
+            _line.Begin = this.gameObject;
+            _line.EndPos = _endPos;
+            Instantiate(Obj);
+            Connector con1 = obj2.GetComponent<Connector>();
+            Connector con2 = this.gameObject.GetComponent<Connector>();
+            //GUICircuit.sim.Connect(con1.DllConnector, con2.DllConnector);
+            //Debug.Log("Vytvoril som connection");
+            con1.ConnectedConnectors[con1.CountOfConnected] = con2;
+            con1.CountOfConnected += 1;
+            con2.ConnectedConnectors[con2.CountOfConnected] = con1;
+            con2.CountOfConnected += 1;
+            Destroy(_line);
+            _counter.ResetCount();
+        }
+    }
+
+    public void OnDrag(PointerEventData eventData)
     {
         //if gameobject is in desktop, not in toolbox
         if ((this.gameObject.transform.parent.tag == "ActiveItem") || (this.gameObject.transform.parent.tag == "ActiveNode"))
         {
-            _counter.Increment();
-            //Debug.Log(_counter.GetCount());
-            //find first object to connect
-            if (_counter.GetCount() == 1)
+            //update ending position of line to mouse position by dragging
+            _endPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+            _endPos.z = 0;
+            _endPos *= 2;
+            _endPos = new Vector3(Mathf.Round(_endPos.x), Mathf.Round(_endPos.y));
+            _endPos /= 2;
+
+            _line.EndPos = _endPos;
+        }
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        GameObject end = null;
+        
+        //if gameobject is in desktop, not in toolbox
+        if (this.gameObject.transform.parent.tag == "ActiveItem")
+        {
+            //browse all connestors in scene
+            GameObject[] objs = GameObject.FindGameObjectsWithTag("Connector");
+            foreach (GameObject go in objs)
             {
-                _counter.SetPrevious(this.gameObject);
+                Vector3 conPos = go.transform.position*2;
+                conPos = new Vector3(Mathf.Round(conPos.x), Mathf.Round(conPos.y));
+                conPos /= 2;
+
+                //searching connector in mouse position in the end of drag
+                if (conPos == _endPos)
+                {
+                    end = go;
+                    break;
+                }
             }
-            //find second object to connect - connecting these two object with line
-            //cant connect with himself or with connector belonging to the same component 
-            else if (_counter.GetCount() == 2
-                && _counter.GetPrevious() != this.gameObject
-                && !Connected.Contains(_counter.GetPrevious())
-                && _counter.GetPrevious().transform.parent.gameObject != this.gameObject.transform.parent.gameObject)
+
+            //cant connect with himself or with connector belonging to the same component
+            if (end != null 
+                && end != this.gameObject
+                && !Connected.Contains(end)
+                && end.transform.parent.gameObject != this.gameObject.transform.parent.gameObject)
             {
-                Connected.Add(_counter.GetPrevious());
-                GameObject obj2 = _counter.GetPrevious();
-                obj2.SendMessage("AddConnected", this.gameObject);
-                _line = Obj.AddComponent<Line>();
-                _line.Begin = _counter.GetPrevious();
-                _line.End = this.gameObject;
+
+                //connecting these two object with line
+                _line.End = end;
+                Connected.Add(_line.End);
+                _line.End.SendMessage("AddConnected", this.gameObject);
                 Instantiate(Obj);
                 Connector con1 = obj2.GetComponent<Connector>();
                 Connector con2 = this.gameObject.GetComponent<Connector>();
@@ -58,16 +115,24 @@ public class Connectable : MonoBehaviour
                 Destroy(_line);
                 _counter.ResetCount();
             }
-            else
+
+            //destroy all lines which dont connect two connectors except parental Line
+            Destroy(_line);
+            GameObject[] killEmAll;
+            killEmAll = GameObject.FindGameObjectsWithTag("Line");
+            foreach (GameObject t in killEmAll)
             {
-                _counter.Decrement();
+                if (t.GetComponent<Line>().End == null && t.transform.name != "Line")
+                {
+                    Destroy(t.gameObject);
+                }
+                else
+                {
+                    //set invisible parental Line
+                    t.GetComponent<LineRenderer>().SetPosition(1, this.gameObject.transform.position);
+                }
             }
         }
-
     }
 
-    public void AddConnected(GameObject connected)
-    {
-        this.Connected.Add(connected);
-    }
 }
