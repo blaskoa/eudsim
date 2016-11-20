@@ -2,7 +2,7 @@
 using System.Collections;
 using ClassLibrarySharpCircuit;
 
-public class GUICapacitor : Component2
+public class GUICapacitor : GUICircuitComponent
 {
     public Circuit.Lead[] DllConnectors;
     public CapacitorElm MyComponent;

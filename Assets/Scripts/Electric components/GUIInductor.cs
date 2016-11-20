@@ -2,7 +2,7 @@
 using System.Collections;
 using ClassLibrarySharpCircuit;
 
-public class GUIInductor : Component2
+public class GUIInductor : GUICircuitComponent
 {
     public Circuit.Lead[] DllConnectors;
     public InductorElm MyComponent;

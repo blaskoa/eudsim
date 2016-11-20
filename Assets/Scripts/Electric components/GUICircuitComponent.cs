@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public abstract class Component2 : MonoBehaviour
+public abstract class GUICircuitComponent : MonoBehaviour
 {
     public Connector[] Connectors = new Connector[2];
 }

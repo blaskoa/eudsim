@@ -19,29 +19,29 @@ public class ConnectionsOfComponent
 
 public class GraphAlgorithm
 {
-    private Stack connectorsFinished = new Stack();
-    private Stack connectorsOpened = new Stack();
+    private Stack _connectorsFinished = new Stack();
+    private Stack _connectorsOpened = new Stack();
 
-    private Stack dllconnectorsStack = new Stack();
+    private Stack _dllconnectorsStack = new Stack();
 
-    private Component searched;
+    private Component _searched;
 
     void explore(Connector actual)
     {
         if (actual != null)
         {
-            connectorsOpened.Push(actual);  // put this connector to opened ones
+            _connectorsOpened.Push(actual);  // put this connector to opened ones
 
             //Debug.Log("pripojene konectory " + actual.ConnectedConnectors.Length + " konector je: " + actual);
             //Debug.Log("rodic aktualneho komponenta: " + actual.transform.parent);
 
-            if ((actual.DllConnector != null) && (actual.Component != searched))   // if it is Component connector
+            if ((actual.DllConnector != null) && (actual.Component != _searched))   // if it is Component connector
             {
-                //Debug.Log("Tento konector ma v sebe dllconector a meno jeho komponentu je: " + actual.Component.name + "velkost stacku je: " + dllconnectorsStack.Count);
-                if ((!dllconnectorsStack.Contains(actual.DllConnector)))  // if that DllConnector is already in stack
+                //Debug.Log("Tento konector ma v sebe dllconector a meno jeho komponentu je: " + actual.Component.name + "velkost stacku je: " + _dllconnectorsStack.Count);
+                if ((!_dllconnectorsStack.Contains(actual.DllConnector)))  // if that DllConnector is already in stack
                 {
                     //Debug.Log("Prida sa do stacku pripojenych");
-                    dllconnectorsStack.Push(actual.DllConnector);
+                    _dllconnectorsStack.Push(actual.DllConnector);
                 }
             }
 
@@ -49,19 +49,19 @@ public class GraphAlgorithm
             {
                 for (int i = 0; i < actual.ConnectedConnectors.Length; i++)   // if it is not Component connector, go through all his connectors
                 {
-                    if ((!connectorsOpened.Contains(actual.ConnectedConnectors[i])) && (!connectorsFinished.Contains(actual.ConnectedConnectors[i])))   // if this isnt opened nor finished connector
+                    if ((!_connectorsOpened.Contains(actual.ConnectedConnectors[i])) && (!_connectorsFinished.Contains(actual.ConnectedConnectors[i])))   // if this isnt opened nor finished connector
                     {
                         explore(actual.ConnectedConnectors[i]);       // then explore it
                     }
                 }
             }
 
-            connectorsOpened.Pop();     // close this connector and put it to finished
-            connectorsFinished.Push(actual);
+            _connectorsOpened.Pop();     // close this connector and put it to finished
+            _connectorsFinished.Push(actual);
         }
     }
 
-    public ConnectionsOfComponent[] untangle(Component2[] components)
+    public ConnectionsOfComponent[] untangle(GUICircuitComponent[] components)
     {
         ConnectionsOfComponent[] connectionsOfComponent = new ConnectionsOfComponent[components.Length];
 
@@ -70,7 +70,7 @@ public class GraphAlgorithm
             connectionsOfComponent[a] = new ConnectionsOfComponent();
             connectionsOfComponent[a].dllconnections = new Dllconnections[components[a].Connectors.Length];
             //Debug.Log("Meno prehladavaneho komponenta v untangle: " + components[a].name + " pocet konektorov: " + components[a].connectors.Length);
-            searched = components[a];
+            _searched = components[a];
 
             for (int b = 0; b < components[a].Connectors.Length; b++)   // for every conector of a Component
             {
@@ -80,12 +80,12 @@ public class GraphAlgorithm
 
 
                 explore(components[a].Connectors[b]);    // find all connected dllconectors
-                connectionsOfComponent[a].dllconnections[b].connectedDllconnectors = new Circuit.Lead[dllconnectorsStack.Count];
-                dllconnectorsStack.CopyTo(connectionsOfComponent[a].dllconnections[b].connectedDllconnectors, 0);      // copy them to the list
+                connectionsOfComponent[a].dllconnections[b].connectedDllconnectors = new Circuit.Lead[_dllconnectorsStack.Count];
+                _dllconnectorsStack.CopyTo(connectionsOfComponent[a].dllconnections[b].connectedDllconnectors, 0);      // copy them to the list
 
-                dllconnectorsStack.Clear();     // clear all stacks
-                connectorsFinished.Clear();
-                connectorsOpened.Clear();
+                _dllconnectorsStack.Clear();     // clear all stacks
+                _connectorsFinished.Clear();
+                _connectorsOpened.Clear();
             }
         }
 

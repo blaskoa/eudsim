@@ -2,7 +2,7 @@
 using System.Collections;
 using ClassLibrarySharpCircuit;
 
-public class GUILamp : Component2
+public class GUILamp : GUICircuitComponent
 {
     public Circuit.Lead[] DllConnectors;
     public Lamp MyComponent;

@@ -2,7 +2,7 @@
 using System.Collections;
 using ClassLibrarySharpCircuit;
 
-public class GUIBattery : Component2
+public class GUIBattery : GUICircuitComponent
 {
     public Circuit.Lead[] DllConnectors;
     public VoltageInput MyComponent;

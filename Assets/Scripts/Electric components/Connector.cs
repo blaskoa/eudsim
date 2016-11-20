@@ -6,7 +6,7 @@ public class Connector : MonoBehaviour
 {
     public string Type;
     public Circuit.Lead DllConnector = null;
-    public Component2 Component = null;
+    public GUICircuitComponent Component = null;
     public Connector[] ConnectedConnectors;
     public int CountOfConnected = 0;
 
@@ -20,7 +20,7 @@ public class Connector : MonoBehaviour
         this.DllConnector = dllConnector;
     }
 
-    public void AssignComponent(Component2 component)
+    public void AssignComponent(GUICircuitComponent component)
     {
         this.Component = component;
     }

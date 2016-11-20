@@ -2,7 +2,7 @@
 using System.Collections;
 using ClassLibrarySharpCircuit;
 
-public class GUINode : Component2
+public class GUINode : GUICircuitComponent
 {
 
     // Use this for initialization

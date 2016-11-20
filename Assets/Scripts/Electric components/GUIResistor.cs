@@ -2,7 +2,7 @@
 using System.Collections;
 using ClassLibrarySharpCircuit;
 
-public class GUIResistor : Component2
+public class GUIResistor : GUICircuitComponent
 {
     public Circuit.Lead[] DllConnectors;
     public Resistor MyComponent;

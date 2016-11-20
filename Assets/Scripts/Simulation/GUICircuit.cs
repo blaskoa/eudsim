@@ -6,7 +6,7 @@ public class GUICircuit : MonoBehaviour
 {
     public static Circuit sim = new Circuit();
     private Stack sceneItems = new Stack();
-    private int countOfMadeConnections = 0;
+    private int countOfMadeConnections;
 
     public void RunSimulation()
     {
@@ -21,21 +21,21 @@ public class GUICircuit : MonoBehaviour
         {
             if (obj.tag.Equals("ActiveItem"))
             {
-                sceneItems.Push(obj.GetComponent<Component2>());
+                sceneItems.Push(obj.GetComponent<GUICircuitComponent>());
             }
         }
     }
 
     void SimulationFlow() // tato funkcia zavola objekty so scenky, prepoji ich umelo, zavola algoritmus na zrusenie uzlov, prepoji zoznamy dllconectorov a spusti simulaciu
     {
-        Component2[] listOfComponents = new Component2[sceneItems.Count];
+        GUICircuitComponent[] listOfComponents = new GUICircuitComponent[sceneItems.Count];
 
         GraphAlgorithm algorithm = new GraphAlgorithm();
         sceneItems.CopyTo(listOfComponents, 0);
         ConnectionsOfComponent[] dllconnectionsOfComponents = algorithm.untangle(listOfComponents);
 
         //Debug.Log(dllconnectionsOfComponents.Length);
-        
+        countOfMadeConnections = 0;
 
            for (int i = 0; i < dllconnectionsOfComponents.Length; i++)
            {
@@ -69,7 +69,8 @@ public class GUICircuit : MonoBehaviour
                     Debug.Log(i+ "Resistor " + listOfComponents[i].GetComponent<GUIResistor>().GetVoltageDelta());
             }
         }
-        
+
+        sceneItems.Clear();
     }
 
     // Update is called once per frame

@@ -2,7 +2,7 @@
 using System.Collections;
 using ClassLibrarySharpCircuit;
 
-public class GUIAnalogSwitch : Component2
+public class GUIAnalogSwitch : GUICircuitComponent
 {
     public Circuit.Lead[] DllConnectors;
     public AnalogSwitch MyComponent;
