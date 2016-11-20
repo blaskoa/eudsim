@@ -62,6 +62,7 @@ public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     public void OnEndDrag(PointerEventData eventData)
     {
         GameObject end = null;
+        
         //if gameobject is in desktop, not in toolbox
         if (this.gameObject.transform.parent.tag == "ActiveItem")
         {
@@ -87,6 +88,7 @@ public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                 && !Connected.Contains(end)
                 && end.transform.parent.gameObject != this.gameObject.transform.parent.gameObject)
             {
+
                 //connecting these two object with line
                 _line.End = end;
                 Connected.Add(_line.End);
