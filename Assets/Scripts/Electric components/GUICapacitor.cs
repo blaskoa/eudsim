@@ -38,8 +38,8 @@ public class GUICapacitor : GUICircuitComponent
             DllConnectors[0] = MyComponent.leadIn;
             DllConnectors[1] = MyComponent.leadOut;
 
-            Connectors[0] = transform.FindChild("PlusConnector").GetComponent<Connector>();
-            Connectors[1] = transform.FindChild("MinusConnector").GetComponent<Connector>();
+            Connectors[0] = transform.FindChild("Connector").GetComponent<Connector>();
+            Connectors[1] = transform.FindChild("Connector").GetComponent<Connector>();
 
             Connectors[0].SetConnectedConnectors();
             Connectors[1].SetConnectedConnectors();

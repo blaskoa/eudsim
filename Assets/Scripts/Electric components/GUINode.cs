@@ -10,7 +10,7 @@ public class GUINode : GUICircuitComponent
     {
         if (this.CompareTag("ActiveNode"))
         {
-            Debug.Log("insertol som activeItem");
+            Debug.Log("insertol som node");
             Connectors[0] = this.transform.FindChild("NodeConnector").GetComponent<Connector>();
             Connectors[0].SetConnectedConnectors();
         }
