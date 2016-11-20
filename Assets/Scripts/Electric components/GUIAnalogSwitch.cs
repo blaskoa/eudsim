@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using ClassLibrarySharpCircuit;
-using leader = ClassLibrarySharpCircuit.Circuit.Lead;
-using System;
 using System.Collections.Generic;
 
-public class GUIAnalogSwitch : Component2
+
+public class GUIAnalogSwitch : GUICircuitComponent
 {
-    public leader[] dllconnectors;
+    public Circuit.Lead[] DllConnectors;
     public AnalogSwitch MyComponent;
 
 
@@ -42,18 +41,22 @@ public class GUIAnalogSwitch : Component2
     // Use this for initialization
     void Start()
     {
-        dllconnectors = new leader[2];
-        MyComponent = GUICircuit.sim.Create<AnalogSwitch>();
-        dllconnectors[0] = MyComponent.leadIn;
-        dllconnectors[1] = MyComponent.leadOut;
+        if (this.CompareTag("ActiveItem"))
+        {
+            Debug.Log("insertol som activeItem");
+            DllConnectors = new Circuit.Lead[2];
+            MyComponent = GUICircuit.sim.Create<AnalogSwitch>();
+            DllConnectors[0] = MyComponent.leadIn;
+            DllConnectors[1] = MyComponent.leadOut;
 
-        connectors = GetComponentsInChildren<Connector>();
+            Connectors = GetComponentsInChildren<Connector>();
 
-        connectors[0].setConnectedConnectors();
-        connectors[1].setConnectedConnectors();
-        connectors[0].assignComponent(this);
-        connectors[1].assignComponent(this);
-        connectors[0].setDllconnector(dllconnectors[0]);
-        connectors[1].setDllconnector(dllconnectors[1]);
+            Connectors[0].SetConnectedConnectors();
+            Connectors[1].SetConnectedConnectors();
+            Connectors[0].AssignComponent(this);
+            Connectors[1].AssignComponent(this);
+            Connectors[0].SetDllConnector(DllConnectors[0]);
+            Connectors[1].SetDllConnector(DllConnectors[1]);
+        }
     }
 }

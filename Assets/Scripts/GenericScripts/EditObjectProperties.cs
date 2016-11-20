@@ -54,7 +54,7 @@ public class EditObjectProperties : MonoBehaviour
         inputField.text = value;
 
         // Set method to be run when the editing is finished
-        Component2 script = SelectObject.SelectedObject.GetComponent<Component2>();
+        GUICircuitComponent script = SelectObject.SelectedObject.GetComponent<GUICircuitComponent>();
         inputField.onEndEdit.AddListener(delegate { script.setProperties(); });
         
         // Add newly created property to the UI

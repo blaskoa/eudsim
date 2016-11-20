@@ -42,7 +42,7 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
         EditObjectProperties.Clear();
 
         // Call the script from component that fills the Properties Window
-        Component2 script = SelectedObject.GetComponent<Component2>();
+        GUICircuitComponent script = SelectedObject.GetComponent<GUICircuitComponent>();
         script.getProperties();
     }
 }

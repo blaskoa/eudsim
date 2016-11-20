@@ -1,13 +1,11 @@
 ﻿using UnityEngine;
-using System.Collections;
 using ClassLibrarySharpCircuit;
-using leader = ClassLibrarySharpCircuit.Circuit.Lead;
 using System;
 using System.Collections.Generic;
 
-public class GUIResistor : Component2
+public class GUIResistor : GUICircuitComponent
 {
-    public leader[] DLLConnectors;
+    public Circuit.Lead[] DllConnectors;
     public Resistor MyComponent;
 
     public double Resistance
@@ -16,7 +14,7 @@ public class GUIResistor : Component2
         set { MyComponent.resistance = value; }   // GUI check - accept only positive integer
     }
 
-    public double getVoltageDelta()
+    public double GetVoltageDelta()
     {
         return MyComponent.getVoltageDelta();
     }
@@ -36,19 +34,22 @@ public class GUIResistor : Component2
     // Use this for initialization
     public void Start()
     {
-        DLLConnectors = new leader[2];
-        MyComponent = GUICircuit.sim.Create<Resistor>();
-        DLLConnectors[0] = MyComponent.leadIn;
-        DLLConnectors[1] = MyComponent.leadOut;
-
-        //connectors = GetComponentsInChildren<Connector>();
-        connectors[0] = gameObject.AddComponent<Connector>();
-        connectors[1] = gameObject.AddComponent<Connector>();
-        connectors[0].setConnectedConnectors();
-        connectors[1].setConnectedConnectors();
-        connectors[0].assignComponent(this);
-        connectors[1].assignComponent(this);
-        connectors[0].setDllconnector(DLLConnectors[0]);
-        connectors[1].setDllconnector(DLLConnectors[1]);
+        if (CompareTag("ActiveItem"))
+        {
+            Debug.Log("activeItem inserted");
+            DllConnectors = new Circuit.Lead[2];
+            MyComponent = GUICircuit.sim.Create<Resistor>();
+            DllConnectors[0] = MyComponent.leadIn;
+            DllConnectors[1] = MyComponent.leadOut;
+            
+            Connectors[0] = transform.FindChild("Connector1").GetComponent<Connector>();
+            Connectors[1] = transform.FindChild("Connector2").GetComponent<Connector>();
+            Connectors[0].SetConnectedConnectors();
+            Connectors[1].SetConnectedConnectors();
+            Connectors[0].AssignComponent(this);
+            Connectors[1].AssignComponent(this);
+            Connectors[0].SetDllConnector(DllConnectors[0]);
+            Connectors[1].SetDllConnector(DllConnectors[1]);
+        }
     }
 }

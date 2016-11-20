@@ -1,13 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using ClassLibrarySharpCircuit;
-using leader = ClassLibrarySharpCircuit.Circuit.Lead;
-using System;
 using System.Collections.Generic;
 
-public class GUICapacitor : Component2
+public class GUICapacitor : GUICircuitComponent
 {
-    public leader[] DllConnectors;
+    public Circuit.Lead[] DllConnectors;
     public CapacitorElm MyComponent;
 
     public double Capacitance
@@ -31,17 +29,24 @@ public class GUICapacitor : Component2
     // Use this for initialization
     void Start()
     {
-        DllConnectors = new leader[2];
-        MyComponent = GUICircuit.sim.Create<CapacitorElm>();
-        DllConnectors[0] = MyComponent.leadIn;
-        DllConnectors[1] = MyComponent.leadOut;
-        connectors = GetComponentsInChildren<Connector>();
+        DllConnectors = new Circuit.Lead[2];
+        if (CompareTag("ActiveItem"))
+        {
+            Debug.Log("activeItem inserted");
+            MyComponent = GUICircuit.sim.Create<CapacitorElm>();
 
-        connectors[0].setConnectedConnectors();
-        connectors[1].setConnectedConnectors();
-        connectors[0].assignComponent(this);
-        connectors[1].assignComponent(this);
-        connectors[0].setDllconnector(DllConnectors[0]);
-        connectors[1].setDllconnector(DllConnectors[1]);
+            DllConnectors[0] = MyComponent.leadIn;
+            DllConnectors[1] = MyComponent.leadOut;
+
+            Connectors[0] = transform.FindChild("PlusConnector").GetComponent<Connector>();
+            Connectors[1] = transform.FindChild("MinusConnector").GetComponent<Connector>();
+
+            Connectors[0].SetConnectedConnectors();
+            Connectors[1].SetConnectedConnectors();
+            Connectors[0].AssignComponent(this);
+            Connectors[1].AssignComponent(this);
+            Connectors[0].SetDllConnector(DllConnectors[0]);
+            Connectors[1].SetDllConnector(DllConnectors[1]);
+        }
     }
 }

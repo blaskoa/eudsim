@@ -40,6 +40,22 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         {
             _draggingItem = this.gameObject;
         }
+
+        if (this.gameObject.tag == "Node")
+        {
+            _draggingItem = Instantiate(this.gameObject);
+            _draggingItem.tag = "ActiveNode";
+            _draggingItem.layer = 8; //Name of 8th layer is ActiveItem
+            _draggingItem.transform.localScale = new Vector3(1, 1, 0);
+            _draggingItem.GetComponent<SpriteRenderer>().enabled = true;
+            _draggingItem.GetComponent<SpriteRenderer>().sortingLayerName = "ActiveNode";
+            for (int i = 0; i < _draggingItem.transform.childCount; i++)
+            {
+                _draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingLayerName = "ActiveNode";
+                _draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().enabled = true;
+            }
+        }
+
     }
 
     public void OnDrag(PointerEventData eventData)

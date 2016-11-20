@@ -1,24 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
-using leader = ClassLibrarySharpCircuit.Circuit.Lead;
+using ClassLibrarySharpCircuit;
 
 public class Connector : MonoBehaviour
 {
-    public leader DLLConnector = null;
-    public Component2 Component = null;
+    public string Type;
+    public Circuit.Lead DllConnector = null;
+    public GUICircuitComponent Component = null;
     public Connector[] ConnectedConnectors;
+    public int CountOfConnected = 0;
 
-    public void setConnectedConnectors()
+    public void SetConnectedConnectors()
     {
         ConnectedConnectors = new Connector[20];    // zatial max 20 pripojeni 
     }
 
-    public void setDllconnector(leader dllconnector)
+    public void SetDllConnector(Circuit.Lead dllConnector)
     {
-        this.DLLConnector = dllconnector;
+        this.DllConnector = dllConnector;
     }
 
-    public void assignComponent(Component2 component)
+    public void AssignComponent(GUICircuitComponent component)
     {
         this.Component = component;
     }

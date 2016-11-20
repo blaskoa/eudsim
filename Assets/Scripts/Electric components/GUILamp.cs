@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using ClassLibrarySharpCircuit;
-using leader = ClassLibrarySharpCircuit.Circuit.Lead;
-using System;
 
-public class GUILamp : Component2
+
+public class GUILamp : GUICircuitComponent
 {
-    public leader[] DLLConnectors = new leader[2];
-    public Lamp MyComponent = GUICircuit.sim.Create<Lamp>();
+    public Circuit.Lead[] DllConnectors;
+    public Lamp MyComponent;
 
     public override void getProperties()
     {
@@ -22,18 +21,22 @@ public class GUILamp : Component2
     // Use this for initialization
     public void Start()     // public for testing purposes
     {
-        DLLConnectors = new leader[2];
-        MyComponent = GUICircuit.sim.Create<Lamp>();
-        DLLConnectors[0] = MyComponent.leadIn;
-        DLLConnectors[1] = MyComponent.leadOut;
-
-        connectors = GetComponentsInChildren<Connector>();
-
-        connectors[0].setConnectedConnectors();
-        connectors[1].setConnectedConnectors();
-        connectors[0].assignComponent(this);
-        connectors[1].assignComponent(this);
-        connectors[0].setDllconnector(DLLConnectors[0]);
-        connectors[1].setDllconnector(DLLConnectors[1]);
+        if (this.CompareTag("ActiveItem"))
+        {
+            Debug.Log("insertol som activeItem");
+            DllConnectors = new Circuit.Lead[2];
+            MyComponent = GUICircuit.sim.Create<Lamp>();
+            DllConnectors[0] = MyComponent.leadIn;
+            DllConnectors[1] = MyComponent.leadOut;
+     
+            Connectors[0] = this.transform.FindChild("PlusConnector").GetComponent<Connector>();
+            Connectors[1] = this.transform.FindChild("MinusConnector").GetComponent<Connector>();
+            Connectors[0].SetConnectedConnectors();
+            Connectors[1].SetConnectedConnectors();
+            Connectors[0].AssignComponent(this);
+            Connectors[1].AssignComponent(this);
+            Connectors[0].SetDllConnector(DllConnectors[0]);
+            Connectors[1].SetDllConnector(DllConnectors[1]);
+        }
     }
 }
