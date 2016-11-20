@@ -68,13 +68,13 @@ public class GUICircuit : MonoBehaviour
         for (int x = 1; x <= 1; x++)
         {
             sim.doTick();
-            Debug.Log(sceneItems.Count + " komponentov");
+            Debug.Log("count of components:" + sceneItems.Count);
             for (int i = 0; i < sceneItems.Count; i++)
             {
                 if (listOfComponents[i].GetType() == typeof(GUIBattery))
-                    Debug.Log("Ja SOM BATERKA " + listOfComponents[i].GetComponent<GUIBattery>().GetVoltageDelta());
+                    Debug.Log(i+ "Battery " + listOfComponents[i].GetComponent<GUIBattery>().GetVoltageDelta());
                 if (listOfComponents[i].GetType() == typeof(GUIResistor))
-                    Debug.Log("Ja SOM RESISTOR " + listOfComponents[i].GetComponent<GUIResistor>().GetVoltageDelta());
+                    Debug.Log(i+ "Resistor " + listOfComponents[i].GetComponent<GUIResistor>().GetVoltageDelta());
             }
         }
         

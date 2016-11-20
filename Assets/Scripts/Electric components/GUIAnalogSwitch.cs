@@ -19,14 +19,14 @@ public class GUIAnalogSwitch : Component2
             dllconnectors[0] = MyComponent.leadIn;
             dllconnectors[1] = MyComponent.leadOut;
 
-            connectors = GetComponentsInChildren<Connector>();
+            Connectors = GetComponentsInChildren<Connector>();
 
-            connectors[0].setConnectedConnectors();
-            connectors[1].setConnectedConnectors();
-            connectors[0].assignComponent(this);
-            connectors[1].assignComponent(this);
-            connectors[0].setDllconnector(dllconnectors[0]);
-            connectors[1].setDllconnector(dllconnectors[1]);
+            Connectors[0].SetConnectedConnectors();
+            Connectors[1].SetConnectedConnectors();
+            Connectors[0].AssignComponent(this);
+            Connectors[1].AssignComponent(this);
+            Connectors[0].SetDllconnector(dllconnectors[0]);
+            Connectors[1].SetDllconnector(dllconnectors[1]);
         }
     }
 }

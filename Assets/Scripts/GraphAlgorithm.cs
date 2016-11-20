@@ -68,18 +68,18 @@ public class GraphAlgorithm
         for (int a = 0; a < components.Length; a++)
         {
             connectionsOfComponent[a] = new ConnectionsOfComponent();
-            connectionsOfComponent[a].dllconnections = new Dllconnections[components[a].connectors.Length];
+            connectionsOfComponent[a].dllconnections = new Dllconnections[components[a].Connectors.Length];
             //Debug.Log("Meno prehladavaneho komponenta v untangle: " + components[a].name + " pocet konektorov: " + components[a].connectors.Length);
             searched = components[a];
 
-            for (int b = 0; b < components[a].connectors.Length; b++)   // for every conector of a Component
+            for (int b = 0; b < components[a].Connectors.Length; b++)   // for every conector of a Component
             {
                 connectionsOfComponent[a].dllconnections[b] = new Dllconnections();
-                connectionsOfComponent[a].dllconnections[b].dllconector = components[a].connectors[b].DLLConnector;     // add his dllconector
+                connectionsOfComponent[a].dllconnections[b].dllconector = components[a].Connectors[b].DLLConnector;     // add his dllconector
                 //Debug.Log("prehladavany konektor: " + b + " :" + components[a].connectors[b]);
 
 
-                explore(components[a].connectors[b]);    // find all connected dllconectors
+                explore(components[a].Connectors[b]);    // find all connected dllconectors
                 connectionsOfComponent[a].dllconnections[b].connectedDllconnectors = new leader[dllconnectorsStack.Count];
                 dllconnectorsStack.CopyTo(connectionsOfComponent[a].dllconnections[b].connectedDllconnectors, 0);      // copy them to the list
 

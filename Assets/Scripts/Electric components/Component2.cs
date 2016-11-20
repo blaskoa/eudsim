@@ -6,6 +6,6 @@ using UnityEngine;
 
 public abstract class Component2 : MonoBehaviour
 {
-    public Connector[] connectors = new Connector[2];
+    public Connector[] Connectors = new Connector[2];
 }
 

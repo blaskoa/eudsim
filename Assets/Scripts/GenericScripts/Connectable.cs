@@ -51,10 +51,10 @@ public class Connectable : MonoBehaviour
                 Connector con2 = this.gameObject.GetComponent<Connector>();
                 //GUICircuit.sim.Connect(con1.DLLConnector, con2.DLLConnector);
                 //Debug.Log("Vytvoril som connection");
-                con1.ConnectedConnectors[con1.countOfConnected] = con2;
-                con1.countOfConnected += 1;
-                con2.ConnectedConnectors[con2.countOfConnected] = con1;
-                con2.countOfConnected += 1;
+                con1.ConnectedConnectors[con1.CountOfConnected] = con2;
+                con1.CountOfConnected += 1;
+                con2.ConnectedConnectors[con2.CountOfConnected] = con1;
+                con2.CountOfConnected += 1;
                 Destroy(_line);
                 _counter.ResetCount();
             }

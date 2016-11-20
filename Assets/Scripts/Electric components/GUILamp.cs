@@ -19,14 +19,14 @@ public class GUILamp : Component2
             DLLConnectors[0] = MyComponent.leadIn;
             DLLConnectors[1] = MyComponent.leadOut;
      
-            connectors[0] = this.transform.FindChild("PlusConnector").GetComponent<Connector>();
-            connectors[1] = this.transform.FindChild("MinusConnector").GetComponent<Connector>();
-            connectors[0].setConnectedConnectors();
-            connectors[1].setConnectedConnectors();
-            connectors[0].assignComponent(this);
-            connectors[1].assignComponent(this);
-            connectors[0].setDllconnector(DLLConnectors[0]);
-            connectors[1].setDllconnector(DLLConnectors[1]);
+            Connectors[0] = this.transform.FindChild("PlusConnector").GetComponent<Connector>();
+            Connectors[1] = this.transform.FindChild("MinusConnector").GetComponent<Connector>();
+            Connectors[0].SetConnectedConnectors();
+            Connectors[1].SetConnectedConnectors();
+            Connectors[0].AssignComponent(this);
+            Connectors[1].AssignComponent(this);
+            Connectors[0].SetDllconnector(DLLConnectors[0]);
+            Connectors[1].SetDllconnector(DLLConnectors[1]);
         }
     }
 }

@@ -16,22 +16,22 @@ public class GUIResistor : Component2
     // Use this for initialization
     public void Start()
     {
-        if (this.CompareTag("ActiveItem"))
+        if (CompareTag("ActiveItem"))
         {
-            Debug.Log("insertol som activeItem");
+            Debug.Log("activeItem inserted");
             DLLConnectors = new leader[2];
             MyComponent = GUICircuit.sim.Create<Resistor>();
             DLLConnectors[0] = MyComponent.leadIn;
             DLLConnectors[1] = MyComponent.leadOut;
             
-            connectors[0] = this.transform.FindChild("Connector1").GetComponent<Connector>();
-            connectors[1] = this.transform.FindChild("Connector2").GetComponent<Connector>();
-            connectors[0].setConnectedConnectors();
-            connectors[1].setConnectedConnectors();
-            connectors[0].assignComponent(this);
-            connectors[1].assignComponent(this);
-            connectors[0].setDllconnector(DLLConnectors[0]);
-            connectors[1].setDllconnector(DLLConnectors[1]);
+            Connectors[0] = transform.FindChild("Connector1").GetComponent<Connector>();
+            Connectors[1] = transform.FindChild("Connector2").GetComponent<Connector>();
+            Connectors[0].SetConnectedConnectors();
+            Connectors[1].SetConnectedConnectors();
+            Connectors[0].AssignComponent(this);
+            Connectors[1].AssignComponent(this);
+            Connectors[0].SetDllconnector(DLLConnectors[0]);
+            Connectors[1].SetDllconnector(DLLConnectors[1]);
         }
     }
 }

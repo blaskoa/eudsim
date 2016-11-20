@@ -11,22 +11,23 @@ public class GUIInductor : Component2
     // Use this for initialization
     void Start()
     {
-        if (this.CompareTag("ActiveItem"))
+        if (CompareTag("ActiveItem"))
         {
-            Debug.Log("insertol som activeItem");
+            Debug.Log("activeItem inserted");
             DLLCconnectors = new leader[2];
             MyComponent = GUICircuit.sim.Create<InductorElm>();
             DLLCconnectors[0] = MyComponent.leadIn;
             DLLCconnectors[1] = MyComponent.leadOut;
 
-            connectors = GetComponentsInChildren<Connector>();
+            Connectors[0] = transform.FindChild("Connector1").GetComponent<Connector>();
+            Connectors[1] = transform.FindChild("Connector2").GetComponent<Connector>();
 
-            connectors[0].setConnectedConnectors();
-            connectors[1].setConnectedConnectors();
-            connectors[0].assignComponent(this);
-            connectors[1].assignComponent(this);
-            connectors[0].setDllconnector(DLLCconnectors[0]);
-            connectors[1].setDllconnector(DLLCconnectors[1]);
+            Connectors[0].SetConnectedConnectors();
+            Connectors[1].SetConnectedConnectors();
+            Connectors[0].AssignComponent(this);
+            Connectors[1].AssignComponent(this);
+            Connectors[0].SetDllconnector(DLLCconnectors[0]);
+            Connectors[1].SetDllconnector(DLLCconnectors[1]);
         }
     }
 }

@@ -12,8 +12,8 @@ public class GUINode : Component2
         if (this.CompareTag("ActiveNode"))
         {
             Debug.Log("insertol som activeItem");
-            connectors[0] = this.transform.FindChild("NodeConnector").GetComponent<Connector>();
-            connectors[0].setConnectedConnectors();
+            Connectors[0] = this.transform.FindChild("NodeConnector").GetComponent<Connector>();
+            Connectors[0].SetConnectedConnectors();
         }
     }
 }

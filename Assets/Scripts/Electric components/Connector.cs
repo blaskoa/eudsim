@@ -4,23 +4,23 @@ using leader = ClassLibrarySharpCircuit.Circuit.Lead;
 
 public class Connector : MonoBehaviour
 {
-    public string type;
+    public string Type;
     public leader DLLConnector = null;
     public Component2 Component = null;
     public Connector[] ConnectedConnectors;
-    public int countOfConnected = 0;
+    public int CountOfConnected = 0;
 
-    public void setConnectedConnectors()
+    public void SetConnectedConnectors()
     {
         ConnectedConnectors = new Connector[20];    // zatial max 20 pripojeni 
     }
 
-    public void setDllconnector(leader dllconnector)
+    public void SetDllconnector(leader dllconnector)
     {
         this.DLLConnector = dllconnector;
     }
 
-    public void assignComponent(Component2 component)
+    public void AssignComponent(Component2 component)
     {
         this.Component = component;
     }
