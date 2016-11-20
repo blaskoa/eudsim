@@ -26,7 +26,7 @@ public class GraphAlgorithm
 
     private Component _searched;
 
-    void explore(Connector actual)
+    public void Explore(Connector actual)
     {
         if (actual != null)
         {
@@ -51,7 +51,7 @@ public class GraphAlgorithm
                 {
                     if ((!_connectorsOpened.Contains(actual.ConnectedConnectors[i])) && (!_connectorsFinished.Contains(actual.ConnectedConnectors[i])))   // if this isnt opened nor finished connector
                     {
-                        explore(actual.ConnectedConnectors[i]);       // then explore it
+                        Explore(actual.ConnectedConnectors[i]);       // then Explore it
                     }
                 }
             }
@@ -61,7 +61,7 @@ public class GraphAlgorithm
         }
     }
 
-    public ConnectionsOfComponent[] untangle(GUICircuitComponent[] components)
+    public ConnectionsOfComponent[] Untangle(GUICircuitComponent[] components)
     {
         ConnectionsOfComponent[] connectionsOfComponent = new ConnectionsOfComponent[components.Length];
 
@@ -69,7 +69,7 @@ public class GraphAlgorithm
         {
             connectionsOfComponent[a] = new ConnectionsOfComponent();
             connectionsOfComponent[a].dllconnections = new Dllconnections[components[a].Connectors.Length];
-            //Debug.Log("Meno prehladavaneho komponenta v untangle: " + components[a].name + " pocet konektorov: " + components[a].connectors.Length);
+            //Debug.Log("Meno prehladavaneho komponenta v Untangle: " + components[a].name + " pocet konektorov: " + components[a].connectors.Length);
             _searched = components[a];
 
             for (int b = 0; b < components[a].Connectors.Length; b++)   // for every conector of a Component
@@ -79,7 +79,7 @@ public class GraphAlgorithm
                 //Debug.Log("prehladavany konektor: " + b + " :" + components[a].connectors[b]);
 
 
-                explore(components[a].Connectors[b]);    // find all connected dllconectors
+                Explore(components[a].Connectors[b]);    // find all connected dllconectors
                 connectionsOfComponent[a].dllconnections[b].connectedDllconnectors = new Circuit.Lead[_dllconnectorsStack.Count];
                 _dllconnectorsStack.CopyTo(connectionsOfComponent[a].dllconnections[b].connectedDllconnectors, 0);      // copy them to the list
 
