@@ -1,4 +1,4 @@
-﻿﻿using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.EventSystems;
 using System;
@@ -18,12 +18,6 @@ public class Deselect : MonoBehaviour, IPointerClickHandler
             SelectObject.SelectedObject.transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = false;
             SelectObject.SelectedObject = null;
             EditObjectProperties.Clear();
-        }
-
-        if (Line.SelectedLine != null)
-        {
-            Line.SelectedLine.GetComponent<LineRenderer>().SetColors(Color.black, Color.black);
-            Line.SelectedLine = null;
         }
     }
 }
