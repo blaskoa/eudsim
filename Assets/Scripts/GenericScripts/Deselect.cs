@@ -11,21 +11,21 @@ public class Deselect : MonoBehaviour, IPointerClickHandler
         DoDeselect();
     }
 
-    public void OnMouseDown( )
-    {
-        if (Line.SelectedLine != null)
-        {
-            Line.SelectedLine.GetComponent<LineRenderer>().SetColors(Color.black, Color.black);
-            Line.SelectedLine = null;
-        }
-    }
-
     public void DoDeselect()
     {
+        //deselect component
         if (SelectObject.SelectedObject != null)
         {
             SelectObject.SelectedObject.transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = false;
             SelectObject.SelectedObject = null;
+            EditObjectProperties.Clear();
+        }
+
+        //deselect line
+        if (Line.SelectedLine != null)
+        {
+            Line.SelectedLine.GetComponent<LineRenderer>().SetColors(Color.black, Color.black);
+            Line.SelectedLine = null;
             EditObjectProperties.Clear();
         }
     }

@@ -33,6 +33,14 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
             SelectedObject = this.gameObject;
         }
 
+        //deselect line
+        if (Line.SelectedLine != null)
+        {
+            Line.SelectedLine.GetComponent<LineRenderer>().SetColors(Color.black, Color.black);
+            Line.SelectedLine = null;
+            EditObjectProperties.Clear();
+        }
+
         // Select new object.
         SelectedObject = this.gameObject;
         SelectionBox.GetComponent<SpriteRenderer>().enabled = true;

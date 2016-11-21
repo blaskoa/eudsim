@@ -1,7 +1,9 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class Line : MonoBehaviour
+public class Line : MonoBehaviour,IPointerClickHandler
 {
     
     public GameObject Begin;
@@ -25,14 +27,16 @@ public class Line : MonoBehaviour
     {  
         _startPos.x = Begin.transform.position.x;
         _startPos.y = Begin.transform.position.y;
-        _startPos.z = -1;
+        _startPos.z = Begin.transform.position.z;
+        // _startPos.z = -1;
 
         //when i correctly connect two connectors
         if (End != null)
         {
             EndPos.x = End.transform.position.x;
             EndPos.y = End.transform.position.y;
-            EndPos.z = -1;
+            EndPos.z = End.transform.position.z;
+            //EndPos.z = -1;
 
             //when space did not pressed - no break line
             if (TypeOfLine == "NoBreak")
@@ -114,34 +118,7 @@ public class Line : MonoBehaviour
                 Destroy(_line.transform.GetChild(i).gameObject);
             }
             _addedCollider = false;
-        }
-
-        //chcecking select line
-        CheckSelect();     
-
-    }
-
-    //select line with mouse click and change color of selected line
-    private void CheckSelect()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            RaycastHit2D hitInfo = Physics2D.Raycast(new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y), Vector2.zero, 0);
-
-            //when i hit one of the line colliders
-            if (hitInfo.collider.gameObject.GetComponent<BoxCollider2D>() == _col1 || hitInfo.collider.gameObject.GetComponent<BoxCollider2D>() == _col2)
-            {
-                //first deselect previous
-                if (SelectedLine != null)
-                {
-                    SelectedLine.GetComponent<LineRenderer>().SetColors(Color.black,Color.black);
-                    SelectedLine = this.gameObject;
-                }
-
-                SelectedLine = this.gameObject;
-                SelectedLine.GetComponent<LineRenderer>().SetColors(Color.red, Color.red);
-            }
-        }
+        }   
     }
 
     private void AddCollidersToLine()
@@ -157,7 +134,8 @@ public class Line : MonoBehaviour
 
             // size of collider is set where X is length of line, Y is width of line
             _col1.size = new Vector2(lineLegth, 0.3f);
-            Vector2 midPoint = (_startPos + EndPos)/2;
+            Vector3 midPoint = (_startPos + EndPos)/2;
+            //midPoint.z = -18;
 
             // setting position of collider object
             _col1.transform.position = midPoint;
@@ -172,6 +150,9 @@ public class Line : MonoBehaviour
 
             angle = Mathf.Rad2Deg*Mathf.Atan(angle);
             _col1.transform.Rotate(0, 0, angle);
+
+            //set to ActiveItem
+            _col1.gameObject.layer = 8;
         }
 
         else
@@ -206,6 +187,31 @@ public class Line : MonoBehaviour
             // setting position of colliders object
             _col1.transform.position = midPoint1;
             _col2.transform.position = midPoint2;
+
+            //set to ActiveItem
+            _col1.gameObject.layer = 8;
+            _col2.gameObject.layer = 8;
         }
+    }
+
+    //select line with mouse click and change color of selected line
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        //deselect component
+        if (SelectObject.SelectedObject != null)
+        {
+            SelectObject.SelectedObject.transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = false;
+            SelectObject.SelectedObject = null;
+            EditObjectProperties.Clear();
+        }
+
+        if (SelectedLine != null)
+        {
+            SelectedLine.GetComponent<LineRenderer>().SetColors(Color.black, Color.black);
+            SelectedLine = this.gameObject;
+        }
+
+        SelectedLine = this.gameObject;
+        SelectedLine.GetComponent<LineRenderer>().SetColors(Color.red, Color.red);
     }
 }
