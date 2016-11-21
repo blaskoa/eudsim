@@ -39,17 +39,7 @@ public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             _line = Obj.AddComponent<Line>();
             _line.Begin = this.gameObject;
             _line.EndPos = _endPos;
-            Instantiate(Obj);
-            Connector con1 = obj2.GetComponent<Connector>();
-            Connector con2 = this.gameObject.GetComponent<Connector>();
-            //GUICircuit.sim.Connect(con1.DllConnector, con2.DllConnector);
-            //Debug.Log("Vytvoril som connection");
-            con1.ConnectedConnectors[con1.CountOfConnected] = con2;
-            con1.CountOfConnected += 1;
-            con2.ConnectedConnectors[con2.CountOfConnected] = con1;
-            con2.CountOfConnected += 1;
-            Destroy(_line);
-            _counter.ResetCount();
+            Instantiate(Obj);          
         }
     }
 
@@ -104,7 +94,8 @@ public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                 Connected.Add(_line.End);
                 _line.End.SendMessage("AddConnected", this.gameObject);
                 Instantiate(Obj);
-                Connector con1 = obj2.GetComponent<Connector>();
+
+                Connector con1 = _line.End.GetComponent<Connector>();
                 Connector con2 = this.gameObject.GetComponent<Connector>();
                 //GUICircuit.sim.Connect(con1.DllConnector, con2.DllConnector);
                 //Debug.Log("Vytvoril som connection");
@@ -112,8 +103,6 @@ public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                 con1.CountOfConnected += 1;
                 con2.ConnectedConnectors[con2.CountOfConnected] = con1;
                 con2.CountOfConnected += 1;
-                Destroy(_line);
-                _counter.ResetCount();
             }
 
             //destroy all lines which dont connect two connectors except parental Line

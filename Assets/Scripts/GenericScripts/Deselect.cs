@@ -11,6 +11,15 @@ public class Deselect : MonoBehaviour, IPointerClickHandler
         DoDeselect();
     }
 
+    public void OnMouseDown( )
+    {
+        if (Line.SelectedLine != null)
+        {
+            Line.SelectedLine.GetComponent<LineRenderer>().SetColors(Color.black, Color.black);
+            Line.SelectedLine = null;
+        }
+    }
+
     public void DoDeselect()
     {
         if (SelectObject.SelectedObject != null)
