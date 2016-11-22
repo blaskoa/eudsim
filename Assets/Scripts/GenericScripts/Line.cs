@@ -135,7 +135,6 @@ public class Line : MonoBehaviour,IPointerClickHandler
             // size of collider is set where X is length of line, Y is width of line
             _col1.size = new Vector2(lineLegth, 0.3f);
             Vector3 midPoint = (_startPos + EndPos)/2;
-            //midPoint.z = -18;
 
             // setting position of collider object
             _col1.transform.position = midPoint;
