@@ -16,16 +16,17 @@ public class GUIBattery : GUICircuitComponent
         set { MyComponent.maxVoltage = value; }   // GUI check - accept only positive integer
     }
 
-    public override void getProperties()
+    public void SetMaxVoltage(double val)
     {
-        EditObjectProperties.Add("MaxVoltagePropertyLabel", MaxVoltage.ToString());
+        MaxVoltage = val;
     }
 
-    public override void setProperties()
+    public override void getProperties()
     {
-        List<string> values = EditObjectProperties.Get();
+        GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
+        EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
-        MaxVoltage = double.Parse(values[0]);
+        script.AddNumeric("MaxVoltagePropertyLabel", MaxVoltage.ToString(), MaxVoltage.GetType().ToString(), SetMaxVoltage);
     }
 
     // Use this for initialization

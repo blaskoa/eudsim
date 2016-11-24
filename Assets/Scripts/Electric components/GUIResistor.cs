@@ -14,6 +14,11 @@ public class GUIResistor : GUICircuitComponent
         set { MyComponent.resistance = value; }   // GUI check - accept only positive integer
     }
 
+    public void SetResistance(double val)
+    {
+        Resistance = val;
+    }
+
     public double GetVoltageDelta()
     {
         return MyComponent.getVoltageDelta();
@@ -21,14 +26,10 @@ public class GUIResistor : GUICircuitComponent
 
     public override void getProperties()
     {
-        EditObjectProperties.Add("ResistancePropertyLabel", Resistance.ToString());
-    }
+        GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
+        EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
-    public override void setProperties()
-    {
-        List<string> values = EditObjectProperties.Get();
-
-        Resistance = Double.Parse(values[0]);
+        script.AddNumeric("ResistancePropertyLabel", Resistance.ToString(), Resistance.GetType().ToString(), SetResistance);
     }
 
     // Use this for initialization

@@ -14,24 +14,29 @@ public class GUIInductor : GUICircuitComponent
         set { MyComponent.inductance = value; }   // GUI check - accept only positive integer
     }
 
+    public void SetInductance(double val)
+    {
+        Inductance = val;
+    }
+
     public bool IsTrapezoidal
     {
         get { return MyComponent.isTrapezoidal; }
         set { MyComponent.isTrapezoidal = value; }   // GUI check - accept only true/ false
     }
 
-    public override void getProperties()
+    public void SetTrapezoidal(bool val)
     {
-        EditObjectProperties.Add("InductancePropertyLabel", Inductance.ToString());
-        EditObjectProperties.Add("TrapezoidalPropertyLabel", IsTrapezoidal.ToString());
+        IsTrapezoidal = val;
     }
 
-    public override void setProperties()
+    public override void getProperties()
     {
-        List<string> values = EditObjectProperties.Get();
+        GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
+        EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
-        Inductance = double.Parse(values[0]);
-        IsTrapezoidal = bool.Parse(values[1]);
+        script.AddNumeric("InductancePropertyLabel", Inductance.ToString(), Inductance.GetType().ToString(), SetInductance);
+        script.AddBoolean("TrapezoidalPropertyLabel", IsTrapezoidal.ToString(), SetTrapezoidal);
     }
 
     // Use this for initialization

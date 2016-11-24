@@ -26,16 +26,17 @@ public class GUIAnalogSwitch : GUICircuitComponent
         }   
     }
 
-    public override void getProperties()
+    public void SetTurnedOff(bool val)
     {
-        EditObjectProperties.Add("TurnedOffPropertyLabel", TurnedOff.ToString());
+        TurnedOff = val;
     }
 
-    public override void setProperties()
+    public override void getProperties()
     {
-        List<string> values = EditObjectProperties.Get();
+        GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
+        EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
-        TurnedOff = bool.Parse(values[0]);
+        script.AddBoolean("TurnedOffPropertyLabel", TurnedOff.ToString(), SetTurnedOff);
     }
     
     // Use this for initialization
