@@ -24,7 +24,7 @@ public class GUICapacitor : GUICircuitComponent
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
-        script.AddNumeric("CapacitancePropertyLabel", Capacitance.ToString(), Capacitance.GetType().ToString(), SetCapacitance);
+        script.AddNumeric("CapacitancePropertyLabel", Capacitance.ToString(), Capacitance.GetType().ToString(), SetCapacitance, false);
     }
 
     // Use this for initialization

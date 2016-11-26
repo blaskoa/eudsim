@@ -26,7 +26,7 @@ public class GUIBattery : GUICircuitComponent
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
-        script.AddNumeric("MaxVoltagePropertyLabel", MaxVoltage.ToString(), MaxVoltage.GetType().ToString(), SetMaxVoltage);
+        script.AddNumeric("MaxVoltagePropertyLabel", MaxVoltage.ToString(), MaxVoltage.GetType().ToString(), SetMaxVoltage, false);
     }
 
     // Use this for initialization

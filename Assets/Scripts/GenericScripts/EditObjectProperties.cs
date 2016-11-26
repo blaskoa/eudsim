@@ -10,6 +10,7 @@ public class EditObjectProperties : MonoBehaviour
     // Attributes for Dynamic Properties Window generation.
     [SerializeField] private GameObject _decimalPrefab;
     [SerializeField] private Toggle _booleanPrefab;
+    [SerializeField] private GameObject _sliderPrefab;
 
     // Number of fields in the active component
     private int _fieldNum = 0;
@@ -35,10 +36,18 @@ public class EditObjectProperties : MonoBehaviour
     }
 
     // Add a numeric property field - validationType can be either "Integer" or "Double" and it affects the input validation used
-    public void AddNumeric(string resourceKey, string value, string validationType, Action<double> set )
+    public void AddNumeric(string resourceKey, string value, string validationType, Action<double> set, bool useSlider, float min = 0, float max = 100 )
     {
         // Instantiate new Property and set its anchor
-        GameObject newProperty = Instantiate(_decimalPrefab);
+        GameObject newProperty;
+        if (useSlider)
+        {
+            newProperty = Instantiate(_sliderPrefab);
+        }
+        else
+        {
+            newProperty = Instantiate(_decimalPrefab);
+        }
         float anchorPosition = FirstAnchor - _fieldNum * AnchorStep;
 
         newProperty.GetComponent<RectTransform>().anchorMin = new Vector2(_decimalPrefab.GetComponent<RectTransform>().anchorMin.x, anchorPosition);
@@ -49,21 +58,43 @@ public class EditObjectProperties : MonoBehaviour
         string labelValue = FindObjectOfType<Localization>().ResourceReader.GetResource(resourceKey);
         propertyLabel.text = labelValue;
         
-        // Set property InputField
-        GameObject inputFieldGo = newProperty.transform.FindChild("InputField").gameObject;
-        InputField inputField = inputFieldGo.GetComponent<InputField>();
-        inputField.text = value;
-        if (validationType.Contains("Integer"))
+        // Set property Slider
+        if (useSlider)
         {
-            inputField.characterValidation = InputField.CharacterValidation.Integer;
+            GameObject sliderGo = newProperty.transform.FindChild("Slider").gameObject;
+            Slider slider = sliderGo.GetComponent<Slider>();
+            InputField sliderValueInputField = newProperty.transform.FindChild("SliderValue").gameObject.GetComponent<InputField>();
+            
+            // Character validation
+            sliderValueInputField.characterValidation = validationType.Contains("Integer") ? InputField.CharacterValidation.Integer : InputField.CharacterValidation.Decimal;
+            // Update slider when value is edited.
+            sliderValueInputField.onEndEdit.AddListener(delegate { slider.value = float.Parse(sliderValueInputField.text); });
+
+            // Set slider
+            slider.minValue = min;
+            slider.maxValue = max;
+            slider.wholeNumbers = validationType.Contains("Integer");
+            slider.value = float.Parse(value);
+            sliderValueInputField.text = slider.value.ToString();
+
+            // Set method to be run when the slider is moved
+            slider.onValueChanged.AddListener(delegate
+            {
+                set(slider.value);
+                sliderValueInputField.text = slider.value.ToString();
+            });
         }
+        // Set property InputField
         else
         {
-            inputField.characterValidation = InputField.CharacterValidation.Decimal;
-        }
+            GameObject inputFieldGo = newProperty.transform.FindChild("InputField").gameObject;
+            InputField inputField = inputFieldGo.GetComponent<InputField>();
+            inputField.text = value;
+            inputField.characterValidation = validationType.Contains("Integer") ? InputField.CharacterValidation.Integer : InputField.CharacterValidation.Decimal;
 
-        // Set method to be run when the editing is finished
-        inputField.onEndEdit.AddListener(delegate { set(Double.Parse(inputField.text)); });
+            // Set method to be run when the editing is finished
+            inputField.onEndEdit.AddListener(delegate { set(Double.Parse(inputField.text)); });
+        }
 
         // Add newly created property to the UI
         newProperty.transform.SetParent(_propertyContent.transform, false);

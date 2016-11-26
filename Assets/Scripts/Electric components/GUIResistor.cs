@@ -29,7 +29,7 @@ public class GUIResistor : GUICircuitComponent
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
-        script.AddNumeric("ResistancePropertyLabel", Resistance.ToString(), Resistance.GetType().ToString(), SetResistance);
+        script.AddNumeric("ResistancePropertyLabel", Resistance.ToString(), Resistance.GetType().ToString(), SetResistance, true, -15.4f, 150.6f);
     }
 
     // Use this for initialization

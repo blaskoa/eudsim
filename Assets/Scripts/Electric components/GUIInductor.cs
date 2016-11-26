@@ -35,7 +35,7 @@ public class GUIInductor : GUICircuitComponent
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
-        script.AddNumeric("InductancePropertyLabel", Inductance.ToString(), Inductance.GetType().ToString(), SetInductance);
+        script.AddNumeric("InductancePropertyLabel", Inductance.ToString(), Inductance.GetType().ToString(), SetInductance, false);
         script.AddBoolean("TrapezoidalPropertyLabel", IsTrapezoidal.ToString(), SetTrapezoidal);
     }
 
