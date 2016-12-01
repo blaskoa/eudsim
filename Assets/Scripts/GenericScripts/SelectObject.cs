@@ -53,6 +53,6 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
 
         // Call the script from component that fills the Properties Window
         GUICircuitComponent componentScript = SelectedObject.GetComponent<GUICircuitComponent>();
-        componentScript.getProperties();
+        componentScript.GetProperties();
     }
 }

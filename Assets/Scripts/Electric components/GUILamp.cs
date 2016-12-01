@@ -8,12 +8,12 @@ public class GUILamp : GUICircuitComponent
     public Circuit.Lead[] DllConnectors;
     public Lamp MyComponent;
 
-    public override void getProperties()
+    public override void GetProperties()
     {
         
     }
 
-    public override void setProperties()
+    public override void SetProperties()
     {
         
     }

@@ -30,13 +30,14 @@ public class GUIInductor : GUICircuitComponent
         IsTrapezoidal = val;
     }
 
-    public override void getProperties()
+    public override void GetProperties()
     {
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
         script.AddNumeric("InductancePropertyLabel", Inductance.ToString(), Inductance.GetType().ToString(), SetInductance, false);
         script.AddBoolean("TrapezoidalPropertyLabel", IsTrapezoidal.ToString(), SetTrapezoidal);
+        script.AddResult("InductancePropertyLabel", "15.6", "Ohm");
     }
 
     // Use this for initialization

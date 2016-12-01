@@ -5,12 +5,12 @@ public abstract class GUICircuitComponent : MonoBehaviour
 {
     public Connector[] Connectors = new Connector[2];
 
-    public virtual void getProperties()
+    public virtual void GetProperties()
     {
 
     }
 
-    public virtual void setProperties()
+    public virtual void SetProperties()
     {
 
     }

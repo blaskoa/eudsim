@@ -31,7 +31,7 @@ public class GUIAnalogSwitch : GUICircuitComponent
         TurnedOff = val;
     }
 
-    public override void getProperties()
+    public override void GetProperties()
     {
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
