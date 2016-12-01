@@ -25,12 +25,12 @@
     <string name="ReleaseNotesText">Release Notes</string>
     <string name="ReportBugText">Report Bug</string>
     <string name="ContactText">Contact</string>
-    <string name="CapacitancePropertyLabel">Capacitance</string>
+    <string name="CapacitancePropertyLabel">Capacitance [F]</string>
     <string name="TurnedOffPropertyLabel">Turned Off ?</string>
-    <string name="MaxVoltagePropertyLabel">Max Voltage</string>
-    <string name="InductancePropertyLabel">Inductance</string>
+    <string name="MaxVoltagePropertyLabel">Max Voltage [V]</string>
+    <string name="InductancePropertyLabel">Inductance [H]</string>
     <string name="TrapezoidalPropertyLabel">Trapezoidal ?</string>
-    <string name="ResistancePropertyLabel">Resistance</string>
+    <string name="ResistancePropertyLabel">Resistance [&#x03A9;]</string>
   
   
   </English>
@@ -59,12 +59,12 @@
     <string name="ReleaseNotesText">O verzií</string>
     <string name="ReportBugText">Nahlásiť chybu</string>
     <string name="ContactText">Kontakt</string>
-    <string name="CapacitancePropertyLabel">Kapacita</string>
+    <string name="CapacitancePropertyLabel">Kapacita [F]</string>
     <string name="TurnedOffPropertyLabel">Vypnuté ?</string>
-    <string name="MaxVoltagePropertyLabel">Napätie</string>
-    <string name="InductancePropertyLabel">Indukčnosť</string>
+    <string name="MaxVoltagePropertyLabel">Napätie [V]</string>
+    <string name="InductancePropertyLabel">Indukčnosť [H]</string>
     <string name="TrapezoidalPropertyLabel">Trapezoidný ?</string>
-    <string name="ResistancePropertyLabel">Odpor</string>
+    <string name="ResistancePropertyLabel">Odpor [&#x03A9;]</string>
   </Slovak>
 
 </Languages>

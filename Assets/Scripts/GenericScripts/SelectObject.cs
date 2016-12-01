@@ -21,6 +21,9 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
+        EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
+
         if (this.gameObject.tag == "ToolboxItem")
         {
             return;
@@ -38,7 +41,7 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
         {
             Line.SelectedLine.GetComponent<LineRenderer>().SetColors(Color.black, Color.black);
             Line.SelectedLine = null;
-            EditObjectProperties.Clear();
+            script.Clear();
         }
 
         // Select new object.
@@ -46,10 +49,10 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
         SelectionBox.GetComponent<SpriteRenderer>().enabled = true;
 
         // Clear the Properties Window
-        EditObjectProperties.Clear();
+        script.Clear();
 
         // Call the script from component that fills the Properties Window
-        GUICircuitComponent script = SelectedObject.GetComponent<GUICircuitComponent>();
-        script.getProperties();
+        GUICircuitComponent componentScript = SelectedObject.GetComponent<GUICircuitComponent>();
+        componentScript.GetProperties();
     }
 }

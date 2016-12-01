@@ -196,12 +196,15 @@ public class Line : MonoBehaviour,IPointerClickHandler
     //select line with mouse click and change color of selected line
     public void OnPointerClick(PointerEventData eventData)
     {
+        GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
+        EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
+
         //deselect component
         if (SelectObject.SelectedObject != null)
         {
             SelectObject.SelectedObject.transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = false;
             SelectObject.SelectedObject = null;
-            EditObjectProperties.Clear();
+            script.Clear();
         }
 
         if (SelectedLine != null)

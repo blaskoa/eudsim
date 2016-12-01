@@ -14,16 +14,17 @@ public class GUICapacitor : GUICircuitComponent
         set { MyComponent.capacitance = value; }   // GUI check - accept only positive integer
     }
 
-    public override void getProperties()
+    public void SetCapacitance(double val)
     {
-        EditObjectProperties.Add("CapacitancePropertyLabel", Capacitance.ToString());
+        Capacitance = val;
     }
 
-    public override void setProperties()
+    public override void GetProperties()
     {
-        List<string> values = EditObjectProperties.Get();
+        GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
+        EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
-        Capacitance = double.Parse(values[0]);
+        script.AddNumeric("CapacitancePropertyLabel", Capacitance.ToString(), Capacitance.GetType().ToString(), SetCapacitance, false);
     }
 
     // Use this for initialization
