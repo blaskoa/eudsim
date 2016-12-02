@@ -2,6 +2,7 @@
 using ClassLibrarySharpCircuit;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 public class GUIVoltmeter : GUICircuitComponent
 {
@@ -14,7 +15,7 @@ public class GUIVoltmeter : GUICircuitComponent
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
-        script.AddResult("VoltagePropertyLabel", MyComponent.getVoltageDelta().ToString(), "V");
+        script.AddResult("VoltagePropertyLabel", MyComponent.getVoltageDelta().ToString(CultureInfo.InvariantCulture), "V");
     }
 
     // Use this for initialization

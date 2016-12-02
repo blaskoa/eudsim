@@ -2,6 +2,7 @@
 using ClassLibrarySharpCircuit;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 public class GUIAmpermeter : GUICircuitComponent
 {
@@ -13,7 +14,7 @@ public class GUIAmpermeter : GUICircuitComponent
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
-        script.AddResult("CurrentPropertyLabel", MyComponent.getCurrent().ToString(), "A");
+        script.AddResult("CurrentPropertyLabel", MyComponent.getCurrent().ToString(CultureInfo.InvariantCulture), "A");
     }
 
     // Use this for initialization
