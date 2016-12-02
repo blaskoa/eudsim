@@ -24,7 +24,7 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
-        if (this.gameObject.tag == "ToolboxItem")
+        if (this.gameObject.tag == "ToolboxItem" || this.gameObject.tag == "Node")
         {
             return;
         }

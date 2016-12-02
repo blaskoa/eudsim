@@ -27,7 +27,7 @@ public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     public void OnBeginDrag(PointerEventData eventData)
     {
         //if gameobject is in desktop, not in toolbox
-        if (this.gameObject.transform.parent.tag == "ActiveItem")
+        if (this.gameObject.transform.parent.tag == "ActiveItem" || this.gameObject.transform.parent.tag == "ActiveNode")
         {
             _endPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
             _endPos.z = 0;
@@ -64,7 +64,7 @@ public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         GameObject end = null;
         
         //if gameobject is in desktop, not in toolbox
-        if (this.gameObject.transform.parent.tag == "ActiveItem")
+        if (this.gameObject.transform.parent.tag == "ActiveItem" || this.gameObject.transform.parent.tag == "ActiveNode")
         {
             //browse all connestors in scene
             GameObject[] objs = GameObject.FindGameObjectsWithTag("Connector");

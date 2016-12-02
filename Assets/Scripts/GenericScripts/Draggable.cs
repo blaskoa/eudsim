@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 using UnityEngine.EventSystems;
 
 public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
@@ -49,11 +50,13 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             _draggingItem.layer = 8; //Name of 8th layer is ActiveItem
             _draggingItem.transform.localScale = new Vector3(1, 1, 0);
             _draggingItem.GetComponent<SpriteRenderer>().enabled = true;
-            _draggingItem.GetComponent<SpriteRenderer>().sortingLayerName = "ActiveNode";
+            _draggingItem.GetComponent<SpriteRenderer>().sortingLayerName = "ActiveItem";
             for (int i = 0; i < _draggingItem.transform.childCount; i++)
             {
-                _draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingLayerName = "ActiveNode";
+                _draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingLayerName = "ActiveItem";
+                _draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().transform.localScale = new Vector3(1,1,0);
                 _draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().enabled = true;
+                _draggingItem.transform.GetChild(i).gameObject.layer = 8;
             }
         }
 
@@ -75,7 +78,11 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         // Copy of original position for comparison if recursive call is needed.
         Vector3 originalPos = finalPos;
 
-        GameObject[] activeItems = GameObject.FindGameObjectsWithTag("ActiveItem");
+        GameObject[] activeComponents = GameObject.FindGameObjectsWithTag("ActiveItem");
+        GameObject[] activeNodes = GameObject.FindGameObjectsWithTag("ActiveNode");
+
+        //merge two arrays to one
+        GameObject[] activeItems = activeComponents.Concat(activeNodes).ToArray();
         foreach (GameObject activeItem in activeItems)
         {
             // Not colliding with itself.
