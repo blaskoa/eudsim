@@ -130,7 +130,11 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             {
                 colliderDiff = (finalPos.x + collider.GetComponent<BoxCollider2D>().size.x / 2) - (activeItem.transform.position.x - activeItem.GetComponent<BoxCollider2D>().size.x / 2);
                 colliderDiff = Mathf.Round(colliderDiff * 2) / 2;
-                colliderDiff += 0.5f;
+                if (collider.GetComponent<BoxCollider2D>().size.x/2 + activeItem.GetComponent<BoxCollider2D>().size.x/2 >
+                    colliderDiff)
+                {
+                    colliderDiff += 0.5f;
+                }
                 finalPos.x -= colliderDiff;
             }
             // Move to the right.
@@ -138,7 +142,11 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             {
                 colliderDiff = (activeItem.transform.position.x + activeItem.GetComponent<BoxCollider2D>().size.x / 2) - (finalPos.x - collider.GetComponent<BoxCollider2D>().size.x / 2);
                 colliderDiff = Mathf.Round(colliderDiff * 2) / 2;
-                colliderDiff += 0.5f;
+                if (collider.GetComponent<BoxCollider2D>().size.x / 2 + activeItem.GetComponent<BoxCollider2D>().size.x / 2 >
+                    colliderDiff)
+                {
+                    colliderDiff += 0.5f;
+                }
                 finalPos.x += colliderDiff;
             }
         }
@@ -158,7 +166,11 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             {
                 colliderDiff = (finalPos.y + collider.GetComponent<BoxCollider2D>().size.y / 2) - (activeItem.transform.position.y - activeItem.GetComponent<BoxCollider2D>().size.y / 2);
                 colliderDiff = Mathf.Round(colliderDiff * 2) / 2;
-                colliderDiff += 0.5f;
+                if (collider.GetComponent<BoxCollider2D>().size.y/2 + activeItem.GetComponent<BoxCollider2D>().size.y/2 >
+                    colliderDiff)
+                {
+                    colliderDiff += 0.5f;
+                }
                 finalPos.y -= colliderDiff;
             }
             // Move item down.
@@ -166,7 +178,12 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             {
                 colliderDiff = (activeItem.transform.position.y + activeItem.GetComponent<BoxCollider2D>().size.y / 2) - (finalPos.y - collider.GetComponent<BoxCollider2D>().size.y / 2);
                 colliderDiff = Mathf.Round(colliderDiff * 2) / 2;
-                colliderDiff += 0.5f;
+                if (collider.GetComponent<BoxCollider2D>().size.y / 2 + activeItem.GetComponent<BoxCollider2D>().size.y / 2 >
+                    colliderDiff)
+                {
+
+                    colliderDiff += 0.5f;
+                }
                 finalPos.y += colliderDiff;
             }
         }
