@@ -7,12 +7,19 @@ public class GUICircuit : MonoBehaviour
     public static Circuit sim = new Circuit();
     private Stack _sceneItems = new Stack();
     private int _countOfMadeConnections;
+    private bool stopSignal = true;
 
     public void RunSimulation()
     {
         GetObjectsFromScene();
 
+        stopSignal = false;
         SimulationFlow();
+    }
+
+    public void StopSimulation()
+    {
+        stopSignal = true;
     }
 
     void GetObjectsFromScene()  // tato funkcia len vypise vsetky objekty zo scenky, ktorych tag sa rovna toolboxitem,, je to dobry zaciatok pre vypis objektov s ktorymi si pracuje, nejak sa otaguju a je to
@@ -57,10 +64,17 @@ public class GUICircuit : MonoBehaviour
         Debug.Log("Sim Elements count " + sim.elements.Count);
 
 
-        for (int x = 1; x <= 1; x++)
+        _sceneItems.Clear();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (stopSignal == false)
         {
+            Debug.Log("Simulujem");
             sim.doTick();
-            Debug.Log("count of components:" + _sceneItems.Count);
+            /*Debug.Log("count of components:" + _sceneItems.Count);
             for (int i = 0; i < _sceneItems.Count; i++)
             {
                 if (listOfComponents[i].GetType() == typeof(GUIBattery))
@@ -71,15 +85,8 @@ public class GUICircuit : MonoBehaviour
                 {
                     Debug.Log(i + "Resistor " + listOfComponents[i].GetComponent<GUIResistor>().GetVoltageDelta());
                 }
-            }
+            }*/
         }
-
-        _sceneItems.Clear();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
 
     }
 }
