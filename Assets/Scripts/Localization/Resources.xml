@@ -31,6 +31,8 @@
     <string name="InductancePropertyLabel">Inductance [H]</string>
     <string name="TrapezoidalPropertyLabel">Trapezoidal ?</string>
     <string name="ResistancePropertyLabel">Resistance [&#x03A9;]</string>
+    <string name="VoltagePropertyLabel">Voltage [V]</string>
+    <string name="CurrentPropertyLabel">Current [A]</string>
   
   
   </English>
@@ -65,6 +67,8 @@
     <string name="InductancePropertyLabel">Indukčnosť [H]</string>
     <string name="TrapezoidalPropertyLabel">Trapezoidný ?</string>
     <string name="ResistancePropertyLabel">Odpor [&#x03A9;]</string>
+    <string name="VoltagePropertyLabel">Napätie [V]</string>
+    <string name="CurrentPropertyLabel">Prúd [A]</string>
   </Slovak>
 
 </Languages>
