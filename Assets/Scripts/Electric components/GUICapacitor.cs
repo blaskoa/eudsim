@@ -30,15 +30,9 @@ public class GUICapacitor : GUICircuitComponent
     // Use this for initialization
     void Start()
     {
-        DllConnectors = new Circuit.Lead[2];
         if (CompareTag("ActiveItem"))
         {
-            Debug.Log("activeItem inserted");
-            MyComponent = GUICircuit.sim.Create<CapacitorElm>();
-
-            DllConnectors[0] = MyComponent.leadIn;
-            DllConnectors[1] = MyComponent.leadOut;
-
+            SetSimulationProp(GUICircuit.sim);
             Connectors[0] = transform.FindChild("PlusConnector").GetComponent<Connector>();
             Connectors[1] = transform.FindChild("MinusConnector").GetComponent<Connector>();
 
@@ -46,8 +40,22 @@ public class GUICapacitor : GUICircuitComponent
             Connectors[1].SetConnectedConnectors();
             Connectors[0].AssignComponent(this);
             Connectors[1].AssignComponent(this);
-            Connectors[0].SetDllConnector(DllConnectors[0]);
-            Connectors[1].SetDllConnector(DllConnectors[1]);
+            SetDllConnectors();
         }
+    }
+
+    public override void SetSimulationProp(Circuit sim)
+    {
+        Debug.Log("activeItem inserted");
+        MyComponent = sim.Create<CapacitorElm>();
+        DllConnectors = new Circuit.Lead[2];
+        DllConnectors[0] = MyComponent.leadIn;
+        DllConnectors[1] = MyComponent.leadOut;
+    }
+
+    public override void SetDllConnectors()
+    {
+        Connectors[0].SetDllConnector(DllConnectors[0]);
+        Connectors[1].SetDllConnector(DllConnectors[1]);
     }
 }

@@ -1,4 +1,4 @@
-﻿
+﻿using ClassLibrarySharpCircuit;
 using UnityEngine;
 
 public abstract class GUICircuitComponent : MonoBehaviour
@@ -11,6 +11,16 @@ public abstract class GUICircuitComponent : MonoBehaviour
     }
 
     public virtual void SetProperties()
+    {
+
+    }
+
+    public virtual void SetSimulationProp(Circuit sim)
+    {
+
+    }
+
+    public virtual void SetDllConnectors()
     {
 
     }

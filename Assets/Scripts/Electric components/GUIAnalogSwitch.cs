@@ -23,7 +23,7 @@ public class GUIAnalogSwitch : GUICircuitComponent
             {
                 MyComponent.invert = true;
             }
-        }   
+        }
     }
 
     public void SetTurnedOff(bool val)
@@ -38,26 +38,36 @@ public class GUIAnalogSwitch : GUICircuitComponent
 
         script.AddBoolean("TurnedOffPropertyLabel", TurnedOff.ToString(), SetTurnedOff);
     }
-    
+
     // Use this for initialization
     void Start()
     {
         if (this.CompareTag("ActiveItem"))
         {
-            Debug.Log("insertol som activeItem");
-            DllConnectors = new Circuit.Lead[2];
-            MyComponent = GUICircuit.sim.Create<AnalogSwitch>();
-            DllConnectors[0] = MyComponent.leadIn;
-            DllConnectors[1] = MyComponent.leadOut;
-
+            SetSimulationProp(GUICircuit.sim);
             Connectors = GetComponentsInChildren<Connector>();
-
             Connectors[0].SetConnectedConnectors();
             Connectors[1].SetConnectedConnectors();
             Connectors[0].AssignComponent(this);
             Connectors[1].AssignComponent(this);
-            Connectors[0].SetDllConnector(DllConnectors[0]);
-            Connectors[1].SetDllConnector(DllConnectors[1]);
+            SetDllConnectors();
         }
+    }
+
+    public override void SetSimulationProp(Circuit sim)
+    {
+        Debug.Log("insertol som activeItem");
+        DllConnectors = new Circuit.Lead[2];
+        MyComponent = sim.Create<AnalogSwitch>();
+        DllConnectors[0] = MyComponent.leadIn;
+        DllConnectors[1] = MyComponent.leadOut;
+        Connectors[0].SetDllConnector(DllConnectors[0]);
+        Connectors[1].SetDllConnector(DllConnectors[1]);
+    }
+
+    public override void SetDllConnectors()
+    {
+        Connectors[0].SetDllConnector(DllConnectors[0]);
+        Connectors[1].SetDllConnector(DllConnectors[1]);
     }
 }

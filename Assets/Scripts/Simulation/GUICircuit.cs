@@ -11,7 +11,10 @@ public class GUICircuit : MonoBehaviour
 
     public void RunSimulation()
     {
-        GetObjectsFromScene();
+        sim = new Circuit();
+        // setForSimulation all objects from scene 
+
+        GetObjectsFromScene(sim);
 
         stopSignal = false;
         SimulationFlow();
@@ -22,12 +25,14 @@ public class GUICircuit : MonoBehaviour
         stopSignal = true;
     }
 
-    void GetObjectsFromScene()  // tato funkcia len vypise vsetky objekty zo scenky, ktorych tag sa rovna toolboxitem,, je to dobry zaciatok pre vypis objektov s ktorymi si pracuje, nejak sa otaguju a je to
+    void GetObjectsFromScene(Circuit sim)  // tato funkcia len vypise vsetky objekty zo scenky, ktorych tag sa rovna toolboxitem,, je to dobry zaciatok pre vypis objektov s ktorymi si pracuje, nejak sa otaguju a je to
     {
         foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
         {
             if (obj.tag.Equals("ActiveItem"))
             {
+                obj.GetComponent<GUICircuitComponent>().SetSimulationProp(sim);
+                obj.GetComponent<GUICircuitComponent>().SetDllConnectors();
                 _sceneItems.Push(obj.GetComponent<GUICircuitComponent>());
             }
         }
@@ -70,9 +75,8 @@ public class GUICircuit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (stopSignal == false)
+        if ((stopSignal == false)&&(_countOfMadeConnections != 0))
         {
-            Debug.Log("Simulujem");
             sim.doTick();
             /*Debug.Log("count of components:" + _sceneItems.Count);
             for (int i = 0; i < _sceneItems.Count; i++)
