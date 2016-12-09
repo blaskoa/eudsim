@@ -1,11 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--Values are from KeyCode unity enum. Example of use:
+<Hotkey name="RotateRight" modifier="304">101</Hotkey>-->
 <Hotkeys>
   <!--delete key-->
   <Hotkey name="Delete">127</Hotkey>
   <!--Q-->
-  <Hotkey name="RotateLeft" >113</Hotkey>
+  <Hotkey name="RotateLeft">113</Hotkey>
   <!--E-->
-  <Hotkey name="RotateRight" >101</Hotkey>
-
+  <Hotkey name="RotateRight">101</Hotkey>
+  <!--A-->
+  <Hotkey name="MoveLeft">97</Hotkey>
+  <!--D-->
+  <Hotkey name="MoveRight">100</Hotkey>
+  <!--S-->
+  <Hotkey name="MoveDown">115</Hotkey>
+  <!--W-->
+  <Hotkey name="MoveUp">119</Hotkey>
+  <!--space key-->
+  <Hotkey name="LineBreak">32</Hotkey>
 </Hotkeys>
 
