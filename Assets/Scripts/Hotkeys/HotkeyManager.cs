@@ -144,7 +144,7 @@ namespace Assets.Scripts.Hotkeys
             }
             if (hotkey != null)
             {
-                result = (hotkey.Modifier.HasValue?hotkey.Modifier.Value + " + ":"") + hotkey.KeyCode;
+                result = hotkey.ToString();
             }
             return result;
         }
@@ -157,6 +157,11 @@ namespace Assets.Scripts.Hotkeys
             {
                 KeyCode = keyCode;
                 Modifier = modifier;
+            }
+
+            public override string ToString()
+            {
+                return (Modifier.HasValue ? Modifier.Value + " + " : "") + KeyCode;
             }
         }
     }
