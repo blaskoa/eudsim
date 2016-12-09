@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Hotkeys>
+  <!--delete key-->
+  <Hotkey name="Delete">127</Hotkey>
+  <!--Q-->
+  <Hotkey name="RotateLeft" >113</Hotkey>
+  <!--E-->
+  <Hotkey name="RotateRight" >101</Hotkey>
+
+</Hotkeys>
+
