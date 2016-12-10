@@ -11,6 +11,10 @@ public class GUICircuit : MonoBehaviour
 
     public void RunSimulation()
     {
+		GameObject playButton = GameObject.Find("PlayButton");
+		GameObject pauseButton = GameObject.Find("PauseButton");
+		playButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
+		pauseButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
         sim = new Circuit();
         // setForSimulation all objects from scene 
 
@@ -22,6 +26,10 @@ public class GUICircuit : MonoBehaviour
 
     public void StopSimulation()
     {
+		GameObject playButton = GameObject.Find("PlayButton");
+		GameObject pauseButton = GameObject.Find("PauseButton");
+		playButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
+		pauseButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
         stopSignal = true;
     }
 
