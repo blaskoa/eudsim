@@ -5,6 +5,10 @@ public class MainMenuButtons : MonoBehaviour {
 
 	private bool _NewProjectCanvasOpen = false;
 	private bool _SettingsCanvasOpen = false;
+	private bool _AboutCanvasOpen = false;
+	private bool _ReleaseNotesCanvasOpen = false;
+	private bool _ContactCanvasOpen = false;
+	private bool _ReportBugCanvasOpen = false;
 	private bool _FilePanelMenuOpen = false;
 	private bool _EditPanelMenuOpen = false;
 	private bool _ViewPanelMenuOpen = false;
@@ -245,6 +249,69 @@ public class MainMenuButtons : MonoBehaviour {
 	    } else
 	    {
 	        _SettingsCanvasOpen = false;
+	        obj.GetComponent<Canvas>().enabled = false;
+	    }
+    }
+	
+	public void AboutCanvas(GameObject obj)
+    {		
+	    _AboutCanvasOpen = obj.GetComponent<Canvas>().enabled;
+		
+	    if (_AboutCanvasOpen == false)
+	    {
+	        _AboutCanvasOpen = true;
+	        obj.GetComponent<Canvas>().enabled = true;
+	    } else
+	    {
+	        _AboutCanvasOpen = false;
+	        obj.GetComponent<Canvas>().enabled = false;
+	    }
+		//Scroll up to first row
+		GameObject aboutViewport = GameObject.Find("AboutViewport");
+		aboutViewport.GetComponent<UnityEngine.UI.ScrollRect>().velocity = new Vector2(-0f,-10000f);
+    }
+	
+	public void ReleaseNotesCanvas(GameObject obj)
+    {		
+	    _ReleaseNotesCanvasOpen = obj.GetComponent<Canvas>().enabled;
+		
+	    if (_ReleaseNotesCanvasOpen == false)
+	    {
+	        _ReleaseNotesCanvasOpen = true;
+	        obj.GetComponent<Canvas>().enabled = true;
+	    } else
+	    {
+	        _ReleaseNotesCanvasOpen = false;
+	        obj.GetComponent<Canvas>().enabled = false;
+	    }
+    }
+	
+	public void ContactCanvas(GameObject obj)
+    {		
+	    _ContactCanvasOpen = obj.GetComponent<Canvas>().enabled;
+		
+	    if (_ContactCanvasOpen == false)
+	    {
+	        _ContactCanvasOpen = true;
+	        obj.GetComponent<Canvas>().enabled = true;
+	    } else
+	    {
+	        _ContactCanvasOpen = false;
+	        obj.GetComponent<Canvas>().enabled = false;
+	    }
+    }
+	
+	public void ReportBugCanvas(GameObject obj)
+    {		
+	    _ReportBugCanvasOpen = obj.GetComponent<Canvas>().enabled;
+		
+	    if (_ReportBugCanvasOpen == false)
+	    {
+	        _ReportBugCanvasOpen = true;
+	        obj.GetComponent<Canvas>().enabled = true;
+	    } else
+	    {
+	        _ReportBugCanvasOpen = false;
 	        obj.GetComponent<Canvas>().enabled = false;
 	    }
     }

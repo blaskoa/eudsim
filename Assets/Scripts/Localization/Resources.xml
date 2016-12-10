@@ -30,10 +30,17 @@
     <string name="ViewText">View</string>
     <string name="HelpText">Help</string>
     <string name="AboutText">About</string>
+	<string name="CloseText">Close</string>
     <string name="ManualText">Manual</string>
     <string name="ReleaseNotesText">Release Notes</string>
+	<string name="VersionValueText">1.0</string>
+	<string name="ActualVersionText">Actual version:</string>
     <string name="ReportBugText">Report Bug</string>
+	<string name="SendText">Send</string>
+	<string name="ReportBugMessageText">Message:</string>
     <string name="ContactText">Contact</string>
+	<string name="ContactEmailText">Email:</string>
+	<string name="ContactEmailValueText">MAMBIT@googlegroups.com</string>
     <string name="CapacitancePropertyLabel">Capacitance [F]</string>
     <string name="TurnedOffPropertyLabel">Turned Off ?</string>
     <string name="MaxVoltagePropertyLabel">Max Voltage [V]</string>
@@ -43,6 +50,12 @@
     <string name="VoltagePropertyLabel">Voltage [V]</string>
     <string name="CurrentPropertyLabel">Current [A]</string>
 	<string name="DomainsLabel">Electrotechnic</string>
+	<string name="AboutBodyText">V súčasnosti väčšina prednášok je vo forme prezentácií. Typicky, študenti sedia v aule a počúvajú prednášajúceho. Takáto forma prednášok zvykne byť nezaujímavá a vyčerpávajúca, keďže študent pri tom nič nerobí. Prezentácie teda nie sú najlepšou formou na udržanie pozornosti študenta. Prednášky sa stávajú trápnosťou a študenti sa im začnú vyhýbať. Je známe, že najlepší spôsob ućenia, je skúśať si veci.
+	Keďže sa hry celkovo stali súčasťou moderného života mnohých ľudí, v našom projekte sa snažíme spojiť tie dve činnosti dokopy. Vytváraný nástroj by mal mať formu hry a minimálne interaktívnym spôsobom obohatiť proces výuky pre študentov vysokých škôl, ale aj mladších žiakov. Tento nástroj bude zároveň slúžiť aj ako pomôcka na vytváranie učebných materiálov pre pedagógov.
+	Tento projekt vznikol v spolupráci s firmou Atos. Hlavná idea je vytvoriť nástroj, pomocou ktorého sa budú vytvárať interaktívne simulácie, pomocou ktorých sa budú môsť testovať aj vedomosti žiakov a študentov. Vytvorené simulácie sa budú exportovať do HTML5 webových stránok, čo umožní jednoduchý prístup každému , keďže stačí mať prehliadač s pripojením na internet. Testovacie moduly budú prepojené s existujúcimi testovacími systémami.
+	Softvér je implementovaný v Unity game engine. Bude podporovať viaceré edukačné moduly, ktoré sa budú ľahko vymieňať. V prvej iterácii, teda v rámci predmetu tímový projekt, sa vytvorí jadro nástroja a modul pre elektrické obvody.
+	</string>
+	
   
   </English>
 
@@ -75,10 +88,17 @@
     <string name="ViewText">Zobrazenie</string>
     <string name="HelpText">Pomoc</string>
     <string name="AboutText">O programe</string>
+	<string name="CloseText">Zavrieť</string>
     <string name="ManualText">Manuál</string>
     <string name="ReleaseNotesText">O verzií</string>
+	<string name="VersionValueText">1.0</string>
+	<string name="ActualVersionText">Aktuálna verzia:</string>
     <string name="ReportBugText">Nahlásiť chybu</string>
+	<string name="SendText">Odoslať</string>
+	<string name="ReportBugMessageText">Správa:</string>
     <string name="ContactText">Kontakt</string>
+	<string name="ContactEmailText">Email:</string>
+	<string name="ContactEmailValueText">MAMBIT@googlegroups.com</string>
     <string name="CapacitancePropertyLabel">Kapacita [F]</string>
     <string name="TurnedOffPropertyLabel">Vypnuté ?</string>
     <string name="MaxVoltagePropertyLabel">Napätie [V]</string>
@@ -88,6 +108,11 @@
     <string name="VoltagePropertyLabel">Napätie [V]</string>
     <string name="CurrentPropertyLabel">Prúd [A]</string>
 	<string name="DomainsLabel">Elektrotechnika</string>
+	<string name="AboutBodyText">V súčasnosti väčšina prednášok je vo forme prezentácií. Typicky, študenti sedia v aule a počúvajú prednášajúceho. Takáto forma prednášok zvykne byť nezaujímavá a vyčerpávajúca, keďže študent pri tom nič nerobí. Prezentácie teda nie sú najlepšou formou na udržanie pozornosti študenta. Prednášky sa stávajú trápnosťou a študenti sa im začnú vyhýbať. Je známe, že najlepší spôsob ućenia, je skúśať si veci.
+	Keďže sa hry celkovo stali súčasťou moderného života mnohých ľudí, v našom projekte sa snažíme spojiť tie dve činnosti dokopy. Vytváraný nástroj by mal mať formu hry a minimálne interaktívnym spôsobom obohatiť proces výuky pre študentov vysokých škôl, ale aj mladších žiakov. Tento nástroj bude zároveň slúžiť aj ako pomôcka na vytváranie učebných materiálov pre pedagógov.
+	Tento projekt vznikol v spolupráci s firmou Atos. Hlavná idea je vytvoriť nástroj, pomocou ktorého sa budú vytvárať interaktívne simulácie, pomocou ktorých sa budú môsť testovať aj vedomosti žiakov a študentov. Vytvorené simulácie sa budú exportovať do HTML5 webových stránok, čo umožní jednoduchý prístup každému , keďže stačí mať prehliadač s pripojením na internet. Testovacie moduly budú prepojené s existujúcimi testovacími systémami.
+	Softvér je implementovaný v Unity game engine. Bude podporovať viaceré edukačné moduly, ktoré sa budú ľahko vymieňať. V prvej iterácii, teda v rámci predmetu tímový projekt, sa vytvorí jadro nástroja a modul pre elektrické obvody.
+	</string>
   </Slovak>
 
 </Languages>
