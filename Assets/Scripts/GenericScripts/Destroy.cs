@@ -9,7 +9,7 @@ public class Destroy : MonoBehaviour
     void Update () {
         if (SelectObject.SelectedObject != null && this.gameObject == SelectObject.SelectedObject)
         {
-            if (HotkeyManager.Instance.CheckHotkeyDown(DeleteHotkeyKey))
+            if (HotkeyManager.Instance.CheckHotkey(DeleteHotkeyKey, KeyAction.Down))
             {
                 //list connected connectors with plusconnector
                 List<GameObject> connected1 = this.gameObject.transform.GetChild(0).GetComponent<Connectable>().Connected;
@@ -53,7 +53,7 @@ public class Destroy : MonoBehaviour
         //destroy selected line when delete key was pressed 
         if (Line.SelectedLine != null && this.gameObject == Line.SelectedLine)
         {
-            if (HotkeyManager.Instance.CheckHotkeyDown(DeleteHotkeyKey))
+            if (HotkeyManager.Instance.CheckHotkey(DeleteHotkeyKey, KeyAction.Down))
             {
                 //delete connected connectors from lists of connectors
                 this.gameObject.GetComponent<Line>().Begin.GetComponent<Connectable>().Connected.Remove(this.gameObject.GetComponent<Line>().End.gameObject);
