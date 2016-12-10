@@ -4,6 +4,7 @@ using System.Collections;
 public class MainMenuButtons : MonoBehaviour {
 
 	private bool _NewProjectCanvasOpen = false;
+	private bool _SettingsCanvasOpen = false;
 	private bool _FilePanelMenuOpen = false;
 	private bool _EditPanelMenuOpen = false;
 	private bool _ViewPanelMenuOpen = false;
@@ -229,6 +230,21 @@ public class MainMenuButtons : MonoBehaviour {
 	    } else
 	    {
 	        _NewProjectCanvasOpen = false;
+	        obj.GetComponent<Canvas>().enabled = false;
+	    }
+    }
+	
+	public void SettingsCanvas(GameObject obj)
+    {		
+	    _SettingsCanvasOpen = obj.GetComponent<Canvas>().enabled;
+		
+	    if (_SettingsCanvasOpen == false)
+	    {
+	        _SettingsCanvasOpen = true;
+	        obj.GetComponent<Canvas>().enabled = true;
+	    } else
+	    {
+	        _SettingsCanvasOpen = false;
 	        obj.GetComponent<Canvas>().enabled = false;
 	    }
     }
