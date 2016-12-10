@@ -8,13 +8,19 @@
     <string name="ObjectPropertiesText">Object Properties</string>
     <string name="FileText">File</string>
     <string name="NewProjectText">New Project</string>
+	<string name="ProjectNameText">Project name:</string>
+	<string name="ProjectDomainText">Project domain:</string>
+	<string name="CreateText">Create</string>
+	<string name="CancelText">Cancel</string>
     <string name="OpenText">Open</string>
     <string name="SaveText">Save</string>
     <string name="SaveAsText">Save As</string>
+	<string name="ExitText">Exit</string>
     <string name="EditText">Edit</string>
     <string name="CutText">Cut</string>
     <string name="CopyText">Copy</string>
     <string name="PasteText">Paste</string>
+	<string name="DeleteText">Delete</string>
     <string name="PlayText">Play</string>
     <string name="PauseText">Pause</string>
     <string name="SettingsText">Settings</string>
@@ -33,7 +39,7 @@
     <string name="ResistancePropertyLabel">Resistance [&#x03A9;]</string>
     <string name="VoltagePropertyLabel">Voltage [V]</string>
     <string name="CurrentPropertyLabel">Current [A]</string>
-  
+	<string name="DomainsLabel">Electrotechnic</string>
   
   </English>
 
@@ -44,13 +50,19 @@
     <string name="ObjectPropertiesText">Vlastnosti objektu</string>
     <string name="FileText">Súbor</string>
     <string name="NewProjectText">Nový projekt</string>
+	<string name="ProjectNameText">Názov projektu:</string>
+	<string name="ProjectDomainText">Doména projektu:</string>
+	<string name="CreateText">Vytvoriť</string>
+	<string name="CancelText">Zrušiť</string>
     <string name="OpenText">Otvoriť</string>
     <string name="SaveText">Uložiť</string>
     <string name="SaveAsText">Uložiť ako</string>
+	<string name="ExitText">Ukončiť</string>
     <string name="EditText">Upraviť</string>
     <string name="CutText">Vystrihnúť</string>
     <string name="CopyText">Kopírovať</string>
     <string name="PasteText">Prilepiť</string>
+	<string name="DeleteText">Zmazať</string>
     <string name="PlayText">Spustiť</string>
     <string name="PauseText">Pozastaviť</string>
     <string name="SettingsText">Nastavenia</string>
@@ -69,6 +81,7 @@
     <string name="ResistancePropertyLabel">Odpor [&#x03A9;]</string>
     <string name="VoltagePropertyLabel">Napätie [V]</string>
     <string name="CurrentPropertyLabel">Prúd [A]</string>
+	<string name="DomainsLabel">Elektrotechnika</string>
   </Slovak>
 
 </Languages>
