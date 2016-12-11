@@ -53,11 +53,7 @@ public class CamZoom : MonoBehaviour {
             // Checking for max zoom in.
             if (_zoomSize > _maxZoomIn)
             {
-                _zoomSize -= 1f;
-                _zoomPercent += 25;
-                GameObject zoomField = GameObject.Find("ZoomText");
-                zoomField.GetComponent<UnityEngine.UI.Text>().text = _zoomPercent + "%";
-                
+                ZoomIn();                
             }
         }
         // Scrolling down.
@@ -66,10 +62,7 @@ public class CamZoom : MonoBehaviour {
             // Checking for max zoom out.
             if (_zoomSize < _maxZoomOut)
             {
-                _zoomSize += 1f;
-                _zoomPercent -= 25;
-                GameObject zoomField = GameObject.Find("ZoomText");
-                zoomField.GetComponent<UnityEngine.UI.Text>().text = _zoomPercent + "%";
+                ZoomOut();
             }
         }
 
