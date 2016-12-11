@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Hotkeys;
+using UnityEngine;
 
-public class SwitchTypeLine : MonoBehaviour {
-
+public class SwitchTypeLine : MonoBehaviour
+{
+    public const string ChangeLineBrakingHotkeyKey = "LineBreak";
     private float _buttonDelay;
     private float _delay = 0.25f;
 
@@ -12,7 +14,7 @@ public class SwitchTypeLine : MonoBehaviour {
 
         if (Line.SelectedLine != null && this.gameObject == Line.SelectedLine)
         {
-            if (Input.GetKey(KeyCode.Space))
+            if (HotkeyManager.Instance.CheckHotkey(ChangeLineBrakingHotkeyKey))
             {
                 // Button delay has passed and some keys were pressed.
                 if (_buttonDelay == 0f)
