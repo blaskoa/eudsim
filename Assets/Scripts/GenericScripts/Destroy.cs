@@ -6,7 +6,7 @@ public class Destroy : MonoBehaviour {
 
     public void DeleteSelected()
     {
-        if (SelectObject.SelectedObject != null)
+        if (SelectObject.SelectedObject != null && SelectObject.SelectedObject.tag.Equals("ActiveItem"))
         {
             // List connected connectors with plusconnector
             List<GameObject> connected1 =
@@ -60,7 +60,8 @@ public class Destroy : MonoBehaviour {
 
         // Destroy selected line when delete key was pressed 
         if (SelectObject.SelectedObject != null &&
-            (Line.SelectedLine != null && SelectObject.SelectedObject.gameObject == Line.SelectedLine))
+            (Line.SelectedLine != null && SelectObject.SelectedObject.gameObject == Line.SelectedLine) 
+            && SelectObject.SelectedObject.tag.Equals("ActiveItem"))
         {
             // Delete connected connectors from lists of connectors
             SelectObject.SelectedObject.gameObject.GetComponent<Line>()

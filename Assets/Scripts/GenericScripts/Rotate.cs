@@ -6,7 +6,7 @@ public class Rotate : MonoBehaviour {
     //Rotate functionality to invoke rotation from button, +90 degrees
     public void RoateClockWise()
     {
-        if (SelectObject.SelectedObject != null)
+        if (SelectObject.SelectedObject != null && SelectObject.SelectedObject.tag.Equals("ActiveItem"))
         {
             SelectObject.SelectedObject.transform.Rotate(new Vector3(0, 0, +90));
         }
@@ -15,7 +15,7 @@ public class Rotate : MonoBehaviour {
     //Rotate functionality to invoke rotation from button, -90 degrees
     public void RoateCounterClockWise()
     {
-        if (SelectObject.SelectedObject != null)
+        if (SelectObject.SelectedObject != null && SelectObject.SelectedObject.tag.Equals("ActiveItem"))
         {
             SelectObject.SelectedObject.transform.Rotate(new Vector3(0, 0, -90));
         }
