@@ -28,7 +28,7 @@ public class CamZoom : MonoBehaviour {
     public void ZoomOut()
     {
         // Checking for max zoom in.
-        if (_zoomSize > _maxZoomIn)
+        if (_zoomSize < _maxZoomOut)
         {
             _zoomSize += 1f;
         }
