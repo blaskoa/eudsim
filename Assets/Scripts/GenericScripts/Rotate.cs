@@ -8,7 +8,7 @@ public class Rotate : MonoBehaviour {
     {
         if (SelectObject.SelectedObject != null && SelectObject.SelectedObject.tag.Equals("ActiveItem"))
         {
-            SelectObject.SelectedObject.transform.Rotate(new Vector3(0, 0, +90));
+            SelectObject.SelectedObject.transform.Rotate(new Vector3(0, 0, -90));
         }
     }
 
@@ -17,7 +17,7 @@ public class Rotate : MonoBehaviour {
     {
         if (SelectObject.SelectedObject != null && SelectObject.SelectedObject.tag.Equals("ActiveItem"))
         {
-            SelectObject.SelectedObject.transform.Rotate(new Vector3(0, 0, -90));
+            SelectObject.SelectedObject.transform.Rotate(new Vector3(0, 0, +90));
         }
     }
 
@@ -27,14 +27,14 @@ public class Rotate : MonoBehaviour {
         if (SelectObject.SelectedObject != null && this.gameObject == SelectObject.SelectedObject)
         {
             // Check if Q is pressed.
-            if (Input.GetKey("q"))
+            if (Input.GetKeyUp("q"))
             {
-                transform.Rotate(new Vector3(0, 0, Time.deltaTime * 100));
+                RoateClockWise();
             }
             // Check if E is pressed.
-            else if (Input.GetKey("e"))
+            else if (Input.GetKeyUp("e"))
             {
-                transform.Rotate(new Vector3(0, 0,  - Time.deltaTime * 100));
+                RoateCounterClockWise();
             }
         }
     }
