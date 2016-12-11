@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
+using Assets.Scripts.Hotkeys;
 
-public class Rotate : MonoBehaviour {
-
+public class Rotate : MonoBehaviour
+{
+    public const string RotateLeftHotkeyKey = "RotateLeft";
+    public const string RotateRightHotkeyKey = "RotateRight";
     //Rotate functionality to invoke rotation from button, +90 degrees
     public void RoateClockWise()
     {
@@ -27,12 +29,12 @@ public class Rotate : MonoBehaviour {
         if (SelectObject.SelectedObject != null && this.gameObject == SelectObject.SelectedObject)
         {
             // Check if Q is pressed.
-            if (Input.GetKeyUp("q"))
+            if (HotkeyManager.Instance.CheckHotkey(RotateLeftHotkeyKey))
             {
                 RoateClockWise();
             }
             // Check if E is pressed.
-            else if (Input.GetKeyUp("e"))
+            else if (HotkeyManager.Instance.CheckHotkey(RotateRightHotkeyKey))
             {
                 RoateCounterClockWise();
             }

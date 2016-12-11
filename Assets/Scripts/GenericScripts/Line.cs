@@ -28,7 +28,6 @@ public class Line : MonoBehaviour,IPointerClickHandler
         _startPos.x = Begin.transform.position.x;
         _startPos.y = Begin.transform.position.y;
         _startPos.z = Begin.transform.position.z;
-        // _startPos.z = -1;
 
         //when i correctly connect two connectors
         if (End != null)
@@ -36,7 +35,6 @@ public class Line : MonoBehaviour,IPointerClickHandler
             EndPos.x = End.transform.position.x;
             EndPos.y = End.transform.position.y;
             EndPos.z = End.transform.position.z;
-            //EndPos.z = -1;
 
             //when space did not pressed - no break line
             if (TypeOfLine == "NoBreak")

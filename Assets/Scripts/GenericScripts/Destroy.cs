@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using Assets.Scripts.Hotkeys;
 using UnityEngine;
-
 
 public class Destroy : MonoBehaviour
 {
@@ -63,7 +63,7 @@ public class Destroy : MonoBehaviour
         // Destroy selected line when delete key was pressed 
         if (Line.SelectedLine != null && this.gameObject == Line.SelectedLine)
         {
-            if (Input.GetKey(KeyCode.Delete))
+            if (HotkeyManager.Instance.CheckHotkey(DeleteHotkeyKey, KeyAction.Down))
             {
                 // Delete connected connectors from lists of connectors
                 this.gameObject.GetComponent<Line>().Begin.GetComponent<Connectable>().Connected.Remove(this.gameObject.GetComponent<Line>().End.gameObject);

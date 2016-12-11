@@ -1,10 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Linq;
+using Assets.Scripts.Hotkeys;
 using UnityEngine.EventSystems;
 
 public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    // hotkey keys
+    public const string MoveDownHotkeyKey = "MoveDown";
+    public const string MoveUpHotkeyKey = "MoveUp";
+    public const string MoveLeftHotkeyKey = "MoveLeft";
+    public const string MoveRightHotkeyKey = "MoveRight";
+
     // Mouse and dragged item positions at the start of dragging.
     private Vector2 _mousePos;
     private Vector2 _itemPos;
@@ -216,25 +223,25 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         if (SelectObject.SelectedObject != null && this.gameObject == SelectObject.SelectedObject)
         {
             // Check if A is pressed.
-            if (Input.GetKey("a"))
+            if (HotkeyManager.Instance.CheckHotkey(MoveLeftHotkeyKey))
             {
                 movement.x -= _step;
             }
 
             // Check if D is pressed.
-            if (Input.GetKey("d"))
+            if (HotkeyManager.Instance.CheckHotkey(MoveRightHotkeyKey))
             {
                 movement.x += _step;
             }
             
             // Check if S is pressed.
-            if (Input.GetKey("s"))
+            if (HotkeyManager.Instance.CheckHotkey(MoveDownHotkeyKey))
             {
                 movement.y -= _step;
             }
 
             // Check if W is pressed.
-            if (Input.GetKey("w"))
+            if (HotkeyManager.Instance.CheckHotkey(MoveUpHotkeyKey))
             {
                 movement.y += _step;
             }
