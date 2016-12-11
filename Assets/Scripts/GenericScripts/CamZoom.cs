@@ -14,6 +14,25 @@ public class CamZoom : MonoBehaviour {
         _maxZoomIn = 2f;
         _maxZoomOut = 20f;
     }
+    //Zoom functionality to invoke zoom from button
+    public void ZoomIn()
+    {
+        // Checking for max zoom in.
+        if (_zoomSize > _maxZoomIn)
+        {
+            _zoomSize -= 1f;
+        }
+    }
+
+    //Zoom functionality to invoke zoom from button
+    public void ZoomOut()
+    {
+        // Checking for max zoom in.
+        if (_zoomSize > _maxZoomIn)
+        {
+            _zoomSize += 1f;
+        }
+    }
 
     // Update is called once per frame
     void Update () {

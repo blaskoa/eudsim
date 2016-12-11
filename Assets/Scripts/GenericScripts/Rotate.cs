@@ -3,6 +3,24 @@ using System.Collections;
 
 public class Rotate : MonoBehaviour {
 
+    //Rotate functionality to invoke rotation from button, +90 degrees
+    public void RoateClockWise()
+    {
+        if (SelectObject.SelectedObject != null)
+        {
+            SelectObject.SelectedObject.transform.Rotate(new Vector3(0, 0, +90));
+        }
+    }
+
+    //Rotate functionality to invoke rotation from button, -90 degrees
+    public void RoateCounterClockWise()
+    {
+        if (SelectObject.SelectedObject != null)
+        {
+            SelectObject.SelectedObject.transform.Rotate(new Vector3(0, 0, -90));
+        }
+    }
+
     // Update is called once per frame
     void Update () {
         // Check if any object is selected.
