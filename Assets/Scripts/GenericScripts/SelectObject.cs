@@ -36,7 +36,7 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
             SelectedObject = this.gameObject;
         }
 
-        //deselect line
+        // Deselect line
         if (Line.SelectedLine != null)
         {
             Line.SelectedLine.GetComponent<LineRenderer>().SetColors(Color.black, Color.black);
@@ -47,12 +47,14 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
         // Select new object.
         SelectedObject = this.gameObject;
         SelectionBox.GetComponent<SpriteRenderer>().enabled = true;
-        GameObject rLeftButton = GameObject.Find("RotateLeftButton");
-        GameObject rRightButton = GameObject.Find("RotateRightButton");
+		
+		// Enable buttons for component manipulation
+        GameObject rotateLeftButton = GameObject.Find("RotateLeftButton");
+        GameObject rotateRightButton = GameObject.Find("RotateRightButton");
         GameObject deleteButton = GameObject.Find("DeleteButton");
         GameObject menuDeleteButton = GameObject.Find("MenuDeleteButton");
-        rLeftButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
-        rRightButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
+        rotateLeftButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
+        rotateRightButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
         deleteButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
         menuDeleteButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
 

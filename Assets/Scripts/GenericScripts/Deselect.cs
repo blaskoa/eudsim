@@ -16,7 +16,7 @@ public class Deselect : MonoBehaviour, IPointerClickHandler
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
-        //deselect component
+        // Deselect component
         if (SelectObject.SelectedObject != null)
         {
             SelectObject.SelectedObject.transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = false;
@@ -25,19 +25,21 @@ public class Deselect : MonoBehaviour, IPointerClickHandler
             script.Clear();
         }
 
-        //deselect line
+        // Deselect line
         if (Line.SelectedLine != null)
         {
             Line.SelectedLine.GetComponent<LineRenderer>().SetColors(Color.black, Color.black);
             Line.SelectedLine = null;
             script.Clear();
         }
-        GameObject rLeftButton = GameObject.Find("RotateLeftButton");
-        GameObject rRightButton = GameObject.Find("RotateRightButton");
+		
+		// Disable buttons for component manipulation
+        GameObject rotateLeftButton = GameObject.Find("RotateLeftButton");
+        GameObject rotateRightButton = GameObject.Find("RotateRightButton");
         GameObject deleteButton = GameObject.Find("DeleteButton");
         GameObject menuDeleteButton = GameObject.Find("MenuDeleteButton");
-        rLeftButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
-        rRightButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
+        rotateLeftButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
+        rotateRightButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
         deleteButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
         menuDeleteButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
     }

@@ -3,6 +3,7 @@ using System.Collections;
 
 public class MainMenuButtons : MonoBehaviour {
 
+    // Flags for every pop-up panel (it's canvas)
     private bool _NewProjectCanvasOpen = false;
     private bool _SettingsCanvasOpen = false;
     private bool _AboutCanvasOpen = false;
@@ -20,7 +21,7 @@ public class MainMenuButtons : MonoBehaviour {
     
     void Start()
     {
-        //Initialization
+        //Initialization, program is paused
         PlayPauseButton("pause");
         GameObject toolbox = GameObject.Find("ToolboxButton");
         GameObject properties = GameObject.Find("PropertiesButton");
@@ -32,14 +33,18 @@ public class MainMenuButtons : MonoBehaviour {
         debug.GetComponent<UnityEngine.UI.Image>().color = Color.grey;
     }
     
+    // Function to handle play and pause buttons
     public void PlayPauseButton(string action)
     {    
+        // Find all components for play/pause
         GameObject playButton = GameObject.Find("PlayButton");
         GameObject pauseButton = GameObject.Find("PauseButton");
         GameObject checkboxPlay = GameObject.Find("PlayToggle");
         GameObject checkboxPause = GameObject.Find("PauseToggle");
         GameObject menuPlayButton = GameObject.Find("MenuPlayButton");
         GameObject menuPauseButton = GameObject.Find("MenuPauseButton");
+        
+        // Set GUI components for play/pause
         if (action == "play")
         {
             checkboxPlay.GetComponent<UnityEngine.UI.Toggle>().isOn = true;
@@ -59,255 +64,272 @@ public class MainMenuButtons : MonoBehaviour {
         }
     }
     
-    public void ShowToolbox(GameObject obj)
+    // Show or hide toolbox panel and mark menu button
+	public void ShowToolbox(GameObject guiComponent)
     {        
-        _ToolboxOpen = obj.activeInHierarchy;
+        _ToolboxOpen = guiComponent.activeInHierarchy;
         GameObject checkbox = GameObject.Find("ToolboxToggle");
         GameObject button = GameObject.Find("ToolboxButton");
         
         if (_ToolboxOpen == false)
         {
             _ToolboxOpen = true;
-            obj.SetActive(true);
+            guiComponent.SetActive(true);
             checkbox.GetComponent<UnityEngine.UI.Toggle>().isOn = true;
             button.GetComponent<UnityEngine.UI.Image>().color = Color.grey;
         } else
         {
             _ToolboxOpen = false;
-            obj.SetActive(false);
+            guiComponent.SetActive(false);
             checkbox.GetComponent<UnityEngine.UI.Toggle>().isOn = false;
             button.GetComponent<UnityEngine.UI.Image>().color = Color.black;
         }
     }
     
-    public void ShowProperties(GameObject obj)
+    // Show or hide properties panel and mark menu button
+	public void ShowProperties(GameObject guiComponent)
     {        
-        _PropertiesOpen = obj.activeInHierarchy;
+        _PropertiesOpen = guiComponent.activeInHierarchy;
         GameObject checkbox = GameObject.Find("PropertiesToggle");
         GameObject button = GameObject.Find("PropertiesButton");
         
         if (_PropertiesOpen == false)
         {
             _PropertiesOpen = true;
-            obj.SetActive(true);
+            guiComponent.SetActive(true);
             checkbox.GetComponent<UnityEngine.UI.Toggle>().isOn = true;
             button.GetComponent<UnityEngine.UI.Image>().color = Color.grey;
         } else
         {
             _PropertiesOpen = false;
-            obj.SetActive(false);
+            guiComponent.SetActive(false);
             checkbox.GetComponent<UnityEngine.UI.Toggle>().isOn = false;
             button.GetComponent<UnityEngine.UI.Image>().color = Color.black;
         }
     }
     
-    public void ShowObjectExplorer(GameObject obj)
+    // Show or hide object explorer panel and mark menu button
+	public void ShowObjectExplorer(GameObject guiComponent)
     {        
-        _ObjectExplorerOpen = obj.activeInHierarchy;
+        _ObjectExplorerOpen = guiComponent.activeInHierarchy;
         GameObject checkbox = GameObject.Find("ObjectExplorerToggle");
         GameObject button = GameObject.Find("ObjectExplorerButton");
         
         if (_ObjectExplorerOpen == false)
         {
             _ObjectExplorerOpen = true;
-            obj.SetActive(true);
+            guiComponent.SetActive(true);
             checkbox.GetComponent<UnityEngine.UI.Toggle>().isOn = true;
             button.GetComponent<UnityEngine.UI.Image>().color = Color.grey;
         } else
         {
             _ObjectExplorerOpen = false;
-            obj.SetActive(false);
+            guiComponent.SetActive(false);
             checkbox.GetComponent<UnityEngine.UI.Toggle>().isOn = false;
             button.GetComponent<UnityEngine.UI.Image>().color = Color.black;
         }
     }
     
-    public void ShowDebug(GameObject obj)
+    // Show or hide debug log panel and mark menu button
+	public void ShowDebug(GameObject guiComponent)
     {        
-        _DebugOpen = obj.activeInHierarchy;
+        _DebugOpen = guiComponent.activeInHierarchy;
         GameObject checkbox = GameObject.Find("DebugToggle");
         GameObject button = GameObject.Find("DebugButton");
         
         if (_DebugOpen == false)
         {
             _DebugOpen = true;
-            obj.SetActive(true);
+            guiComponent.SetActive(true);
             checkbox.GetComponent<UnityEngine.UI.Toggle>().isOn = true;
             button.GetComponent<UnityEngine.UI.Image>().color = Color.grey;
         } else
         {
             _DebugOpen = false;
-            obj.SetActive(false);
+            guiComponent.SetActive(false);
             checkbox.GetComponent<UnityEngine.UI.Toggle>().isOn = false;
             button.GetComponent<UnityEngine.UI.Image>().color = Color.black;
         }
     }
     
-    public void OpenProject()
+    // Open basic explorer after buttonClick to Open project
+	public void OpenProject()
     {
         System.Diagnostics.Process.Start("explorer.exe", "/select,");
     }
     
-    public void SaveProject()
+    // Open basic explorer after buttonClick to Save project
+	public void SaveProject()
     {
         System.Diagnostics.Process.Start("explorer.exe", "/select,");
     }
     
-    public void SaveAsProject()
+    // Open basic explorer after buttonClick to Save As project
+	public void SaveAsProject()
     {
         System.Diagnostics.Process.Start("explorer.exe", "/select,");
     }
     
-    public void FilePanelMenu(GameObject obj)
+    // Show or hide File panel menu in Main menu
+	public void ShowFilePanelMenu(GameObject guiComponent)
     {        
-        _FilePanelMenuOpen = obj.GetComponent<Canvas>().enabled;
+        _FilePanelMenuOpen = guiComponent.GetComponent<Canvas>().enabled;
         
         if (_FilePanelMenuOpen == false)
         {
             _FilePanelMenuOpen = true;
-            obj.GetComponent<Canvas>().enabled = true;
+            guiComponent.GetComponent<Canvas>().enabled = true;
         } else
         {
             _FilePanelMenuOpen = false;
-            obj.GetComponent<Canvas>().enabled = false;
+            guiComponent.GetComponent<Canvas>().enabled = false;
         }
     }
     
-    public void EditPanelMenu(GameObject obj)
+    // Show or hide Edit panel menu in Main menu
+	public void ShowEditPanelMenu(GameObject guiComponent)
     {        
-        _EditPanelMenuOpen = obj.GetComponent<Canvas>().enabled;
+        _EditPanelMenuOpen = guiComponent.GetComponent<Canvas>().enabled;
         
         if (_EditPanelMenuOpen == false)
         {
             _EditPanelMenuOpen = true;
-            obj.GetComponent<Canvas>().enabled = true;
+            guiComponent.GetComponent<Canvas>().enabled = true;
         } else
         {
             _EditPanelMenuOpen = false;
-            obj.GetComponent<Canvas>().enabled = false;
+            guiComponent.GetComponent<Canvas>().enabled = false;
         }        
     }
     
-    public void ViewPanelMenu(GameObject obj)
+    // Show or hide View panel menu in Main menu
+	public void ShowViewPanelMenu(GameObject guiComponent)
     {        
-        _ViewPanelMenuOpen = obj.GetComponent<Canvas>().enabled;
+        _ViewPanelMenuOpen = guiComponent.GetComponent<Canvas>().enabled;
         
         if (_ViewPanelMenuOpen == false)
         {
             _ViewPanelMenuOpen = true;
-            obj.GetComponent<Canvas>().enabled = true;
+            guiComponent.GetComponent<Canvas>().enabled = true;
         } else
         {
             _ViewPanelMenuOpen = false;
-            obj.GetComponent<Canvas>().enabled = false;
+            guiComponent.GetComponent<Canvas>().enabled = false;
         }
     }
     
-    public void HelpPanelMenu(GameObject obj)
+    // Show or hide Help panel menu in Main menu
+	public void ShowHelpPanelMenu(GameObject guiComponent)
     {        
-        _HelpPanelMenuOpen = obj.GetComponent<Canvas>().enabled;
+        _HelpPanelMenuOpen = guiComponent.GetComponent<Canvas>().enabled;
         
         if (_HelpPanelMenuOpen == false)
         {
             _HelpPanelMenuOpen = true;
-            obj.GetComponent<Canvas>().enabled = true;
+            guiComponent.GetComponent<Canvas>().enabled = true;
         } else
         {
             _HelpPanelMenuOpen = false;
-            obj.GetComponent<Canvas>().enabled = false;
+            guiComponent.GetComponent<Canvas>().enabled = false;
         }
     }
     
-    public void NewProjectCanvas(GameObject obj)
+    // Show or hide New Project pop-up
+	public void ShowNewProjectCanvas(GameObject guiComponent)
     {        
-        _NewProjectCanvasOpen = obj.GetComponent<Canvas>().enabled;
+        _NewProjectCanvasOpen = guiComponent.GetComponent<Canvas>().enabled;
         
         if (_NewProjectCanvasOpen == false)
         {
             _NewProjectCanvasOpen = true;
-            obj.GetComponent<Canvas>().enabled = true;
+            guiComponent.GetComponent<Canvas>().enabled = true;
         } else
         {
             _NewProjectCanvasOpen = false;
-            obj.GetComponent<Canvas>().enabled = false;
+            guiComponent.GetComponent<Canvas>().enabled = false;
         }
     }
     
-    public void SettingsCanvas(GameObject obj)
+    // Show or hide Settings pop-up
+	public void ShowSettingsCanvas(GameObject guiComponent)
     {        
-        _SettingsCanvasOpen = obj.GetComponent<Canvas>().enabled;
+        _SettingsCanvasOpen = guiComponent.GetComponent<Canvas>().enabled;
         
         if (_SettingsCanvasOpen == false)
         {
             _SettingsCanvasOpen = true;
-            obj.GetComponent<Canvas>().enabled = true;
+            guiComponent.GetComponent<Canvas>().enabled = true;
         } else
         {
             _SettingsCanvasOpen = false;
-            obj.GetComponent<Canvas>().enabled = false;
+            guiComponent.GetComponent<Canvas>().enabled = false;
         }
     }
     
-    public void AboutCanvas(GameObject obj)
+    // Show or hide About project pop-up
+	public void ShowAboutProjectCanvas(GameObject guiComponent)
     {        
-        _AboutCanvasOpen = obj.GetComponent<Canvas>().enabled;
+        _AboutCanvasOpen = guiComponent.GetComponent<Canvas>().enabled;
         
         if (_AboutCanvasOpen == false)
         {
             _AboutCanvasOpen = true;
-            obj.GetComponent<Canvas>().enabled = true;
+            guiComponent.GetComponent<Canvas>().enabled = true;
         } else
         {
             _AboutCanvasOpen = false;
-            obj.GetComponent<Canvas>().enabled = false;
+            guiComponent.GetComponent<Canvas>().enabled = false;
         }
-        //Scroll up to first row
+        // Scroll up to first row
         GameObject aboutViewport = GameObject.Find("AboutViewport");
         aboutViewport.GetComponent<UnityEngine.UI.ScrollRect>().velocity = new Vector2(-0f,-10000f);
     }
     
-    public void ReleaseNotesCanvas(GameObject obj)
+    // Show or hide Release notes pop-up
+	public void ShowReleaseNotesCanvas(GameObject guiComponent)
     {        
-        _ReleaseNotesCanvasOpen = obj.GetComponent<Canvas>().enabled;
+        _ReleaseNotesCanvasOpen = guiComponent.GetComponent<Canvas>().enabled;
         
         if (_ReleaseNotesCanvasOpen == false)
         {
             _ReleaseNotesCanvasOpen = true;
-            obj.GetComponent<Canvas>().enabled = true;
+            guiComponent.GetComponent<Canvas>().enabled = true;
         } else
         {
             _ReleaseNotesCanvasOpen = false;
-            obj.GetComponent<Canvas>().enabled = false;
+            guiComponent.GetComponent<Canvas>().enabled = false;
         }
     }
     
-    public void ContactCanvas(GameObject obj)
+    // Show or hide Contact info pop-up
+	public void ShowContactInfoCanvas(GameObject guiComponent)
     {        
-        _ContactCanvasOpen = obj.GetComponent<Canvas>().enabled;
+        _ContactCanvasOpen = guiComponent.GetComponent<Canvas>().enabled;
         
         if (_ContactCanvasOpen == false)
         {
             _ContactCanvasOpen = true;
-            obj.GetComponent<Canvas>().enabled = true;
+            guiComponent.GetComponent<Canvas>().enabled = true;
         } else
         {
             _ContactCanvasOpen = false;
-            obj.GetComponent<Canvas>().enabled = false;
+            guiComponent.GetComponent<Canvas>().enabled = false;
         }
     }
     
-    public void ReportBugCanvas(GameObject obj)
+    // Show or hide Bug report pop-up
+	public void ShowReportBugCanvas(GameObject guiComponent)
     {        
-        _ReportBugCanvasOpen = obj.GetComponent<Canvas>().enabled;
+        _ReportBugCanvasOpen = guiComponent.GetComponent<Canvas>().enabled;
         
         if (_ReportBugCanvasOpen == false)
         {
             _ReportBugCanvasOpen = true;
-            obj.GetComponent<Canvas>().enabled = true;
+            guiComponent.GetComponent<Canvas>().enabled = true;
         } else
         {
             _ReportBugCanvasOpen = false;
-            obj.GetComponent<Canvas>().enabled = false;
+            guiComponent.GetComponent<Canvas>().enabled = false;
         }
     }
 }

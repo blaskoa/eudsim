@@ -8,15 +8,15 @@ public class Destroy : MonoBehaviour {
     {
         if (SelectObject.SelectedObject != null)
         {
-            //list connected connectors with plusconnector
+            // List connected connectors with plusconnector
             List<GameObject> connected1 =
                 SelectObject.SelectedObject.gameObject.transform.GetChild(0).GetComponent<Connectable>().Connected;
 
-            //list connected connectors with minusconnector
+            // List connected connectors with minusconnector
             List<GameObject> connected2 =
                 SelectObject.SelectedObject.gameObject.transform.GetChild(1).GetComponent<Connectable>().Connected;
 
-            //first update list of connected connectors in connected component with this component
+            // First update list of connected connectors in connected component with this component
             foreach (GameObject c in connected1)
             {
                 c.gameObject.GetComponent<Connectable>()
@@ -29,15 +29,15 @@ public class Destroy : MonoBehaviour {
                     .Connected.Remove(SelectObject.SelectedObject.gameObject.transform.GetChild(1).gameObject);
             }
 
-            // for each lines in scene
+            // For each lines in scene
             GameObject[] lines = GameObject.FindGameObjectsWithTag("Line");
 
             foreach (GameObject currentLine in lines)
             {
-                //except parental line
+                // Except parental line
                 if (currentLine.transform.name != "Line")
                 {
-                    //for every line connected to this component
+                    // For every line connected to this component
                     if (SelectObject.SelectedObject.gameObject.transform.GetChild(0).gameObject ==
                         currentLine.GetComponent<Line>().Begin
                         ||
@@ -58,11 +58,11 @@ public class Destroy : MonoBehaviour {
 
         }
 
-        //destroy selected line when delete key was pressed 
+        // Destroy selected line when delete key was pressed 
         if (SelectObject.SelectedObject != null &&
             (Line.SelectedLine != null && SelectObject.SelectedObject.gameObject == Line.SelectedLine))
         {
-            //delete connected connectors from lists of connectors
+            // Delete connected connectors from lists of connectors
             SelectObject.SelectedObject.gameObject.GetComponent<Line>()
                 .Begin.GetComponent<Connectable>()
                 .Connected.Remove(SelectObject.SelectedObject.gameObject.GetComponent<Line>().End.gameObject);
@@ -80,13 +80,13 @@ public class Destroy : MonoBehaviour {
         {
             if (Input.GetKey(KeyCode.Delete))
             {
-                //list connected connectors with plusconnector
+                // List connected connectors with plusconnector
                 List<GameObject> connected1 = this.gameObject.transform.GetChild(0).GetComponent<Connectable>().Connected;
 
-                //list connected connectors with minusconnector
+                // List connected connectors with minusconnector
                 List<GameObject> connected2 = this.gameObject.transform.GetChild(1).GetComponent<Connectable>().Connected; 
 
-                //first update list of connected connectors in connected component with this component
+                // First update list of connected connectors in connected component with this component
                 foreach (GameObject c in connected1)
                 {
                     c.gameObject.GetComponent<Connectable>().Connected.Remove(this.gameObject.transform.GetChild(0).gameObject);
@@ -97,21 +97,21 @@ public class Destroy : MonoBehaviour {
                     c.gameObject.GetComponent<Connectable>().Connected.Remove(this.gameObject.transform.GetChild(1).gameObject);
                 }
 
-                // for each lines in scene
+                // For each lines in scene
                 GameObject[] objs = GameObject.FindGameObjectsWithTag("Line");
 
-                foreach (GameObject t in objs)
+                foreach (GameObject currentLine in objs)
                 {
-                    //except parental line
-                    if (t.transform.name != "Line")
+                    // Except parental line
+                    if (currentLine.transform.name != "Line")
                     {
-                        //for every line connected to this component
-                        if (this.gameObject.transform.GetChild(0).gameObject == t.GetComponent<Line>().Begin 
-                            || this.gameObject.transform.GetChild(1).gameObject == t.GetComponent<Line>().Begin
-                            || this.gameObject.transform.GetChild(0).gameObject == t.GetComponent<Line>().End
-                            || this.gameObject.transform.GetChild(1).gameObject == t.GetComponent<Line>().End)
+                        // For every line connected to this component
+                        if (this.gameObject.transform.GetChild(0).gameObject == currentLine.GetComponent<Line>().Begin 
+                            || this.gameObject.transform.GetChild(1).gameObject == currentLine.GetComponent<Line>().Begin
+                            || this.gameObject.transform.GetChild(0).gameObject == currentLine.GetComponent<Line>().End
+                            || this.gameObject.transform.GetChild(1).gameObject == currentLine.GetComponent<Line>().End)
                         {                            
-                            Destroy(t.gameObject);
+                            Destroy(currentLine.gameObject);
                         }                       
                     }
                 }
@@ -119,12 +119,12 @@ public class Destroy : MonoBehaviour {
             }
         }
 
-        //destroy selected line when delete key was pressed 
+        // Destroy selected line when delete key was pressed 
         if (Line.SelectedLine != null && this.gameObject == Line.SelectedLine)
         {
             if (Input.GetKey(KeyCode.Delete))
             {
-                //delete connected connectors from lists of connectors
+                // Delete connected connectors from lists of connectors
                 this.gameObject.GetComponent<Line>().Begin.GetComponent<Connectable>().Connected.Remove(this.gameObject.GetComponent<Line>().End.gameObject);
                 this.gameObject.GetComponent<Line>().End.GetComponent<Connectable>().Connected.Remove(this.gameObject.GetComponent<Line>().Begin.gameObject);
                 Destroy(this.gameObject);
