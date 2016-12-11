@@ -47,6 +47,14 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
         // Select new object.
         SelectedObject = this.gameObject;
         SelectionBox.GetComponent<SpriteRenderer>().enabled = true;
+        GameObject rLeftButton = GameObject.Find("RotateLeftButton");
+        GameObject rRightButton = GameObject.Find("RotateRightButton");
+        GameObject deleteButton = GameObject.Find("DeleteButton");
+        GameObject menuDeleteButton = GameObject.Find("MenuDeleteButton");
+        rLeftButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
+        rRightButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
+        deleteButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
+        menuDeleteButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
 
         // Clear the Properties Window
         script.Clear();

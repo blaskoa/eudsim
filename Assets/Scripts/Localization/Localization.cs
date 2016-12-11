@@ -13,10 +13,10 @@ public class Localization : MonoBehaviour
         ResourceReader = new ResourceReader(Path.Combine(Application.dataPath, ResourceReader.ResourceFileName),
             Application.systemLanguage);
         SetElementTexts();
-	    if (Application.systemLanguage.ToString() == "Slovak")
-		{
-			_languageCycle = _languageCycle + 1;
-		}
+        if (Application.systemLanguage.ToString() == "Slovak")
+        {
+            _languageCycle = _languageCycle + 1;
+        }
     }
     // used for testing purposes - cycles language between Slovak and English
     public void CycleLanguage()

@@ -32,5 +32,13 @@ public class Deselect : MonoBehaviour, IPointerClickHandler
             Line.SelectedLine = null;
             script.Clear();
         }
+        GameObject rLeftButton = GameObject.Find("RotateLeftButton");
+        GameObject rRightButton = GameObject.Find("RotateRightButton");
+        GameObject deleteButton = GameObject.Find("DeleteButton");
+        GameObject menuDeleteButton = GameObject.Find("MenuDeleteButton");
+        rLeftButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
+        rRightButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
+        deleteButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
+        menuDeleteButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
     }
 }
