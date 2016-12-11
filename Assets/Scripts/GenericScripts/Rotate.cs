@@ -29,14 +29,14 @@ public class Rotate : MonoBehaviour
         if (SelectObject.SelectedObject != null && this.gameObject == SelectObject.SelectedObject)
         {
             // Check if Q is pressed.
-            if (HotkeyManager.Instance.CheckHotkey(RotateLeftHotkeyKey))
-            {
-                RoateClockWise();
-            }
-            // Check if E is pressed.
-            else if (HotkeyManager.Instance.CheckHotkey(RotateRightHotkeyKey))
+            if (HotkeyManager.Instance.CheckHotkey(RotateLeftHotkeyKey, KeyAction.Down))
             {
                 RoateCounterClockWise();
+            }
+            // Check if E is pressed.
+            else if (HotkeyManager.Instance.CheckHotkey(RotateRightHotkeyKey, KeyAction.Down))
+            {
+                RoateClockWise();
             }
         }
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Destroy : MonoBehaviour
 {
-
+    public const string DeleteHotkeyKey = "Delete";
     public void DeleteSelected()
     {
         if (SelectObject.SelectedObject != null && SelectObject.SelectedObject.tag.Equals("ActiveItem"))
@@ -63,13 +63,11 @@ public class Destroy : MonoBehaviour
         // Destroy selected line when delete key was pressed 
         if (Line.SelectedLine != null && this.gameObject == Line.SelectedLine)
         {
-            if (HotkeyManager.Instance.CheckHotkey(DeleteHotkeyKey, KeyAction.Down))
-            {
-                // Delete connected connectors from lists of connectors
-                this.gameObject.GetComponent<Line>().Begin.GetComponent<Connectable>().Connected.Remove(this.gameObject.GetComponent<Line>().End.gameObject);
-                this.gameObject.GetComponent<Line>().End.GetComponent<Connectable>().Connected.Remove(this.gameObject.GetComponent<Line>().Begin.gameObject);
-                Destroy(this.gameObject);
-            }
+            // Delete connected connectors from lists of connectors
+            this.gameObject.GetComponent<Line>().Begin.GetComponent<Connectable>().Connected.Remove(this.gameObject.GetComponent<Line>().End.gameObject);
+            this.gameObject.GetComponent<Line>().End.GetComponent<Connectable>().Connected.Remove(this.gameObject.GetComponent<Line>().Begin.gameObject);
+            Destroy(this.gameObject);
+            
         }
 
     }
@@ -77,7 +75,7 @@ public class Destroy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Delete))
+        if (HotkeyManager.Instance.CheckHotkey(DeleteHotkeyKey, KeyAction.Down))
         {
             DeleteSelected();
         }
