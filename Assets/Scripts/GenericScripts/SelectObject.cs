@@ -3,13 +3,14 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 public class SelectObject : MonoBehaviour, IPointerClickHandler
 {
     
     // Global variable to allow only one selected item.
-    public static GameObject SelectedObject;
     public GameObject SelectionBox;
+    public static List<GameObject> SelectedObjects = new List<GameObject>();
 
     // Initialization: Making object and SelectionBox the same size.
     void Start ()
@@ -30,10 +31,13 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
         }
 
         // Deselect selected item first.
-        if (SelectedObject != null)
-        {
-            SelectedObject.transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = false;
-            SelectedObject = this.gameObject;
+        if (SelectedObjects.Count != 0)
+        {           
+            foreach (GameObject objectSelected in SelectedObjects)
+            {
+                objectSelected.transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = false;
+            }
+            SelectedObjects.Clear();
         }
 
         // Deselect line
@@ -45,10 +49,26 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
         }
 
         // Select new object.
-        SelectedObject = this.gameObject;
+        
+        SelectedObjects.Add(this.gameObject);
         SelectionBox.GetComponent<SpriteRenderer>().enabled = true;
 		
-		// Enable buttons for component manipulation
+		EnableButtons();
+
+        // Clear the Properties Window
+        script.Clear();
+
+        // Call the script from component that fills the Properties Window
+        if (SelectedObjects.Count == 1)
+        {
+            GUICircuitComponent componentScript = SelectedObjects[0].GetComponent<GUICircuitComponent>();
+            componentScript.GetProperties();
+        }
+    }
+
+    private void EnableButtons()
+    {
+        // Enable buttons for component manipulation
         GameObject rotateLeftButton = GameObject.Find("RotateLeftButton");
         GameObject rotateRightButton = GameObject.Find("RotateRightButton");
         GameObject deleteButton = GameObject.Find("DeleteButton");
@@ -57,12 +77,7 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
         rotateRightButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
         deleteButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
         menuDeleteButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
-
-        // Clear the Properties Window
-        script.Clear();
-
-        // Call the script from component that fills the Properties Window
-        GUICircuitComponent componentScript = SelectedObject.GetComponent<GUICircuitComponent>();
-        componentScript.GetProperties();
     }
+
+
 }

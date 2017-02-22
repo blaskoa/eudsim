@@ -198,10 +198,13 @@ public class Line : MonoBehaviour,IPointerClickHandler
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
         //deselect component
-        if (SelectObject.SelectedObject != null)
+        if (SelectObject.SelectedObjects.Count != 0)
         {
-            SelectObject.SelectedObject.transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = false;
-            SelectObject.SelectedObject = null;
+            foreach (GameObject objectSelected in SelectObject.SelectedObjects)
+            {
+                objectSelected.transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = false;
+            }           
+            SelectObject.SelectedObjects.Clear();
             script.Clear();
         }
 

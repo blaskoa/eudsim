@@ -33,7 +33,7 @@ public class Localization : MonoBehaviour
     // cycles trough all child elements and sets their texts according to current language
     private void SetElementTexts()
     {
-        FindObjectOfType<Deselect>().DoDeselect();
+        FindObjectOfType<MultiSelect>().DoDeselect();
         foreach (Text textComponent in GetComponentsInChildren<Text>(true))
         {
             textComponent.text = ResourceReader.GetResource(textComponent.name);

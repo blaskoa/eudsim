@@ -27,7 +27,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         // Setting starting posiitons.
         _mousePos = Camera.main.ScreenToWorldPoint(eventData.position);
-        _itemPos = this.transform.position;
+        _itemPos = this.gameObject.transform.position;
 
         // ToolboxItemActive tagged GameObjects are used to generate new instances for the working panel.
         if (this.gameObject.tag == "ToolboxItemActive")
@@ -220,39 +220,43 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         _decreaseDelay();
         // Check if any object is selected.
-        if (SelectObject.SelectedObject != null && this.gameObject == SelectObject.SelectedObject)
+        if (SelectObject.SelectedObjects.Count != 0)
         {
-            // Check if A is pressed.
-            if (HotkeyManager.Instance.CheckHotkey(MoveLeftHotkeyKey))
-            {
-                movement.x -= _step;
-            }
+            if (SelectObject.SelectedObjects.Contains(this.gameObject))
+            { 
+                // Check if A is pressed.
+                if (HotkeyManager.Instance.CheckHotkey(MoveLeftHotkeyKey))
+                {
+                    movement.x -= _step;
+                }
 
-            // Check if D is pressed.
-            if (HotkeyManager.Instance.CheckHotkey(MoveRightHotkeyKey))
-            {
-                movement.x += _step;
-            }
-            
-            // Check if S is pressed.
-            if (HotkeyManager.Instance.CheckHotkey(MoveDownHotkeyKey))
-            {
-                movement.y -= _step;
-            }
+                // Check if D is pressed.
+                if (HotkeyManager.Instance.CheckHotkey(MoveRightHotkeyKey))
+                {
+                    movement.x += _step;
+                }
 
-            // Check if W is pressed.
-            if (HotkeyManager.Instance.CheckHotkey(MoveUpHotkeyKey))
-            {
-                movement.y += _step;
-            }
+                // Check if S is pressed.
+                if (HotkeyManager.Instance.CheckHotkey(MoveDownHotkeyKey))
+                {
+                    movement.y -= _step;
+                }
 
-            // Button delay has passed and some keys were pressed.
-            if (_buttonDelay == 0f && (movement.x != 0f || movement.y != 0f))
-            {
-                // Check collision.
-                Vector3 finalPos = _checkCollision(SelectObject.SelectedObject, SelectObject.SelectedObject.transform.position + movement);
-                SelectObject.SelectedObject.transform.position = finalPos;
-                _buttonDelay = _delay;
+                // Check if W is pressed.
+                if (HotkeyManager.Instance.CheckHotkey(MoveUpHotkeyKey))
+                {
+                    movement.y += _step;
+                }
+
+                // Button delay has passed and some keys were pressed.
+                if (_buttonDelay == 0f && (movement.x != 0f || movement.y != 0f))
+                {
+                    // Check collision.
+                    Vector3 finalPos = _checkCollision(this.gameObject,
+                        this.gameObject.transform.position + movement);
+                    this.gameObject.transform.position = finalPos;
+                    _buttonDelay = _delay;
+                }              
             }
         }
     }
