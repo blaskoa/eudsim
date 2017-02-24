@@ -4,10 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class MultiSelect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
+public class MultiSelect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+{
 
     private bool _isSelecting = false;
     private Vector3 _mousePosition1;
+
+    //util classes for work with toolbar buttons and drawing rectangle
+    private ToolbarButtonUtils _tbu = new ToolbarButtonUtils();
+    private MultiSelectUtils _msu = new MultiSelectUtils();
 
     public bool IsWithinSelectionBounds(GameObject gameObject)
     {
@@ -16,7 +21,7 @@ public class MultiSelect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             return false;
         }
 
-        var viewportBounds = MultiSelectUtils.GetViewportBounds(Camera.main, _mousePosition1, Input.mousePosition);
+        Bounds viewportBounds = _msu.GetViewportBounds(Camera.main, _mousePosition1, Input.mousePosition);
         return viewportBounds.Contains(Camera.main.WorldToViewportPoint(gameObject.transform.position));
     }
 
@@ -26,77 +31,56 @@ public class MultiSelect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         if (_isSelecting)
         {
             // Create a rect from both mouse positions
-            var rect = MultiSelectUtils.GetScreenRect(_mousePosition1, Input.mousePosition);
-            //MultiSelectUtils.DrawScreenRectBorder(rect, 2, Color.green);
-            MultiSelectUtils.DrawScreenRect(rect, new Color(0f, 0f, 0f, 0.2f));
-            // MultiSelectUtils.DrawScreenRectBorder(rect, 2, new Color(0.8f, 0.8f, 0.95f));
-            MultiSelectUtils.DrawScreenRectBorder(rect, 2, Color.white);
+            Rect rect = _msu.GetScreenRect(_mousePosition1, Input.mousePosition);      
+            _msu.DrawScreenRect(rect, new Color(0f, 0f, 0f, 0.2f));
+            _msu.DrawScreenRectBorder(rect, 2, Color.white);
         }
-    }
-
-    private void EnableButtons()
-    {
-        // Enable buttons for component manipulation
-        GameObject rotateLeftButton = GameObject.Find("RotateLeftButton");
-        GameObject rotateRightButton = GameObject.Find("RotateRightButton");
-        GameObject deleteButton = GameObject.Find("DeleteButton");
-        GameObject menuDeleteButton = GameObject.Find("MenuDeleteButton");
-        rotateLeftButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
-        rotateRightButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
-        deleteButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
-        menuDeleteButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
-    }
-
-    private void DisableButtons()
-    {
-        // Disable buttons for component manipulation
-        GameObject rotateLeftButton = GameObject.Find("RotateLeftButton");
-        GameObject rotateRightButton = GameObject.Find("RotateRightButton");
-        GameObject deleteButton = GameObject.Find("DeleteButton");
-        GameObject menuDeleteButton = GameObject.Find("MenuDeleteButton");
-        rotateLeftButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
-        rotateRightButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
-        deleteButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
-        menuDeleteButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
     }
 
     // If we press the left mouse button, save mouse location and begin selection
     public void OnPointerDown(PointerEventData eventData)
-      {
+    {
         //deselect items first
         DoDeselect();
 
         //initialize variable
         _isSelecting = true;
         _mousePosition1 = Input.mousePosition;
-      }
+     }
 
     // If we let go of the left mouse button, end selection
     public void OnPointerUp(PointerEventData eventData)
-      {
+    {
         //select every item in selection bounds
-          foreach (GameObject selectableObject in GameObject.FindGameObjectsWithTag("ActiveItem"))
+        foreach (GameObject selectableObject in GameObject.FindGameObjectsWithTag("ActiveItem"))
+        {
+            if (IsWithinSelectionBounds(selectableObject.gameObject))
             {
-                if (IsWithinSelectionBounds(selectableObject.gameObject))
-                {
-                    SelectObject.SelectedObjects.Add(selectableObject);
-                    selectableObject.GetComponent<SelectObject>().SelectionBox.GetComponent<SpriteRenderer>().enabled = true;
-                }
+                SelectObject.SelectedObjects.Add(selectableObject);
+                selectableObject.GetComponent<SelectObject>().SelectionBox.GetComponent<SpriteRenderer>().enabled = true;
             }
+        }
 
-          //end of selecting
-            _isSelecting = false;
+        //end of selecting
+        _isSelecting = false;
 
-          //enabling or disabling buttons in toolbar panel
-            if (SelectObject.SelectedObjects.Count != 0)
-            {
-                EnableButtons();
-            }
-            else
-            {
-                DisableButtons();
-            }
-      }
+        // Call the script from component that fills the Properties Window
+        if (SelectObject.SelectedObjects.Count == 1)
+        {
+            GUICircuitComponent componentScript = SelectObject.SelectedObjects[0].GetComponent<GUICircuitComponent>();
+            componentScript.GetProperties();
+        }
+       
+        //enabling or disabling buttons in toolbar panel
+        if (SelectObject.SelectedObjects.Count != 0)
+        {          
+            _tbu.EnableToolbarButtons();
+        }
+        else
+        {
+            _tbu.DisableToolbarButtons();
+        }
+    }
 
     public void DoDeselect()
     {
@@ -122,6 +106,6 @@ public class MultiSelect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             script.Clear();
         }
 
-        DisableButtons();
+        _tbu.DisableToolbarButtons();
     }
 }

@@ -12,6 +12,9 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
     public GameObject SelectionBox;
     public static List<GameObject> SelectedObjects = new List<GameObject>();
 
+    //util class for work with toolbar buttons 
+    private ToolbarButtonUtils tbu = new ToolbarButtonUtils();
+
     // Initialization: Making object and SelectionBox the same size.
     void Start ()
     {
@@ -48,16 +51,15 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
             script.Clear();
         }
 
-        // Select new object.
-        
+        // Select new object.        
         SelectedObjects.Add(this.gameObject);
         SelectionBox.GetComponent<SpriteRenderer>().enabled = true;
 		
-		EnableButtons();
+		tbu.EnableToolbarButtons();
 
         // Clear the Properties Window
         script.Clear();
-
+       
         // Call the script from component that fills the Properties Window
         if (SelectedObjects.Count == 1)
         {
@@ -65,19 +67,4 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
             componentScript.GetProperties();
         }
     }
-
-    private void EnableButtons()
-    {
-        // Enable buttons for component manipulation
-        GameObject rotateLeftButton = GameObject.Find("RotateLeftButton");
-        GameObject rotateRightButton = GameObject.Find("RotateRightButton");
-        GameObject deleteButton = GameObject.Find("DeleteButton");
-        GameObject menuDeleteButton = GameObject.Find("MenuDeleteButton");
-        rotateLeftButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
-        rotateRightButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
-        deleteButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
-        menuDeleteButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
-    }
-
-
 }

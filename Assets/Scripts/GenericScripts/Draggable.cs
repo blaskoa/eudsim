@@ -19,12 +19,36 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     // Item we're dragging.
     private GameObject _draggingItem;
 
+    //util class for work with toolbar buttons 
+    private ToolbarButtonUtils tbu = new ToolbarButtonUtils();
+
     private float _step = 0.5f;
     private float _buttonDelay = 0f;
     private float _delay = 0.25f;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
+        EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
+
+        // Deselect selected item first.
+        if (SelectObject.SelectedObjects.Count != 0)
+        {
+            foreach (GameObject objectSelected in SelectObject.SelectedObjects)
+            {
+                objectSelected.transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = false;
+            }
+            SelectObject.SelectedObjects.Clear();
+        }
+
+        // Deselect line
+        if (Line.SelectedLine != null)
+        {
+            Line.SelectedLine.GetComponent<LineRenderer>().SetColors(Color.black, Color.black);
+            Line.SelectedLine = null;
+            script.Clear();
+        }
+
         // Setting starting posiitons.
         _mousePos = Camera.main.ScreenToWorldPoint(eventData.position);
         _itemPos = this.gameObject.transform.position;
@@ -38,6 +62,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             _draggingItem.transform.localScale = new Vector3(1,1,0);
             _draggingItem.GetComponent<SpriteRenderer>().enabled = true;
             _draggingItem.GetComponent<SpriteRenderer>().sortingLayerName = "ActiveItem";
+
             for (int i = 0; i < _draggingItem.transform.childCount; i++)
             {
                 _draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingLayerName = "ActiveItem";
@@ -45,10 +70,24 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 _draggingItem.transform.GetChild(i).gameObject.layer = 8;
             }
         }
-        else
-        {
+        else if (SelectObject.SelectedObjects.Count == 0 || SelectObject.SelectedObjects.Count == 1 && SelectObject.SelectedObjects[0] == this.gameObject)
+        {           
             _draggingItem = this.gameObject;
+
+            // Select new object.        
+            SelectObject.SelectedObjects.Add(_draggingItem);
+            _draggingItem.GetComponent<SelectObject>().SelectionBox.GetComponent<SpriteRenderer>().enabled = true;
+            
+            tbu.EnableToolbarButtons();
+
+            // Clear the Properties Window
+            script.Clear();
+
+            // Call the script from component that fills the Properties Window
+            GUICircuitComponent componentScript = _draggingItem.GetComponent<GUICircuitComponent>();
+            componentScript.GetProperties();
         }
+
 
         if (this.gameObject.tag == "Node")
         {
@@ -58,6 +97,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             _draggingItem.transform.localScale = new Vector3(1, 1, 0);
             _draggingItem.GetComponent<SpriteRenderer>().enabled = true;
             _draggingItem.GetComponent<SpriteRenderer>().sortingLayerName = "ActiveItem";
+
             for (int i = 0; i < _draggingItem.transform.childCount; i++)
             {
                 _draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingLayerName = "ActiveItem";
@@ -66,14 +106,16 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 _draggingItem.transform.GetChild(i).gameObject.layer = 8;
             }
         }
-
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        //Moving the item with the mouse.
-        Vector2 mouseDiff = (Vector2)Camera.main.ScreenToWorldPoint(eventData.position) - _mousePos;
-        _draggingItem.transform.position = _itemPos + mouseDiff;
+        if (_draggingItem != null)
+        {
+            //Moving the item with the mouse.
+            Vector2 mouseDiff = (Vector2) Camera.main.ScreenToWorldPoint(eventData.position) - _mousePos;
+            _draggingItem.transform.position = _itemPos + mouseDiff;
+        }
     }
 
     // Check if dragging object is colliding with some other object.
@@ -200,17 +242,21 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        // Snapping by 0.5f.
-        Vector3 finalPos = _draggingItem.transform.position;
+        if (_draggingItem != null)
+        {
+            // Snapping by 0.5f.
+            Vector3 finalPos = _draggingItem.transform.position;
 
-        finalPos *= 2;
-        finalPos = new Vector3(Mathf.Round(finalPos.x), Mathf.Round(finalPos.y));
-        finalPos /= 2;
+            finalPos *= 2;
+            finalPos = new Vector3(Mathf.Round(finalPos.x), Mathf.Round(finalPos.y));
+            finalPos /= 2;
 
-        // Check if item is colliding with other item at its final location.
-        finalPos = _checkCollision(_draggingItem, finalPos);
+            // Check if item is colliding with other item at its final location.
+            finalPos = _checkCollision(_draggingItem, finalPos);
 
-        _draggingItem.transform.position = finalPos;
+            _draggingItem.transform.position = finalPos;
+            _draggingItem = null;
+        }
     }
 
     void Update()
