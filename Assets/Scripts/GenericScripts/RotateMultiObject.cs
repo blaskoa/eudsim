@@ -9,27 +9,33 @@ public class RotateMultiObject : MonoBehaviour {
     public const string RotateLeftHotkeyKey = "RotateLeft";
     public const string RotateRightHotkeyKey = "RotateRight";
 
-    public void RotateMultiObjectClockWise(Vector3 point)
+    public void RotateMultiObjectClockWise()
     {
-        foreach (GameObject objectSelected in SelectObject.SelectedObjects)
-        {
-            objectSelected.transform.RotateAround(point, new Vector3(0, 0, 1), +90);
-            
+        Vector3 point = CalculateCenterPoint();
+        if (SelectObject.SelectedObjects.Count > 1)
+        {           
+            foreach (GameObject objectSelected in SelectObject.SelectedObjects)
+            {
+                objectSelected.transform.RotateAround(point, new Vector3(0, 0, 1), +90);
+            }
         }
     }
 
-    public void RotateMultiObjectCounterClockWise(Vector3 point)
+    public void RotateMultiObjectCounterClockWise()
     {
-        foreach (GameObject objectSelected in SelectObject.SelectedObjects)
-        {
-            objectSelected.transform.RotateAround(point, new Vector3(0, 0, 1), -90);
+        Vector3 point = CalculateCenterPoint();
+        if (SelectObject.SelectedObjects.Count > 1)
+        {          
+            foreach (GameObject objectSelected in SelectObject.SelectedObjects)
+            {
+                objectSelected.transform.RotateAround(point, new Vector3(0, 0, 1), -90);
+            }
         }
     }
 
-    // Update is called once per frame
-    void Update ()
+    public Vector3 CalculateCenterPoint()
     {
-		if (SelectObject.SelectedObjects.Count > 1)
+        if (SelectObject.SelectedObjects.Count > 1)
         {
             //calculate the point in center of selected items
             float minx = this.gameObject.transform.position.x;
@@ -57,21 +63,26 @@ public class RotateMultiObject : MonoBehaviour {
                 }
             }
 
-            float x = (minx + maxx) / 2;
-            float y = (miny + maxy) / 2;
-            Debug.Log(x + "   " + y);
-            Vector3 point = new Vector3(x, y, 0);
+            float x = (minx + maxx)/2;
+            float y = (miny + maxy)/2;
+            
+            return (new Vector3(x, y, 0));
+        }
+        return Vector3.zero;
+    }
 
-            // Check if Q is pressed.
-            if (HotkeyManager.Instance.CheckHotkey(RotateLeftHotkeyKey, KeyAction.Down))
-            {
-                RotateMultiObjectCounterClockWise(point);
-            }
-            // Check if E is pressed.
-            else if (HotkeyManager.Instance.CheckHotkey(RotateRightHotkeyKey, KeyAction.Down))
-            {
-                RotateMultiObjectClockWise(point);
-            }
+    // Update is called once per frame
+    void Update ()
+    {
+        // Check if Q is pressed.
+        if (HotkeyManager.Instance.CheckHotkey(RotateLeftHotkeyKey, KeyAction.Down))
+        {
+            RotateMultiObjectCounterClockWise();
+        }
+        // Check if E is pressed.
+        else if (HotkeyManager.Instance.CheckHotkey(RotateRightHotkeyKey, KeyAction.Down))
+        {
+            RotateMultiObjectClockWise();
         }
     }
 }
