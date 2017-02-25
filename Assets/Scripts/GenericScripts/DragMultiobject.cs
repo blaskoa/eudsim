@@ -12,6 +12,7 @@ public class DragMultiobject : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        
         // Setting starting positions for every selected elements           
         if (SelectObject.SelectedObjects.Count > 1)
         {

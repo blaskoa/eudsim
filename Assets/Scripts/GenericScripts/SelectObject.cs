@@ -28,18 +28,15 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
-        if (this.gameObject.tag == "ToolboxItem" || this.gameObject.tag == "Node")
+        if (this.gameObject.tag == "ToolboxItem" || this.gameObject.tag == "Node" || SelectedObjects.Count > 1)
         {
             return;
         }
 
         // Deselect selected item first.
-        if (SelectedObjects.Count != 0)
+        if (SelectedObjects.Count == 1)
         {           
-            foreach (GameObject objectSelected in SelectedObjects)
-            {
-                objectSelected.transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = false;
-            }
+            SelectedObjects[0].transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = false;
             SelectedObjects.Clear();
         }
 
@@ -51,7 +48,7 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
             script.Clear();
         }
 
-        // Select new object.        
+        // Select new object.      
         SelectedObjects.Add(this.gameObject);
         SelectionBox.GetComponent<SpriteRenderer>().enabled = true;
 		

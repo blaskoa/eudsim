@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Hotkeys;
 using UnityEngine.EventSystems;
@@ -15,12 +16,13 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     // Mouse and dragged item positions at the start of dragging.
     private Vector2 _mousePos;
     private Vector2 _itemPos;
+    private List<Vector2> _itemPoss = new List<Vector2>();
 
     // Item we're dragging.
     private GameObject _draggingItem;
 
     //util class for work with toolbar buttons 
-    private ToolbarButtonUtils tbu = new ToolbarButtonUtils();
+    private ToolbarButtonUtils _tbu = new ToolbarButtonUtils();
 
     private float _step = 0.5f;
     private float _buttonDelay = 0f;
@@ -32,13 +34,42 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
         // Deselect selected item first.
-        if (SelectObject.SelectedObjects.Count != 0)
+        if (SelectObject.SelectedObjects.Count != 0 && !SelectObject.SelectedObjects.Contains(this.gameObject))
         {
             foreach (GameObject objectSelected in SelectObject.SelectedObjects)
             {
                 objectSelected.transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = false;
             }
             SelectObject.SelectedObjects.Clear();
+        }
+        else if (SelectObject.SelectedObjects.Count > 1 && SelectObject.SelectedObjects.Contains(this.gameObject))
+        {
+            // Setting starting positions for every selected elements     
+            _mousePos = Camera.main.ScreenToWorldPoint(eventData.position);
+           /* float minx = this.gameObject.transform.position.x;
+            float miny = this.gameObject.transform.position.y;
+            float maxx = this.gameObject.transform.position.x;
+            float maxy = this.gameObject.transform.position.y;*/
+            foreach (GameObject objectSelected in SelectObject.SelectedObjects)
+            {
+                /*if (minx > objectSelected.gameObject.transform.position.x)
+                {
+                    minx = objectSelected.gameObject.transform.position.x;
+                }
+                if (miny > objectSelected.gameObject.transform.position.y)
+                {
+                    miny = objectSelected.gameObject.transform.position.y;
+                }
+                if (maxx < objectSelected.gameObject.transform.position.x)
+                {
+                    maxx = objectSelected.gameObject.transform.position.x;
+                }
+                if (maxy < objectSelected.gameObject.transform.position.y)
+                {
+                    maxy = objectSelected.gameObject.transform.position.y;
+                }*/
+                _itemPoss.Add(objectSelected.transform.position);
+            }
         }
 
         // Deselect line
@@ -78,7 +109,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             SelectObject.SelectedObjects.Add(_draggingItem);
             _draggingItem.GetComponent<SelectObject>().SelectionBox.GetComponent<SpriteRenderer>().enabled = true;
             
-            tbu.EnableToolbarButtons();
+            _tbu.EnableToolbarButtons();
 
             // Clear the Properties Window
             script.Clear();
@@ -110,11 +141,23 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (_draggingItem != null)
+        if (_draggingItem != null)// && SelectObject.SelectedObjects.Count == 1)
         {
             //Moving the item with the mouse.
             Vector2 mouseDiff = (Vector2) Camera.main.ScreenToWorldPoint(eventData.position) - _mousePos;
             _draggingItem.transform.position = _itemPos + mouseDiff;
+        }
+        else if (SelectObject.SelectedObjects.Count > 1)
+        {
+            //Moving the item with the mouse.
+            Vector2 mouseDiff = (Vector2) Camera.main.ScreenToWorldPoint(eventData.position) - _mousePos;
+            int i = 0;
+            //Debug.Log(SelectObject.SelectedObjects.Count);
+            foreach (GameObject objectSelected in SelectObject.SelectedObjects)
+            {
+                objectSelected.transform.position = _itemPoss[i] + mouseDiff;
+                i++;
+            }
         }
     }
 
@@ -257,6 +300,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             _draggingItem.transform.position = finalPos;
             _draggingItem = null;
         }
+        _itemPoss.Clear();
     }
 
     void Update()
