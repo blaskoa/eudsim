@@ -8,55 +8,34 @@ public class Rotate : MonoBehaviour
     //Rotate functionality to invoke rotation from button, +90 degrees
     public void RoateClockWise()
     {
-        if (SelectObject.SelectedObjects.Count != 0) 
-        {
-            foreach (GameObject objectSelected in SelectObject.SelectedObjects)
-            {
-                if (objectSelected.tag.Equals("ActiveItem"))
-                {
-                   objectSelected.transform.Rotate(new Vector3(0, 0, -90));
-                }
-            }          
-        }
+        this.gameObject.transform.Rotate(new Vector3(0, 0, +90));      
     }
 
     //Rotate functionality to invoke rotation from button, -90 degrees
     public void RoateCounterClockWise()
     {
-        if (SelectObject.SelectedObjects.Count != 0)
-        {
-            foreach (GameObject objectSelected in SelectObject.SelectedObjects)
-            {
-                if (objectSelected.tag.Equals("ActiveItem"))
-                {
-                    objectSelected.transform.Rotate(new Vector3(0, 0, -90));
-                }
-            }
-        }
+         this.gameObject.transform.Rotate(new Vector3(0, 0, -90));
     }
 
     // Update is called once per frame
     void Update () {
-        // Check if any object is selected.
 
-        if (SelectObject.SelectedObjects.Count != 0)
+        // Check if any object is selected.
+        if (this.gameObject.tag.Equals("ActiveItem") && SelectObject.SelectedObjects.Contains(this.gameObject))
         {
-            foreach (GameObject objectSelected in SelectObject.SelectedObjects)
+            if (SelectObject.SelectedObjects.Count == 1)
             {
-                if (objectSelected == this.gameObject)
+                // Check if Q is pressed.
+                if (HotkeyManager.Instance.CheckHotkey(RotateLeftHotkeyKey, KeyAction.Down))
                 {
-                    // Check if Q is pressed.
-                    if (HotkeyManager.Instance.CheckHotkey(RotateLeftHotkeyKey, KeyAction.Down))
-                    {
-                        RoateCounterClockWise();
-                    }
-                    // Check if E is pressed.
-                    else if (HotkeyManager.Instance.CheckHotkey(RotateRightHotkeyKey, KeyAction.Down))
-                    {
-                        RoateClockWise();
-                    }
+                    RoateCounterClockWise();
                 }
-            }
+                // Check if E is pressed.
+                else if (HotkeyManager.Instance.CheckHotkey(RotateRightHotkeyKey, KeyAction.Down))
+                {
+                    RoateClockWise();
+                }
+            }           
         }
     }
 }
