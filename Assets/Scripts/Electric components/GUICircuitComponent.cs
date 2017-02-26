@@ -24,5 +24,10 @@ public abstract class GUICircuitComponent : MonoBehaviour
     {
 
     }
+
+    public virtual void CopyValues(GUICircuitComponent old)
+    {
+        
+    }
 }
 

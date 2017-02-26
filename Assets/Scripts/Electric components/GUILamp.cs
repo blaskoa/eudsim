@@ -18,8 +18,7 @@ public class GUILamp : GUICircuitComponent
 
     }
 
-    // Use this for initialization
-    public void Start()     // public for testing purposes
+    public void Awake()
     {
         if (this.CompareTag("ActiveItem"))
         {
@@ -32,6 +31,12 @@ public class GUILamp : GUICircuitComponent
             Connectors[1].AssignComponent(this);
             SetDllConnectors();
         }
+    }
+
+    // Use this for initialization
+    public void Start()     // public for testing purposes
+    {
+
     }
 
     public override void SetSimulationProp(Circuit sim)

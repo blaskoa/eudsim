@@ -40,8 +40,13 @@ public class GUIInductor : GUICircuitComponent
         script.AddResult("InductancePropertyLabel", "15.6", "Ohm");
     }
 
-    // Use this for initialization
-    void Start()
+    public override void CopyValues(GUICircuitComponent old)
+    {
+        Inductance = ((GUIInductor) old).Inductance;
+        IsTrapezoidal = ((GUIInductor) old).IsTrapezoidal;
+    }
+
+    public void Awake()
     {
         if (CompareTag("ActiveItem"))
         {
@@ -55,6 +60,12 @@ public class GUIInductor : GUICircuitComponent
             Connectors[1].AssignComponent(this);
             SetDllConnectors();
         }
+    }
+
+    // Use this for initialization
+    void Start()
+    {
+
     }
 
     public override void SetSimulationProp(Circuit sim)

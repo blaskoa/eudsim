@@ -4,9 +4,7 @@ using ClassLibrarySharpCircuit;
 
 public class GUINode : GUICircuitComponent
 {
-
-    // Use this for initialization
-    public void Start()
+    public void Awake()
     {
         if (this.CompareTag("ActiveNode"))
         {
@@ -14,5 +12,11 @@ public class GUINode : GUICircuitComponent
             Connectors[0] = this.transform.FindChild("NodeConnector").GetComponent<Connector>();
             Connectors[0].SetConnectedConnectors();
         }
+    }
+
+    // Use this for initialization
+    public void Start()
+    {
+
     }
 }

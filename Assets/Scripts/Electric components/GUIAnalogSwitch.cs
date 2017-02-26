@@ -26,6 +26,11 @@ public class GUIAnalogSwitch : GUICircuitComponent
         }
     }
 
+    public override void CopyValues(GUICircuitComponent old)
+    {
+        TurnedOff = ((GUIAnalogSwitch) old).TurnedOff;
+    }
+
     public void SetTurnedOff(bool val)
     {
         TurnedOff = val;
@@ -39,8 +44,7 @@ public class GUIAnalogSwitch : GUICircuitComponent
         script.AddBoolean("TurnedOffPropertyLabel", TurnedOff.ToString(), SetTurnedOff);
     }
 
-    // Use this for initialization
-    void Start()
+    public void Awake()
     {
         if (this.CompareTag("ActiveItem"))
         {
@@ -52,6 +56,12 @@ public class GUIAnalogSwitch : GUICircuitComponent
             Connectors[1].AssignComponent(this);
             SetDllConnectors();
         }
+    }
+
+    // Use this for initialization
+    void Start()
+    {
+        
     }
 
     public override void SetSimulationProp(Circuit sim)

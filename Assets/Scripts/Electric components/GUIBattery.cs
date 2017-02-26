@@ -29,8 +29,12 @@ public class GUIBattery : GUICircuitComponent
         script.AddNumeric("MaxVoltagePropertyLabel", MaxVoltage.ToString(), MaxVoltage.GetType().ToString(), SetMaxVoltage, false);
     }
 
-    // Use this for initialization
-    public void Start()     // public for testing purposes
+    public override void CopyValues(GUICircuitComponent old)
+    {
+        MaxVoltage = ((GUIBattery) old).MaxVoltage;
+    }
+
+    public void Awake()
     {
         if (this.CompareTag("ActiveItem"))
         {
@@ -43,6 +47,12 @@ public class GUIBattery : GUICircuitComponent
             Connectors[1].AssignComponent(this);
             SetDllConnectors();
         }
+    }
+
+    // Use this for initialization
+    public void Start()     // public for testing purposes
+    {
+        
     }
 
     public override void SetSimulationProp(Circuit sim)
