@@ -24,8 +24,8 @@ public class GenerateMenu : MonoBehaviour, IPointerClickHandler
             contextMenu.transform.position = Camera.main.ScreenToWorldPoint(eventData.position); // convert mouse to screen position
             contextMenu.transform.position = new Vector3(contextMenu.transform.position.x + 0.7f, contextMenu.transform.position.y - 0.75f, 0.0f); // Move slightly to the right down from mouse
 
-            // Future "copy" and "paste" buttons
-            if (true)
+            // "copy" and "paste" buttons
+            if (this.GetComponent<Duplicate>())
             {
                 for (int i = 1; i < 3; i++)
                 {
@@ -33,13 +33,13 @@ public class GenerateMenu : MonoBehaviour, IPointerClickHandler
                 }
             }
             
-            // Future "cut" button, Destroy AND Copy
-            if (this.GetComponent<Destroy>() != null && true)
+            // "cut" button, Destroy AND Copy
+            if (this.GetComponent<Destroy>() != null && this.GetComponent<Duplicate>())
             {
                 contextMenu.transform.GetChild(0).GetChild(0).GetComponent<UnityEngine.UI.Button>().interactable = true;
             }
             
-            // Delete button
+            // "delete" button
             if (this.GetComponent<Destroy>() != null)
             {
                 contextMenu.transform.GetChild(0).GetChild(3).GetComponent<UnityEngine.UI.Button>().interactable = true;
