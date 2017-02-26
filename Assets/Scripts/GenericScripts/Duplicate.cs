@@ -61,6 +61,8 @@ public class Duplicate : MonoBehaviour
                 }
                 i++;
             }
+
+            copy.GetComponent<SelectObject>().SelectItem();
         }
     }
 }

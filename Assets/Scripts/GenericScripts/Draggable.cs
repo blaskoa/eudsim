@@ -69,7 +69,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 _draggingItem.transform.GetChild(i).gameObject.layer = 8;
             }
         }
-
+        _draggingItem.gameObject.GetComponent<SelectObject>().SelectItem();
     }
 
     public void OnDrag(PointerEventData eventData)
