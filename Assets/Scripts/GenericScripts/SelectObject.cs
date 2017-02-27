@@ -20,7 +20,7 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
     }
 
     public void OnPointerClick(PointerEventData eventData)
-    {
+    {        
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
