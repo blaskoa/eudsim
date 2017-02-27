@@ -11,12 +11,15 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
     public static GameObject SelectedObject;
     public GameObject SelectionBox;
 
-    public void OnPointerClick(PointerEventData eventData)
+    // Initialization: Making object and SelectionBox the same size.
+    void Start ()
     {
-        SelectItem();
+        SelectionBox.transform.position = this.transform.position;
+        SelectionBox.transform.localScale = this.transform.localScale;
+        SelectionBox.GetComponent<SpriteRenderer>().enabled = false;
     }
 
-    public void SelectItem()
+    public void OnPointerClick(PointerEventData eventData)
     {
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
@@ -44,8 +47,8 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
         // Select new object.
         SelectedObject = this.gameObject;
         SelectionBox.GetComponent<SpriteRenderer>().enabled = true;
-
-        // Enable buttons for component manipulation
+		
+		// Enable buttons for component manipulation
         GameObject rotateLeftButton = GameObject.Find("RotateLeftButton");
         GameObject rotateRightButton = GameObject.Find("RotateRightButton");
         GameObject deleteButton = GameObject.Find("DeleteButton");
