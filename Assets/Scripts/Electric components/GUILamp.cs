@@ -8,18 +8,8 @@ public class GUILamp : GUICircuitComponent
     public Circuit.Lead[] DllConnectors;
     public Lamp MyComponent;
 
-    public override void GetProperties()
-    {
-
-    }
-
-    public override void SetProperties()
-    {
-
-    }
-
-    // Use this for initialization
-    public void Start()     // public for testing purposes
+    // Called during instantiation
+    public void Awake()
     {
         if (this.CompareTag("ActiveItem"))
         {

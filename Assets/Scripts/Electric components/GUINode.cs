@@ -4,9 +4,8 @@ using ClassLibrarySharpCircuit;
 
 public class GUINode : GUICircuitComponent
 {
-
-    // Use this for initialization
-    public void Start()
+    // Called during instantiation
+    public void Awake()
     {
         if (this.CompareTag("ActiveNode"))
         {

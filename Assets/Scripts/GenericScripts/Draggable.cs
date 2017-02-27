@@ -32,7 +32,10 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         // ToolboxItemActive tagged GameObjects are used to generate new instances for the working panel.
         if (this.gameObject.tag == "ToolboxItemActive")
         {
+            this.gameObject.tag = "ActiveItem";
+            // Awake() function of every script is called when GameObject is instatiated. We need it to be instantiated as ActiveItem.
             _draggingItem = Instantiate(this.gameObject);
+            this.gameObject.tag = "ToolboxItemActive";
             _draggingItem.tag = "ActiveItem";
             _draggingItem.layer = 8; //Name of 8th layer is ActiveItem
             _draggingItem.transform.localScale = new Vector3(1,1,0);

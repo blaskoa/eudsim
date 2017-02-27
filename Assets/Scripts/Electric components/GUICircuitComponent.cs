@@ -24,5 +24,11 @@ public abstract class GUICircuitComponent : MonoBehaviour
     {
 
     }
+
+    // Used for duplicating the components - old component is passes so the new one can copy needed values
+    public virtual void CopyValues(GUICircuitComponent old)
+    {
+        
+    }
 }
 

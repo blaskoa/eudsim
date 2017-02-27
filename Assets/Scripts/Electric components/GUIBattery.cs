@@ -29,8 +29,14 @@ public class GUIBattery : GUICircuitComponent
         script.AddNumeric("MaxVoltagePropertyLabel", MaxVoltage.ToString(), MaxVoltage.GetType().ToString(), SetMaxVoltage, false);
     }
 
-    // Use this for initialization
-    public void Start()     // public for testing purposes
+    // Used for duplicating the components - old component is passes so the new one can copy needed values
+    public override void CopyValues(GUICircuitComponent old)
+    {
+        MaxVoltage = ((GUIBattery) old).MaxVoltage;
+    }
+
+    // Called during instantiation
+    public void Awake()
     {
         if (this.CompareTag("ActiveItem"))
         {

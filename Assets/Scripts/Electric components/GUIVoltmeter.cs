@@ -17,8 +17,8 @@ public class GUIVoltmeter : GUICircuitComponent
         script.AddResult("VoltagePropertyLabel", MyComponent.getVoltageDelta().ToString(CultureInfo.InvariantCulture), "V");
     }
 
-    // Use this for initialization
-    public void Start()
+    // Called during instantiation
+    public void Awake()
     {
         if (CompareTag("ActiveItem"))
         {
