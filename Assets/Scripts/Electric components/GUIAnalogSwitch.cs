@@ -26,6 +26,7 @@ public class GUIAnalogSwitch : GUICircuitComponent
         }
     }
 
+    // Used for duplicating the components - old component is passes so the new one can copy needed values
     public override void CopyValues(GUICircuitComponent old)
     {
         TurnedOff = ((GUIAnalogSwitch) old).TurnedOff;
@@ -44,6 +45,7 @@ public class GUIAnalogSwitch : GUICircuitComponent
         script.AddBoolean("TurnedOffPropertyLabel", TurnedOff.ToString(), SetTurnedOff);
     }
 
+    // Called during instantiation
     public void Awake()
     {
         if (this.CompareTag("ActiveItem"))
@@ -56,12 +58,6 @@ public class GUIAnalogSwitch : GUICircuitComponent
             Connectors[1].AssignComponent(this);
             SetDllConnectors();
         }
-    }
-
-    // Use this for initialization
-    void Start()
-    {
-        
     }
 
     public override void SetSimulationProp(Circuit sim)

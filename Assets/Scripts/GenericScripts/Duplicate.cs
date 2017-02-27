@@ -4,7 +4,7 @@ using System.Collections;
 
 public class Duplicate : MonoBehaviour
 {
-    public void duplicate()
+    public void DuplicateComponent()
     {
         if (SelectObject.SelectedObject != null && SelectObject.SelectedObject.tag.Equals("ActiveItem"))
         {

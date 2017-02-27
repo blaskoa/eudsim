@@ -27,11 +27,13 @@ public class GUICapacitor : GUICircuitComponent
         script.AddNumeric("CapacitancePropertyLabel", Capacitance.ToString(), Capacitance.GetType().ToString(), SetCapacitance, false);
     }
 
+    // Used for duplicating the components - old component is passes so the new one can copy needed values
     public override void CopyValues(GUICircuitComponent old)
     {
         Capacitance = ((GUICapacitor)old).Capacitance;
     }
 
+    // Called during instantiation
     public void Awake()
     {
         if (CompareTag("ActiveItem"))
@@ -46,12 +48,6 @@ public class GUICapacitor : GUICircuitComponent
             Connectors[1].AssignComponent(this);
             SetDllConnectors();
         }
-    }
-
-    // Use this for initialization
-    void Start()
-    {
-
     }
 
     public override void SetSimulationProp(Circuit sim)

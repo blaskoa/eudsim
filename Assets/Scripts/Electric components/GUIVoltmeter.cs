@@ -17,6 +17,7 @@ public class GUIVoltmeter : GUICircuitComponent
         script.AddResult("VoltagePropertyLabel", MyComponent.getVoltageDelta().ToString(CultureInfo.InvariantCulture), "V");
     }
 
+    // Called during instantiation
     public void Awake()
     {
         if (CompareTag("ActiveItem"))
@@ -30,12 +31,6 @@ public class GUIVoltmeter : GUICircuitComponent
             Connectors[1].AssignComponent(this);
             SetDllConnectors();
         }
-    }
-
-    // Use this for initialization
-    public void Start()
-    {
-
     }
 
     public override void SetSimulationProp(Circuit sim)

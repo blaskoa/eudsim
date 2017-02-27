@@ -32,11 +32,13 @@ public class GUIResistor : GUICircuitComponent
         script.AddNumeric("ResistancePropertyLabel", Resistance.ToString(), Resistance.GetType().ToString(), SetResistance, true, -15.4f, 150.6f);
     }
 
+    // Used for duplicating the components - old component is passes so the new one can copy needed values
     public override void CopyValues(GUICircuitComponent old)
     {
         Resistance = ((GUIResistor) old).Resistance;
     }
 
+    // Called during instantiation
     public void Awake()
     {
         if (CompareTag("ActiveItem"))
@@ -50,12 +52,6 @@ public class GUIResistor : GUICircuitComponent
             Connectors[1].AssignComponent(this);
             SetDllConnectors();
         }
-    }
-
-    // Use this for initialization
-    public void Start()
-    {
-
     }
 
     public override void SetSimulationProp(Circuit sim)
