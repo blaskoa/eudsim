@@ -1,4 +1,5 @@
-﻿using ClassLibrarySharpCircuit;
+﻿using Assets.Scripts.Entities;
+using ClassLibrarySharpCircuit;
 using UnityEngine;
 
 public abstract class GUICircuitComponent : MonoBehaviour
@@ -23,6 +24,11 @@ public abstract class GUICircuitComponent : MonoBehaviour
     public virtual void SetDllConnectors()
     {
 
+    }
+
+    public virtual SimulationElement GetEntity()
+    {
+        return null;
     }
 }
 

@@ -1,17 +1,21 @@
 ﻿using UnityEngine;
 using ClassLibrarySharpCircuit;
-using System;
-using System.Collections.Generic;
+using Assets.Scripts.Entities;
 
 public class GUIResistor : GUICircuitComponent
 {
     public Circuit.Lead[] DllConnectors;
     public Resistor MyComponent;
+    private ResistorEntity _resistorEntity;
 
     public double Resistance
     {
-        get { return MyComponent.resistance; }
-        set { MyComponent.resistance = value; }   // GUI check - accept only positive integer
+        get { return _resistorEntity.Resistance; }
+        set
+        {
+            MyComponent.resistance = value;
+            _resistorEntity.Resistance = value;
+        }   // GUI check - accept only positive integer
     }
 
     public void SetResistance(double val)
@@ -37,6 +41,11 @@ public class GUIResistor : GUICircuitComponent
     {
         if (CompareTag("ActiveItem"))
         {
+            if (_resistorEntity == null)
+            {
+                _resistorEntity = new ResistorEntity();
+            }
+
             SetSimulationProp(GUICircuit.sim);
             Connectors[0] = transform.FindChild("Connector1").GetComponent<Connector>();
             Connectors[1] = transform.FindChild("Connector2").GetComponent<Connector>();
@@ -61,5 +70,19 @@ public class GUIResistor : GUICircuitComponent
     {
         Connectors[0].SetDllConnector(DllConnectors[0]);
         Connectors[1].SetDllConnector(DllConnectors[1]);
+    }
+
+    public override SimulationElement GetEntity()
+    {
+        _resistorEntity.PositionX = transform.position.x;
+        _resistorEntity.PositionY = transform.position.y;
+        return _resistorEntity;
+    }
+
+    public void SetEntity(ResistorEntity entity)
+    {
+        _resistorEntity = entity;
+        transform.position = new Vector3(entity.PositionX, entity.PositionY);
+        Resistance = entity.Resistance;
     }
 }

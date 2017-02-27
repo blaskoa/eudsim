@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 using ClassLibrarySharpCircuit;
-using System.Collections.Generic;
+using Assets.Scripts.Entities;
 
 
 public class GUIBattery : GUICircuitComponent
@@ -10,10 +9,16 @@ public class GUIBattery : GUICircuitComponent
     public VoltageInput MyComponent;
     public Ground MyComponentGround;
 
+    private BatteryEntity _batteryEntity;
+
     public double MaxVoltage
     {
-        get { return MyComponent.maxVoltage; }
-        set { MyComponent.maxVoltage = value; }   // GUI check - accept only positive integer
+        get { return _batteryEntity.MaxVoltage; }
+        set
+        {
+            MyComponent.maxVoltage = value;
+            _batteryEntity.MaxVoltage = value;
+        }   // GUI check - accept only positive integer
     }
 
     public void SetMaxVoltage(double val)
@@ -34,6 +39,10 @@ public class GUIBattery : GUICircuitComponent
     {
         if (this.CompareTag("ActiveItem"))
         {
+            if (_batteryEntity == null)
+            {
+                _batteryEntity = new BatteryEntity();
+            }
             SetSimulationProp(GUICircuit.sim);
             Connectors[0] = transform.FindChild("PlusConnector").GetComponent<Connector>();
             Connectors[1] = transform.FindChild("MinusConnector").GetComponent<Connector>();
@@ -59,5 +68,19 @@ public class GUIBattery : GUICircuitComponent
     {
         Connectors[0].SetDllConnector(DllConnectors[0]);
         Connectors[1].SetDllConnector(DllConnectors[1]);
+    }
+
+    public override SimulationElement GetEntity()
+    {
+        _batteryEntity.PositionX = transform.position.x;
+        _batteryEntity.PositionY = transform.position.y;
+        return _batteryEntity;
+    }
+
+    public void SetEntity(BatteryEntity entity)
+    {
+        _batteryEntity = entity;
+        transform.position = new Vector3(entity.PositionX, entity.PositionY);
+        MaxVoltage = entity.MaxVoltage;
     }
 }
