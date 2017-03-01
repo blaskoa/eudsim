@@ -32,7 +32,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
-
+        
         // Deselect selected item first.
         if (SelectObject.SelectedObjects.Count != 0 && !SelectObject.SelectedObjects.Contains(this.gameObject))
         {
@@ -46,37 +46,20 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         {
             // Setting starting positions for every selected elements     
             _mousePos = Camera.main.ScreenToWorldPoint(eventData.position);
-           /* float minx = this.gameObject.transform.position.x;
-            float miny = this.gameObject.transform.position.y;
-            float maxx = this.gameObject.transform.position.x;
-            float maxy = this.gameObject.transform.position.y;*/
             foreach (GameObject objectSelected in SelectObject.SelectedObjects)
             {
-                /*if (minx > objectSelected.gameObject.transform.position.x)
-                {
-                    minx = objectSelected.gameObject.transform.position.x;
-                }
-                if (miny > objectSelected.gameObject.transform.position.y)
-                {
-                    miny = objectSelected.gameObject.transform.position.y;
-                }
-                if (maxx < objectSelected.gameObject.transform.position.x)
-                {
-                    maxx = objectSelected.gameObject.transform.position.x;
-                }
-                if (maxy < objectSelected.gameObject.transform.position.y)
-                {
-                    maxy = objectSelected.gameObject.transform.position.y;
-                }*/
                 _itemPoss.Add(objectSelected.transform.position);
             }
         }
 
         // Deselect line
-        if (Line.SelectedLine != null)
+        if (SelectObject.SelectedLines.Count != 0 && !SelectObject.SelectedLines.Contains(this.gameObject))
         {
-            Line.SelectedLine.GetComponent<LineRenderer>().SetColors(Color.black, Color.black);
-            Line.SelectedLine = null;
+            foreach (GameObject linesSelected in SelectObject.SelectedLines)
+            {
+                linesSelected.GetComponent<LineRenderer>().SetColors(Color.black, Color.black);
+            }
+            SelectObject.SelectedLines.Clear();
             script.Clear();
         }
 
@@ -141,7 +124,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (_draggingItem != null)// && SelectObject.SelectedObjects.Count == 1)
+        if (_draggingItem != null)
         {
             //Moving the item with the mouse.
             Vector2 mouseDiff = (Vector2) Camera.main.ScreenToWorldPoint(eventData.position) - _mousePos;
@@ -300,7 +283,17 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             _draggingItem.transform.position = finalPos;
             _draggingItem = null;
         }
+
         _itemPoss.Clear();
+
+        //transform position of each lines in scene
+        GameObject[] lines;
+        lines = GameObject.FindGameObjectsWithTag("ActiveLine");
+        foreach (GameObject l in lines)
+        {
+            l.transform.position = new Vector2((l.GetComponent<Line>().Begin.transform.position.x + l.GetComponent<Line>().EndPos.x) / 2,
+                   (l.GetComponent<Line>().Begin.transform.position.y + l.GetComponent<Line>().EndPos.y) / 2);
+        }       
     }
 
     void Update()

@@ -12,7 +12,7 @@ public class SwitchTypeLine : MonoBehaviour
     {
         DecreaseDelay();
 
-        if (Line.SelectedLine != null && this.gameObject == Line.SelectedLine)
+        if (SelectObject.SelectedLines.Count == 1 && this.gameObject == (SelectObject.SelectedLines[0]))
         {
             if (HotkeyManager.Instance.CheckHotkey(ChangeLineBrakingHotkeyKey))
             {

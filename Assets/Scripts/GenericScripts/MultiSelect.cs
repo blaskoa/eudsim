@@ -61,6 +61,16 @@ public class MultiSelect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             }
         }
 
+        foreach (GameObject selectableObject in GameObject.FindGameObjectsWithTag("ActiveLine"))
+        {
+            Debug.Log("ahoj");
+            if (IsWithinSelectionBounds(selectableObject.gameObject))
+            {
+                SelectObject.SelectedLines.Add(selectableObject);
+                selectableObject.GetComponent<LineRenderer>().SetColors(Color.red, Color.red);
+            }
+        }
+
         //end of selecting
         _isSelecting = false;
 
@@ -99,10 +109,13 @@ public class MultiSelect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         }
 
         // Deselect line
-        if (Line.SelectedLine != null)
+        if (SelectObject.SelectedLines.Count != 0)
         {
-            Line.SelectedLine.GetComponent<LineRenderer>().SetColors(Color.black, Color.black);
-            Line.SelectedLine = null;
+            foreach (GameObject linesSelected in SelectObject.SelectedLines)
+            {
+                linesSelected.GetComponent<LineRenderer>().SetColors(Color.black, Color.black);
+            }
+            SelectObject.SelectedLines.Clear();
             script.Clear();
         }
 

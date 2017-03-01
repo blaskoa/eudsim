@@ -38,10 +38,10 @@ public class RotateMultiObject : MonoBehaviour {
         if (SelectObject.SelectedObjects.Count > 1)
         {
             //calculate the point in center of selected items
-            float minx = this.gameObject.transform.position.x;
-            float miny = this.gameObject.transform.position.y;
-            float maxx = this.gameObject.transform.position.x;
-            float maxy = this.gameObject.transform.position.y;
+            float minx = SelectObject.SelectedObjects[0].transform.position.x;
+            float miny = SelectObject.SelectedObjects[0].transform.position.y;
+            float maxx = SelectObject.SelectedObjects[0].transform.position.x;
+            float maxy = SelectObject.SelectedObjects[0].transform.position.y;
 
             foreach (GameObject objectSelected in SelectObject.SelectedObjects)
             {

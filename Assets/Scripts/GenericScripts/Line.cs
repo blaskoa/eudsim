@@ -16,7 +16,6 @@ public class Line : MonoBehaviour,IPointerClickHandler
     private Vector3 _oldEndPos;
     private BoxCollider2D _col1;
     private BoxCollider2D _col2;
-    public static GameObject SelectedLine;
     private Vector3 _middlePos;
     public string TypeOfLine = "NoBreak";
     private string _oldTypeOfLine;
@@ -208,13 +207,18 @@ public class Line : MonoBehaviour,IPointerClickHandler
             script.Clear();
         }
 
-        if (SelectedLine != null)
+        //deselect previous selected lines
+        if (SelectObject.SelectedLines.Count != 0 && !SelectObject.SelectedLines.Contains(this.gameObject))
         {
-            SelectedLine.GetComponent<LineRenderer>().SetColors(Color.black, Color.black);
-            SelectedLine = this.gameObject;
+            foreach (GameObject linesSelected in SelectObject.SelectedLines)
+            {
+                linesSelected.GetComponent<LineRenderer>().SetColors(Color.black, Color.black);
+            }
+            SelectObject.SelectedLines.Clear();
+            script.Clear();
         }
 
-        SelectedLine = this.gameObject;
-        SelectedLine.GetComponent<LineRenderer>().SetColors(Color.red, Color.red);
+        SelectObject.SelectedLines.Add(this.gameObject);
+        SelectObject.SelectedLines[0].GetComponent<LineRenderer>().SetColors(Color.red, Color.red);
     }
 }

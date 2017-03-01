@@ -5,7 +5,6 @@ public class Rotate : MonoBehaviour
 {
     public const string RotateLeftHotkeyKey = "RotateLeft";
     public const string RotateRightHotkeyKey = "RotateRight";
-    public RotateMultiObject b;
 
     //Rotate functionality to invoke rotation from button, +90 degrees
     public void RoateClockWise()
