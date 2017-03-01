@@ -87,6 +87,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         else if (SelectObject.SelectedObjects.Count == 0 || SelectObject.SelectedObjects.Count == 1 && SelectObject.SelectedObjects[0] == this.gameObject)
         {           
             _draggingItem = this.gameObject;
+            Debug.Log("ahoj");
 
             // Select new object.        
             SelectObject.SelectedObjects.Add(_draggingItem);
@@ -144,9 +145,53 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
     }
 
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        if (_draggingItem != null)
+        {
+            // Snapping by 0.5f.
+            Vector3 finalPos = _draggingItem.transform.position;
+
+            finalPos *= 2;
+            finalPos = new Vector3(Mathf.Round(finalPos.x), Mathf.Round(finalPos.y));
+            finalPos /= 2;
+
+            // Check if item is colliding with other item at its final location.
+            finalPos = CheckCollision(_draggingItem, finalPos);
+
+            _draggingItem.transform.position = finalPos;
+            _draggingItem = null;
+        }
+        else if (SelectObject.SelectedObjects.Count > 1)
+        {
+            foreach (GameObject objectSelected in SelectObject.SelectedObjects)
+            {
+                Vector3 finalPos = objectSelected.transform.position;
+
+                finalPos *= 2;
+                finalPos = new Vector3(Mathf.Round(finalPos.x), Mathf.Round(finalPos.y));
+                finalPos /= 2;
+
+                finalPos = CheckCollision(objectSelected, finalPos);
+                objectSelected.transform.position = finalPos;
+            }           
+        }
+
+        _itemPoss.Clear();
+
+        //transform position of each lines in scene
+        GameObject[] lines;
+        lines = GameObject.FindGameObjectsWithTag("ActiveLine");
+        foreach (GameObject l in lines)
+        {
+            l.transform.position = new Vector2((l.GetComponent<Line>().Begin.transform.position.x + l.GetComponent<Line>().EndPos.x) / 2,
+                   (l.GetComponent<Line>().Begin.transform.position.y + l.GetComponent<Line>().EndPos.y) / 2);
+        }
+    }
+
     // Check if dragging object is colliding with some other object.
     // Collider is the object that has finished moving and is being checked for collisions.
-    private Vector3 _checkCollision(GameObject collider, Vector3 finalPos)
+    public Vector3 CheckCollision(GameObject collider, Vector3 finalPos)
     {
         float xDiff;
         float yDiff;
@@ -188,7 +233,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         // Recursive collision checking.
         else
         {
-            return _checkCollision(collider, finalPos);
+            return CheckCollision(collider, finalPos);
         }
     }
     
@@ -266,35 +311,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         return finalPos;
     }
 
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        if (_draggingItem != null)
-        {
-            // Snapping by 0.5f.
-            Vector3 finalPos = _draggingItem.transform.position;
-
-            finalPos *= 2;
-            finalPos = new Vector3(Mathf.Round(finalPos.x), Mathf.Round(finalPos.y));
-            finalPos /= 2;
-
-            // Check if item is colliding with other item at its final location.
-            finalPos = _checkCollision(_draggingItem, finalPos);
-
-            _draggingItem.transform.position = finalPos;
-            _draggingItem = null;
-        }
-
-        _itemPoss.Clear();
-
-        //transform position of each lines in scene
-        GameObject[] lines;
-        lines = GameObject.FindGameObjectsWithTag("ActiveLine");
-        foreach (GameObject l in lines)
-        {
-            l.transform.position = new Vector2((l.GetComponent<Line>().Begin.transform.position.x + l.GetComponent<Line>().EndPos.x) / 2,
-                   (l.GetComponent<Line>().Begin.transform.position.y + l.GetComponent<Line>().EndPos.y) / 2);
-        }       
-    }
 
     void Update()
     {
@@ -335,10 +351,19 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 if (_buttonDelay == 0f && (movement.x != 0f || movement.y != 0f))
                 {
                     // Check collision.
-                    Vector3 finalPos = _checkCollision(this.gameObject,
+                    Vector3 finalPos = CheckCollision(this.gameObject,
                         this.gameObject.transform.position + movement);
                     this.gameObject.transform.position = finalPos;
                     _buttonDelay = _delay;
+
+                    //transform position of each lines in scene
+                    GameObject[] lines;
+                    lines = GameObject.FindGameObjectsWithTag("ActiveLine");
+                    foreach (GameObject l in lines)
+                    {
+                        l.transform.position = new Vector2((l.GetComponent<Line>().Begin.transform.position.x + l.GetComponent<Line>().EndPos.x) / 2,
+                               (l.GetComponent<Line>().Begin.transform.position.y + l.GetComponent<Line>().EndPos.y) / 2);
+                    }
                 }              
             }
         }

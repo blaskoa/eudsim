@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Line : MonoBehaviour,IPointerClickHandler
+public class Line : MonoBehaviour, IPointerClickHandler
 {
     
     public GameObject Begin;

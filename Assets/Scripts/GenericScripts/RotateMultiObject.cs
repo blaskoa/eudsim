@@ -8,15 +8,28 @@ public class RotateMultiObject : MonoBehaviour {
 
     public const string RotateLeftHotkeyKey = "RotateLeft";
     public const string RotateRightHotkeyKey = "RotateRight";
+    
 
     public void RotateMultiObjectClockWise()
     {
         Vector3 point = CalculateCenterPoint();
+
         if (SelectObject.SelectedObjects.Count > 1)
         {           
             foreach (GameObject objectSelected in SelectObject.SelectedObjects)
             {
                 objectSelected.transform.RotateAround(point, new Vector3(0, 0, 1), +90);
+
+                Vector3 finalPos = objectSelected.transform.position;
+
+                finalPos *= 2;
+                finalPos = new Vector3(Mathf.Round(finalPos.x), Mathf.Round(finalPos.y));
+                finalPos /= 2;
+
+
+                GameObject drag = GameObject.Find("Container");               
+                finalPos = drag.GetComponent<Draggable>().CheckCollision(objectSelected, finalPos);
+                objectSelected.transform.position = finalPos;
             }
         }
     }
@@ -24,11 +37,22 @@ public class RotateMultiObject : MonoBehaviour {
     public void RotateMultiObjectCounterClockWise()
     {
         Vector3 point = CalculateCenterPoint();
+
         if (SelectObject.SelectedObjects.Count > 1)
         {          
             foreach (GameObject objectSelected in SelectObject.SelectedObjects)
             {
                 objectSelected.transform.RotateAround(point, new Vector3(0, 0, 1), -90);
+
+                Vector3 finalPos = objectSelected.transform.position;
+
+                finalPos *= 2;
+                finalPos = new Vector3(Mathf.Round(finalPos.x), Mathf.Round(finalPos.y));
+                finalPos /= 2;
+
+                GameObject drag = GameObject.Find("Container");
+                finalPos = drag.GetComponent<Draggable>().CheckCollision(objectSelected, finalPos);
+                objectSelected.transform.position = finalPos;              
             }
         }
     }
