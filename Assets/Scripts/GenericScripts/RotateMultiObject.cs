@@ -26,10 +26,10 @@ public class RotateMultiObject : MonoBehaviour {
                 finalPos = new Vector3(Mathf.Round(finalPos.x), Mathf.Round(finalPos.y));
                 finalPos /= 2;
 
-
-                GameObject drag = GameObject.Find("Container");               
-                finalPos = drag.GetComponent<Draggable>().CheckCollision(objectSelected, finalPos);
                 objectSelected.transform.position = finalPos;
+
+                //checking colision
+                GameObject.Find("Container").GetComponent<Draggable>().Colision();
             }
 
             //transform position of each lines in scene
@@ -57,9 +57,10 @@ public class RotateMultiObject : MonoBehaviour {
                 finalPos = new Vector3(Mathf.Round(finalPos.x), Mathf.Round(finalPos.y));
                 finalPos /= 2;
 
-                GameObject drag = GameObject.Find("Container");
-                finalPos = drag.GetComponent<Draggable>().CheckCollision(objectSelected, finalPos);
-                objectSelected.transform.position = finalPos;              
+                objectSelected.transform.position = finalPos;
+
+                //checking colision
+                GameObject.Find("Container").GetComponent<Draggable>().Colision();
             }
 
             //transform position of each lines in scene

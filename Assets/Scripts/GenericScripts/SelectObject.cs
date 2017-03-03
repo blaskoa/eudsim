@@ -28,8 +28,8 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-             
-        if (this.gameObject.tag == "ToolboxItem" || this.gameObject.tag == "Node")
+            
+        if (this.gameObject.tag == "ToolboxItem" || this.gameObject.tag == "Node" || this.gameObject.tag == "ToolboxItemActive")
         {
             return;
         }
@@ -50,11 +50,14 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
             }
         }
 
-        // Select new object.      
-        SelectedObjects.Add(this.gameObject);
-        SelectionBox.GetComponent<SpriteRenderer>().enabled = true;
-		
-		_tbu.EnableToolbarButtons();
+        // Select new object. 
+        if (!SelectedObjects.Contains(this.gameObject))
+        {
+            SelectedObjects.Add(this.gameObject);
+            SelectionBox.GetComponent<SpriteRenderer>().enabled = true;
+        }
+
+        _tbu.EnableToolbarButtons();
 
         // Clear the Properties Window
         _script.Clear();

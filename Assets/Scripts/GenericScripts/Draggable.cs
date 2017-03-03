@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -91,10 +92,12 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         {           
             _draggingItem = this.gameObject;
 
-            // Select new object.        
-            SelectObject.SelectedObjects.Add(_draggingItem);
-            _draggingItem.GetComponent<SelectObject>().SelectionBox.GetComponent<SpriteRenderer>().enabled = true;
-            
+            if (SelectObject.SelectedObjects.Count == 0)
+            {
+                // Select new object.        
+                SelectObject.SelectedObjects.Add(_draggingItem);
+                _draggingItem.GetComponent<SelectObject>().SelectionBox.GetComponent<SpriteRenderer>().enabled = true;
+            }
             _tbu.EnableToolbarButtons();
 
             // Clear the Properties Window
@@ -158,10 +161,10 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             finalPos = new Vector3(Mathf.Round(finalPos.x), Mathf.Round(finalPos.y));
             finalPos /= 2;
 
-            // Check if item is colliding with other item at its final location.
-            finalPos = CheckCollision(_draggingItem, finalPos);
-
             _draggingItem.transform.position = finalPos;
+
+            //checking colision
+            Colision();;
             _draggingItem = null;
         }
         else if (SelectObject.SelectedObjects.Count > 1)
@@ -174,8 +177,10 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 finalPos = new Vector3(Mathf.Round(finalPos.x), Mathf.Round(finalPos.y));
                 finalPos /= 2;
 
-                finalPos = CheckCollision(objectSelected, finalPos);
                 objectSelected.transform.position = finalPos;
+
+                //checking colision
+                Colision();
             }           
         }
 
@@ -189,128 +194,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
     }
 
-    // Check if dragging object is colliding with some other object.
-    // Collider is the object that has finished moving and is being checked for collisions.
-    public Vector3 CheckCollision(GameObject collider, Vector3 finalPos)
-    {
-        float xDiff;
-        float yDiff;
-        // Copy of original position for comparison if recursive call is needed.
-        Vector3 originalPos = finalPos;
-
-        GameObject[] activeComponents = GameObject.FindGameObjectsWithTag("ActiveItem");
-        GameObject[] activeNodes = GameObject.FindGameObjectsWithTag("ActiveNode");
-
-        //merge two arrays to one
-        GameObject[] activeItems = activeComponents.Concat(activeNodes).ToArray();
-        foreach (GameObject activeItem in activeItems)
-        {
-            // Not colliding with itself.
-            if (activeItem.GetInstanceID() == collider.GetInstanceID())
-            {
-                continue;
-            }
-
-            // Checking if the collision will move item horizontally or vertically.
-            xDiff = Mathf.Abs(activeItem.transform.position.x - finalPos.x);
-            yDiff = Mathf.Abs(activeItem.transform.position.y - finalPos.y);
-            
-            if (xDiff > yDiff)
-            {
-                finalPos = _moveX(collider, activeItem, finalPos);
-            }
-            else
-            {
-                finalPos = _moveY(collider, activeItem, finalPos);
-            }
-        }
-
-        // If no collision movement was made, end collision checking.
-        if (finalPos == originalPos)
-        {
-            return finalPos;
-        }
-        // Recursive collision checking.
-        else
-        {
-            return CheckCollision(collider, finalPos);
-        }
-    }
-    
-    // Moving the item horizontally due to collision.
-    private Vector3 _moveX(GameObject collider, GameObject activeItem, Vector3 finalPos)
-    {
-        float colliderDiff;
-        // Check for collision.
-        if (Mathf.Abs(activeItem.transform.position.x - finalPos.x) <
-                Mathf.Abs(activeItem.GetComponent<BoxCollider2D>().size.x / 2 + collider.GetComponent<BoxCollider2D>().size.x / 2))
-        {
-            // Move to the left.
-            if (finalPos.x < activeItem.transform.position.x)
-            {
-                colliderDiff = (finalPos.x + collider.GetComponent<BoxCollider2D>().size.x / 2) - (activeItem.transform.position.x - activeItem.GetComponent<BoxCollider2D>().size.x / 2);
-                colliderDiff = Mathf.Round(colliderDiff * 2) / 2;
-                if (collider.GetComponent<BoxCollider2D>().size.x/2 + activeItem.GetComponent<BoxCollider2D>().size.x/2 >
-                    colliderDiff)
-                {
-                    colliderDiff += 0.5f;
-                }
-                finalPos.x -= colliderDiff;
-            }
-            // Move to the right.
-            else
-            {
-                colliderDiff = (activeItem.transform.position.x + activeItem.GetComponent<BoxCollider2D>().size.x / 2) - (finalPos.x - collider.GetComponent<BoxCollider2D>().size.x / 2);
-                colliderDiff = Mathf.Round(colliderDiff * 2) / 2;
-                if (collider.GetComponent<BoxCollider2D>().size.x / 2 + activeItem.GetComponent<BoxCollider2D>().size.x / 2 >
-                    colliderDiff)
-                {
-                    colliderDiff += 0.5f;
-                }
-                finalPos.x += colliderDiff;
-            }
-        }
-        return finalPos;
-    }
-
-    // Moving the item horizontally due to collision.
-    private Vector3 _moveY(GameObject collider, GameObject activeItem, Vector3 finalPos)
-    {
-        float colliderDiff;
-        // Check for collision.
-        if (Mathf.Abs(activeItem.transform.position.y - finalPos.y) <
-        Mathf.Abs(activeItem.GetComponent<BoxCollider2D>().size.y / 2 + collider.GetComponent<BoxCollider2D>().size.y / 2))
-        {
-            // Move item up.
-            if (finalPos.y < activeItem.transform.position.y)
-            {
-                colliderDiff = (finalPos.y + collider.GetComponent<BoxCollider2D>().size.y / 2) - (activeItem.transform.position.y - activeItem.GetComponent<BoxCollider2D>().size.y / 2);
-                colliderDiff = Mathf.Round(colliderDiff * 2) / 2;
-                if (collider.GetComponent<BoxCollider2D>().size.y/2 + activeItem.GetComponent<BoxCollider2D>().size.y/2 >
-                    colliderDiff)
-                {
-                    colliderDiff += 0.5f;
-                }
-                finalPos.y -= colliderDiff;
-            }
-            // Move item down.
-            else
-            {
-                colliderDiff = (activeItem.transform.position.y + activeItem.GetComponent<BoxCollider2D>().size.y / 2) - (finalPos.y - collider.GetComponent<BoxCollider2D>().size.y / 2);
-                colliderDiff = Mathf.Round(colliderDiff * 2) / 2;
-                if (collider.GetComponent<BoxCollider2D>().size.y / 2 + activeItem.GetComponent<BoxCollider2D>().size.y / 2 >
-                    colliderDiff)
-                {
-
-                    colliderDiff += 0.5f;
-                }
-                finalPos.y += colliderDiff;
-            }
-        }
-            
-        return finalPos;
-    }
-
 
     void Update()
     {
@@ -318,6 +201,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         Vector3 movement = new Vector3();
 
         _decreaseDelay();
+
         // Check if any object is selected.
         if (SelectObject.SelectedObjects.Count != 0)
         {
@@ -326,34 +210,75 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 // Check if A is pressed.
                 if (HotkeyManager.Instance.CheckHotkey(MoveLeftHotkeyKey))
                 {
+                    if (CollisionUtils.Move == false && CollisionUtils.LastPressed != 'A')
+                    {
+                        CollisionUtils.Move = true;
+                    }
+                    CollisionUtils.LastPressed = 'A';
                     movement.x -= _step;
                 }
 
                 // Check if D is pressed.
                 if (HotkeyManager.Instance.CheckHotkey(MoveRightHotkeyKey))
                 {
+                    if (CollisionUtils.Move == false && CollisionUtils.LastPressed != 'D')
+                    {
+                        CollisionUtils.Move = true;
+                    }
+                    CollisionUtils.LastPressed = 'D';
                     movement.x += _step;
                 }
 
                 // Check if S is pressed.
                 if (HotkeyManager.Instance.CheckHotkey(MoveDownHotkeyKey))
                 {
+                    if (CollisionUtils.Move == false && CollisionUtils.LastPressed != 'S')
+                    {
+                        CollisionUtils.Move = true;
+                    }
+                    CollisionUtils.LastPressed = 'S';
                     movement.y -= _step;
                 }
 
                 // Check if W is pressed.
                 if (HotkeyManager.Instance.CheckHotkey(MoveUpHotkeyKey))
                 {
+                    if (CollisionUtils.Move == false && CollisionUtils.LastPressed != 'W')
+                    {
+                        CollisionUtils.Move = true;
+                    }
+                    CollisionUtils.LastPressed = 'W';
                     movement.y += _step;
                 }
 
                 // Button delay has passed and some keys were pressed.
                 if (_buttonDelay == 0f && (movement.x != 0f || movement.y != 0f))
                 {
-                    // Check collision.
-                    Vector3 finalPos = CheckCollision(this.gameObject,
-                        this.gameObject.transform.position + movement);
-                    this.gameObject.transform.position = finalPos;
+
+                    GameObject[] gameObjects1 = GameObject.FindGameObjectsWithTag("ActiveItem");
+                    GameObject[] gameObjects2 = GameObject.FindGameObjectsWithTag("ActiveNode");
+
+                    //merge two arrays to one
+                    GameObject[] gameObjects = gameObjects1.Concat(gameObjects2).ToArray();
+
+                    //check collision with every active item
+                    foreach (GameObject go in gameObjects)
+                    {
+                        if (go != this.gameObject)
+                        {
+                            if (Math.Abs((go.transform.position.x + this.gameObject.transform.position.x + movement.x) / 2 - go.transform.position.x) <= 0.25 &&
+                                Math.Abs((go.transform.position.y + this.gameObject.transform.position.y + movement.y) / 2 - go.transform.position.y) <= 0.25)
+                            {                    
+                                CollisionUtils.Move = false;
+                            }
+                        }
+                    }
+
+                    //if is possible to move
+                    if (CollisionUtils.Move)
+                    {
+                        this.gameObject.transform.position = this.gameObject.transform.position + movement;
+                    }
                     _buttonDelay = _delay;
 
                     //transform position of each lines in scene
@@ -378,5 +303,73 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         {
             _buttonDelay = 0f;
         }
+    }
+
+    //checking colision
+    public void Colision()
+    {
+       
+        foreach (GameObject objectSelected in SelectObject.SelectedObjects)
+        {           
+            //position of selected object
+            Vector2 startPos = new Vector2(
+                objectSelected.transform.position.x,
+                objectSelected.transform.position.y
+            );
+
+            //all objects on scene
+            GameObject[] gameObjects1 = GameObject.FindGameObjectsWithTag("ActiveItem");
+            GameObject[] gameObjects2 = GameObject.FindGameObjectsWithTag("ActiveNode");
+
+            //merge two arrays to one
+            GameObject[] gameObjects = gameObjects1.Concat(gameObjects2).ToArray();
+            ArrayList potentialColliders = new ArrayList();
+            foreach (GameObject go in gameObjects)
+            {
+                if (go != objectSelected)
+                {
+                    if (Math.Abs((go.transform.position.x + startPos.x)/2 - go.transform.position.x) <= 1 &&
+                        Math.Abs((go.transform.position.y + startPos.y)/2 - go.transform.position.y) <= 1)
+                    {
+                        potentialColliders.Add(go);
+                    }
+                }
+            }
+
+            // Place GameObject
+            bool placed = false;
+            int i = 1;
+            while (!placed)
+            {
+                for (int j = i; j >= 0; j--)
+                {
+                    // Check if the GameObject is colliding with any of the existing GameObjects
+                    bool touching = false;
+                    foreach (GameObject go in potentialColliders)
+                    {                      
+                        if (objectSelected.GetComponent<BoxCollider2D>()
+                            .bounds.Intersects(go.GetComponent<BoxCollider2D>().bounds))
+                        {
+                            touching = true;
+                            break;
+                        }
+                    }
+                   
+                    // Stop the algorithm
+                    if (!touching)
+                    {
+                        placed = true;
+                        break;
+                    }
+
+                    //set new position of every selected object
+                    foreach (GameObject objectSelected2 in SelectObject.SelectedObjects)
+                    {                     
+                        objectSelected2.transform.position += new Vector3(j * 1.5f, j * 1.5f - i * 1.5f, 0f);
+                    }
+                }
+                i++;
+            }
+        }       
     }
 }
