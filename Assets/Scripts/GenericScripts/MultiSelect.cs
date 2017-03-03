@@ -61,9 +61,17 @@ public class MultiSelect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             }
         }
 
+        foreach (GameObject selectableObject in GameObject.FindGameObjectsWithTag("ActiveNode"))
+        {
+            if (IsWithinSelectionBounds(selectableObject.gameObject))
+            {
+                SelectObject.SelectedObjects.Add(selectableObject);
+                selectableObject.GetComponent<SelectObject>().SelectionBox.GetComponent<SpriteRenderer>().enabled = true;
+            }
+        }
+
         foreach (GameObject selectableObject in GameObject.FindGameObjectsWithTag("ActiveLine"))
         {
-            Debug.Log("ahoj");
             if (IsWithinSelectionBounds(selectableObject.gameObject))
             {
                 SelectObject.SelectedLines.Add(selectableObject);
@@ -94,29 +102,15 @@ public class MultiSelect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     public void DoDeselect()
     {
-        GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
-        EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
-
-        // Deselect component
-        if (SelectObject.SelectedObjects.Count != 0)
-        {
-            foreach (GameObject objectsSelected in SelectObject.SelectedObjects)
-            {
-                objectsSelected.transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = false;
-            }
-            SelectObject.SelectedObjects.Clear();
-            script.Clear();
-        }
+        //deselect item
+        GameObject item = GameObject.Find("Container");
+        item.GetComponent<SelectObject>().DeselectObject();
 
         // Deselect line
-        if (SelectObject.SelectedLines.Count != 0)
+        GameObject line = GameObject.Find("Line(Clone)");
+        if (line != null)
         {
-            foreach (GameObject linesSelected in SelectObject.SelectedLines)
-            {
-                linesSelected.GetComponent<LineRenderer>().SetColors(Color.black, Color.black);
-            }
-            SelectObject.SelectedLines.Clear();
-            script.Clear();
+            line.GetComponent<Line>().DeselectLine();
         }
 
         _tbu.DisableToolbarButtons();

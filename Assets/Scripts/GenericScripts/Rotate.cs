@@ -16,6 +16,13 @@ public class Rotate : MonoBehaviour
                 objectSelected.transform.Rotate(new Vector3(0, 0, +90));
             }
         }
+
+        //transform position of each lines in scene
+        GameObject line = GameObject.Find("Line(Clone)");
+        if (line != null)
+        {
+            line.GetComponent<Line>().TransformLines();
+        }
     }
 
     //Rotate functionality to invoke rotation from button, -90 degrees
@@ -26,6 +33,13 @@ public class Rotate : MonoBehaviour
             foreach (GameObject objectSelected in SelectObject.SelectedObjects)
             {
                 objectSelected.transform.Rotate(new Vector3(0, 0, -90));
+            }
+
+            //transform position of each lines in scene
+            GameObject line = GameObject.Find("Line(Clone)");
+            if (line != null)
+            {
+                line.GetComponent<Line>().TransformLines();
             }
         }
     }

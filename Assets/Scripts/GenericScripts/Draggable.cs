@@ -36,11 +36,16 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         // Deselect selected item first.
         if (SelectObject.SelectedObjects.Count != 0 && !SelectObject.SelectedObjects.Contains(this.gameObject))
         {
-            foreach (GameObject objectSelected in SelectObject.SelectedObjects)
+            //deselect item
+            GameObject item = GameObject.Find("Container");
+            item.GetComponent<SelectObject>().DeselectObject();
+
+            // Deselect line
+            GameObject line = GameObject.Find("Line(Clone)");
+            if (line != null)
             {
-                objectSelected.transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = false;
-            }
-            SelectObject.SelectedObjects.Clear();
+                line.GetComponent<Line>().DeselectLine();
+            }           
         }
         else if (SelectObject.SelectedObjects.Count > 1 && SelectObject.SelectedObjects.Contains(this.gameObject))
         {
@@ -51,16 +56,14 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 _itemPoss.Add(objectSelected.transform.position);
             }
         }
-
-        // Deselect line
-        if (SelectObject.SelectedLines.Count != 0 && !SelectObject.SelectedLines.Contains(this.gameObject))
+        //deselect line
+        else 
         {
-            foreach (GameObject linesSelected in SelectObject.SelectedLines)
+            GameObject line = GameObject.Find("Line(Clone)");
+            if (line != null)
             {
-                linesSelected.GetComponent<LineRenderer>().SetColors(Color.black, Color.black);
+                line.GetComponent<Line>().DeselectLine();
             }
-            SelectObject.SelectedLines.Clear();
-            script.Clear();
         }
 
         // Setting starting posiitons.
@@ -87,7 +90,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         else if (SelectObject.SelectedObjects.Count == 0 || SelectObject.SelectedObjects.Count == 1 && SelectObject.SelectedObjects[0] == this.gameObject)
         {           
             _draggingItem = this.gameObject;
-            Debug.Log("ahoj");
 
             // Select new object.        
             SelectObject.SelectedObjects.Add(_draggingItem);
@@ -136,7 +138,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             //Moving the item with the mouse.
             Vector2 mouseDiff = (Vector2) Camera.main.ScreenToWorldPoint(eventData.position) - _mousePos;
             int i = 0;
-            //Debug.Log(SelectObject.SelectedObjects.Count);
+            
             foreach (GameObject objectSelected in SelectObject.SelectedObjects)
             {
                 objectSelected.transform.position = _itemPoss[i] + mouseDiff;
@@ -180,12 +182,10 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         _itemPoss.Clear();
 
         //transform position of each lines in scene
-        GameObject[] lines;
-        lines = GameObject.FindGameObjectsWithTag("ActiveLine");
-        foreach (GameObject l in lines)
+        GameObject line = GameObject.Find("Line(Clone)");
+        if (line != null)
         {
-            l.transform.position = new Vector2((l.GetComponent<Line>().Begin.transform.position.x + l.GetComponent<Line>().EndPos.x) / 2,
-                   (l.GetComponent<Line>().Begin.transform.position.y + l.GetComponent<Line>().EndPos.y) / 2);
+            line.GetComponent<Line>().TransformLines();
         }
     }
 
@@ -357,12 +357,10 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                     _buttonDelay = _delay;
 
                     //transform position of each lines in scene
-                    GameObject[] lines;
-                    lines = GameObject.FindGameObjectsWithTag("ActiveLine");
-                    foreach (GameObject l in lines)
+                    GameObject line = GameObject.Find("Line(Clone)");
+                    if (line != null)
                     {
-                        l.transform.position = new Vector2((l.GetComponent<Line>().Begin.transform.position.x + l.GetComponent<Line>().EndPos.x) / 2,
-                               (l.GetComponent<Line>().Begin.transform.position.y + l.GetComponent<Line>().EndPos.y) / 2);
+                        line.GetComponent<Line>().TransformLines();
                     }
                 }              
             }
