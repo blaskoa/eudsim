@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using UnityEngine;
@@ -28,10 +29,7 @@ namespace Assets.Scripts.Hotkeys
                         if ((hotkeyNode != null) && (hotkeyNode.Attributes != null) &&
                             (hotkeyNode.Attributes[AttributeName] != null))
                         {
-                            KeyCode? modifier = null;
-                            // fills the hotkey dictionary with name attribute as key and element text value as value
-                            if (hotkeyNode.Attributes[AttributeModifier] != null)
-                                modifier = (KeyCode?) int.Parse(hotkeyNode.Attributes[AttributeModifier].InnerText);
+                            bool modifier = hotkeyNode.Attributes[AttributeModifier] != null;
 
                             _hotkeyDictionary.Add(hotkeyNode.Attributes[AttributeName].InnerText,
                                 new Hotkey((KeyCode) int.Parse(hotkeyNode.InnerText), modifier));
@@ -58,9 +56,15 @@ namespace Assets.Scripts.Hotkeys
             }
             if (result && (hotkey != null))
             {
-                if (hotkey.Modifier.HasValue)
+                // If modifier is defined, allow action only if it's pressed
+                if (hotkey.Modifier)
                 {
-                    result = Input.GetKey(hotkey.Modifier.Value);
+                    result = Input.GetKey(KeyCode.LeftControl);
+                }
+                // If modifier isn't defined, deny action if it's pressed
+                else
+                {
+                    result = !Input.GetKey(KeyCode.LeftControl);
                 }
                 switch (action)
                 {
@@ -84,40 +88,18 @@ namespace Assets.Scripts.Hotkeys
             return result;
         }
 
-        public string GetHotkeyLabel(string key)
-        {
-            Hotkey hotkey = null;
-            string result = null;
-            try
-            {
-                hotkey = _instance._hotkeyDictionary[key];
-            }
-            catch (KeyNotFoundException)
-            {
-                result = string.Empty;
-            }
-            if (hotkey != null)
-            {
-                result = hotkey.ToString();
-            }
-            return result;
-        }
-
+        // Hotkey class stores Unity KeyCode and a Boolean indicating whether a modifier was pressed with the main key
         private class Hotkey
         {
-            public Hotkey(KeyCode keyCode, KeyCode? modifier)
+            public Hotkey(KeyCode keyCode, bool modifier)
             {
                 KeyCode = keyCode;
                 Modifier = modifier;
             }
 
             public KeyCode KeyCode { get; private set; }
-            public KeyCode? Modifier { get; private set; }
-
-            public override string ToString()
-            {
-                return (Modifier.HasValue ? Modifier.Value + " + " : "") + KeyCode;
-            }
+            // Only Left Ctrl modifier is allowed
+            public bool Modifier { get; private set; }
         }
     }
 }
