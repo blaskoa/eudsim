@@ -1,0 +1,136 @@
+<DOCTYPE html>
+<html>
+<head>
+    <style>
+        body{ background-color: ivory; }
+		#canvas{border:1px solid red; margin:0 auto; }
+    </style>
+    </head>
+<body>
+    <script src="jquery.min.js"></script><!--https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js-->
+<h4>Export of scheme from EduSim</h4>
+<canvas id="canvas" width=640 height=480></canvas>
+    <script type="text/javascript">
+	
+	var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+var cw = canvas.width;
+var ch = canvas.height;
+
+function reOffset() {
+    var BB = canvas.getBoundingClientRect();
+    offsetX = BB.left;
+    offsetY = BB.top;
+}
+var offsetX, offsetY;
+reOffset();
+window.onscroll = function(e) {
+    reOffset();
+}
+window.onresize = function(e) {
+    reOffset();
+}
+
+var hotspots = [{x:434.17,y:157.2,z:453.82,q:157.2,radius:50, img:'wire.png',componentName:'WIRELESS'},{x:453.82,y:157.2,z:453.82,q:235.8,radius:50, img:'wire.png',componentName:'WIRELESS'},{x:422.38,y:235.8,z:402.73,q:157.2,radius:50, img:'wire.png',componentName:'WIRELESS'},{x:438.1,y:235.8,radius:50, rotate:0, img:'bulb.png'},{x:422.38,y:235.8,radius:7, img:'connector.png',componentName:'WIRELESS'},{x:453.82,y:235.8,radius:7, img:'connector.png',componentName:'WIRELESS'},{x:418.45,y:157.2,radius:50, rotate:0, img:'accumulator.png'},{x:434.17,y:157.2,radius:7, img:'connector.png',componentName:'WIRELESS'},{x:402.73,y:157.2,radius:7, img:'connector.png',componentName:'WIRELESS'},];
+
+draw();
+
+$("#canvas").mousemove(function(e) {
+    handleMouseMove(e);
+});
+
+function draw() {
+    for (var i = 0; i < hotspots.length; i++) {
+        var h = hotspots[i];
+        if (h.img == 'wire.png') {
+            ctx.beginPath();
+            ctx.moveTo(h.x, h.y);
+            ctx.lineTo(h.z, h.q);
+            ctx.strokeStyle = 'black';
+            ctx.closePath();
+            ctx.stroke();
+        } else if (h.img == 'connector.png') {
+            ctx.strokeStyle = 'black';
+            ctx.beginPath();
+            ctx.arc(h.x, h.y, h.radius, 0, 2 * Math.PI, false);
+            ctx.closePath();
+            ctx.fillStyle = 'red';
+            ctx.fill();
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = 'yellow';
+            ctx.stroke();
+        } else {
+            ctx.strokeStyle = 'black';
+            ctx.beginPath();
+            ctx.arc(h.x, h.y, h.radius, 0, Math.PI * 2);
+            ctx.closePath();
+            ctx.stroke();
+            var imageObj = new Image();
+            imageObj.src = h.img;
+            //ctx.drawImage(imageObj,h.x-45,h.y-38);
+            drawImageRot(imageObj, h.x, h.y, imageObj.width / 2, imageObj.height / 2, h.rotate)
+            ctx.stroke();
+        }
+    }
+}
+
+
+function drawImageRot(img, x, y, width, height, deg) {
+    //Convert degrees to radian
+    var rad = deg * Math.PI / 180;
+
+    //Set the origin to the center of the image
+    ctx.translate(x, y);
+
+    //Rotate the canvas around the origin
+    ctx.rotate(rad);
+
+    //draw the image
+    ctx.drawImage(img, width / 2 * (-1), height / 2 * (-1), width, height);
+
+    //reset the canvas
+    ctx.rotate(rad * (-1));
+
+    //
+    ctx.translate((x) * (-1), (y) * (-1));
+}
+
+function handleMouseMove(e) {
+    // tell the browser we're handling this event
+    e.preventDefault();
+    e.stopPropagation();
+
+    mouseX = parseInt(e.clientX - offsetX);
+    mouseY = parseInt(e.clientY - offsetY);
+
+    ctx.clearRect(0, 0, cw, ch);
+    draw();
+    for (var i = 0; i < hotspots.length; i++) {
+        var h = hotspots[i];
+        var dx = mouseX - h.x;
+        var dy = mouseY - h.y;
+        if (dx * dx + dy * dy < h.radius * h.radius) {
+            /*	   /// color for background
+                ctx.fillStyle = '#f50';
+
+                /// get width of text
+                var width = ctx.measureText(h.componentName).width;
+
+                /// draw background rect assuming height of font
+                ctx.fillRect(h.x,h.y, width, 50);
+
+                /// text color
+                ctx.fillStyle = '#000';*/
+
+            ctx.fillText(h.componentName, h.x, h.y);
+            ctx.fillText(h.propertie1, h.x, h.y + 20);
+            ctx.fillText(h.propertie2, h.x, h.y + 40);
+        }
+    }
+
+}
+	
+	
+	</script>
+</body>
+</html>
