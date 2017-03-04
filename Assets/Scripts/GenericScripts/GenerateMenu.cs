@@ -20,30 +20,17 @@ public class GenerateMenu : MonoBehaviour, IPointerClickHandler
         // Only for rightclick
         if (eventData.button == PointerEventData.InputButton.Right)
         {
-            contextMenu.GetComponent<Canvas>().enabled = true;
             contextMenu.transform.position = Camera.main.ScreenToWorldPoint(eventData.position); // convert mouse to screen position
             contextMenu.transform.position = new Vector3(contextMenu.transform.position.x + 0.7f, contextMenu.transform.position.y - 0.75f, 0.0f); // Move slightly to the right down from mouse
 
-            // "copy" and "paste" buttons
-            if (this.GetComponent<Duplicate>())
-            {
-                for (int i = 1; i < 3; i++)
-                {
-                    contextMenu.transform.GetChild(0).GetChild(i).GetComponent<UnityEngine.UI.Button>().interactable = true;
-                }
-            }
-            
-            // "cut" button, Destroy AND Copy
-            if (this.GetComponent<Destroy>() != null && this.GetComponent<Duplicate>())
-            {
-                contextMenu.transform.GetChild(0).GetChild(0).GetComponent<UnityEngine.UI.Button>().interactable = true;
-            }
-            
-            // "delete" button
-            if (this.GetComponent<Destroy>() != null)
+            //duplicate and delete buttons
+            if (this.gameObject.tag == "ActiveItem")
             {
                 contextMenu.transform.GetChild(0).GetChild(3).GetComponent<UnityEngine.UI.Button>().interactable = true;
+                contextMenu.transform.GetChild(0).GetChild(4).GetComponent<UnityEngine.UI.Button>().interactable = true;
             }
+            
+            contextMenu.GetComponent<Canvas>().enabled = true;
         }
     }
 }

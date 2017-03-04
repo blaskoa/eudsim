@@ -20,6 +20,7 @@
     <string name="CutText">Cut</string>
     <string name="CopyText">Copy</string>
     <string name="PasteText">Paste</string>
+    <string name="DuplicateText">Duplicate</string>
     <string name="DeleteText">Delete</string>
     <string name="PlayText">Play</string>
     <string name="PauseText">Pause</string>
@@ -78,6 +79,7 @@
     <string name="CutText">Vystrihnúť</string>
     <string name="CopyText">Kopírovať</string>
     <string name="PasteText">Prilepiť</string>
+    <string name="DuplicateText">Duplikovať</string>
     <string name="DeleteText">Zmazať</string>
     <string name="PlayText">Spustiť</string>
     <string name="PauseText">Pozastaviť</string>
