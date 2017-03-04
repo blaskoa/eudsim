@@ -9,18 +9,6 @@ using System.IO.Compression;
 public class ExportHTML : MonoBehaviour
 {
     public Camera Camera;
-    // Use this for initialization
-    void Start()
-    {
-        //  Camera = GetComponent<Camera>();
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
     public void MakeHTMLExport()
     {
         //because canvas to which we make export is printing in another quadrant we need to make rotation
