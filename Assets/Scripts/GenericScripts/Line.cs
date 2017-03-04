@@ -214,4 +214,13 @@ public class Line : MonoBehaviour,IPointerClickHandler
         SelectedLine = this.gameObject;
         SelectedLine.GetComponent<LineRenderer>().SetColors(Color.red, Color.red);
     }
+
+    public Vector3 GetStartPos()
+    {
+        return _startPos;
+    }
+    public Vector3 GetMiddlePos()
+    {
+        return _middlePos;
+    }
 }
