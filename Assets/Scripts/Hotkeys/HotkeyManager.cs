@@ -11,14 +11,14 @@ namespace Assets.Scripts.Hotkeys
         private const string AttributeName = "name";
         private const string AttributeModifier = "modifier";
         private static HotkeyManager _instance;
-        public static string HotkeyFileName = Path.Combine(Application.dataPath, "Scripts\\Hotkeys\\Hotkeys.xml");
         private readonly IDictionary<string, Hotkey> _hotkeyDictionary;
 
-        private HotkeyManager(string hotkeyFilePath)
+        private HotkeyManager()
         {
             XmlDocument xml = new XmlDocument();
             _hotkeyDictionary = new Dictionary<string, Hotkey>();
-            xml.Load(hotkeyFilePath);
+            TextAsset textAsset = (TextAsset)Resources.Load("Hotkeys", typeof(TextAsset));
+            xml.LoadXml(textAsset.text);
             if (xml.DocumentElement != null)
             {
                 XmlNode hotkeysNode = xml.DocumentElement.SelectSingleNode(XPathHotkeys);
@@ -41,7 +41,7 @@ namespace Assets.Scripts.Hotkeys
 
         public static HotkeyManager Instance
         {
-            get { return _instance ?? (_instance = new HotkeyManager(HotkeyFileName)); }
+            get { return _instance ?? (_instance = new HotkeyManager()); }
         }
 
         public bool CheckHotkey(string key, KeyAction action = KeyAction.Pressed)

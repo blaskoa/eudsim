@@ -10,8 +10,7 @@ public class Localization : MonoBehaviour
     // instantiate Resource reader and set text elements text from resrouce file
     void Start()
     {
-        ResourceReader = new ResourceReader(Path.Combine(Application.dataPath, ResourceReader.ResourceFileName),
-            Application.systemLanguage);
+        ResourceReader = new ResourceReader(Application.systemLanguage);
         SetElementTexts();
         if (Application.systemLanguage == SystemLanguage.Slovak)
         {
@@ -26,8 +25,7 @@ public class Localization : MonoBehaviour
     // create a new instance of resource reader and set text elements text from resrouce file
     public void ChangeLanguage(SystemLanguage language)
     {
-        ResourceReader = new ResourceReader(Path.Combine(Application.dataPath, ResourceReader.ResourceFileName),
-            language);
+        ResourceReader = new ResourceReader(language);
         SetElementTexts();
     }
     // cycles trough all child elements and sets their texts according to current language

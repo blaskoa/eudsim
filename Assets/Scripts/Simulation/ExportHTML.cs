@@ -13,7 +13,6 @@ public class ExportHTML : MonoBehaviour
         //because canvas to which we make export is printing in another quadrant we need to make rotation
         Camera.transform.rotation *= Quaternion.Euler(180, 0, 0);
         List<string> exportArrayList = new List<string>();
-        Debug.Log("Making HTML EXPORT");
         foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
         {
             if (obj.tag.Equals("ActiveItem") || obj.tag.Equals("ActiveNode"))
@@ -88,5 +87,7 @@ public class ExportHTML : MonoBehaviour
         File.WriteAllText("ExportHTML/index.html", text);
         //and now make rotation to previous position
         Camera.transform.rotation *= Quaternion.Euler(180, 0, 0);
+        
+        this.GetComponent<Whisp>().Say("HTML export was generated.");
     }
 }
