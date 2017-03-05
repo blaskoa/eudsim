@@ -21,7 +21,7 @@ public class GenerateMenu : MonoBehaviour, IPointerClickHandler
         if (eventData.button == PointerEventData.InputButton.Right)
         {
             contextMenu.transform.position = Camera.main.ScreenToWorldPoint(eventData.position); // convert mouse to screen position
-            contextMenu.transform.position = new Vector3(contextMenu.transform.position.x + 0.7f, contextMenu.transform.position.y - 0.75f, 0.0f); // Move slightly to the right down from mouse
+            contextMenu.transform.position = new Vector3(contextMenu.transform.position.x + 0.65f, contextMenu.transform.position.y - 0.70f, 0.0f); // Move slightly to the right down from mouse
 
             //duplicate and delete buttons
             if (this.gameObject.tag == "ActiveItem")

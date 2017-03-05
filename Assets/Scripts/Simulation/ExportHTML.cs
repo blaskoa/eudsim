@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using ClassLibrarySharpCircuit;
 using UnityEngine;
 using System.IO;
-using UnityEditor;
 using System.IO.Compression;
 public class ExportHTML : MonoBehaviour
 {
