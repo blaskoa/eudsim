@@ -1,17 +1,24 @@
-<DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
-    <style>
-        body{ background-color: ivory; }
-		#canvas{border:1px solid red; margin:0 auto; }
-    </style>
-    </head>
+    <link rel='stylesheet' type='text/css' href='css/edusim.css'/>
+</head>
+
 <body>
     <script src="jquery.min.js"></script><!--https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js-->
 <h4>Export of scheme from EduSim</h4>
-<canvas id="canvas" width=640 height=480></canvas>
+<div id='main-wrapper'>
+    <canvas id="canvas" width=640 height=480></canvas>
+    <div id='summary-wrapper'>
+        <p id='summary-title'>Summary:</p>
+        <hr/>
+        <div id='summary-value-wrapper'>
+        </div>
+    </div>
+</div>
+
     <script type="text/javascript">
-	
+
 	var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 var cw = canvas.width;
@@ -95,6 +102,9 @@ function drawImageRot(img, x, y, width, height, deg) {
     ctx.translate((x) * (-1), (y) * (-1));
 }
 
+// Cache DOM
+var $summaryWrapper = $('div#summaryWrapper');
+
 function handleMouseMove(e) {
     // tell the browser we're handling this event
     e.preventDefault();
@@ -105,6 +115,9 @@ function handleMouseMove(e) {
 
     ctx.clearRect(0, 0, cw, ch);
     draw();
+
+    // Get data from Canvas and write it to the summary div
+    var html = '';
     for (var i = 0; i < hotspots.length; i++) {
         var h = hotspots[i];
         var dx = mouseX - h.x;
@@ -122,15 +135,19 @@ function handleMouseMove(e) {
                 /// text color
                 ctx.fillStyle = '#000';*/
 
+            html += '<p><span class="field-title">${h.componentName}</span>${h.x}${h.y}</p>'
+            html += '<p><span class="field-title">${h.propertie1}</span>${h.x}${h.y + 20}</p>'
+            html += '<p><span class="field-title">${h.propertie2}</span>${h.x}${h.y + 40}</p>'
+
             ctx.fillText(h.componentName, h.x, h.y);
             ctx.fillText(h.propertie1, h.x, h.y + 20);
             ctx.fillText(h.propertie2, h.x, h.y + 40);
         }
     }
-
+    $summaryWrapper.html(html);
 }
-	
-	
+
+
 	</script>
 </body>
 </html>
