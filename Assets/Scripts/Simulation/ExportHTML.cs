@@ -80,14 +80,14 @@ public class ExportHTML : MonoBehaviour
                 }
             }
         }
+        //and now make rotation to previous position
+        Camera.transform.rotation *= Quaternion.Euler(180, 0, 0);
         string text = File.ReadAllText("ExportHTML/pattern.html");
         string insertPoint = "var hotspots = [";
         int index = text.IndexOf(insertPoint, StringComparison.Ordinal) + insertPoint.Length;
         text = text.Insert(index, string.Join("", exportArrayList.ToArray()));
         File.WriteAllText("ExportHTML/index.html", text);
-        //and now make rotation to previous position
-        Camera.transform.rotation *= Quaternion.Euler(180, 0, 0);
         
-        this.GetComponent<Whisp>().Say("HTML export was generated.");
+        this.GetComponent<Whisp>().Say("HTML export was generated into ExportHTML dir.");
     }
 }
