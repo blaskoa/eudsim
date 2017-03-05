@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <!--Values are from KeyCode unity enum. Example of use:
-<Hotkey name="RotateRight" modifier="304">101</Hotkey>-->
+<Hotkey name="RotateRight" modifier="true">101</Hotkey>-->
+<!--Allowed modifiers: Ctrl - place a modifier attribute with empty string-->
 <Hotkeys>
   <!--delete key-->
   <Hotkey name="Delete">127</Hotkey>
