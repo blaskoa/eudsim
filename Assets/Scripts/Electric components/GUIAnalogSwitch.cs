@@ -67,8 +67,7 @@ public class GUIAnalogSwitch : GUICircuitComponent
         MyComponent = sim.Create<AnalogSwitch>();
         DllConnectors[0] = MyComponent.leadIn;
         DllConnectors[1] = MyComponent.leadOut;
-        Connectors[0].SetDllConnector(DllConnectors[0]);
-        Connectors[1].SetDllConnector(DllConnectors[1]);
+
     }
 
     public override void SetDllConnectors()

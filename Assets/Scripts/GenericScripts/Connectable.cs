@@ -79,9 +79,9 @@ public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             if (end != null
                 && end != this.gameObject
                 && !Connected.Contains(end)
-                && end.transform.parent.gameObject != this.gameObject.transform.parent.gameObject)
+                && end.transform.parent.gameObject != this.gameObject.transform.parent.gameObject 
+                && end.transform.parent.gameObject.tag != "ToolboxItemActive")
             {
-
                 //connecting these two object with line               
                 _line.End = end;
                 Connected.Add(_line.End);
