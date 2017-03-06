@@ -6,62 +6,69 @@ public class Duplicate : MonoBehaviour
 {
     public void DuplicateComponent()
     {
-        if (SelectObject.SelectedObject != null && SelectObject.SelectedObject.tag.Equals("ActiveItem"))
+        if (SelectObject.SelectedObjects.Count != 0)
         {
-            // Get all game objects and find for the top-left and bottom-right most components
-            GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("ActiveItem");
-
-            Vector2 startPos = new Vector2(
-                SelectObject.SelectedObject.transform.position.x,
-                SelectObject.SelectedObject.transform.position.y
-            );
-
-            // Array List of potential colliders: GameObjects that are placed to the right/bottom of the coppying GameObject
-            ArrayList potentialColliders = new ArrayList();
-            foreach (GameObject go in gameObjects)
+            foreach (GameObject objectSelected in SelectObject.SelectedObjects)
             {
-                if (go.transform.position.x >= startPos.x && go.transform.position.y <= startPos.y)
+                if (objectSelected.tag.Equals("ActiveItem"))
                 {
-                    potentialColliders.Add(go);
-                }
-            }
+                    // Get all game objects and find for the top-left and bottom-right most components
+                    GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("ActiveItem");
 
-            // Instantiate new copy GameObject
-            GameObject copy = (GameObject) Instantiate(SelectObject.SelectedObject, startPos, Quaternion.identity);
-            copy.GetComponent<GUICircuitComponent>()
-                .CopyValues(SelectObject.SelectedObject.GetComponent<GUICircuitComponent>());
+                    Vector2 startPos = new Vector2(
+                        objectSelected.transform.position.x,
+                        objectSelected.transform.position.y
+                    );
 
-            // Place new copy GameObject
-            Boolean placed = false;
-            int i = 1;
-            while (!placed)
-            {
-                for (int j = i; j >= 0; j--)
-                {
-                    // FIXME: Constants to be changed for dynamically calculated values (larger area for multiselect)
-                    Vector2 position = startPos + new Vector2(j*1.5f, j*1.5f - i*1.5f);
-                    copy.transform.position = new Vector3(position.x, position.y, 0);
-
-                    // Check if the copy GameObject is colliding with any of the existing GameObjects
-                    Boolean touching = false;
-                    foreach (GameObject go in potentialColliders)
+                    // Array List of potential colliders: GameObjects that are placed to the right/bottom of the coppying GameObject
+                    ArrayList potentialColliders = new ArrayList();
+                    foreach (GameObject go in gameObjects)
                     {
-                        if (copy.GetComponent<BoxCollider2D>()
-                            .bounds.Intersects(go.GetComponent<BoxCollider2D>().bounds))
+                        if (go.transform.position.x >= startPos.x && go.transform.position.y <= startPos.y)
                         {
-                            touching = true;
-                            break;
+                            potentialColliders.Add(go);
                         }
                     }
 
-                    // Stop the placement algorithm
-                    if (!touching)
+                    // Instantiate new copy GameObject
+                    GameObject copy =
+                        (GameObject) Instantiate(objectSelected, startPos, Quaternion.identity);
+                    copy.GetComponent<GUICircuitComponent>()
+                        .CopyValues(objectSelected.GetComponent<GUICircuitComponent>());
+
+                    // Place new copy GameObject
+                    Boolean placed = false;
+                    int i = 1;
+                    while (!placed)
                     {
-                        placed = true;
-                        break;
+                        for (int j = i; j >= 0; j--)
+                        {
+                            // FIXME: Constants to be changed for dynamically calculated values (larger area for multiselect)
+                            Vector2 position = startPos + new Vector2(j*1.5f, j*1.5f - i*1.5f);
+                            copy.transform.position = new Vector3(position.x, position.y, 0);
+
+                            // Check if the copy GameObject is colliding with any of the existing GameObjects
+                            Boolean touching = false;
+                            foreach (GameObject go in potentialColliders)
+                            {
+                                if (copy.GetComponent<BoxCollider2D>()
+                                    .bounds.Intersects(go.GetComponent<BoxCollider2D>().bounds))
+                                {
+                                    touching = true;
+                                    break;
+                                }
+                            }
+
+                            // Stop the placement algorithm
+                            if (!touching)
+                            {
+                                placed = true;
+                                break;
+                            }
+                        }
+                        i++;
                     }
                 }
-                i++;
             }
         }
     }
