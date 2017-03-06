@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters;
 using System.Runtime.Serialization.Formatters.Binary;
 using Assets.Scripts.Entities;
 
@@ -75,6 +76,7 @@ public class Persistance : MonoBehaviour
 
     public void Load()
     {
+        ClearScene();
         BinaryFormatter binaryFormatter = new BinaryFormatter();
         FileStream fileStream = new FileStream(Application.persistentDataPath + "/test", FileMode.Open);
 
@@ -175,6 +177,25 @@ public class Persistance : MonoBehaviour
         }
 
         fileStream.Close();
+    }
+
+    public void ClearScene()
+    {
+        List<GameObject> elementGameObjects = FindObjectsOfType<GUICircuitComponent>().ToList()
+            .Where(x => x.CompareTag("ActiveItem"))
+            .Select(x => x.gameObject).ToList();
+
+        List<GameObject> lineGameObjects = FindObjectsOfType<Line>().ToList()
+            .Select(x => x.gameObject).ToList();
+
+        foreach (GameObject elementGameObject in elementGameObjects)
+        {
+            Destroy(elementGameObject);
+        }
+        foreach (GameObject lineGameObject in lineGameObjects)
+        {
+            Destroy(lineGameObject);
+        }
     }
 
     private GameObject InstatiateGameObject(GameObject gameObject)
