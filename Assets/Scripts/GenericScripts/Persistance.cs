@@ -158,20 +158,20 @@ public class Persistance : MonoBehaviour
         {
             Connector start = connectors.Find(x => x.TemporaryId == packageLineEntity.StartConnectorId);
             Connector end = connectors.Find(x => x.TemporaryId == packageLineEntity.EndConnectorId);
-            
-            Line line = _linePrefab.AddComponent<Line>();
+
+            GameObject linePrefab = Instantiate(_linePrefab);
+            Line line = linePrefab.AddComponent<Line>();
             line.Begin = start.gameObject;
             line.End = end.gameObject;
             line.TypeOfLine = packageLineEntity.LineType;
             line.EndPos = end.transform.position;
             line.StartPos = start.transform.position;
-            GameObject lineGameObject = Instantiate(_linePrefab);
-            end.SendMessage("AddConnected", start.gameObject);
-            start.SendMessage("AddConnected", end.gameObject);
+
+            end.GetComponent<Connectable>().AddConnected(start.gameObject);
+            start.GetComponent<Connectable>().AddConnected(end.gameObject);
+
             start.ConnectedConnectors.Add(end);
             end.ConnectedConnectors.Add(start);
-
-            line.GetComponent<LineRenderer>().SetPosition(1, end.gameObject.transform.position);
         }
 
         fileStream.Close();

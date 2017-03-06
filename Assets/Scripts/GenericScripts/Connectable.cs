@@ -5,17 +5,14 @@ using System.Collections.Generic;
 //class for objects which  is used to generate lines between components
 public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-
     public List<GameObject> Connected;
     public GameObject Obj;
     private Line _line;
     private Vector3 _endPos;
 
-
     // Initialization
     public void Start()
     {
-        Connected = new List<GameObject>();
     }
 
     //add connector object to connector in the ending position to the List of connected connectors 
