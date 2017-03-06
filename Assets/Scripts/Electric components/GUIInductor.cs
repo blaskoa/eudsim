@@ -54,9 +54,15 @@ public class GUIInductor : GUICircuitComponent
         script.AddBoolean("TrapezoidalPropertyLabel", IsTrapezoidal.ToString(), SetTrapezoidal);
         script.AddResult("InductancePropertyLabel", "15.6", "Ohm");
     }
+    // Used for duplicating the components - old component is passes so the new one can copy needed values
+    public override void CopyValues(GUICircuitComponent old)
+    {
+        Inductance = ((GUIInductor) old).Inductance;
+        IsTrapezoidal = ((GUIInductor) old).IsTrapezoidal;
+    }
 
-    // Use this for initialization
-    public void Start()
+    // Called during instantiation
+    public void Awake()
     {
         if (CompareTag("ActiveItem"))
         {

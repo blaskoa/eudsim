@@ -5,7 +5,6 @@ using ClassLibrarySharpCircuit;
 public class GUILamp : GUICircuitComponent
 {
     private LampEntity _lampEntity;
-
     public override SimulationElement Entity
     {
         get
@@ -24,9 +23,8 @@ public class GUILamp : GUICircuitComponent
     {
 
     }
-
-    // Use this for initialization
-    public void Start()     // public for testing purposes
+    // Called during instantiation
+    public void Awake()
     {
         if (CompareTag("ActiveItem"))
         {

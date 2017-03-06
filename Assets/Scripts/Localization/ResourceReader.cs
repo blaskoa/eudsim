@@ -13,13 +13,13 @@ namespace Assets.Scripts.Localization
         private const string AttributeName = "name";
         private const SystemLanguage DefaultLanguage = SystemLanguage.English;
         private readonly IDictionary<string, string> _resources;
-        public static string ResourceFileName = Path.Combine("Scripts\\Localization", "Resources.xml");
         
-        public ResourceReader(string resourceFilePath, SystemLanguage language)
+        public ResourceReader(SystemLanguage language)
         {
             XmlDocument xml = new XmlDocument();
             _resources = new Dictionary<string, string>();
-            xml.Load(resourceFilePath);
+            TextAsset textAsset = (TextAsset)Resources.Load("Resources", typeof(TextAsset));
+            xml.LoadXml(textAsset.text);
             if (xml.DocumentElement != null)
             {
                 // selects requested laguage node if requested language is not found, use default = english

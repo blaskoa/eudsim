@@ -31,8 +31,8 @@ public class GUIAmpermeter : GUICircuitComponent
         script.AddResult("CurrentPropertyLabel", ResistorComponent.getCurrent().ToString(CultureInfo.InvariantCulture), "A");
     }
 
-    // Use this for initialization
-    public void Start()
+    // Called during instantiation
+    public void Awake()
     {
         if (CompareTag("ActiveItem"))
         {

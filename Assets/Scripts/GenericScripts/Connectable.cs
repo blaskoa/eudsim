@@ -76,14 +76,17 @@ public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             if (end != null
                 && end != this.gameObject
                 && !Connected.Contains(end)
-                && end.transform.parent.gameObject != this.gameObject.transform.parent.gameObject)
+                && end.transform.parent.gameObject != this.gameObject.transform.parent.gameObject 
+                && end.transform.parent.gameObject.tag != "ToolboxItemActive")
             {
-
-                //connecting these two object with line
+                //connecting these two object with line               
                 _line.End = end;
                 Connected.Add(_line.End);
                 _line.End.SendMessage("AddConnected", this.gameObject);
-                Instantiate(Obj);
+                GameObject newLine = Instantiate(Obj);
+                newLine.tag = "ActiveLine";
+                newLine.transform.position = new Vector2((_line.Begin.transform.position.x + _line.EndPos.x)/2, 
+                    (_line.Begin.transform.position.y + _line.EndPos.y)/2 );
 
                 Connector con1 = _line.End.GetComponent<Connector>();
                 Connector con2 = gameObject.GetComponent<Connector>();
