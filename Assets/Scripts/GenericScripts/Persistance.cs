@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters;
 using System.Runtime.Serialization.Formatters.Binary;
 using Assets.Scripts.Entities;
 
@@ -36,7 +35,7 @@ public class Persistance : MonoBehaviour
         Line[] lines = FindObjectsOfType<Line>();
 
         BinaryFormatter binaryFormatter = new BinaryFormatter();
-        FileStream fileStream = new FileStream(Application.persistentDataPath + "/test", FileMode.OpenOrCreate);
+        FileStream fileStream = new FileStream(Application.persistentDataPath + "/project.es", FileMode.OpenOrCreate);
         List<SimulationElement> elementsToSerialize = new List<SimulationElement>();
         List<LineEntity> linesToSerialize = new List<LineEntity>();
 
@@ -78,7 +77,7 @@ public class Persistance : MonoBehaviour
     {
         ClearScene();
         BinaryFormatter binaryFormatter = new BinaryFormatter();
-        FileStream fileStream = new FileStream(Application.persistentDataPath + "/test", FileMode.Open);
+        FileStream fileStream = new FileStream(Application.persistentDataPath + "/project.es", FileMode.Open);
 
         object o = binaryFormatter.Deserialize(fileStream);
         SerializationPackage package = (SerializationPackage) o;
