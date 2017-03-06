@@ -1,28 +1,43 @@
 ﻿using UnityEngine;
 using ClassLibrarySharpCircuit;
-using System.Collections.Generic;
+using Assets.Scripts.Entities;
 
 
 public class GUIInductor : GUICircuitComponent
 {
-    public Circuit.Lead[] DllConnectors;
-    public InductorElm MyComponent;
+    private InductorEntity _inductorEntity;
+    private const double DefaultInductance = 50;
+    private const bool DefaultIsTrapezoidal = false;
 
     public double Inductance
     {
-        get { return MyComponent.inductance; }
-        set { MyComponent.inductance = value; }   // GUI check - accept only positive integer
+        get { return _inductorEntity.Inductance; }
+        set { _inductorEntity.Inductance = value; }   // GUI check - accept only positive integer
+    }
+
+    public bool IsTrapezoidal
+    {
+        get { return _inductorEntity.IsTrapezoidal; }
+        set { _inductorEntity.IsTrapezoidal = value; }   // GUI check - accept only true/ false
+    }
+
+    public override SimulationElement Entity
+    {
+        get
+        {
+            SetTransformForEntity(_inductorEntity);
+            return _inductorEntity;
+        }
+        set
+        {
+            _inductorEntity = (InductorEntity) value;
+            TransformFromEntity(_inductorEntity);
+        }
     }
 
     public void SetInductance(double val)
     {
         Inductance = val;
-    }
-
-    public bool IsTrapezoidal
-    {
-        get { return MyComponent.isTrapezoidal; }
-        set { MyComponent.isTrapezoidal = value; }   // GUI check - accept only true/ false
     }
 
     public void SetTrapezoidal(bool val)
@@ -41,34 +56,27 @@ public class GUIInductor : GUICircuitComponent
     }
 
     // Use this for initialization
-    void Start()
+    public void Start()
     {
         if (CompareTag("ActiveItem"))
         {
-            SetSimulationProp(GUICircuit.sim);
-            Connectors[0] = transform.FindChild("Connector1").GetComponent<Connector>();
-            Connectors[1] = transform.FindChild("Connector2").GetComponent<Connector>();
-
-            Connectors[0].SetConnectedConnectors();
-            Connectors[1].SetConnectedConnectors();
-            Connectors[0].AssignComponent(this);
-            Connectors[1].AssignComponent(this);
-            SetDllConnectors();
+            if (_inductorEntity == null)
+            {
+                _inductorEntity = new InductorEntity {IsTrapezoidal = DefaultIsTrapezoidal, Inductance = DefaultInductance};
+            }
+            SetAndInitializeConnectors();
         }
     }
 
     public override void SetSimulationProp(Circuit sim)
     {
         Debug.Log("activeItem inserted");
-        DllConnectors = new Circuit.Lead[2];
-        MyComponent = sim.Create<InductorElm>();
-        DllConnectors[0] = MyComponent.leadIn;
-        DllConnectors[1] = MyComponent.leadOut;
-    }
 
-    public override void SetDllConnectors()
-    {
-        Connectors[0].SetDllConnector(DllConnectors[0]);
-        Connectors[1].SetDllConnector(DllConnectors[1]);
+        InductorElm inductorElm = sim.Create<InductorElm>();
+        inductorElm.inductance = _inductorEntity.Inductance;
+        inductorElm.isTrapezoidal = _inductorEntity.IsTrapezoidal;
+
+        Connectors[0].DllConnector = inductorElm.leadIn;
+        Connectors[1].DllConnector = inductorElm.leadOut;
     }
 }

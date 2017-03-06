@@ -4,28 +4,33 @@ using Assets.Scripts.Entities;
 
 public class GUIResistor : GUICircuitComponent
 {
-    public Circuit.Lead[] DllConnectors;
-    public Resistor MyComponent;
     private ResistorEntity _resistorEntity;
+
+    private const double DefaultResistance = 50;
 
     public double Resistance
     {
         get { return _resistorEntity.Resistance; }
+        set { _resistorEntity.Resistance = value; }   // GUI check - accept only positive integer
+    }
+
+    public override SimulationElement Entity
+    {
+        get
+        {
+            SetTransformForEntity(_resistorEntity);
+            return _resistorEntity;
+        }
         set
         {
-            MyComponent.resistance = value;
-            _resistorEntity.Resistance = value;
-        }   // GUI check - accept only positive integer
+            _resistorEntity = (ResistorEntity) value;
+            TransformFromEntity(_resistorEntity);
+        }
     }
 
     public void SetResistance(double val)
     {
         Resistance = val;
-    }
-
-    public double GetVoltageDelta()
-    {
-        return MyComponent.getVoltageDelta();
     }
 
     public override void GetProperties()
@@ -43,46 +48,21 @@ public class GUIResistor : GUICircuitComponent
         {
             if (_resistorEntity == null)
             {
-                _resistorEntity = new ResistorEntity();
+                _resistorEntity = new ResistorEntity {Resistance = DefaultResistance};
             }
 
-            SetSimulationProp(GUICircuit.sim);
-            Connectors[0] = transform.FindChild("Connector1").GetComponent<Connector>();
-            Connectors[1] = transform.FindChild("Connector2").GetComponent<Connector>();
-            Connectors[0].SetConnectedConnectors();
-            Connectors[1].SetConnectedConnectors();
-            Connectors[0].AssignComponent(this);
-            Connectors[1].AssignComponent(this);
-            SetDllConnectors();
+            SetAndInitializeConnectors();
         }
     }
 
     public override void SetSimulationProp(Circuit sim)
     {
         Debug.Log("activeItem inserted");
-        DllConnectors = new Circuit.Lead[2];
-        MyComponent = sim.Create<Resistor>();
-        DllConnectors[0] = MyComponent.leadIn;
-        DllConnectors[1] = MyComponent.leadOut;
-    }
 
-    public override void SetDllConnectors()
-    {
-        Connectors[0].SetDllConnector(DllConnectors[0]);
-        Connectors[1].SetDllConnector(DllConnectors[1]);
-    }
+        Resistor resistor = sim.Create<Resistor>();
+        resistor.resistance = _resistorEntity.Resistance;
 
-    public override SimulationElement GetEntity()
-    {
-        _resistorEntity.PositionX = transform.position.x;
-        _resistorEntity.PositionY = transform.position.y;
-        return _resistorEntity;
-    }
-
-    public void SetEntity(ResistorEntity entity)
-    {
-        _resistorEntity = entity;
-        transform.position = new Vector3(entity.PositionX, entity.PositionY);
-        Resistance = entity.Resistance;
+        Connectors[0].DllConnector = resistor.leadIn;
+        Connectors[1].DllConnector = resistor.leadOut;
     }
 }

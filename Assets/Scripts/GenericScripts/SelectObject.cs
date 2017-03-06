@@ -24,7 +24,7 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
-        if (this.gameObject.tag == "ToolboxItem" || this.gameObject.tag == "Node")
+        if (this.gameObject.tag == "ToolboxItem" || this.gameObject.tag == "Node" )
         {
             return;
         }
@@ -63,6 +63,9 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
 
         // Call the script from component that fills the Properties Window
         GUICircuitComponent componentScript = SelectedObject.GetComponent<GUICircuitComponent>();
-        componentScript.GetProperties();
+        if (componentScript.CompareTag("ActiveItem"))
+        {
+            componentScript.GetProperties();
+        }
     }
 }

@@ -40,7 +40,6 @@ public class GUICircuit : MonoBehaviour
             if (obj.tag.Equals("ActiveItem"))
             {
                 obj.GetComponent<GUICircuitComponent>().SetSimulationProp(sim);
-                obj.GetComponent<GUICircuitComponent>().SetDllConnectors();
                 _sceneItems.Push(obj.GetComponent<GUICircuitComponent>());
             }
         }

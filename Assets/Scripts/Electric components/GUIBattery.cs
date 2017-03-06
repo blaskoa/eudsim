@@ -1,24 +1,34 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Linq;
+using UnityEngine;
 using ClassLibrarySharpCircuit;
 using Assets.Scripts.Entities;
 
 
 public class GUIBattery : GUICircuitComponent
 {
-    public Circuit.Lead[] DllConnectors;
-    public VoltageInput MyComponent;
-    public Ground MyComponentGround;
-
     private BatteryEntity _batteryEntity;
 
+    private const double DefaultVoltage = 10;
+    
     public double MaxVoltage
     {
         get { return _batteryEntity.MaxVoltage; }
+        set { _batteryEntity.MaxVoltage = value; }   // GUI check - accept only positive integer
+    }
+
+    public override SimulationElement Entity
+    {
+        get
+        {
+            SetTransformForEntity(_batteryEntity);
+            return _batteryEntity;
+        }
         set
         {
-            MyComponent.maxVoltage = value;
-            _batteryEntity.MaxVoltage = value;
-        }   // GUI check - accept only positive integer
+            _batteryEntity = (BatteryEntity)value;
+            TransformFromEntity(_batteryEntity);
+        }
     }
 
     public void SetMaxVoltage(double val)
@@ -37,50 +47,24 @@ public class GUIBattery : GUICircuitComponent
     // Use this for initialization
     public void Start()     // public for testing purposes
     {
-        if (this.CompareTag("ActiveItem"))
+        if (CompareTag("ActiveItem"))
         {
             if (_batteryEntity == null)
             {
-                _batteryEntity = new BatteryEntity();
+                _batteryEntity = new BatteryEntity { MaxVoltage = DefaultVoltage };
             }
-            SetSimulationProp(GUICircuit.sim);
-            Connectors[0] = transform.FindChild("PlusConnector").GetComponent<Connector>();
-            Connectors[1] = transform.FindChild("MinusConnector").GetComponent<Connector>();
-            Connectors[0].SetConnectedConnectors();
-            Connectors[1].SetConnectedConnectors();
-            Connectors[0].AssignComponent(this);
-            Connectors[1].AssignComponent(this);
-            SetDllConnectors();
+
+            SetAndInitializeConnectors();
         }
     }
 
     public override void SetSimulationProp(Circuit sim)
     {
-        Debug.Log("activeItem inserted");
-        DllConnectors = new Circuit.Lead[2];
-        MyComponent = sim.Create<VoltageInput>(Voltage.WaveType.DC);
-        MyComponentGround = sim.Create<Ground>();
-        DllConnectors[0] = MyComponent.leadPos;
-        DllConnectors[1] = MyComponentGround.leadIn;
-    }
+        VoltageInput voltageInput = sim.Create<VoltageInput>(Voltage.WaveType.DC);
+        voltageInput.maxVoltage = _batteryEntity.MaxVoltage;
 
-    public override void SetDllConnectors()
-    {
-        Connectors[0].SetDllConnector(DllConnectors[0]);
-        Connectors[1].SetDllConnector(DllConnectors[1]);
-    }
-
-    public override SimulationElement GetEntity()
-    {
-        _batteryEntity.PositionX = transform.position.x;
-        _batteryEntity.PositionY = transform.position.y;
-        return _batteryEntity;
-    }
-
-    public void SetEntity(BatteryEntity entity)
-    {
-        _batteryEntity = entity;
-        transform.position = new Vector3(entity.PositionX, entity.PositionY);
-        MaxVoltage = entity.MaxVoltage;
+        Ground ground = sim.Create<Ground>();
+        Connectors[0].DllConnector = voltageInput.leadPos;
+        Connectors[1].DllConnector = ground.leadIn;
     }
 }

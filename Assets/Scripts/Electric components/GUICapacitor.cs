@@ -1,18 +1,32 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using Assets.Scripts.Entities;
+using UnityEngine;
 using ClassLibrarySharpCircuit;
-using System.Collections.Generic;
 
 public class GUICapacitor : GUICircuitComponent
 {
-    public Circuit.Lead[] DllConnectors;
-    public CapacitorElm MyComponent;
+    private CapacitorEntity _capacitorEntity;
+    private const double DefaultCapacitance = 50;
 
     public double Capacitance
     {
-        get { return MyComponent.capacitance; }
-        set { MyComponent.capacitance = value; }   // GUI check - accept only positive integer
+        get { return _capacitorEntity.Capacitance; }
+        set { _capacitorEntity.Capacitance = value; }   // GUI check - accept only positive integer
     }
+
+    public override SimulationElement Entity
+    {
+        get
+        {
+            SetTransformForEntity(_capacitorEntity);
+            return _capacitorEntity;
+        }
+        set
+        {
+            _capacitorEntity = (CapacitorEntity) value;
+            TransformFromEntity(_capacitorEntity);
+        }
+    }
+
 
     public void SetCapacitance(double val)
     {
@@ -28,34 +42,26 @@ public class GUICapacitor : GUICircuitComponent
     }
 
     // Use this for initialization
-    void Start()
+    public void Start()
     {
         if (CompareTag("ActiveItem"))
         {
-            SetSimulationProp(GUICircuit.sim);
-            Connectors[0] = transform.FindChild("PlusConnector").GetComponent<Connector>();
-            Connectors[1] = transform.FindChild("MinusConnector").GetComponent<Connector>();
-
-            Connectors[0].SetConnectedConnectors();
-            Connectors[1].SetConnectedConnectors();
-            Connectors[0].AssignComponent(this);
-            Connectors[1].AssignComponent(this);
-            SetDllConnectors();
+            if (_capacitorEntity == null)
+            {
+                _capacitorEntity = new CapacitorEntity {Capacitance = DefaultCapacitance};
+            }
+            SetAndInitializeConnectors();
         }
     }
 
     public override void SetSimulationProp(Circuit sim)
     {
         Debug.Log("activeItem inserted");
-        MyComponent = sim.Create<CapacitorElm>();
-        DllConnectors = new Circuit.Lead[2];
-        DllConnectors[0] = MyComponent.leadIn;
-        DllConnectors[1] = MyComponent.leadOut;
-    }
 
-    public override void SetDllConnectors()
-    {
-        Connectors[0].SetDllConnector(DllConnectors[0]);
-        Connectors[1].SetDllConnector(DllConnectors[1]);
+        CapacitorElm capacitorElm = sim.Create<CapacitorElm>();
+
+        capacitorElm.capacitance = _capacitorEntity.Capacitance;
+        Connectors[0].DllConnector = capacitorElm.leadIn;
+        Connectors[1].DllConnector = capacitorElm.leadOut;
     }
 }

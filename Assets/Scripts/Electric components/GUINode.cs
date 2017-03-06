@@ -1,18 +1,44 @@
 ﻿using UnityEngine;
-using System.Collections;
+using Assets.Scripts.Entities;
 using ClassLibrarySharpCircuit;
 
 public class GUINode : GUICircuitComponent
 {
-
+    private NodeEntity _nodeEntity;
     // Use this for initialization
     public void Start()
     {
-        if (this.CompareTag("ActiveNode"))
+        if (CompareTag("ActiveNode"))
         {
+            if (_nodeEntity == null)
+            {
+                _nodeEntity = new NodeEntity();
+            }
+
             Debug.Log("insertol som node");
-            Connectors[0] = this.transform.FindChild("NodeConnector").GetComponent<Connector>();
-            Connectors[0].SetConnectedConnectors();
+            SetAndInitializeConnectors();
         }
+    }
+
+    public override SimulationElement Entity
+    {
+        get
+        {
+            SetTransformForEntity(_nodeEntity);
+            return _nodeEntity;
+        }
+        set
+        {
+            _nodeEntity = (NodeEntity) value;
+            TransformFromEntity(_nodeEntity);
+        }
+    }
+
+    public override void GetProperties()
+    {
+    }
+
+    public override void SetSimulationProp(Circuit sim)
+    {
     }
 }
