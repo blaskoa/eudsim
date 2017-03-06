@@ -164,7 +164,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             _draggingItem.transform.position = finalPos;
 
             //checking colision
-            Colision();;
+            Colision();
             _draggingItem = null;
         }
         else if (SelectObject.SelectedObjects.Count > 1)
