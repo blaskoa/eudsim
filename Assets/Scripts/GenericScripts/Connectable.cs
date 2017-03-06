@@ -90,7 +90,6 @@ public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
                 Connector con1 = _line.End.GetComponent<Connector>();
                 Connector con2 = gameObject.GetComponent<Connector>();
-                //GUICircuit.sim.Connect(con1.DllConnector, con2.DllConnector);
                 //Debug.Log("Vytvoril som connection");
                 con1.ConnectedConnectors.Add(con2);
                 con2.ConnectedConnectors.Add(con1);
@@ -114,5 +113,4 @@ public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             }
         }
     }
-
 }

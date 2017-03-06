@@ -10,7 +10,7 @@ public class GUILamp : GUICircuitComponent
     {
         get
         {
-            SetTransformForEntity(_lampEntity);
+            FillEntity(_lampEntity);
             return _lampEntity;
         }
         set

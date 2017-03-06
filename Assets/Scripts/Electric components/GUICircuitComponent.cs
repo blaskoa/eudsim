@@ -26,14 +26,30 @@ public abstract class GUICircuitComponent : MonoBehaviour
     {
         transform.position = new Vector3(simulationElement.PositionX, simulationElement.PositionY);
         transform.rotation = new Quaternion(0, 0, simulationElement.RotationZ, simulationElement.RotationW);
+
+        int indexer = 0;
+        foreach (Connector connector in Connectors)
+        {
+            connector.TemporaryId = simulationElement.ConnectorIds[indexer];
+            indexer++;
+        }
     }
 
-    protected void SetTransformForEntity(SimulationElement simulationElement)
+    protected void FillEntity(SimulationElement simulationElement)
     {
         simulationElement.PositionX = transform.position.x;
         simulationElement.PositionY = transform.position.y;
         simulationElement.RotationZ = transform.rotation.z;
         simulationElement.RotationW = transform.rotation.w;
+        simulationElement.Id = GetInstanceID();
+        
+        List<int> connectorIdList = new List<int>(Connectors.Count);
+        foreach (Connector connector in Connectors)
+        {
+            connectorIdList.Add(connector.GetInstanceID());
+        }
+
+        simulationElement.ConnectorIds = connectorIdList;
     }
 }
 

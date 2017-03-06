@@ -18,7 +18,7 @@ public class GUIResistor : GUICircuitComponent
     {
         get
         {
-            SetTransformForEntity(_resistorEntity);
+            FillEntity(_resistorEntity);
             return _resistorEntity;
         }
         set

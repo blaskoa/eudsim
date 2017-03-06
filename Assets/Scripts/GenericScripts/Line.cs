@@ -10,7 +10,7 @@ public class Line : MonoBehaviour,IPointerClickHandler
     public GameObject End = null;
     public Vector3 EndPos;
     private LineRenderer _line;
-    private Vector3 _startPos;
+    public Vector3 StartPos;
     private bool _addedCollider = false;
     private Vector3 _oldStartPos;
     private Vector3 _oldEndPos;
@@ -25,9 +25,9 @@ public class Line : MonoBehaviour,IPointerClickHandler
     // Update is called once per frame
     void Update()
     {  
-        _startPos.x = Begin.transform.position.x;
-        _startPos.y = Begin.transform.position.y;
-        _startPos.z = Begin.transform.position.z;
+        StartPos.x = Begin.transform.position.x;
+        StartPos.y = Begin.transform.position.y;
+        StartPos.z = Begin.transform.position.z;
 
         //when i correctly connect two connectors
         if (End != null)
@@ -42,7 +42,7 @@ public class Line : MonoBehaviour,IPointerClickHandler
                 _line = GetComponent<LineRenderer>();
                 _line.SetVertexCount(2);
 
-                _line.SetPosition(0, _startPos);
+                _line.SetPosition(0, StartPos);
                 _line.SetPosition(1, EndPos);
             }
 
@@ -50,7 +50,7 @@ public class Line : MonoBehaviour,IPointerClickHandler
             {
                 //get offset for filling curve
                 float offset;
-                if (_startPos.x > EndPos.x)
+                if (StartPos.x > EndPos.x)
                 {
                     offset = 0.015f;
                 }
@@ -65,12 +65,12 @@ public class Line : MonoBehaviour,IPointerClickHandler
                     _line = GetComponent<LineRenderer>();
                     _line.SetVertexCount(4);
 
-                    _line.SetPosition(0, new Vector3(_startPos.x, _startPos.y, -1));
-                    _line.SetPosition(1, new Vector3(EndPos.x + offset, _startPos.y, -1));
-                    _line.SetPosition(2, new Vector3(EndPos.x, _startPos.y, -1));
+                    _line.SetPosition(0, new Vector3(StartPos.x, StartPos.y, -1));
+                    _line.SetPosition(1, new Vector3(EndPos.x + offset, StartPos.y, -1));
+                    _line.SetPosition(2, new Vector3(EndPos.x, StartPos.y, -1));
                     _line.SetPosition(3, new Vector3(EndPos.x, EndPos.y, -1));
 
-                    _middlePos = new Vector3(EndPos.x, _startPos.y, -1);
+                    _middlePos = new Vector3(EndPos.x, StartPos.y, -1);
                 }
 
                 //when space was 2 times pressed - left break line
@@ -80,18 +80,18 @@ public class Line : MonoBehaviour,IPointerClickHandler
                     _line.SetVertexCount(4);
 
                     _line.SetPosition(0, new Vector3(EndPos.x, EndPos.y, -1));
-                    _line.SetPosition(1, new Vector3(_startPos.x - offset, EndPos.y, -1));
-                    _line.SetPosition(2, new Vector3(_startPos.x, EndPos.y, -1));
-                    _line.SetPosition(3, new Vector3(_startPos.x, _startPos.y, -1));
+                    _line.SetPosition(1, new Vector3(StartPos.x - offset, EndPos.y, -1));
+                    _line.SetPosition(2, new Vector3(StartPos.x, EndPos.y, -1));
+                    _line.SetPosition(3, new Vector3(StartPos.x, StartPos.y, -1));
 
-                    _middlePos = new Vector3(_startPos.x, EndPos.y, -1);
+                    _middlePos = new Vector3(StartPos.x, EndPos.y, -1);
                 }
             }
 
             //added dynamic collider in case that moving electric components or changing type of line
             if (!_addedCollider)
             {
-                _oldStartPos = _startPos;
+                _oldStartPos = StartPos;
                 _oldEndPos = EndPos;
                 _oldTypeOfLine = TypeOfLine;
                 AddCollidersToLine();
@@ -104,12 +104,12 @@ public class Line : MonoBehaviour,IPointerClickHandler
         {
             _line = GetComponent<LineRenderer>();
             _line.SetVertexCount(2);
-            _line.SetPosition(0, _startPos);
+            _line.SetPosition(0, StartPos);
             _line.SetPosition(1, EndPos);
         }
 
         //destroy old colliders in case that moving electric components or changing type of line
-        if (_addedCollider && (_oldStartPos != _startPos || _oldEndPos != EndPos || _oldTypeOfLine != TypeOfLine))
+        if (_addedCollider && (_oldStartPos != StartPos || _oldEndPos != EndPos || _oldTypeOfLine != TypeOfLine))
         {
             for (int i = 0; i < _line.transform.childCount; i++)
             {
@@ -128,19 +128,19 @@ public class Line : MonoBehaviour,IPointerClickHandler
             // Colliders is added as child object of line
             _col1.transform.parent = _line.transform;
 
-            float lineLegth = Vector2.Distance(_startPos, EndPos);
+            float lineLegth = Vector2.Distance(StartPos, EndPos);
 
             // size of collider is set where X is length of line, Y is width of line
             _col1.size = new Vector2(lineLegth, 0.3f);
-            Vector3 midPoint = (_startPos + EndPos)/2;
+            Vector3 midPoint = (StartPos + EndPos)/2;
 
             // setting position of collider object
             _col1.transform.position = midPoint;
 
             // Following lines calculate the angle between startPos and EndPos
-            float angle = (Mathf.Abs(_startPos.y - EndPos.y)/Mathf.Abs(_startPos.x - EndPos.x));
+            float angle = (Mathf.Abs(StartPos.y - EndPos.y)/Mathf.Abs(StartPos.x - EndPos.x));
 
-            if ((_startPos.y < EndPos.y && _startPos.x > EndPos.x) || (EndPos.y < _startPos.y && EndPos.x > _startPos.x))
+            if ((StartPos.y < EndPos.y && StartPos.x > EndPos.x) || (EndPos.y < StartPos.y && EndPos.x > StartPos.x))
             {
                 angle *= -1;
             }
@@ -162,7 +162,7 @@ public class Line : MonoBehaviour,IPointerClickHandler
             _col2.transform.parent = _line.transform;
 
             //get distance between connectors and break line position
-            float lineLegth1 = Vector2.Distance(_startPos, _middlePos);
+            float lineLegth1 = Vector2.Distance(StartPos, _middlePos);
             float lineLegth2 = Vector2.Distance(_middlePos, EndPos);
 
             // size of colliders width and length
@@ -178,7 +178,7 @@ public class Line : MonoBehaviour,IPointerClickHandler
                 _col2.size = new Vector2(lineLegth2, 0.3f);                               
             }
 
-            Vector2 midPoint1 = (_startPos + _middlePos) / 2;
+            Vector2 midPoint1 = (StartPos + _middlePos) / 2;
             Vector2 midPoint2 = (_middlePos + EndPos) / 2;
 
             // setting position of colliders object

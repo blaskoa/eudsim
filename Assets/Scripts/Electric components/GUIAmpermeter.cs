@@ -13,7 +13,7 @@ public class GUIAmpermeter : GUICircuitComponent
     {
         get
         {
-            SetTransformForEntity(_ampermeterEntity);
+            FillEntity(_ampermeterEntity);
             return _ampermeterEntity;
         }
         set

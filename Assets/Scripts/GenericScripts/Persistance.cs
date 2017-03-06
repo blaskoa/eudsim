@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using Assets.Scripts.Entities;
 
@@ -25,14 +26,18 @@ public class Persistance : MonoBehaviour
     private GameObject _nodePrefab;
     [SerializeField]
     private GameObject _voltmeterPrefab;
+    [SerializeField]
+    private GameObject _linePrefab;
 
     public void Save()
     {
         GUICircuitComponent[] components = FindObjectsOfType<GUICircuitComponent>();
+        Line[] lines = FindObjectsOfType<Line>();
 
         BinaryFormatter binaryFormatter = new BinaryFormatter();
         FileStream fileStream = new FileStream(Application.persistentDataPath + "/test", FileMode.OpenOrCreate);
         List<SimulationElement> elementsToSerialize = new List<SimulationElement>();
+        List<LineEntity> linesToSerialize = new List<LineEntity>();
 
         foreach (GUICircuitComponent component in components)
         {
@@ -47,7 +52,24 @@ public class Persistance : MonoBehaviour
             }
         }
 
-        binaryFormatter.Serialize(fileStream, elementsToSerialize);
+        foreach (Line line in lines)
+        {
+            linesToSerialize.Add(new LineEntity
+            {
+                StartConnectorId = line.Begin.GetComponentInChildren<Connector>().GetInstanceID(),
+                EndConnectorId = line.End.GetComponentInChildren<Connector>().GetInstanceID(),
+                LineType = line.TypeOfLine
+            });
+        }
+
+        SerializationPackage package = new SerializationPackage
+        {
+            LineEntities = linesToSerialize,
+            SimulationElements = elementsToSerialize
+        };
+
+
+        binaryFormatter.Serialize(fileStream, package);
         fileStream.Close();
     }
 
@@ -57,9 +79,9 @@ public class Persistance : MonoBehaviour
         FileStream fileStream = new FileStream(Application.persistentDataPath + "/test", FileMode.Open);
 
         object o = binaryFormatter.Deserialize(fileStream);
-        List<SimulationElement> elementToInstantiate = (List<SimulationElement>) o;
+        SerializationPackage package = (SerializationPackage) o;
 
-        foreach (SimulationElement simulationElement in elementToInstantiate)
+        foreach (SimulationElement simulationElement in package.SimulationElements)
         {
             Type entityType = simulationElement.GetType();
             if (entityType == typeof(BatteryEntity))
@@ -126,6 +148,32 @@ public class Persistance : MonoBehaviour
                 concreteGameObject.GetComponent<GUINode>().Entity = concreteEntity;
             }
         }
+
+        List<Connector> connectors = FindObjectsOfType<Connector>().ToList();
+        connectors =
+            connectors.Where(
+                x => x.transform.parent != null && (x.transform.parent.CompareTag("ActiveItem") || x.transform.parent.CompareTag("ActiveNode"))).ToList();
+
+        foreach (LineEntity packageLineEntity in package.LineEntities)
+        {
+            Connector start = connectors.Find(x => x.TemporaryId == packageLineEntity.StartConnectorId);
+            Connector end = connectors.Find(x => x.TemporaryId == packageLineEntity.EndConnectorId);
+            
+            Line line = _linePrefab.AddComponent<Line>();
+            line.Begin = start.gameObject;
+            line.End = end.gameObject;
+            line.TypeOfLine = packageLineEntity.LineType;
+            line.EndPos = end.transform.position;
+            line.StartPos = start.transform.position;
+            GameObject lineGameObject = Instantiate(_linePrefab);
+            end.SendMessage("AddConnected", start.gameObject);
+            start.SendMessage("AddConnected", end.gameObject);
+            start.ConnectedConnectors.Add(end);
+            end.ConnectedConnectors.Add(start);
+
+            line.GetComponent<LineRenderer>().SetPosition(1, end.gameObject.transform.position);
+        }
+
         fileStream.Close();
     }
 
@@ -144,5 +192,11 @@ public class Persistance : MonoBehaviour
             activeGameObject.transform.GetChild(i).gameObject.layer = 8;
         }
         return activeGameObject;
+    }
+    [Serializable]
+    private class SerializationPackage
+    {
+        public List<SimulationElement> SimulationElements { get; set; }
+        public List<LineEntity> LineEntities { get; set; }
     }
 }

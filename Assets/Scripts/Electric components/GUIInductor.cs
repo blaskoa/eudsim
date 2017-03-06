@@ -25,7 +25,7 @@ public class GUIInductor : GUICircuitComponent
     {
         get
         {
-            SetTransformForEntity(_inductorEntity);
+            FillEntity(_inductorEntity);
             return _inductorEntity;
         }
         set

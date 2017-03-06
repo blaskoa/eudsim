@@ -21,7 +21,7 @@ public class GUIBattery : GUICircuitComponent
     {
         get
         {
-            SetTransformForEntity(_batteryEntity);
+            FillEntity(_batteryEntity);
             return _batteryEntity;
         }
         set

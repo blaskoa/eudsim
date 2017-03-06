@@ -13,7 +13,7 @@ public class GUIVoltmeter : GUICircuitComponent
     {
         get
         {
-            SetTransformForEntity(_voltmeterEntity);
+            FillEntity(_voltmeterEntity);
             return _voltmeterEntity;
         }
         set

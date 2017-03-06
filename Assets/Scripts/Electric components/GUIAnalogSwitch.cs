@@ -33,7 +33,7 @@ public class GUIAnalogSwitch : GUICircuitComponent
     {
         get
         {
-            SetTransformForEntity(_analogSwitchEntity);
+            FillEntity(_analogSwitchEntity);
             return _analogSwitchEntity;
         }
         set

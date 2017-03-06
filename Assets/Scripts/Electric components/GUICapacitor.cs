@@ -17,7 +17,7 @@ public class GUICapacitor : GUICircuitComponent
     {
         get
         {
-            SetTransformForEntity(_capacitorEntity);
+            FillEntity(_capacitorEntity);
             return _capacitorEntity;
         }
         set

@@ -24,7 +24,7 @@ public class GUINode : GUICircuitComponent
     {
         get
         {
-            SetTransformForEntity(_nodeEntity);
+            FillEntity(_nodeEntity);
             return _nodeEntity;
         }
         set
