@@ -61,7 +61,7 @@ public class ExportHTML : MonoBehaviour
                         ",radius:7, img:'connector.png',componentName:'WIRELESS'},");
                 }
             }
-            if (obj.tag.Equals("Line") && obj.name.Contains("(Clone)"))
+            if (obj.tag.Equals("ActiveLine") && obj.name.Contains("(Clone)"))
             {
                 Vector3 screenPosBegin = Camera.WorldToScreenPoint(obj.GetComponent<Line>().GetStartPos());
                 Vector3 screenPosMiddle = Camera.WorldToScreenPoint(obj.GetComponent<Line>().GetMiddlePos());
