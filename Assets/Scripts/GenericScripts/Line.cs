@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Line : MonoBehaviour,IPointerClickHandler
+public class Line : MonoBehaviour, IPointerClickHandler
 {
     
     public GameObject Begin;
@@ -16,7 +16,6 @@ public class Line : MonoBehaviour,IPointerClickHandler
     private Vector3 _oldEndPos;
     private BoxCollider2D _col1;
     private BoxCollider2D _col2;
-    public static GameObject SelectedLine;
     private Vector3 _middlePos;
     public string TypeOfLine = "NoBreak";
     private string _oldTypeOfLine;
@@ -194,25 +193,42 @@ public class Line : MonoBehaviour,IPointerClickHandler
     //select line with mouse click and change color of selected line
     public void OnPointerClick(PointerEventData eventData)
     {
-        GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
-        EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
+        //deselect item
+        GameObject item = GameObject.Find("Container");
+        item.GetComponent<SelectObject>().DeselectObject();
 
-        //deselect component
-        if (SelectObject.SelectedObject != null)
+        //deselect previous selected lines
+        if (!SelectObject.SelectedLines.Contains(this.gameObject))
         {
-            SelectObject.SelectedObject.transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = false;
-            SelectObject.SelectedObject = null;
-            script.Clear();
+            DeselectLine();
         }
 
-        if (SelectedLine != null)
-        {
-            SelectedLine.GetComponent<LineRenderer>().SetColors(Color.black, Color.black);
-            SelectedLine = this.gameObject;
-        }
+        SelectObject.SelectedLines.Add(this.gameObject);
+        SelectObject.SelectedLines[0].GetComponent<LineRenderer>().SetColors(Color.red, Color.red);
+    }
 
-        SelectedLine = this.gameObject;
-        SelectedLine.GetComponent<LineRenderer>().SetColors(Color.red, Color.red);
+    public void TransformLines()
+    {
+        GameObject[] lines;
+        lines = GameObject.FindGameObjectsWithTag("ActiveLine");
+        foreach (GameObject l in lines)
+        {
+            l.transform.position = new Vector2((l.GetComponent<Line>().Begin.transform.position.x + l.GetComponent<Line>().EndPos.x) / 2,
+                    (l.GetComponent<Line>().Begin.transform.position.y + l.GetComponent<Line>().EndPos.y) / 2);
+        }
+    }
+
+    public void DeselectLine()
+    {
+        // Deselect line
+        if (SelectObject.SelectedLines.Count != 0)
+        {
+            foreach (GameObject linesSelected in SelectObject.SelectedLines)
+            {
+                linesSelected.GetComponent<LineRenderer>().SetColors(Color.black, Color.black);
+            }
+            SelectObject.SelectedLines.Clear();
+        }
     }
 
     public Vector3 GetStartPos()
