@@ -40,7 +40,7 @@ public class GUIAmpermeter : GUICircuitComponent
         MyComponent = sim.Create<Resistor>();
         DllConnectors[0] = MyComponent.leadIn;
         DllConnectors[1] = MyComponent.leadOut;
-        MyComponent.resistance = 0.00000000000000000000000000000000000000001;
+        MyComponent.resistance = 0.01;
     }
 
     public override void SetDllConnectors()
