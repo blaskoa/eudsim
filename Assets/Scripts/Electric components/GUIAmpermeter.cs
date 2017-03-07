@@ -7,7 +7,7 @@ public class GUIAmpermeter : GUICircuitComponent
 {
     public Resistor ResistorComponent;
     private AmpermeterEntity _ampermeterEntity;
-    private const double MinimalResistance = 0.00000000000000000000000000000000000000001;
+    private const double MinimalResistance = 0.01;
 
     public override SimulationElement Entity
     {
