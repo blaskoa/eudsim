@@ -5,17 +5,14 @@ using System.Collections.Generic;
 //class for objects which  is used to generate lines between components
 public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-
     public List<GameObject> Connected;
     public GameObject Obj;
     private Line _line;
     private Vector3 _endPos;
 
-
     // Initialization
     public void Start()
     {
-        Connected = new List<GameObject>();
     }
 
     //add connector object to connector in the ending position to the List of connected connectors 
@@ -92,13 +89,10 @@ public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                     (_line.Begin.transform.position.y + _line.EndPos.y)/2 );
 
                 Connector con1 = _line.End.GetComponent<Connector>();
-                Connector con2 = this.gameObject.GetComponent<Connector>();
-                //GUICircuit.sim.Connect(con1.DllConnector, con2.DllConnector);
+                Connector con2 = gameObject.GetComponent<Connector>();
                 //Debug.Log("Vytvoril som connection");
-                con1.ConnectedConnectors[con1.CountOfConnected] = con2;
-                con1.CountOfConnected += 1;
-                con2.ConnectedConnectors[con2.CountOfConnected] = con1;
-                con2.CountOfConnected += 1;
+                con1.ConnectedConnectors.Add(con2);
+                con2.ConnectedConnectors.Add(con1);
             }
 
             //destroy all lines which dont connect two connectors except parental Line
@@ -119,5 +113,4 @@ public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             }
         }
     }
-
 }

@@ -63,8 +63,8 @@ public class ExportHTML : MonoBehaviour
             }
             if (obj.tag.Equals("ActiveLine") && obj.name.Contains("(Clone)"))
             {
-                Vector3 screenPosBegin = Camera.WorldToScreenPoint(obj.GetComponent<Line>().GetStartPos());
-                Vector3 screenPosMiddle = Camera.WorldToScreenPoint(obj.GetComponent<Line>().GetMiddlePos());
+                Vector3 screenPosBegin = Camera.WorldToScreenPoint(obj.GetComponent<Line>().StartPos);
+                Vector3 screenPosMiddle = Camera.WorldToScreenPoint(obj.GetComponent<Line>().MiddlePos);
                 Vector3 screenPosEnd = Camera.WorldToScreenPoint(obj.GetComponent<Line>().EndPos);
                 if (obj.GetComponent<Line>().TypeOfLine != "NoBreak")
                 {
