@@ -211,6 +211,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             // Place GameObject
             bool placed = false;
             int i = 1;
+
+            //find colision and drag to clear space on grid
             while (!placed)
             {             
                 for (int j = i; j >= 0; j--)
@@ -219,15 +221,17 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                     {
                            startPos = new Vector2(
                            objectSelected.transform.position.x,
-                           objectSelected.transform.position.y
-                        );
+                           objectSelected.transform.position.y );
                     }
 
+                    //get all gameobject that intersect with copy of object 
                     ArrayList potentialColliders = new ArrayList();
                     foreach (GameObject go in gameObjects)
                     {
-                        if (go != objectSelected)
+                        //do not colide with yourself and with other selected items
+                        if (!SelectObject.SelectedObjects.Contains(go))
                         {
+                            //calculating positions
                             if (Math.Abs((go.transform.position.x + startPos.x) / 2 - go.transform.position.x) <= 1 &&
                                 Math.Abs((go.transform.position.y + startPos.y) / 2 - go.transform.position.y) <= 1)
                             {
@@ -260,6 +264,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                     {
                         objectSelected2.transform.position += new Vector3(j, j - i, 0f);
                     }
+
                 }
 
                 i++;
