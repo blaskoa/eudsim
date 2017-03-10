@@ -3,16 +3,10 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Hotkeys;
 using UnityEngine.EventSystems;
 
 public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    // hotkey keys
-    public const string MoveDownHotkeyKey = "MoveDown";
-    public const string MoveUpHotkeyKey = "MoveUp";
-    public const string MoveLeftHotkeyKey = "MoveLeft";
-    public const string MoveRightHotkeyKey = "MoveRight";
 
     // Mouse and dragged item positions at the start of dragging.
     private Vector2 _mousePos;
@@ -25,9 +19,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     //util class for work with toolbar buttons 
     private ToolbarButtonUtils _tbu = new ToolbarButtonUtils();
 
-    private float _step = 0.5f;
-    private float _buttonDelay = 0f;
-    private float _delay = 0.25f;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -197,155 +188,54 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
     }
 
-
-    void Update()
-    {
-        // Vector for movement.
-        Vector3 movement = new Vector3();
-
-        _decreaseDelay();
-
-        // Check if any object is selected.
-        if (SelectObject.SelectedObjects.Count != 0)
-        {
-            if (SelectObject.SelectedObjects.Contains(this.gameObject))
-            { 
-                // Check if A is pressed.
-                if (HotkeyManager.Instance.CheckHotkey(MoveLeftHotkeyKey))
-                {
-                    if (CollisionUtils.Move == false && CollisionUtils.LastPressed != 'A')
-                    {
-                        CollisionUtils.Move = true;
-                    }
-                    CollisionUtils.LastPressed = 'A';
-                    movement.x -= _step;
-                }
-
-                // Check if D is pressed.
-                if (HotkeyManager.Instance.CheckHotkey(MoveRightHotkeyKey))
-                {
-                    if (CollisionUtils.Move == false && CollisionUtils.LastPressed != 'D')
-                    {
-                        CollisionUtils.Move = true;
-                    }
-                    CollisionUtils.LastPressed = 'D';
-                    movement.x += _step;
-                }
-
-                // Check if S is pressed.
-                if (HotkeyManager.Instance.CheckHotkey(MoveDownHotkeyKey))
-                {
-                    if (CollisionUtils.Move == false && CollisionUtils.LastPressed != 'S')
-                    {
-                        CollisionUtils.Move = true;
-                    }
-                    CollisionUtils.LastPressed = 'S';
-                    movement.y -= _step;
-                }
-
-                // Check if W is pressed.
-                if (HotkeyManager.Instance.CheckHotkey(MoveUpHotkeyKey))
-                {
-                    if (CollisionUtils.Move == false && CollisionUtils.LastPressed != 'W')
-                    {
-                        CollisionUtils.Move = true;
-                    }
-                    CollisionUtils.LastPressed = 'W';
-                    movement.y += _step;
-                }
-
-                // Button delay has passed and some keys were pressed.
-                if (_buttonDelay == 0f && (movement.x != 0f || movement.y != 0f))
-                {
-
-                    GameObject[] gameObjects1 = GameObject.FindGameObjectsWithTag("ActiveItem");
-                    GameObject[] gameObjects2 = GameObject.FindGameObjectsWithTag("ActiveNode");
-
-                    //merge two arrays to one
-                    GameObject[] gameObjects = gameObjects1.Concat(gameObjects2).ToArray();
-
-                    //check collision with every active item
-                    foreach (GameObject go in gameObjects)
-                    {
-                        if (go != this.gameObject)
-                        {
-                            if (Math.Abs((go.transform.position.x + this.gameObject.transform.position.x + movement.x) / 2 - go.transform.position.x) <= 0.25 &&
-                                Math.Abs((go.transform.position.y + this.gameObject.transform.position.y + movement.y) / 2 - go.transform.position.y) <= 0.25)
-                            {                    
-                                CollisionUtils.Move = false;
-                            }
-                        }
-                    }
-
-                    //if is possible to move
-                    if (CollisionUtils.Move)
-                    {
-                        this.gameObject.transform.position = this.gameObject.transform.position + movement;
-                    }
-                    _buttonDelay = _delay;
-
-                    //transform position of each lines in scene
-                    GameObject line = GameObject.Find("Line(Clone)");
-                    if (line != null)
-                    {
-                        line.GetComponent<Line>().TransformLines();
-                    }
-                }              
-            }
-        }
-    }
-
-    // To limit users's spamming and make grid-like movement.
-    private void _decreaseDelay()
-    {
-        if (_buttonDelay > 0f)
-        {
-            _buttonDelay -= Time.deltaTime;
-        }
-        if (_buttonDelay < 0f)
-        {
-            _buttonDelay = 0f;
-        }
-    }
-
     //checking colision
     public void Colision()
     {
-       
+        //all objects on scene
+        GameObject[] gameObjects1 = GameObject.FindGameObjectsWithTag("ActiveItem");
+        GameObject[] gameObjects2 = GameObject.FindGameObjectsWithTag("ActiveNode");
+
+        //merge two arrays to one
+        GameObject[] gameObjects = gameObjects1.Concat(gameObjects2).ToArray();
+        
+
         foreach (GameObject objectSelected in SelectObject.SelectedObjects)
-        {           
+        {
+
             //position of selected object
             Vector2 startPos = new Vector2(
                 objectSelected.transform.position.x,
                 objectSelected.transform.position.y
             );
 
-            //all objects on scene
-            GameObject[] gameObjects1 = GameObject.FindGameObjectsWithTag("ActiveItem");
-            GameObject[] gameObjects2 = GameObject.FindGameObjectsWithTag("ActiveNode");
-
-            //merge two arrays to one
-            GameObject[] gameObjects = gameObjects1.Concat(gameObjects2).ToArray();
-            ArrayList potentialColliders = new ArrayList();
-            foreach (GameObject go in gameObjects)
-            {
-                if (go != objectSelected)
-                {
-                    if (Math.Abs((go.transform.position.x + startPos.x)/2 - go.transform.position.x) <= 1 &&
-                        Math.Abs((go.transform.position.y + startPos.y)/2 - go.transform.position.y) <= 1)
-                    {
-                        potentialColliders.Add(go);
-                    }
-                }
-            }
-
             // Place GameObject
             bool placed = false;
             int i = 1;
             while (!placed)
-            {
+            {             
                 for (int j = i; j >= 0; j--)
                 {
+                    if (SelectObject.SelectedObjects.Count == 1)
+                    {
+                           startPos = new Vector2(
+                           objectSelected.transform.position.x,
+                           objectSelected.transform.position.y
+                        );
+                    }
+
+                    ArrayList potentialColliders = new ArrayList();
+                    foreach (GameObject go in gameObjects)
+                    {
+                        if (go != objectSelected)
+                        {
+                            if (Math.Abs((go.transform.position.x + startPos.x) / 2 - go.transform.position.x) <= 1 &&
+                                Math.Abs((go.transform.position.y + startPos.y) / 2 - go.transform.position.y) <= 1)
+                            {
+                                potentialColliders.Add(go);
+                            }
+                        }
+                    }
+
                     // Check if the GameObject is colliding with any of the existing GameObjects
                     bool touching = false;
                     foreach (GameObject go in potentialColliders)
@@ -367,10 +257,11 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
                     //set new position of every selected object
                     foreach (GameObject objectSelected2 in SelectObject.SelectedObjects)
-                    {                     
-                        objectSelected2.transform.position += new Vector3(j * 1.5f, j * 1.5f - i * 1.5f, 0f);
+                    {
+                        objectSelected2.transform.position += new Vector3(j, j - i, 0f);
                     }
                 }
+
                 i++;
             }
         }       
