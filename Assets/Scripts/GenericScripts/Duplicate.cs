@@ -20,6 +20,15 @@ public class Duplicate : MonoBehaviour
                     (GameObject) Instantiate(objectSelected, objectSelected.transform.position, Quaternion.identity);
                 copy.GetComponent<GUICircuitComponent>()
                     .CopyValues(objectSelected.GetComponent<GUICircuitComponent>());
+
+                // Clear connections of component's Plus and Minus connectors
+                Connectable[] connectableScripts = copy.GetComponentsInChildren<Connectable>();
+                foreach (Connectable connectableScript in connectableScripts)
+                {
+                    connectableScript.Connected.Clear();
+                }
+
+                // Add newly created clone to the list of clones
                 clones.Add(copy);
             }
         }
@@ -56,6 +65,10 @@ public class Duplicate : MonoBehaviour
             {
                 duplicateLine.GetComponent<Line>().End = cloneEnd.transform.FindChild("MinusConnector").gameObject;
             }
+
+            // Add references of each other to both newly connected connectors of the duplicated objects
+            duplicateLine.GetComponent<Line>().Begin.GetComponent<Connectable>().AddConnected(duplicateLine.GetComponent<Line>().End);
+            duplicateLine.GetComponent<Line>().End.GetComponent<Connectable>().AddConnected(duplicateLine.GetComponent<Line>().Begin);
         }
 
         // Check for collisions - duplicated are placed on the same position as their originals so there MUST BE a collision
