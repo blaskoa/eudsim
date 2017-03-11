@@ -41,6 +41,11 @@ public class GUIResistor : GUICircuitComponent
         script.AddNumeric("ResistancePropertyLabel", Resistance.ToString(), Resistance.GetType().ToString(), SetResistance, true, -15.4f, 150.6f);
     }
 
+    public override string GetPropertiesForExport()
+    {
+        return "Resistance " + Resistance + " [Ohm]";
+    }
+
     // Used for duplicating the components - old component is passes so the new one can copy needed values
     public override void CopyValues(GUICircuitComponent old)
     {

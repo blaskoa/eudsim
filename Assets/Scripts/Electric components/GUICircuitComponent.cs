@@ -10,7 +10,7 @@ public abstract class GUICircuitComponent : MonoBehaviour
     public abstract SimulationElement Entity { get; set; }
 
     public abstract void GetProperties();
-
+    public abstract string GetPropertiesForExport();
     public abstract void SetSimulationProp(Circuit sim);
 
     protected void SetAndInitializeConnectors()
@@ -57,5 +57,6 @@ public abstract class GUICircuitComponent : MonoBehaviour
     {
         
     }
+
 }
 

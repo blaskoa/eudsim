@@ -54,6 +54,12 @@ public class GUIInductor : GUICircuitComponent
         script.AddBoolean("TrapezoidalPropertyLabel", IsTrapezoidal.ToString(), SetTrapezoidal);
         script.AddResult("InductancePropertyLabel", "15.6", "Ohm");
     }
+
+    public override string GetPropertiesForExport()
+    {
+        return "Inductance " + Inductance + " [H]";
+    }
+
     // Used for duplicating the components - old component is passes so the new one can copy needed values
     public override void CopyValues(GUICircuitComponent old)
     {

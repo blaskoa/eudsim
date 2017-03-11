@@ -23,6 +23,12 @@ public class GUILamp : GUICircuitComponent
     {
 
     }
+
+    public override string GetPropertiesForExport()
+    {
+        return "";
+    }
+
     // Called during instantiation
     public void Awake()
     {

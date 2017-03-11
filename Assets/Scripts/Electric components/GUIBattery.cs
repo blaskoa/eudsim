@@ -44,6 +44,11 @@ public class GUIBattery : GUICircuitComponent
         script.AddNumeric("MaxVoltagePropertyLabel", MaxVoltage.ToString(), MaxVoltage.GetType().ToString(), SetMaxVoltage, false);
     }
 
+    public override string GetPropertiesForExport()
+    {
+        return "Voltage " + MaxVoltage;
+    }
+
     // Used for duplicating the components - old component is passes so the new one can copy needed values
     public override void CopyValues(GUICircuitComponent old)
     {
