@@ -47,7 +47,7 @@ public class GraphAlgorithm
 
             else
             {
-                for (int i = 0; i < actual.ConnectedConnectors.Length; i++)   // if it is not Component connector, go through all his connectors
+                for (int i = 0; i < actual.ConnectedConnectors.Count; i++)   // if it is not Component connector, go through all his connectors
                 {
                     if ((!_connectorsOpened.Contains(actual.ConnectedConnectors[i])) && (!_connectorsFinished.Contains(actual.ConnectedConnectors[i])))   // if this isnt opened nor finished connector
                     {
@@ -68,11 +68,11 @@ public class GraphAlgorithm
         for (int a = 0; a < components.Length; a++)
         {
             connectionsOfComponent[a] = new ConnectionsOfComponent();
-            connectionsOfComponent[a].dllconnections = new Dllconnections[components[a].Connectors.Length];
+            connectionsOfComponent[a].dllconnections = new Dllconnections[components[a].Connectors.Count];
             //Debug.Log("Meno prehladavaneho komponenta v Untangle: " + components[a].name + " pocet konektorov: " + components[a].connectors.Length);
             _searched = components[a];
 
-            for (int b = 0; b < components[a].Connectors.Length; b++)   // for every conector of a Component
+            for (int b = 0; b < components[a].Connectors.Count; b++)   // for every conector of a Component
             {
                 connectionsOfComponent[a].dllconnections[b] = new Dllconnections();
                 connectionsOfComponent[a].dllconnections[b].dllconector = components[a].Connectors[b].DllConnector;     // add his dllconector

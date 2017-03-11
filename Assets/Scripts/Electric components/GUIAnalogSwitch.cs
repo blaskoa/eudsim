@@ -1,28 +1,45 @@
 ﻿using UnityEngine;
-using System.Collections;
 using ClassLibrarySharpCircuit;
-using System.Collections.Generic;
-
+using Assets.Scripts.Entities;
 
 public class GUIAnalogSwitch : GUICircuitComponent
 {
-    public Circuit.Lead[] DllConnectors;
-    public AnalogSwitch MyComponent;
+    private AnalogSwitchEntity _analogSwitchEntity;
+    private const bool DefaultState = true;
 
+    //public bool TurnedOff
+    //{
+    //    get { return MyComponent.open; }
+    //    set                                                 // GUI check - accept only true/ false
+    //    {   //TO DO zistit ako funguje v DLL ten switch, lebo teraz to sice funguje ale ta logiga value == true/ false je postavena naopak
+    //        if (MyComponent.open && value == false)
+    //        {
+    //            MyComponent.invert = true;
+    //        }
+    //        else if (MyComponent.open == false && value == true)
+    //        {
+    //            MyComponent.invert = true;
+    //        }
+    //    }
+    //}
 
     public bool TurnedOff
     {
-        get { return MyComponent.open; }
-        set                                                 // GUI check - accept only true/ false
-        {   //TO DO zistit ako funguje v DLL ten switch, lebo teraz to sice funguje ale ta logiga value == true/ false je postavena naopak
-            if (MyComponent.open && value == false)
-            {
-                MyComponent.invert = true;
-            }
-            else if (MyComponent.open == false && value == true)
-            {
-                MyComponent.invert = true;
-            }
+        get { return _analogSwitchEntity.TurnedOff; }
+        set { _analogSwitchEntity.TurnedOff = value; }
+    }
+
+    public override SimulationElement Entity
+    {
+        get
+        {
+            FillEntity(_analogSwitchEntity);
+            return _analogSwitchEntity;
+        }
+        set
+        {
+            _analogSwitchEntity = (AnalogSwitchEntity) value;
+            TransformFromEntity(_analogSwitchEntity);
         }
     }
 
@@ -44,36 +61,30 @@ public class GUIAnalogSwitch : GUICircuitComponent
 
         script.AddBoolean("TurnedOffPropertyLabel", TurnedOff.ToString(), SetTurnedOff);
     }
-
     // Called during instantiation
     public void Awake()
     {
-        if (this.CompareTag("ActiveItem"))
+        if (CompareTag("ActiveItem"))
         {
-            SetSimulationProp(GUICircuit.sim);
-            Connectors = GetComponentsInChildren<Connector>();
-            Connectors[0].SetConnectedConnectors();
-            Connectors[1].SetConnectedConnectors();
-            Connectors[0].AssignComponent(this);
-            Connectors[1].AssignComponent(this);
-            SetDllConnectors();
+            if (_analogSwitchEntity == null)
+            {
+                _analogSwitchEntity = new AnalogSwitchEntity {TurnedOff = DefaultState};
+            }
+            SetAndInitializeConnectors();
         }
     }
 
     public override void SetSimulationProp(Circuit sim)
     {
-        Debug.Log("insertol som activeItem");
-        DllConnectors = new Circuit.Lead[2];
-        MyComponent = sim.Create<AnalogSwitch>();
-        DllConnectors[0] = MyComponent.leadIn;
-        DllConnectors[1] = MyComponent.leadOut;
-        Connectors[0].SetDllConnector(DllConnectors[0]);
-        Connectors[1].SetDllConnector(DllConnectors[1]);
-    }
+        //todo toto ani boh neive ako funguje, budeme musiet spravit vlastny switch - mozno nejako len nespajat veci v obvode ak je vypnuty
+        //todo a.k.a nieco podobne (toto asi bude padat)
+        if (!_analogSwitchEntity.TurnedOff)
+        {
+        }
 
-    public override void SetDllConnectors()
-    {
-        Connectors[0].SetDllConnector(DllConnectors[0]);
-        Connectors[1].SetDllConnector(DllConnectors[1]);
+        AnalogSwitch analogSwitch = sim.Create<AnalogSwitch>();
+
+        Connectors[0].DllConnector = analogSwitch.leadIn;
+        Connectors[1].DllConnector = analogSwitch.leadOut;
     }
 }

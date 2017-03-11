@@ -16,7 +16,6 @@ public class Whisp : MonoBehaviour
     {
         _dl = GameObject.Find("DebugLog");
         _debugLog = (DebugDisplay) _dl.GetComponent(typeof(DebugDisplay));
-        Say("Hello, I am " + this.gameObject.name + "! :)");
     }
 
     //Send message into debug log.

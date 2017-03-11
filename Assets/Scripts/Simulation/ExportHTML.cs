@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using ClassLibrarySharpCircuit;
 using UnityEngine;
 using System.IO;
-using UnityEditor;
 using System.IO.Compression;
 public class ExportHTML : MonoBehaviour
 {
@@ -14,7 +13,6 @@ public class ExportHTML : MonoBehaviour
         //because canvas to which we make export is printing in another quadrant we need to make rotation
         Camera.transform.rotation *= Quaternion.Euler(180, 0, 0);
         List<string> exportArrayList = new List<string>();
-        Debug.Log("Making HTML EXPORT");
         foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
         {
             if (obj.tag.Equals("ActiveItem") || obj.tag.Equals("ActiveNode"))
@@ -63,10 +61,10 @@ public class ExportHTML : MonoBehaviour
                         ",radius:7, img:'connector.png',componentName:'WIRELESS'},");
                 }
             }
-            if (obj.tag.Equals("Line") && obj.name.Contains("(Clone)"))
+            if (obj.tag.Equals("ActiveLine") && obj.name.Contains("(Clone)"))
             {
-                Vector3 screenPosBegin = Camera.WorldToScreenPoint(obj.GetComponent<Line>().GetStartPos());
-                Vector3 screenPosMiddle = Camera.WorldToScreenPoint(obj.GetComponent<Line>().GetMiddlePos());
+                Vector3 screenPosBegin = Camera.WorldToScreenPoint(obj.GetComponent<Line>().StartPos);
+                Vector3 screenPosMiddle = Camera.WorldToScreenPoint(obj.GetComponent<Line>().MiddlePos);
                 Vector3 screenPosEnd = Camera.WorldToScreenPoint(obj.GetComponent<Line>().EndPos);
                 if (obj.GetComponent<Line>().TypeOfLine != "NoBreak")
                 {
@@ -82,12 +80,14 @@ public class ExportHTML : MonoBehaviour
                 }
             }
         }
+        //and now make rotation to previous position
+        Camera.transform.rotation *= Quaternion.Euler(180, 0, 0);
         string text = File.ReadAllText("ExportHTML/pattern.html");
         string insertPoint = "var hotspots = [";
         int index = text.IndexOf(insertPoint, StringComparison.Ordinal) + insertPoint.Length;
         text = text.Insert(index, string.Join("", exportArrayList.ToArray()));
         File.WriteAllText("ExportHTML/index.html", text);
-        //and now make rotation to previous position
-        Camera.transform.rotation *= Quaternion.Euler(180, 0, 0);
+        
+        this.GetComponent<Whisp>().Say("HTML export was generated into ExportHTML dir.");
     }
 }

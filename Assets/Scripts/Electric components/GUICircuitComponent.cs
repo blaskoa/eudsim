@@ -1,28 +1,55 @@
-﻿using ClassLibrarySharpCircuit;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Assets.Scripts.Entities;
+using ClassLibrarySharpCircuit;
 using UnityEngine;
 
 public abstract class GUICircuitComponent : MonoBehaviour
 {
-    public Connector[] Connectors = new Connector[2];
+    public List<Connector> Connectors;
+    public abstract SimulationElement Entity { get; set; }
 
-    public virtual void GetProperties()
+    public abstract void GetProperties();
+
+    public abstract void SetSimulationProp(Circuit sim);
+
+    protected void SetAndInitializeConnectors()
     {
-
+        Connectors = GetComponentsInChildren<Connector>().ToList();
+        foreach (Connector connector in Connectors)
+        {
+            connector.Initialize(this);
+        }
     }
 
-    public virtual void SetProperties()
+    protected void TransformFromEntity(SimulationElement simulationElement)
     {
+        transform.position = new Vector3(simulationElement.PositionX, simulationElement.PositionY);
+        transform.rotation = new Quaternion(0, 0, simulationElement.RotationZ, simulationElement.RotationW);
 
+        int indexer = 0;
+        foreach (Connector connector in Connectors)
+        {
+            connector.TemporaryId = simulationElement.ConnectorIds[indexer];
+            indexer++;
+        }
     }
 
-    public virtual void SetSimulationProp(Circuit sim)
+    protected void FillEntity(SimulationElement simulationElement)
     {
+        simulationElement.PositionX = transform.position.x;
+        simulationElement.PositionY = transform.position.y;
+        simulationElement.RotationZ = transform.rotation.z;
+        simulationElement.RotationW = transform.rotation.w;
+        simulationElement.Id = GetInstanceID();
+        
+        List<int> connectorIdList = new List<int>(Connectors.Count);
+        foreach (Connector connector in Connectors)
+        {
+            connectorIdList.Add(connector.GetInstanceID());
+        }
 
-    }
-
-    public virtual void SetDllConnectors()
-    {
-
+        simulationElement.ConnectorIds = connectorIdList;
     }
 
     // Used for duplicating the components - old component is passes so the new one can copy needed values
