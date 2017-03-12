@@ -69,6 +69,9 @@ public class Duplicate : MonoBehaviour
             // Add references of each other to both newly connected connectors of the duplicated objects
             duplicateLine.GetComponent<Line>().Begin.GetComponent<Connectable>().AddConnected(duplicateLine.GetComponent<Line>().End);
             duplicateLine.GetComponent<Line>().End.GetComponent<Connectable>().AddConnected(duplicateLine.GetComponent<Line>().Begin);
+
+            duplicateLine.GetComponent<Line>().Begin.GetComponent<Connector>().ConnectedConnectors.Add(duplicateLine.GetComponent<Line>().End.GetComponent<Connector>());
+            duplicateLine.GetComponent<Line>().End.GetComponent<Connector>().ConnectedConnectors.Add(duplicateLine.GetComponent<Line>().Begin.GetComponent<Connector>());
         }
 
         // Check for collisions - duplicated are placed on the same position as their originals so there MUST BE a collision
