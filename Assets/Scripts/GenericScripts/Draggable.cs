@@ -198,77 +198,91 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         //merge two arrays to one
         GameObject[] gameObjects = gameObjects1.Concat(gameObjects2).ToArray();
         
-
-        foreach (GameObject objectSelected in SelectObject.SelectedObjects)
+        // Save starting positions of each selected GameObject
+        Vector2 topLeftMost = new Vector2(
+            SelectObject.SelectedObjects[0].transform.position.x - 1f,
+            SelectObject.SelectedObjects[0].transform.position.y + 1f
+        );
+        Vector3[] startPositions = new Vector3[SelectObject.SelectedObjects.Count];
+        for (int index = 0; index < SelectObject.SelectedObjects.Count; index++)
         {
-
-            //position of selected object
-            Vector2 startPos = new Vector2(
-                objectSelected.transform.position.x,
-                objectSelected.transform.position.y
+            startPositions[index] = new Vector3(
+                SelectObject.SelectedObjects[index].transform.position.x,
+                SelectObject.SelectedObjects[index].transform.position.y,
+                0
             );
+            // Get the leftmost coordinates of the selection
+            if (SelectObject.SelectedObjects[index].transform.position.x < topLeftMost.x)
+            {
+                topLeftMost.x = SelectObject.SelectedObjects[index].transform.position.x - 1f;
+            }
+            if (SelectObject.SelectedObjects[index].transform.position.y > topLeftMost.y)
+            {
+                topLeftMost.y = SelectObject.SelectedObjects[index].transform.position.y + 1f;
+            }
+        }
 
-            // Place GameObject
-            bool placed = false;
-            int i = 1;
-
-            //find colision and drag to clear space on grid
-            while (!placed)
-            {             
-                for (int j = i; j >= 0; j--)
+        // Get all GameObjects that are to the right and down of the top-left most coordinate of the whole selection
+        ArrayList potentialColliders = new ArrayList();
+        foreach (GameObject go in gameObjects)
+        {
+            if (!SelectObject.SelectedObjects.Contains(go))
+            {
+                if (go.transform.position.x >= topLeftMost.x &&
+                    go.transform.position.y <= topLeftMost.y
+                    )
                 {
-                    if (SelectObject.SelectedObjects.Count == 1)
-                    {
-                           startPos = new Vector2(
-                           objectSelected.transform.position.x,
-                           objectSelected.transform.position.y );
-                    }
+                    potentialColliders.Add(go);
+                }
+            }
+        }
 
-                    //get all gameobject that intersect with copy of object 
-                    ArrayList potentialColliders = new ArrayList();
-                    foreach (GameObject go in gameObjects)
-                    {
-                        //do not colide with yourself and with other selected items
-                        if (!SelectObject.SelectedObjects.Contains(go))
-                        {
-                            //calculating positions
-                            if (Math.Abs((go.transform.position.x + startPos.x) / 2 - go.transform.position.x) <= 1 &&
-                                Math.Abs((go.transform.position.y + startPos.y) / 2 - go.transform.position.y) <= 1)
-                            {
-                                potentialColliders.Add(go);
-                            }
-                        }
-                    }
+        // Place GameObjects
+        int placed = 0;
+        int i = 0;
 
+        //find colision and drag to clear space on grid
+        while (placed != SelectObject.SelectedObjects.Count)
+        {
+            for (int j = i; j >= 0; j--)
+            {
+                // Set new position for every selected object
+                for (var index = 0; index < SelectObject.SelectedObjects.Count; index++)
+                {
+                    SelectObject.SelectedObjects[index].transform.position = startPositions[index] + new Vector3(j * 1.5f, j * 1.5f - i * 1.5f, 0f);
+                }
+
+                placed = 0;
+                foreach (GameObject objectSelected in SelectObject.SelectedObjects)
+                {
                     // Check if the GameObject is colliding with any of the existing GameObjects
                     bool touching = false;
-                    foreach (GameObject go in potentialColliders)
-                    {                      
+                    foreach (GameObject potentialCollider in potentialColliders)
+                    {
                         if (objectSelected.GetComponent<BoxCollider2D>()
-                            .bounds.Intersects(go.GetComponent<BoxCollider2D>().bounds))
+                            .bounds.Intersects(potentialCollider.GetComponent<BoxCollider2D>().bounds))
                         {
                             touching = true;
                             break;
                         }
                     }
-                   
-                    // Stop the algorithm
+
+                    // Stop the algorithm if a collision was detected
                     if (!touching)
                     {
-                        placed = true;
+                        placed++;
+                    }
+                    else
+                    {
                         break;
                     }
-
-                    //set new position of every selected object
-                    foreach (GameObject objectSelected2 in SelectObject.SelectedObjects)
-                    {
-                        objectSelected2.transform.position += new Vector3(j, j - i, 0f);
-                    }
-
                 }
-
-                i++;
+                if (placed == SelectObject.SelectedObjects.Count)
+                {
+                    break;
+                }
             }
-        }       
+            i++;
+        }
     }
 }
