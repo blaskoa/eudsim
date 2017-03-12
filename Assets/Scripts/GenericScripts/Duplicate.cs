@@ -47,9 +47,13 @@ public class Duplicate : MonoBehaviour
             {
                 duplicateLine.GetComponent<Line>().Begin = cloneBegin.transform.FindChild("PlusConnector").gameObject;
             }
-            else
+            else if (originalBeginName == "MinusConnector")
             {
                 duplicateLine.GetComponent<Line>().Begin = cloneBegin.transform.FindChild("MinusConnector").gameObject;
+            }
+            else
+            {
+                duplicateLine.GetComponent<Line>().Begin = cloneBegin.transform.FindChild("NodeConnector").gameObject;
             }
 
             // Set the End of the duplicated line
@@ -61,9 +65,13 @@ public class Duplicate : MonoBehaviour
             {
                 duplicateLine.GetComponent<Line>().End = cloneEnd.transform.FindChild("PlusConnector").gameObject;
             }
+            else if (originalBeginName == "MinusConnector")
+            {
+                duplicateLine.GetComponent<Line>().End = cloneBegin.transform.FindChild("MinusConnector").gameObject;
+            }
             else
             {
-                duplicateLine.GetComponent<Line>().End = cloneEnd.transform.FindChild("MinusConnector").gameObject;
+                duplicateLine.GetComponent<Line>().End = cloneBegin.transform.FindChild("NodeConnector").gameObject;
             }
 
             // Add references of each other to both newly connected connectors of the duplicated objects
