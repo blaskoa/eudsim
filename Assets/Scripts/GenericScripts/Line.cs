@@ -20,6 +20,10 @@ public class Line : MonoBehaviour, IPointerClickHandler
     public string TypeOfLine = "NoBreak";
     private string _oldTypeOfLine;
 
+    void Awake()
+    {
+        GetComponent<LineRenderer>().SetColors(Color.black, Color.black);
+    }
 
     // Update is called once per frame
     void Update()

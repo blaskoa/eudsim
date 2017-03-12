@@ -17,7 +17,7 @@ public class Duplicate : MonoBehaviour
             {
                 // Instantiate new copy GameObject
                 GameObject copy =
-                    (GameObject) Instantiate(objectSelected, objectSelected.transform.position, Quaternion.identity);
+                    (GameObject) Instantiate(objectSelected, objectSelected.transform.position, objectSelected.transform.rotation);
                 copy.GetComponent<GUICircuitComponent>()
                     .CopyValues(objectSelected.GetComponent<GUICircuitComponent>());
 
