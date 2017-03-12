@@ -64,7 +64,7 @@ public class GUIAnalogSwitch : GUICircuitComponent
 
     public override string GetPropertiesForExport()
     {
-        return "TurnedOff " + TurnedOff + " [true/ flase]";
+        return "<p><span class=\"field-title\">" + "TurnedOff " + "</span>" + TurnedOff + " [true/ flase]" + " </p>";
     }
 
 

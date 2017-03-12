@@ -39,7 +39,7 @@ window.onresize = function(e) {
     reOffset();
 }
 
-var hotspots = [{x:273.05,y:189.45,radius:50, rotate:0, img:'capacitor.png' , componentName: 'Capacitance 50 [uF]'},{x:289.89,y:189.45,radius:7, img:'connector.png',componentName:'n/a'},{x:256.21,y:189.45,radius:7, img:'connector.png',componentName:'n/a'},{x:420.4,y:147.35,radius:50, rotate:0, img:'accumulator.png' , componentName: 'Voltage 10'},{x:437.24,y:147.35,radius:7, img:'connector.png',componentName:'n/a'},{x:403.56,y:147.35,radius:7, img:'connector.png',componentName:'n/a'},];
+var hotspots = [{x:353.04,y:210.5,z:353.04,q:126.3,radius:50, img:'wire.png',componentName:'n/a'},{x:319.36,y:210.5,z:193.06,q:147.35,radius:50, img:'wire.png',componentName:'n/a'},{x:226.74,y:147.35,z:319.36,q:126.3,radius:50, img:'wire.png',componentName:'n/a'},{x:336.2,y:210.5,radius:50, rotate:0, img:'capacitor.png' , componentName: '<p><span class="field-title">Capacitance </span>50 [uF] </p>'},{x:353.04,y:210.5,radius:7, img:'connector.png',componentName:'n/a'},{x:319.36,y:210.5,radius:7, img:'connector.png',componentName:'n/a'},{x:209.9,y:147.35,radius:50, rotate:0, img:'bulb.png' , componentName: '<p><span class="field-title">GUI Lamp </span>Nothing to show [N/A] </p>'},{x:193.06,y:147.35,radius:7, img:'connector.png',componentName:'n/a'},{x:226.74,y:147.35,radius:7, img:'connector.png',componentName:'n/a'},{x:336.2,y:126.3,radius:50, rotate:0, img:'accumulator.png' , componentName: '<p><span class="field-title">Voltage </span>10 [V] </p>'},{x:353.04,y:126.3,radius:7, img:'connector.png',componentName:'n/a'},{x:319.36,y:126.3,radius:7, img:'connector.png',componentName:'n/a'},];
 
 draw();
 
@@ -104,7 +104,7 @@ function drawImageRot(img, x, y, width, height, deg) {
 }
 
 // Cache DOM
-var $summaryWrapper = $('div#summaryWrapper');
+var $summaryWrapper = $('div#summary-wrapper');
 
 function handleMouseMove(e) {
     // tell the browser we're handling this event
@@ -136,13 +136,12 @@ function handleMouseMove(e) {
                 /// text color
                 ctx.fillStyle = '#000';*/
 
-            html += '<p><span class="field-title">${h.componentName}</span>${h.x}${h.y}</p>'
-            html += '<p><span class="field-title">${h.propertie1}</span>${h.x}${h.y + 20}</p>'
-            html += '<p><span class="field-title">${h.propertie2}</span>${h.x}${h.y + 40}</p>'
+			if (h.img != 'connector.png' && h.img != 'wire.png')
+				html += h.componentName;
 
-            ctx.fillText(h.componentName, h.x, h.y);
-            ctx.fillText(h.propertie1, h.x, h.y + 20);
-            ctx.fillText(h.propertie2, h.x, h.y + 40);
+          //  ctx.fillText(h.componentName, h.x, h.y);
+          //  ctx.fillText(h.propertie1, h.x, h.y + 20);
+          //  ctx.fillText(h.propertie2, h.x, h.y + 40);
         }
     }
     $summaryWrapper.html(html);

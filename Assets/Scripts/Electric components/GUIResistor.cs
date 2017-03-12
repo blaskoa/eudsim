@@ -43,7 +43,7 @@ public class GUIResistor : GUICircuitComponent
 
     public override string GetPropertiesForExport()
     {
-        return "Resistance " + Resistance + " [Ohm]";
+        return "<p><span class=\"field-title\">" + "Resistance " + "</span>" + Resistance + " [Ohm]" + " </p>";
     }
 
     // Used for duplicating the components - old component is passes so the new one can copy needed values

@@ -33,7 +33,8 @@ public class GUIAmpermeter : GUICircuitComponent
 
     public override string GetPropertiesForExport()
     {
-        return "Measured current " + ResistorComponent.getCurrent().ToString(CultureInfo.InvariantCulture) + " [A]";
+        return "<p><span class=\"field-title\">" + "Measured current " + "</span>" +
+            ResistorComponent.getCurrent().ToString(CultureInfo.InvariantCulture) + " [A]" + " </p>";
     }
 
     // Called during instantiation

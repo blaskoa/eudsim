@@ -136,13 +136,12 @@ function handleMouseMove(e) {
                 /// text color
                 ctx.fillStyle = '#000';*/
 
-            html += '<p><span class="field-title">${h.componentName}</span>${h.x}${h.y}</p>'
-            html += '<p><span class="field-title">${h.propertie1}</span>${h.x}${h.y + 20}</p>'
-            html += '<p><span class="field-title">${h.propertie2}</span>${h.x}${h.y + 40}</p>'
+			if (h.img != 'connector.png' && h.img != 'wire.png')
+				html += h.componentName;
 
-            ctx.fillText(h.componentName, h.x, h.y);
-            ctx.fillText(h.propertie1, h.x, h.y + 20);
-            ctx.fillText(h.propertie2, h.x, h.y + 40);
+          //  ctx.fillText(h.componentName, h.x, h.y);
+          //  ctx.fillText(h.propertie1, h.x, h.y + 20);
+          //  ctx.fillText(h.propertie2, h.x, h.y + 40);
         }
     }
     $summaryWrapper.html(html);

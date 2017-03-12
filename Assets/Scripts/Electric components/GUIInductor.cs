@@ -57,7 +57,7 @@ public class GUIInductor : GUICircuitComponent
 
     public override string GetPropertiesForExport()
     {
-        return "Inductance " + Inductance + " [H]";
+        return "<p><span class=\"field-title\">" + "Inductance " + "</span>" + Inductance + " [H]" + " </p>";
     }
 
     // Used for duplicating the components - old component is passes so the new one can copy needed values

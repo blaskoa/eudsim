@@ -43,7 +43,7 @@ public class GUICapacitor : GUICircuitComponent
 
     public override string GetPropertiesForExport()
     {
-        return "Capacitance " + Capacitance + " [uF]";
+        return "<p><span class=\"field-title\">" + "Capacitance " + "</span>" + Capacitance + " [uF]" + " </p>";
     }
 
     // Used for duplicating the components - old component is passes so the new one can copy needed values

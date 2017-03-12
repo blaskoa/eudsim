@@ -33,7 +33,7 @@ public class GUIVoltmeter : GUICircuitComponent
 
     public override string GetPropertiesForExport()
     {
-        return "Measured Voltage " + ResistorComponent.getVoltageDelta() + " [V]";
+        return "<p><span class=\"field-title\">" + "Measured Voltage " + "</span>" + ResistorComponent.getVoltageDelta() + " [V]" + " </p>";
     }
 
     // Called during instantiation

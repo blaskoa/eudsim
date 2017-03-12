@@ -46,7 +46,7 @@ public class GUIBattery : GUICircuitComponent
 
     public override string GetPropertiesForExport()
     {
-        return "Voltage " + MaxVoltage;
+        return "<p><span class=\"field-title\">" + "Voltage " + "</span>" + MaxVoltage + " [V]" + " </p>";
     }
 
     // Used for duplicating the components - old component is passes so the new one can copy needed values
