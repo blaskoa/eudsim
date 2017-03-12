@@ -21,9 +21,22 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
     {
         SelectionBox.transform.position = this.transform.position;
         SelectionBox.transform.localScale = this.transform.localScale;
-        SelectionBox.GetComponent<SpriteRenderer>().enabled = false;
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         _script = propertiesContainer.GetComponent<EditObjectProperties>();
+    }
+
+    // Add a new item to the selection
+    public static void AddToSelection(GameObject go)
+    {
+        SelectedObjects.Add(go);
+        go.transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = true;
+
+        // Call the script from component that fills the Properties Window
+        if (SelectedObjects.Count == 1)
+        {
+            GUICircuitComponent componentScript = SelectedObjects[0].GetComponent<GUICircuitComponent>();
+            componentScript.GetProperties();
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)

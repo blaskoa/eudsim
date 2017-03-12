@@ -81,6 +81,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 _draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().enabled = true;
                 _draggingItem.transform.GetChild(i).gameObject.layer = 8;
             }
+            // Newly created component needs to be selected otherwise an error will occur
+            SelectObject.AddToSelection(_draggingItem);
         }
         else if (SelectObject.SelectedObjects.Count == 0 || SelectObject.SelectedObjects.Count == 1 && SelectObject.SelectedObjects[0] == this.gameObject)
         {           
