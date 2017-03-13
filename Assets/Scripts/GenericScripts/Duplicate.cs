@@ -20,6 +20,7 @@ public class Duplicate : MonoBehaviour
                     (GameObject) Instantiate(objectSelected, objectSelected.transform.position, objectSelected.transform.rotation);
                 copy.GetComponent<GUICircuitComponent>()
                     .CopyValues(objectSelected.GetComponent<GUICircuitComponent>());
+                copy.transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = false;
 
                 // Clear connections of component's Plus and Minus connectors
                 Connectable[] connectableScripts = copy.GetComponentsInChildren<Connectable>();
