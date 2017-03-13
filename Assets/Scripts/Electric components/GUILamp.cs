@@ -23,6 +23,12 @@ public class GUILamp : GUICircuitComponent
     {
 
     }
+
+    public override string GetPropertiesForExport()
+    {
+        return "<p><span class=\"field-title\">" + "GUI Lamp " + "</span>" + "Nothing to show" + " [N/A]" + " </p>";
+    }
+
     // Called during instantiation
     public void Awake()
     {

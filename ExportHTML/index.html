@@ -1,17 +1,25 @@
-<DOCTYPE html>
+
+<!DOCTYPE html>
 <html>
 <head>
-    <style>
-        body{ background-color: ivory; }
-		#canvas{border:1px solid red; margin:0 auto; }
-    </style>
-    </head>
+    <link rel='stylesheet' type='text/css' href='css/edusim.css'/>
+</head>
+
 <body>
     <script src="jquery.min.js"></script><!--https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js-->
 <h4>Export of scheme from EduSim</h4>
-<canvas id="canvas" width=640 height=480></canvas>
+<div id='main-wrapper'>
+    <canvas id="canvas" width=640 height=480></canvas>
+    <div id='summary-wrapper'>
+        <p id='summary-title'>Summary:</p>
+        <hr/>
+        <div id='summary-value-wrapper'>
+        </div>
+    </div>
+</div>
+
     <script type="text/javascript">
-	
+
 	var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 var cw = canvas.width;
@@ -31,7 +39,7 @@ window.onresize = function(e) {
     reOffset();
 }
 
-var hotspots = [{x:267.85,y:206.799,radius:50, rotate:0, img:'bulb.png'},{x:247.17,y:206.799,radius:7, img:'connector.png',componentName:'WIRELESS'},{x:288.53,y:206.799,radius:7, img:'connector.png',componentName:'WIRELESS'},{x:216.15,y:155.099,radius:50, rotate:0, img:'accumulator.png'},{x:236.83,y:155.099,radius:7, img:'connector.png',componentName:'WIRELESS'},{x:195.47,y:155.099,radius:7, img:'connector.png',componentName:'WIRELESS'},];
+var hotspots = [{x:353.04,y:210.5,z:353.04,q:126.3,radius:50, img:'wire.png',componentName:'n/a'},{x:319.36,y:210.5,z:193.06,q:147.35,radius:50, img:'wire.png',componentName:'n/a'},{x:226.74,y:147.35,z:319.36,q:126.3,radius:50, img:'wire.png',componentName:'n/a'},{x:336.2,y:210.5,radius:50, rotate:0, img:'capacitor.png' , componentName: '<p><span class="field-title">Capacitance </span>50 [uF] </p>'},{x:353.04,y:210.5,radius:7, img:'connector.png',componentName:'n/a'},{x:319.36,y:210.5,radius:7, img:'connector.png',componentName:'n/a'},{x:209.9,y:147.35,radius:50, rotate:0, img:'bulb.png' , componentName: '<p><span class="field-title">GUI Lamp </span>Nothing to show [N/A] </p>'},{x:193.06,y:147.35,radius:7, img:'connector.png',componentName:'n/a'},{x:226.74,y:147.35,radius:7, img:'connector.png',componentName:'n/a'},{x:336.2,y:126.3,radius:50, rotate:0, img:'accumulator.png' , componentName: '<p><span class="field-title">Voltage </span>10 [V] </p>'},{x:353.04,y:126.3,radius:7, img:'connector.png',componentName:'n/a'},{x:319.36,y:126.3,radius:7, img:'connector.png',componentName:'n/a'},];
 
 draw();
 
@@ -95,6 +103,9 @@ function drawImageRot(img, x, y, width, height, deg) {
     ctx.translate((x) * (-1), (y) * (-1));
 }
 
+// Cache DOM
+var $summaryWrapper = $('div#summary-wrapper');
+
 function handleMouseMove(e) {
     // tell the browser we're handling this event
     e.preventDefault();
@@ -105,6 +116,9 @@ function handleMouseMove(e) {
 
     ctx.clearRect(0, 0, cw, ch);
     draw();
+
+    // Get data from Canvas and write it to the summary div
+    var html = '';
     for (var i = 0; i < hotspots.length; i++) {
         var h = hotspots[i];
         var dx = mouseX - h.x;
@@ -122,15 +136,18 @@ function handleMouseMove(e) {
                 /// text color
                 ctx.fillStyle = '#000';*/
 
-            ctx.fillText(h.componentName, h.x, h.y);
-            ctx.fillText(h.propertie1, h.x, h.y + 20);
-            ctx.fillText(h.propertie2, h.x, h.y + 40);
+			if (h.img != 'connector.png' && h.img != 'wire.png')
+				html += h.componentName;
+
+          //  ctx.fillText(h.componentName, h.x, h.y);
+          //  ctx.fillText(h.propertie1, h.x, h.y + 20);
+          //  ctx.fillText(h.propertie2, h.x, h.y + 40);
         }
     }
-
+    $summaryWrapper.html(html);
 }
-	
-	
+
+
 	</script>
 </body>
 </html>

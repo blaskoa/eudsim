@@ -1,0 +1,46 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: ivory;
+}
+
+/* Canvas with EduSim Export */
+#canvas {
+    margin: 0 auto;
+    border:1px solid red;
+}
+
+/* Wrapper for the summary section */
+#summary-wrapper {
+    margin-right: 10px;
+    padding: 10px;
+    float: right;
+    background-color: black;
+    border-radius: 8px;
+    width: 250px;
+	color: white;
+}
+
+/* Title for the summary section */
+#summary-wrapper p#summary-title, #summary-wrapper hr {
+    text-align: center;
+    font-style: italic;
+    color: white;
+}
+
+#summary-wrapper p span.field-title {
+    margin-right: 5px;
+    float: left;
+    width: 100px;
+    font-style: italic;
+    color: red;
+}
+
+#summary-wrapper p span.field-value {
+    float: left;
+    width: 120px;
+    color: white;
+}

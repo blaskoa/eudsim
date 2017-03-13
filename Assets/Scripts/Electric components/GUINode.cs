@@ -38,6 +38,11 @@ public class GUINode : GUICircuitComponent
     {
     }
 
+    public override string GetPropertiesForExport()
+    {
+        return "<p><span class=\"field-title\">" + "GUI Node " + "</span>" + "Nothing to show" + " [N/A]" + " </p>";
+    }
+
     public override void SetSimulationProp(Circuit sim)
     {
     }

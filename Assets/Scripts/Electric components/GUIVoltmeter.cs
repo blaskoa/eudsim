@@ -31,6 +31,11 @@ public class GUIVoltmeter : GUICircuitComponent
         script.AddResult("VoltagePropertyLabel", ResistorComponent.getVoltageDelta().ToString(CultureInfo.InvariantCulture), "V");
     }
 
+    public override string GetPropertiesForExport()
+    {
+        return "<p><span class=\"field-title\">" + "Measured Voltage " + "</span>" + ResistorComponent.getVoltageDelta() + " [V]" + " </p>";
+    }
+
     // Called during instantiation
     public void Awake()
     {

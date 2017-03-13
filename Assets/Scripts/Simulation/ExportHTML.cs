@@ -43,13 +43,13 @@ public class ExportHTML : MonoBehaviour
 
                 exportArrayList.Add("{x:" + screenPos.x + ",y:" + screenPos.y + ",radius:50, rotate:" +
                          obj.GetComponent<GUICircuitComponent>().transform.rotation.eulerAngles.z + ", img:'" +
-                         imageName + "'},");
+                         imageName + "' , componentName: '" + obj.GetComponent<GUICircuitComponent>().GetPropertiesForExport() + "'},");
 
                 //and connctros
                 screenPos =
                     Camera.WorldToScreenPoint(obj.GetComponent<GUICircuitComponent>().Connectors[0].transform.position);
                 exportArrayList.Add("{x:" + screenPos.x + ",y:" + screenPos.y +
-                         ",radius:7, img:'connector.png',componentName:'WIRELESS'},");
+                         ",radius:7, img:'connector.png',componentName:'n/a'},");
 
                 if (obj.name.Contains("Node") == false)
                 //as this is so far only way how to determine count of connectors we relay on name
@@ -58,7 +58,7 @@ public class ExportHTML : MonoBehaviour
                         Camera.WorldToScreenPoint(
                             obj.GetComponent<GUICircuitComponent>().Connectors[1].transform.position);
                     exportArrayList.Add("{x:" + screenPos.x + ",y:" + screenPos.y +
-                        ",radius:7, img:'connector.png',componentName:'WIRELESS'},");
+                        ",radius:7, img:'connector.png',componentName:'n/a'},");
                 }
             }
             if (obj.tag.Equals("ActiveLine") && obj.name.Contains("(Clone)"))
@@ -69,14 +69,14 @@ public class ExportHTML : MonoBehaviour
                 if (obj.GetComponent<Line>().TypeOfLine != "NoBreak")
                 {
                     exportArrayList.Add("{x:" + screenPosBegin.x + ",y:" + screenPosBegin.y + ",z:" + screenPosMiddle.x + ",q:" +
-                             screenPosMiddle.y + ",radius:50, img:'wire.png',componentName:'WIRELESS'},");
+                             screenPosMiddle.y + ",radius:50, img:'wire.png',componentName:'n/a'},");
                     exportArrayList.Add("{x:" + screenPosMiddle.x + ",y:" + screenPosMiddle.y + ",z:" + screenPosEnd.x + ",q:" +
-                             screenPosEnd.y + ",radius:50, img:'wire.png',componentName:'WIRELESS'},");
+                             screenPosEnd.y + ",radius:50, img:'wire.png',componentName:'n/a'},");
                 }
                 else
                 {
                     exportArrayList.Add("{x:" + screenPosBegin.x + ",y:" + screenPosBegin.y + ",z:" + screenPosEnd.x + ",q:" +
-                             screenPosEnd.y + ",radius:50, img:'wire.png',componentName:'WIRELESS'},");
+                             screenPosEnd.y + ",radius:50, img:'wire.png',componentName:'n/a'},");
                 }
             }
         }

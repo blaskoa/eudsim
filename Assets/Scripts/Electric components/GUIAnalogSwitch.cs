@@ -61,6 +61,13 @@ public class GUIAnalogSwitch : GUICircuitComponent
 
         script.AddBoolean("TurnedOffPropertyLabel", TurnedOff.ToString(), SetTurnedOff);
     }
+
+    public override string GetPropertiesForExport()
+    {
+        return "<p><span class=\"field-title\">" + "TurnedOff " + "</span>" + TurnedOff + " [true/ flase]" + " </p>";
+    }
+
+
     // Called during instantiation
     public void Awake()
     {

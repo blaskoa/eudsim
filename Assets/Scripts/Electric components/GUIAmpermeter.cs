@@ -31,6 +31,12 @@ public class GUIAmpermeter : GUICircuitComponent
         script.AddResult("CurrentPropertyLabel", ResistorComponent.getCurrent().ToString(CultureInfo.InvariantCulture), "A");
     }
 
+    public override string GetPropertiesForExport()
+    {
+        return "<p><span class=\"field-title\">" + "Measured current " + "</span>" +
+            ResistorComponent.getCurrent().ToString(CultureInfo.InvariantCulture) + " [A]" + " </p>";
+    }
+
     // Called during instantiation
     public void Awake()
     {
