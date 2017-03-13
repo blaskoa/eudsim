@@ -1,96 +1,87 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 public class Duplicate : MonoBehaviour
 {
     public void DuplicateComponent()
     {
-        if (SelectObject.SelectedObjects.Count != 0)
+        List<GameObject> clones = new List<GameObject>();
+
+        // Get all game objects and find the top-left and bottom-right most components
+        foreach (GameObject objectSelected in SelectObject.SelectedObjects)
         {
-            //all objects on scene
-            GameObject[] gameObjects1 = GameObject.FindGameObjectsWithTag("ActiveItem");
-            GameObject[] gameObjects2 = GameObject.FindGameObjectsWithTag("ActiveNode");
-
-            //merge two arrays to one
-            GameObject[] gameObjects = gameObjects1.Concat(gameObjects2).ToArray();
-
-            foreach (GameObject objectSelected in SelectObject.SelectedObjects)
+            if (objectSelected.tag.Equals("ActiveItem") || objectSelected.tag.Equals("ActiveNode"))
             {
-                // Get all game objects and find for the top-left and bottom-right most components
-                if (objectSelected.tag.Equals("ActiveItem") || objectSelected.tag.Equals("ActiveNode"))
-                {                   
-                    // Instantiate new copy GameObject
-                    GameObject copy =
-                        (GameObject) Instantiate(objectSelected, objectSelected.transform.position, Quaternion.identity);
-                    copy.GetComponent<GUICircuitComponent>()
-                        .CopyValues(objectSelected.GetComponent<GUICircuitComponent>());                    
+                // Instantiate new copy GameObject
+                GameObject copy =
+                    (GameObject) Instantiate(objectSelected, objectSelected.transform.position, objectSelected.transform.rotation);
+                copy.GetComponent<GUICircuitComponent>()
+                    .CopyValues(objectSelected.GetComponent<GUICircuitComponent>());
+                copy.transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = false;
 
-                    //add new instance of object to array of active gameobjects
-                    GameObject[] gameObjects3 = new GameObject[1]; 
-                    gameObjects3[0]= copy;
-                    gameObjects = gameObjects.Concat(gameObjects3).ToArray();
-
-                    //get started position of instantiate object
-                    Vector3 startPos = new Vector2(
-                       copy.transform.position.x,
-                       copy.transform.position.y
-                    );
-                    
-                    // Place new copy GameObject
-                    bool placed = false;
-                    int i = 1;
-
-                    //find colision and drag to clear space on grid
-                    while (!placed)
-                    {
-                        for (int j = i; j >= 0; j--)
-                        {             
-                            //get all gameobject that intersect with copy of object              
-                            ArrayList potentialColliders = new ArrayList();
-                            foreach (GameObject go in gameObjects)
-                            {
-                                //do not colide with yourself
-                                if (go != copy)
-                                {
-                                    //calculating positions
-                                    if (Math.Abs((go.transform.position.x + copy.transform.position.x)/2 - go.transform.position.x) <=
-                                        1 &&
-                                        Math.Abs((go.transform.position.y + copy.transform.position.y) /2 - go.transform.position.y) <=
-                                        1)
-                                    {
-                                        potentialColliders.Add(go);
-                                    }
-                                }
-                            }
-
-                            // Check if the copy GameObject is colliding with any of the existing GameObjects
-                            bool touching = false;
-                            foreach (GameObject go in potentialColliders)
-                            {
-                                if (copy.GetComponent<BoxCollider2D>()
-                                    .bounds.Intersects(go.GetComponent<BoxCollider2D>().bounds))
-                                {
-                                    touching = true;
-                                    break;
-                                }
-                            }
-
-                            // Stop the placement algorithm
-                            if (!touching)
-                            {
-                                placed = true;
-                                break;
-                            }
-
-                            //transfprm position of new copy object
-                            copy.transform.position = startPos + new Vector3(j, j - i, 0f);
-                        }
-                        i++;
-                    }
+                // Clear connections of component's Plus and Minus connectors
+                Connectable[] connectableScripts = copy.GetComponentsInChildren<Connectable>();
+                foreach (Connectable connectableScript in connectableScripts)
+                {
+                    connectableScript.Connected.Clear();
                 }
+
+                // Add newly created clone to the list of clones
+                clones.Add(copy);
             }
         }
+
+        // Duplicate each line and interconnect clone objects
+        foreach (GameObject line in SelectObject.SelectedLines)
+        {
+            GameObject duplicateLine = Instantiate(line);
+
+            // Set the Begin of the duplicated line
+            GameObject beginComponent = line.GetComponent<Line>().Begin.transform.parent.gameObject;
+            // Get the index of Connector among component children
+            int beginChildConnectorIndex = -1;
+            GameObject beginConnector = line.GetComponent<Line>().Begin;
+            for (int i = 0; i < beginComponent.transform.childCount; i++)
+            {
+                if (beginComponent.transform.GetChild(i).gameObject.GetInstanceID() == beginConnector.GetInstanceID())
+                {
+                    beginChildConnectorIndex = i;
+                }
+            }
+            // Get index of component in the List of SelectedObjects
+            int beginComponentIndex = SelectObject.SelectedObjects.IndexOf(beginComponent);
+            GameObject cloneBegin = clones[beginComponentIndex];
+            duplicateLine.GetComponent<Line>().Begin = cloneBegin.transform.GetChild(beginChildConnectorIndex).gameObject;
+
+            // Set the End of the duplicated line
+            GameObject endComponent = line.GetComponent<Line>().End.transform.parent.gameObject;
+            // Get the index of Connector among component children
+            int endChildConnectorIndex = -1;
+            GameObject endConnector = line.GetComponent<Line>().End;
+            for (int i = 0; i < endComponent.transform.childCount; i++)
+            {
+                if (endComponent.transform.GetChild(i).gameObject.GetInstanceID() == endConnector.GetInstanceID())
+                {
+                    endChildConnectorIndex = i;
+                }
+            }
+            // Get index of component in the List of SelectedObjects
+            int endComponentIndex = SelectObject.SelectedObjects.IndexOf(endComponent);
+            GameObject cloneEnd = clones[endComponentIndex];
+            duplicateLine.GetComponent<Line>().End = cloneEnd.transform.GetChild(endChildConnectorIndex).gameObject;
+
+            // Add references of each other to both newly connected connectors of the duplicated objects
+            duplicateLine.GetComponent<Line>().Begin.GetComponent<Connectable>().AddConnected(duplicateLine.GetComponent<Line>().End);
+            duplicateLine.GetComponent<Line>().End.GetComponent<Connectable>().AddConnected(duplicateLine.GetComponent<Line>().Begin);
+
+            duplicateLine.GetComponent<Line>().Begin.GetComponent<Connector>().ConnectedConnectors.Add(duplicateLine.GetComponent<Line>().End.GetComponent<Connector>());
+            duplicateLine.GetComponent<Line>().End.GetComponent<Connector>().ConnectedConnectors.Add(duplicateLine.GetComponent<Line>().Begin.GetComponent<Connector>());
+        }
+
+        // Check for collisions - duplicated are placed on the same position as their originals so there MUST BE a collision
+        GetComponent<Draggable>().Colision();
     }
 }
