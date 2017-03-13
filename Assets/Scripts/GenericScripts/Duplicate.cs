@@ -39,40 +39,38 @@ public class Duplicate : MonoBehaviour
             GameObject duplicateLine = Instantiate(line);
 
             // Set the Begin of the duplicated line
-            GameObject originalBegin = line.GetComponent<Line>().Begin.transform.parent.gameObject;
-            string originalBeginName = line.GetComponent<Line>().Begin.name;
-            int originalBeginIndex = SelectObject.SelectedObjects.IndexOf(originalBegin);
-            GameObject cloneBegin = clones[originalBeginIndex];
-            if (originalBeginName == "PlusConnector")
+            GameObject beginComponent = line.GetComponent<Line>().Begin.transform.parent.gameObject;
+            // Get the index of Connector among component children
+            int beginChildConnectorIndex = -1;
+            GameObject beginConnector = line.GetComponent<Line>().Begin;
+            for (int i = 0; i < beginComponent.transform.childCount; i++)
             {
-                duplicateLine.GetComponent<Line>().Begin = cloneBegin.transform.FindChild("PlusConnector").gameObject;
+                if (beginComponent.transform.GetChild(i).gameObject.GetInstanceID() == beginConnector.GetInstanceID())
+                {
+                    beginChildConnectorIndex = i;
+                }
             }
-            else if (originalBeginName == "MinusConnector")
-            {
-                duplicateLine.GetComponent<Line>().Begin = cloneBegin.transform.FindChild("MinusConnector").gameObject;
-            }
-            else
-            {
-                duplicateLine.GetComponent<Line>().Begin = cloneBegin.transform.FindChild("NodeConnector").gameObject;
-            }
+            // Get index of component in the List of SelectedObjects
+            int beginComponentIndex = SelectObject.SelectedObjects.IndexOf(beginComponent);
+            GameObject cloneBegin = clones[beginComponentIndex];
+            duplicateLine.GetComponent<Line>().Begin = cloneBegin.transform.GetChild(beginChildConnectorIndex).gameObject;
 
             // Set the End of the duplicated line
-            GameObject originalEnd = line.GetComponent<Line>().End.transform.parent.gameObject;
-            string originalEndName = line.GetComponent<Line>().End.name;
-            int originalEndIndex = SelectObject.SelectedObjects.IndexOf(originalEnd);
-            GameObject cloneEnd = clones[originalEndIndex];
-            if (originalEndName == "PlusConnector")
+            GameObject endComponent = line.GetComponent<Line>().End.transform.parent.gameObject;
+            // Get the index of Connector among component children
+            int endChildConnectorIndex = -1;
+            GameObject endConnector = line.GetComponent<Line>().End;
+            for (int i = 0; i < endComponent.transform.childCount; i++)
             {
-                duplicateLine.GetComponent<Line>().End = cloneEnd.transform.FindChild("PlusConnector").gameObject;
+                if (endComponent.transform.GetChild(i).gameObject.GetInstanceID() == endConnector.GetInstanceID())
+                {
+                    endChildConnectorIndex = i;
+                }
             }
-            else if (originalBeginName == "MinusConnector")
-            {
-                duplicateLine.GetComponent<Line>().End = cloneBegin.transform.FindChild("MinusConnector").gameObject;
-            }
-            else
-            {
-                duplicateLine.GetComponent<Line>().End = cloneBegin.transform.FindChild("NodeConnector").gameObject;
-            }
+            // Get index of component in the List of SelectedObjects
+            int endComponentIndex = SelectObject.SelectedObjects.IndexOf(endComponent);
+            GameObject cloneEnd = clones[endComponentIndex];
+            duplicateLine.GetComponent<Line>().End = cloneEnd.transform.GetChild(endChildConnectorIndex).gameObject;
 
             // Add references of each other to both newly connected connectors of the duplicated objects
             duplicateLine.GetComponent<Line>().Begin.GetComponent<Connectable>().AddConnected(duplicateLine.GetComponent<Line>().End);
