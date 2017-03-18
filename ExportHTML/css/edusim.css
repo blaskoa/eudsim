@@ -1,37 +1,73 @@
+/* Variables */
+:root {
+    --dark-blue: #00577b;
+    --strong-blue: #008dc7;
+    --dark-cyan: #00c79e;
+}
+
 * {
     margin: 0;
     padding: 0;
+    font-family: "Open Sans";
 }
 
+/* Page background */
 body {
-    background-color: ivory;
+    background-color: var(--strong-blue);
+}
+
+/* Navigation menu */
+nav {
+    padding: 10px;
+    background-color: var(--dark-blue);
+    color: white;
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0px 0px 10px 0px #000;
+}
+
+#main-wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 1%;
+    text-align: center;
 }
 
 /* Canvas with EduSim Export */
-#canvas {
-    margin: 0 auto;
-    border:1px solid red;
+canvas {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px 0px #000;
+    width: 70%;
 }
 
 /* Wrapper for the summary section */
 #summary-wrapper {
-    margin-right: 10px;
+    margin-left: 1%;
     padding: 10px;
     float: right;
-    background-color: black;
+    background-color: var(--dark-cyan);
     border-radius: 8px;
-    width: 250px;
+    width: 15%;
 	color: white;
+    box-shadow: 0px 0px 10px 0px #000;
 }
 
 /* Title for the summary section */
-#summary-wrapper p#summary-title, #summary-wrapper hr {
+#summary-wrapper p#summary-title {
     text-align: center;
     font-style: italic;
-    color: white;
+}
+#summary-wrapper hr {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 123, 98, 0), rgba(0, 123, 98, 0.75), rgba(0, 123, 98, 0));
 }
 
-#summary-wrapper p span.field-title {
+#summary-wrapper p .field-title {
     margin-right: 5px;
     float: left;
     width: 100px;
@@ -39,8 +75,27 @@ body {
     color: red;
 }
 
-#summary-wrapper p span.field-value {
+#summary-wrapper p .field-value {
     float: left;
     width: 120px;
     color: white;
+}
+
+/* Footer */
+#footer {
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: var(--dark-blue);
+    box-shadow: inset 0px 10px 10px -10px #000;
+}
+#footer-content {
+    padding: 10px;
+    font-size: 1.2em;
+    color: white;
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
+    position: relative;
 }

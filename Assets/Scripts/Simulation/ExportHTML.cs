@@ -19,25 +19,25 @@ public class ExportHTML : MonoBehaviour
             {
                 float x = obj.transform.position.x;
                 float y = obj.transform.position.y;
-                string imageName = "bulb.png"; //make bulb as default image
+                string imageName = "images/bulb.png"; //make bulb as default image
                 if (obj.name.Contains("Node"))
-                    imageName = "Node.png";
+                    imageName = "images/Node.png";
                 else if (obj.name.Contains("Bulb"))
-                    imageName = "bulb.png";
+                    imageName = "images/bulb.png";
                 else if (obj.name.Contains("Ampermeter"))
-                    imageName = "ampermeter.png";
+                    imageName = "images/ampermeter.png";
                 else if (obj.name.Contains("Voltmeter"))
-                    imageName = "voltmeter.png";
+                    imageName = "images/voltmeter.png";
                 else if (obj.name.Contains("Switch"))
-                    imageName = "switch.png";
+                    imageName = "images/switch.png";
                 else if (obj.name.Contains("Accumulator"))
-                    imageName = "accumulator.png";
+                    imageName = "images/accumulator.png";
                 else if (obj.name.Contains("Capacitor"))
-                    imageName = "capacitor.png";
+                    imageName = "images/capacitor.png";
                 else if (obj.name.Contains("Coil"))
-                    imageName = "coil.png";
+                    imageName = "images/coil.png";
                 else if (obj.name.Contains("Resistor"))
-                    imageName = "resistor.png";
+                    imageName = "images/resistor.png";
 
                 Vector3 screenPos = Camera.WorldToScreenPoint(obj.transform.position);
 
@@ -49,7 +49,7 @@ public class ExportHTML : MonoBehaviour
                 screenPos =
                     Camera.WorldToScreenPoint(obj.GetComponent<GUICircuitComponent>().Connectors[0].transform.position);
                 exportArrayList.Add("{x:" + screenPos.x + ",y:" + screenPos.y +
-                         ",radius:7, img:'connector.png',componentName:'n/a'},");
+                         ",radius:7, img:'images/connector.png',componentName:'n/a'},");
 
                 if (obj.name.Contains("Node") == false)
                 //as this is so far only way how to determine count of connectors we relay on name
@@ -58,7 +58,7 @@ public class ExportHTML : MonoBehaviour
                         Camera.WorldToScreenPoint(
                             obj.GetComponent<GUICircuitComponent>().Connectors[1].transform.position);
                     exportArrayList.Add("{x:" + screenPos.x + ",y:" + screenPos.y +
-                        ",radius:7, img:'connector.png',componentName:'n/a'},");
+                        ",radius:7, img:'images/connector.png',componentName:'n/a'},");
                 }
             }
             if (obj.tag.Equals("ActiveLine") && obj.name.Contains("(Clone)"))
@@ -69,24 +69,24 @@ public class ExportHTML : MonoBehaviour
                 if (obj.GetComponent<Line>().TypeOfLine != "NoBreak")
                 {
                     exportArrayList.Add("{x:" + screenPosBegin.x + ",y:" + screenPosBegin.y + ",z:" + screenPosMiddle.x + ",q:" +
-                             screenPosMiddle.y + ",radius:50, img:'wire.png',componentName:'n/a'},");
+                             screenPosMiddle.y + ",radius:50, img:'images/wire.png',componentName:'n/a'},");
                     exportArrayList.Add("{x:" + screenPosMiddle.x + ",y:" + screenPosMiddle.y + ",z:" + screenPosEnd.x + ",q:" +
-                             screenPosEnd.y + ",radius:50, img:'wire.png',componentName:'n/a'},");
+                             screenPosEnd.y + ",radius:50, img:'images/wire.png',componentName:'n/a'},");
                 }
                 else
                 {
                     exportArrayList.Add("{x:" + screenPosBegin.x + ",y:" + screenPosBegin.y + ",z:" + screenPosEnd.x + ",q:" +
-                             screenPosEnd.y + ",radius:50, img:'wire.png',componentName:'n/a'},");
+                             screenPosEnd.y + ",radius:50, img:'images/wire.png',componentName:'n/a'},");
                 }
             }
         }
         //and now make rotation to previous position
         Camera.transform.rotation *= Quaternion.Euler(180, 0, 0);
-        string text = File.ReadAllText("ExportHTML/pattern.html");
-        string insertPoint = "var hotspots = [";
+        string text = File.ReadAllText("ExportHTML/js/edusim-pattern.js");
+        string insertPoint = "const hotspots = [";
         int index = text.IndexOf(insertPoint, StringComparison.Ordinal) + insertPoint.Length;
         text = text.Insert(index, string.Join("", exportArrayList.ToArray()));
-        File.WriteAllText("ExportHTML/index.html", text);
+        File.WriteAllText("ExportHTML/js/edusim.js", text);
         
         this.GetComponent<Whisp>().Say("HTML export was generated into ExportHTML dir.");
     }
