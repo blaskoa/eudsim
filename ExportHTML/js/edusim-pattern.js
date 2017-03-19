@@ -179,3 +179,7 @@ const EduSim = (function init() {
     });
     draw();
 }());
+
+const footer = (function init() {
+    const $footer = document.getElementById('footer');
+}());
