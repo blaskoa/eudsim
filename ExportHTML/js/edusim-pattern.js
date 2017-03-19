@@ -5,12 +5,56 @@ const EduSim = (function init() {
 
     // --- ATTRIBUTES ---
     const ctx = $canvas.getContext('2d');
-    const cw = $canvas.width;
-    const ch = $canvas.height;
-    const hotspots = [];
+    let hotspots = [];
+
+    // Padding for circuit components
+    const circuitComponentPadding = 50;
+
+    // Get the key coordinates of the circuit
+    const circuitRectangle = {};
+    circuitRectangle.left = Math.min.apply(null, hotspots.map((h) => {
+        if (Object.prototype.hasOwnProperty.call(h, 'z') && h.z < h.x) {
+            return h.z;
+        }
+        return h.x;
+    })) - circuitComponentPadding;
+
+    circuitRectangle.top = Math.min.apply(null, hotspots.map((h) => {
+        if (Object.prototype.hasOwnProperty.call(h, 'q') && h.q < h.y) {
+            return h.q;
+        }
+        return h.y;
+    })) - circuitComponentPadding;
+
+    circuitRectangle.right = Math.max.apply(null, hotspots.map((h) => {
+        if (Object.prototype.hasOwnProperty.call(h, 'z') && h.z > h.x) {
+            return h.z;
+        }
+        return h.x;
+    })) + circuitComponentPadding;
+
+    circuitRectangle.bottom = Math.max.apply(null, hotspots.map((h) => {
+        if (Object.prototype.hasOwnProperty.call(h, 'q') && h.q > h.y) {
+            return h.q;
+        }
+        return h.y;
+    })) + circuitComponentPadding;
+
+    // Get middle coordinates for the canvas
+    circuitRectangle.middle = {};
+    circuitRectangle.middle.x = (circuitRectangle.right - circuitRectangle.left) / 2;
+    circuitRectangle.middle.y = (circuitRectangle.bottom - circuitRectangle.top) / 2;
+
+    // Set canvas to match the exported circuit
+    ctx.canvas.width = circuitRectangle.right;
+    ctx.canvas.height = circuitRectangle.bottom;
+
+    // Get the middle coordinates of the canvas
+    const canvasMid = {};
+    canvasMid.x = Math.round($canvas.width / 2);
+    canvasMid.y = Math.round($canvas.height / 2);
 
     // --- FUNCTIONS ---
-
     // Draw image to the canvas
     function drawImageRot(img, x, y, width, height, deg) {
         // Convert degrees to radian
@@ -89,7 +133,7 @@ const EduSim = (function init() {
             (e.clientY - canvasRectangle.top) / (canvasRectangle.height)
         ) * $canvas.height;
 
-        ctx.clearRect(0, 0, cw, ch);
+        ctx.clearRect(0, 0, $canvas.width, $canvas.height);
         draw();
 
         // Get data from Canvas and write it to the summary div
@@ -101,6 +145,7 @@ const EduSim = (function init() {
             if ((dx * dx) + (dy * dy) < h.radius * h.radius) {
                 if (h.img.indexOf('connector.png') === -1 && h.img.indexOf('wire.png') === -1) {
                     html += h.componentName;
+                    html += `<p>X:${h.x} Y:${h.y}</p>`;
                 }
             }
         }
@@ -113,5 +158,24 @@ const EduSim = (function init() {
     });
 
     // --- RUN ON INIT ---
+    // Move the circuit components to fit the canvas
+    hotspots = hotspots.map((hotspot) => {
+        const newHotspot = Object.assign({}, hotspot);
+        newHotspot.x -= circuitRectangle.left;
+        newHotspot.y -= circuitRectangle.top;
+        newHotspot.x = (((newHotspot.x - circuitRectangle.middle.x)
+            / circuitRectangle.middle.x) * canvasMid.x) + canvasMid.x;
+        newHotspot.y = (((newHotspot.y - circuitRectangle.middle.y)
+            / circuitRectangle.middle.y) * canvasMid.y) + canvasMid.y;
+        if (Object.prototype.hasOwnProperty.call(newHotspot, 'z')) {
+            newHotspot.z -= circuitRectangle.left;
+            newHotspot.q -= circuitRectangle.top;
+            newHotspot.z = (((newHotspot.z - circuitRectangle.middle.x)
+                / circuitRectangle.middle.x) * canvasMid.x) + canvasMid.x;
+            newHotspot.q = (((newHotspot.q - circuitRectangle.middle.y)
+                / circuitRectangle.middle.y) * canvasMid.y) + canvasMid.y;
+        }
+        return newHotspot;
+    });
     draw();
 }());

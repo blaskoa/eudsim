@@ -83,7 +83,7 @@ public class ExportHTML : MonoBehaviour
         //and now make rotation to previous position
         Camera.transform.rotation *= Quaternion.Euler(180, 0, 0);
         string text = File.ReadAllText("ExportHTML/js/edusim-pattern.js");
-        string insertPoint = "const hotspots = [";
+        string insertPoint = "let hotspots = [";
         int index = text.IndexOf(insertPoint, StringComparison.Ordinal) + insertPoint.Length;
         text = text.Insert(index, string.Join("", exportArrayList.ToArray()));
         File.WriteAllText("ExportHTML/js/edusim.js", text);
