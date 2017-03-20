@@ -169,9 +169,14 @@ public class MainMenuButtons : MonoBehaviour {
     {
         System.Diagnostics.Process.Start("explorer.exe", "/select,");
     }
-    
+
+    public void Exit()
+    {
+        Application.Quit();
+    }
+
     // Show or hide File panel menu in Main menu
-	public void ShowFilePanelMenu(GameObject guiComponent)
+    public void ShowFilePanelMenu(GameObject guiComponent)
     {        
         _FilePanelMenuOpen = guiComponent.GetComponent<Canvas>().enabled;
         
