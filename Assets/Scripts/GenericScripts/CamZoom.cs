@@ -45,13 +45,13 @@ public class CamZoom : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
-        Debug.Log(Input.mousePosition);
+    void Update () {       
 
         //scrolling only if mouse position is on background grid
         if (Input.mousePosition.x > 193 && Input.mousePosition.x < 555 && Input.mousePosition.y < 269 &&
             Input.mousePosition.y > 104)
         {
+            
             // Scrolling up.
             if (Input.GetAxis("Mouse ScrollWheel") > 0)
             {
