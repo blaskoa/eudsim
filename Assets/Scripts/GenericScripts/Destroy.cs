@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Assets.Scripts.Hotkeys;
 using UnityEngine;
 
@@ -69,7 +70,6 @@ public class Destroy : MonoBehaviour
             // Delete connected connectors from lists of connectors
             this.gameObject.GetComponent<Line>().Begin.GetComponent<Connectable>().Connected.Remove(this.gameObject.GetComponent<Line>().End.gameObject);
             this.gameObject.GetComponent<Line>().End.GetComponent<Connectable>().Connected.Remove(this.gameObject.GetComponent<Line>().Begin.gameObject);
-            Destroy(this.gameObject);
             SelectObject.SelectedLines.Remove(this.gameObject);
         }
 
@@ -78,9 +78,12 @@ public class Destroy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(this.GetType());
         if (HotkeyManager.Instance.CheckHotkey(DeleteHotkeyKey, KeyAction.Down))
         {
             DeleteSelected();
         }
     }
+
+
 }

@@ -17,7 +17,7 @@ public class Line : MonoBehaviour, IPointerClickHandler
     private BoxCollider2D _col1;
     private BoxCollider2D _col2;
     public Vector3 MiddlePos;
-    public string TypeOfLine = "NoBreak";
+    public string TypeOfLine = "RightBreak";
     private string _oldTypeOfLine;
 
     void Awake()
@@ -37,59 +37,47 @@ public class Line : MonoBehaviour, IPointerClickHandler
         {
             EndPos.x = End.transform.position.x;
             EndPos.y = End.transform.position.y;
-            EndPos.z = End.transform.position.z;
+            EndPos.z = End.transform.position.z;          
 
-            //when space did not pressed - no break line
-            if (TypeOfLine == "NoBreak")
+            //get offset for filling curve
+            float offset;
+            if (StartPos.x > EndPos.x)
             {
-                _line = GetComponent<LineRenderer>();
-                _line.SetVertexCount(2);
-
-                _line.SetPosition(0, StartPos);
-                _line.SetPosition(1, EndPos);
+                offset = 0.015f;
             }
-
             else
             {
-                //get offset for filling curve
-                float offset;
-                if (StartPos.x > EndPos.x)
-                {
-                    offset = 0.015f;
-                }
-                else
-                {
-                    offset = -0.015f;
-                }
-
-                //when space was 1 times pressed - right break line
-                if (TypeOfLine == "RightBreak")
-                {
-                    _line = GetComponent<LineRenderer>();
-                    _line.SetVertexCount(4);
-
-                    _line.SetPosition(0, new Vector3(StartPos.x, StartPos.y, -1));
-                    _line.SetPosition(1, new Vector3(EndPos.x + offset, StartPos.y, -1));
-                    _line.SetPosition(2, new Vector3(EndPos.x, StartPos.y, -1));
-                    _line.SetPosition(3, new Vector3(EndPos.x, EndPos.y, -1));
-
-                    MiddlePos = new Vector3(EndPos.x, StartPos.y, -1);
-                }
-
-                //when space was 2 times pressed - left break line
-                else if (TypeOfLine == "LeftBreak")
-                {
-                    _line = GetComponent<LineRenderer>();
-                    _line.SetVertexCount(4);
-
-                    _line.SetPosition(0, new Vector3(EndPos.x, EndPos.y, -1));
-                    _line.SetPosition(1, new Vector3(StartPos.x - offset, EndPos.y, -1));
-                    _line.SetPosition(2, new Vector3(StartPos.x, EndPos.y, -1));
-                    _line.SetPosition(3, new Vector3(StartPos.x, StartPos.y, -1));
-
-                    MiddlePos = new Vector3(StartPos.x, EndPos.y, -1);
-                }
+                offset = -0.015f;
             }
+
+            //when space was 1 times pressed - right break line
+            if (TypeOfLine == "RightBreak")
+            {
+                _line = GetComponent<LineRenderer>();
+                _line.SetVertexCount(4);
+
+                _line.SetPosition(0, new Vector3(StartPos.x, StartPos.y, -1));
+                _line.SetPosition(1, new Vector3(EndPos.x + offset, StartPos.y, -1));
+                _line.SetPosition(2, new Vector3(EndPos.x, StartPos.y, -1));
+                _line.SetPosition(3, new Vector3(EndPos.x, EndPos.y, -1));
+
+                MiddlePos = new Vector3(EndPos.x, StartPos.y, -1);
+            }
+
+            //when space was 2 times pressed - left break line
+            else if (TypeOfLine == "LeftBreak")
+            {
+                _line = GetComponent<LineRenderer>();
+                _line.SetVertexCount(4);
+
+                _line.SetPosition(0, new Vector3(EndPos.x, EndPos.y, -1));
+                _line.SetPosition(1, new Vector3(StartPos.x - offset, EndPos.y, -1));
+                _line.SetPosition(2, new Vector3(StartPos.x, EndPos.y, -1));
+                _line.SetPosition(3, new Vector3(StartPos.x, StartPos.y, -1));
+
+                MiddlePos = new Vector3(StartPos.x, EndPos.y, -1);
+            }
+            
 
             //added dynamic collider in case that moving electric components or changing type of line
             if (!_addedCollider)
@@ -124,74 +112,41 @@ public class Line : MonoBehaviour, IPointerClickHandler
 
     private void AddCollidersToLine()
     {
-        if (TypeOfLine == "NoBreak")
-        {
-            _col1 = new GameObject("Collider").AddComponent<BoxCollider2D>();
 
-            // Colliders is added as child object of line
-            _col1.transform.parent = _line.transform;
+        _col1 = new GameObject("Collider").AddComponent<BoxCollider2D>();
+        _col2 = new GameObject("Collider").AddComponent<BoxCollider2D>();
 
-            float lineLegth = Vector2.Distance(StartPos, EndPos);
+        // Colliders is added as child object of line
+        _col1.transform.parent = _line.transform;
+        _col2.transform.parent = _line.transform;
 
-            // size of collider is set where X is length of line, Y is width of line
-            _col1.size = new Vector2(lineLegth, 0.3f);
-            Vector3 midPoint = (StartPos + EndPos)/2;
+        //get distance between connectors and break line position
+        float lineLegth1 = Vector2.Distance(StartPos, MiddlePos);
+        float lineLegth2 = Vector2.Distance(MiddlePos, EndPos);
 
-            // setting position of collider object
-            _col1.transform.position = midPoint;
-
-            // Following lines calculate the angle between startPos and EndPos
-            float angle = (Mathf.Abs(StartPos.y - EndPos.y)/Mathf.Abs(StartPos.x - EndPos.x));
-
-            if ((StartPos.y < EndPos.y && StartPos.x > EndPos.x) || (EndPos.y < StartPos.y && EndPos.x > StartPos.x))
-            {
-                angle *= -1;
-            }
-
-            angle = Mathf.Rad2Deg*Mathf.Atan(angle);
-            _col1.transform.Rotate(0, 0, angle);
-
-            //set to ActiveItem
-            _col1.gameObject.layer = 8;
+        // size of colliders width and length
+        if (TypeOfLine == "RightBreak")
+        {               
+            _col1.size = new Vector2(lineLegth1, 0.3f);
+            _col2.size = new Vector2(0.3f, lineLegth2);
         }
 
-        else
+        else if (TypeOfLine == "LeftBreak")
         {
-            _col1 = new GameObject("Collider").AddComponent<BoxCollider2D>();
-            _col2 = new GameObject("Collider").AddComponent<BoxCollider2D>();
-
-            // Colliders is added as child object of line
-            _col1.transform.parent = _line.transform;
-            _col2.transform.parent = _line.transform;
-
-            //get distance between connectors and break line position
-            float lineLegth1 = Vector2.Distance(StartPos, MiddlePos);
-            float lineLegth2 = Vector2.Distance(MiddlePos, EndPos);
-
-            // size of colliders width and length
-            if (TypeOfLine == "RightBreak")
-            {               
-                _col1.size = new Vector2(lineLegth1, 0.3f);
-                _col2.size = new Vector2(0.3f, lineLegth2);
-            }
-
-            else if (TypeOfLine == "LeftBreak")
-            {
-                _col1.size = new Vector2(0.3f, lineLegth1);
-                _col2.size = new Vector2(lineLegth2, 0.3f);                               
-            }
-
-            Vector2 midPoint1 = (StartPos + MiddlePos) / 2;
-            Vector2 midPoint2 = (MiddlePos + EndPos) / 2;
-
-            // setting position of colliders object
-            _col1.transform.position = midPoint1;
-            _col2.transform.position = midPoint2;
-
-            //set to ActiveItem
-            _col1.gameObject.layer = 8;
-            _col2.gameObject.layer = 8;
+            _col1.size = new Vector2(0.3f, lineLegth1);
+            _col2.size = new Vector2(lineLegth2, 0.3f);                               
         }
+
+        Vector2 midPoint1 = (StartPos + MiddlePos) / 2;
+        Vector2 midPoint2 = (MiddlePos + EndPos) / 2;
+
+        // setting position of colliders object
+        _col1.transform.position = midPoint1;
+        _col2.transform.position = midPoint2;
+
+        //set to ActiveItem
+        _col1.gameObject.layer = 8;
+        _col2.gameObject.layer = 8;
     }
 
     //select line with mouse click and change color of selected line

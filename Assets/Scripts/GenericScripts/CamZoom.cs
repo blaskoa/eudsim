@@ -45,27 +45,33 @@ public class CamZoom : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update () {       
 
-        // Scrolling up.
-        if (Input.GetAxis("Mouse ScrollWheel") > 0)
+        //scrolling only if mouse position is on background grid
+        if (Input.mousePosition.x > 193 && Input.mousePosition.x < 555 && Input.mousePosition.y < 269 &&
+            Input.mousePosition.y > 104)
         {
-            // Checking for max zoom in.
-            if (_zoomSize > _maxZoomIn)
+            
+            // Scrolling up.
+            if (Input.GetAxis("Mouse ScrollWheel") > 0)
             {
-                ZoomIn();                
+                // Checking for max zoom in.
+                if (_zoomSize > _maxZoomIn)
+                {
+                    ZoomIn();
+                }
             }
-        }
-        // Scrolling down.
-        else if (Input.GetAxis("Mouse ScrollWheel") < 0)
-        {
-            // Checking for max zoom out.
-            if (_zoomSize < _maxZoomOut)
+            // Scrolling down.
+            else if (Input.GetAxis("Mouse ScrollWheel") < 0)
             {
-                ZoomOut();
+                // Checking for max zoom out.
+                if (_zoomSize < _maxZoomOut)
+                {
+                    ZoomOut();
+                }
             }
-        }
 
-        GetComponent<Camera>().orthographicSize = _zoomSize;
+            GetComponent<Camera>().orthographicSize = _zoomSize;
+        }
     }
 }
