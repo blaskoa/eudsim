@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using Assets.Scripts.Utils;
+using UnityEngine;
 
 public class MainMenuButtons : MonoBehaviour {
 
@@ -155,19 +155,19 @@ public class MainMenuButtons : MonoBehaviour {
     // Open basic explorer after buttonClick to Open project
 	public void OpenProject()
     {
-        System.Diagnostics.Process.Start("explorer.exe", "/select,");
+        FileBrowserHandler.Instance.LoadFile();
     }
     
     // Open basic explorer after buttonClick to Save project
 	public void SaveProject()
     {
-        System.Diagnostics.Process.Start("explorer.exe", "/select,");
+        FileBrowserHandler.Instance.SaveFile();
     }
     
     // Open basic explorer after buttonClick to Save As project
 	public void SaveAsProject()
     {
-        System.Diagnostics.Process.Start("explorer.exe", "/select,");
+        FileBrowserHandler.Instance.SaveAsFile();
     }
     
     // Show or hide File panel menu in Main menu
