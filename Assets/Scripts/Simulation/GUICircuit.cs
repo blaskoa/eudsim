@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using ClassLibrarySharpCircuit;
 
@@ -56,21 +57,21 @@ public class GUICircuit : MonoBehaviour
         //Debug.Log(dllconnectionsOfComponents.Length);
         _countOfMadeConnections = 0;
 
-           for (int i = 0; i < dllconnectionsOfComponents.Length; i++)
-           {
-               for (int a = 0; a < dllconnectionsOfComponents[i].dllconnections.Length; a++)
-               {
-                   for (int b = 0; b < dllconnectionsOfComponents[i].dllconnections[a].connectedDllconnectors.Length; b++)
-                   {
-                       if (dllconnectionsOfComponents[i].dllconnections[a].dllconector != dllconnectionsOfComponents[i].dllconnections[a].connectedDllconnectors[b])
-                       {
-                           //Debug.Log("Komponent cislo: " + i + " konektor ku ktoremu sa pripaja: " + a + " pripajany konektor: " + b + " cislo conections: " + _countOfMadeConnections);
-                           sim.Connect(dllconnectionsOfComponents[i].dllconnections[a].dllconector, dllconnectionsOfComponents[i].dllconnections[a].connectedDllconnectors[b]);
-                           _countOfMadeConnections += 1;
-                       }
-                   }
-               }
-           }
+        for (int i = 0; i < dllconnectionsOfComponents.Length; i++)
+        {
+            for (int a = 0; a < dllconnectionsOfComponents[i].dllconnections.Length; a++)
+            {
+                for (int b = 0; b < dllconnectionsOfComponents[i].dllconnections[a].connectedDllconnectors.Length; b++)
+                {
+                    if (dllconnectionsOfComponents[i].dllconnections[a].dllconector != dllconnectionsOfComponents[i].dllconnections[a].connectedDllconnectors[b])
+                    {
+                        //Debug.Log("Komponent cislo: " + i + " konektor ku ktoremu sa pripaja: " + a + " pripajany konektor: " + b + " cislo conections: " + _countOfMadeConnections);
+                        sim.Connect(dllconnectionsOfComponents[i].dllconnections[a].dllconector, dllconnectionsOfComponents[i].dllconnections[a].connectedDllconnectors[b]);
+                        _countOfMadeConnections += 1;
+                    }
+                }
+            }
+        }
 
         Debug.Log("Simulation complete with " + _countOfMadeConnections + " connections");
         Debug.Log("Sim Elements count " + sim.elements.Count);
@@ -82,21 +83,35 @@ public class GUICircuit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((stopSignal == false)&&(_countOfMadeConnections != 0))
+        if ((stopSignal == false) && (_countOfMadeConnections != 0))
         {
-            sim.doTick();
-            /*Debug.Log("count of components:" + _sceneItems.Count);
-            for (int i = 0; i < _sceneItems.Count; i++)
+            try
             {
-                if (listOfComponents[i].GetType() == typeof(GUIBattery))
-                {
-                    Debug.Log(i + "Battery " + listOfComponents[i].GetComponent<GUIBattery>().MaxVoltage);
-                }
-                if (listOfComponents[i].GetType() == typeof(GUIResistor))
-                {
-                    Debug.Log(i + "Resistor " + listOfComponents[i].GetComponent<GUIResistor>().GetVoltageDelta());
-                }
-            }*/
+                sim.doTick();
+            }
+            catch (Circuit.Exception e)
+            {
+                MainMenuButtons.CircuitError(e.element);
+                stopSignal = true;
+                // Debug.Log("WHY " + e.GetBaseException());
+                // Debug.Log("ELEMENT " + e.element + e.element.ToString());
+            }
+            catch (NullReferenceException e)
+            {
+                Debug.Log("zapoj to spravne.");
+                stopSignal = true;
+            }
+            //MainMenuButtons.CircuitError(e.element);
+            foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
+            {
+                if (obj.tag.Equals("ActiveItem") && obj.name.Contains("Ampermeter"))
+                    if (obj.GetComponent<GUIAmpermeter>().ResistorComponent.getCurrent() > 10)
+                    {
+                        string resErrorMsg = FindObjectOfType<Localization>().ResourceReader.GetResource("CircuitErrorMSG2");
+                        FindObjectOfType<Whisp>().Say(resErrorMsg);
+                        stopSignal = true;
+                    }
+            }
         }
 
     }

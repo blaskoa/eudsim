@@ -2,6 +2,16 @@
 
 <Languages>
   <English>
+    <string name="CircuitErrorMSG1">Circuit is not valid, please check whether all components of type {COMPONENTNAME} are validly connected in simulation.</string>
+    <string name="CircuitErrorMSG2">Connection of ampermeter device would be deadly for this device. Please check scheme for this device cut off.</string>
+    <string name="CircuitErrorMissingErrorBox">In this version of application you are missing error window for component </string>
+    <string name="ComponentTextResistor">Resistor</string>
+    <string name="ComponentTextAnalogSwitch">Switch</string>
+    <string name="ComponentTextVoltageInput">VoltageInput</string>
+    <string name="ComponentTextGround">Ground</string>
+    <string name="ComponentTextCapacitorElm">Capacitor</string>
+    <string name="ComponentTextInductorElm">Inductor</string>
+    <string name="ComponentTextLamp">Lamp</string>
     <string name="ToolboxText">Toolbox</string>
     <string name="DebugText">Debug</string>
     <string name="ObjectExplorerText">Object Explorer</string>
@@ -61,6 +71,16 @@
   </English>
 
   <Slovak>
+    <string name="CircuitErrorMSG1">Obvod predstavuje neplatné zapojenie. Skúste skontrolovať či všetky prvky typu {COMPONENTNAME} sú správne zapojené.</string>
+    <string name="CircuitErrorMSG2">Aktuálne zapojenie meracieho zariadeni ampérmeter by viedlo k jeho trvalému poškodeni. Skontrolujete prosím či zapojenie tohoto zariadenia nespôsobuje skrat.</string>
+    <string name="CircuitErrorMissingErrorBox">V tejto verzii aplikácie chýba zobrazovanie problémov v zapojení pre komponent </string>
+    <string name="ComponentTextResistor">Odpor</string>
+    <string name="ComponentTextAnalogSwitch">Vypínač</string>
+    <string name="ComponentTextVoltageInput">Výstup batérie</string>
+    <string name="ComponentTextGround">Uzemnenie</string>
+    <string name="ComponentTextCapacitorElm">Kondenzátor</string>
+    <string name="ComponentTextInductorElm">Cievka</string>
+    <string name="ComponentTextLamp">Žiarovka</string>
     <string name="ToolboxText">Nástroje</string>
     <string name="DebugText">Debug</string>
     <string name="ObjectExplorerText">Prehliadač objektov</string>
