@@ -93,12 +93,9 @@ public class GUICircuit : MonoBehaviour
             {
                 MainMenuButtons.CircuitError(e.element);
                 stopSignal = true;
-                // Debug.Log("WHY " + e.GetBaseException());
-                // Debug.Log("ELEMENT " + e.element + e.element.ToString());
             }
             catch (NullReferenceException e)
             {
-                Debug.Log("zapoj to spravne.");
                 stopSignal = true;
             }
             //MainMenuButtons.CircuitError(e.element);
