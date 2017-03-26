@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using Assets.Scripts.Entities;
+using Assets.Scripts.Utils;
 
 public class Persistance : MonoBehaviour
 {
@@ -29,13 +30,30 @@ public class Persistance : MonoBehaviour
     [SerializeField]
     private GameObject _linePrefab;
 
-    public void Save()
+    private string _lastFileName;
+
+    public string LastFileName
     {
+        get { return _lastFileName; }
+        private set { _lastFileName = value.Trim(); }
+    }
+
+    public void Save(string fileName)
+    {
+        if (!string.IsNullOrEmpty(fileName))
+        {
+            LastFileName = fileName;
+        }
+        else if (string.IsNullOrEmpty(LastFileName))
+        {
+            throw new ArgumentNullException("fileName");
+        }
+        
         GUICircuitComponent[] components = FindObjectsOfType<GUICircuitComponent>();
         Line[] lines = FindObjectsOfType<Line>();
 
         BinaryFormatter binaryFormatter = new BinaryFormatter();
-        FileStream fileStream = new FileStream(Application.persistentDataPath + "/project.es", FileMode.OpenOrCreate);
+        FileStream fileStream = new FileStream(LastFileName, FileMode.OpenOrCreate);
         List<SimulationElement> elementsToSerialize = new List<SimulationElement>();
         List<LineEntity> linesToSerialize = new List<LineEntity>();
 
@@ -73,11 +91,17 @@ public class Persistance : MonoBehaviour
         fileStream.Close();
     }
 
-    public void Load()
+    public void Load(string fileName)
     {
+        if (string.IsNullOrEmpty(fileName))
+        {
+            throw new ArgumentNullException("fileName");
+        }
+
+        LastFileName = fileName;
         ClearScene();
         BinaryFormatter binaryFormatter = new BinaryFormatter();
-        FileStream fileStream = new FileStream(Application.persistentDataPath + "/project.es", FileMode.Open);
+        FileStream fileStream = new FileStream(LastFileName, FileMode.Open);
 
         object o = binaryFormatter.Deserialize(fileStream);
         SerializationPackage package = (SerializationPackage) o;
@@ -180,6 +204,11 @@ public class Persistance : MonoBehaviour
         }
 
         fileStream.Close();
+    }
+
+    void Awake()
+    {
+        FileBrowserHandler.Instance.PersistanceScript = this;
     }
 
     public void ClearScene()
