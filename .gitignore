@@ -33,3 +33,8 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+# EduSim executable data
+EduSim_data/*
+EduSim.exe
+edusim-software/ExportHTML/js/edusim.js
