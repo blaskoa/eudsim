@@ -80,7 +80,7 @@
     <string name="CircuitErrorAmpermeter">Obvod predstavuje neplatné zapojenie. Skúste skontrolovať či všetky prvky typu Ampérmeter sú správne zapojené.</string>
     <string name="CircuitErrorMSG1">Obvod predstavuje neplatné zapojenie. Skúste skontrolovať či všetky prvky typu {COMPONENTNAME} sú správne zapojené.</string>
     <string name="CircuitErrorMSG2">Aktuálne zapojenie meracieho zariadeni ampérmeter by viedlo k jeho trvalému poškodeni. Skontrolujete prosím či zapojenie tohoto zariadenia nespôsobuje skrat.</string>
-    <string name="CircuitErrorMSG3">Problem in circuit.</string>
+    <string name="CircuitErrorMSG3">Problem v obvode.</string>
     <string name="CircuitErrorMissingErrorBox">V tejto verzii aplikácie chýba zobrazovanie problémov v zapojení pre komponent </string>
     <string name="ComponentTextResistor">Odpor</string>
     <string name="ComponentTextAnalogSwitch">Vypínač</string>
