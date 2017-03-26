@@ -36,6 +36,13 @@
     <string name="PasteText">Paste</string>
     <string name="DuplicateText">Duplicate</string>
     <string name="DeleteText">Delete</string>
+    <string name="UndoText">Undo</string>
+    <string name="RedoText">Redo</string>
+    <string name="ZoomInText">Closer</string>
+    <string name="ZoomOutText">Further</string>
+    <string name="RotateLeftText">Rotate Left</string>
+    <string name="RotateRightText">Rotate Right</string>
+    <string name="ExportText">Export</string>
     <string name="PlayText">Play</string>
     <string name="PauseText">Pause</string>
     <string name="SettingsText">Settings</string>
@@ -109,6 +116,13 @@
     <string name="PasteText">Prilepiť</string>
     <string name="DuplicateText">Duplikovať</string>
     <string name="DeleteText">Zmazať</string>
+    <string name="UndoText">Späť</string>
+    <string name="RedoText">Vrátiť</string>
+    <string name="ZoomInText">Priblížiť</string>
+    <string name="ZoomOutText">Oddialiť</string>
+    <string name="RotateLeftText">Otočiť doľava</string>
+    <string name="RotateRightText">Otočiť doprava</string>
+    <string name="ExportText">Export</string>
     <string name="PlayText">Spustiť</string>
     <string name="PauseText">Pozastaviť</string>
     <string name="SettingsText">Nastavenia</string>
