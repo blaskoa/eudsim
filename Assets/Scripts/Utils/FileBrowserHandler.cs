@@ -19,6 +19,8 @@ namespace Assets.Scripts.Utils
         private const string SaveWindowTitle = " \"_save Es File\" ";
         private const string EdusimProjectFileDescription = "EduSim project files(*.es)";
         private const string FileExtensionFilter = "\"" + EdusimProjectFileDescription + "| *.es\" ";
+        private const string EdusimExportFileDescription = "ZIP Archive (*.zip)";
+        private const string ExportFileExtensionFilter = "\"" + EdusimExportFileDescription + "| *.zip\" ";
 
         private Persistance _persistanceScript;
         private ExportHTML _exportScript;
@@ -100,7 +102,7 @@ namespace Assets.Scripts.Utils
         }
 
         // Opens file browser and passes the path to the handler
-        public void SaveExport(string rootBrowsingFolder = null, string fileExtension = null) 
+        public void SaveExport(string rootBrowsingFolder = null, string fileExtension = ExportFileExtensionFilter) 
         {
             if (_currentRunningProcess != null)
             {
@@ -109,7 +111,7 @@ namespace Assets.Scripts.Utils
 
             _currentRunningProcess = new Process();
             _currentRunningProcess.StartInfo.Arguments = BuildArguments(false, SaveWindowTitle, rootBrowsingFolder,
-                fileExtension, "");
+                fileExtension, "EdusimExport");
             _currentRunningProcess.OutputDataReceived += HandleOnExportOutputDataReceived;
 
             ConfigureAndStartProcess();
