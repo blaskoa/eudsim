@@ -2,6 +2,20 @@
 
 <Languages>
   <English>
+    <string name="CircuitErrorCapacitorElm">Circuit is not valid, please check whether all components of type Capacitor are validly connected in simulation.</string>
+    <string name="CircuitErrorResistor">Circuit is not valid, please check whether all components of type Resistor are validly connected in simulation.</string>
+    <string name="CircuitErrorAmpermeter">Circuit is not valid, please check whether all components of type Ampermeter are validly connected in simulation.</string>
+    <string name="CircuitErrorMSG1">Circuit is not valid, please check whether all components of type {COMPONENTNAME} are validly connected in simulation.</string>
+    <string name="CircuitErrorMSG2">Connection of ampermeter device would be deadly for this device. Please check scheme for this device cut off.</string>
+    <string name="CircuitErrorMSG3">Problem in circuit.</string>
+    <string name="CircuitErrorMissingErrorBox">In this version of application you are missing error window for component </string>
+    <string name="ComponentTextResistor">Resistor</string>
+    <string name="ComponentTextAnalogSwitch">Switch</string>
+    <string name="ComponentTextVoltageInput">VoltageInput</string>
+    <string name="ComponentTextGround">Ground</string>
+    <string name="ComponentTextCapacitorElm">Capacitor</string>
+    <string name="ComponentTextInductorElm">Inductor</string>
+    <string name="ComponentTextLamp">Lamp</string>
     <string name="ToolboxText">Toolbox</string>
     <string name="DebugText">Debug</string>
     <string name="ObjectExplorerText">Object Explorer</string>
@@ -22,6 +36,13 @@
     <string name="PasteText">Paste</string>
     <string name="DuplicateText">Duplicate</string>
     <string name="DeleteText">Delete</string>
+    <string name="UndoText">Undo</string>
+    <string name="RedoText">Redo</string>
+    <string name="ZoomInText">Closer</string>
+    <string name="ZoomOutText">Further</string>
+    <string name="RotateLeftText">Rotate Left</string>
+    <string name="RotateRightText">Rotate Right</string>
+    <string name="ExportText">Export</string>
     <string name="PlayText">Play</string>
     <string name="PauseText">Pause</string>
     <string name="SettingsText">Settings</string>
@@ -64,6 +85,20 @@
   </English>
 
   <Slovak>
+    <string name="CircuitErrorCapacitorElm">Obvod predstavuje neplatné zapojenie. Skúste skontrolovať či všetky prvky typu Kondenzator sú správne zapojené.</string>
+    <string name="CircuitErrorResistor">Obvod predstavuje neplatné zapojenie. Skúste skontrolovať či všetky prvky typu Odpor sú správne zapojené.</string>
+    <string name="CircuitErrorAmpermeter">Obvod predstavuje neplatné zapojenie. Skúste skontrolovať či všetky prvky typu Ampérmeter sú správne zapojené.</string>
+    <string name="CircuitErrorMSG1">Obvod predstavuje neplatné zapojenie. Skúste skontrolovať či všetky prvky typu {COMPONENTNAME} sú správne zapojené.</string>
+    <string name="CircuitErrorMSG2">Aktuálne zapojenie meracieho zariadeni ampérmeter by viedlo k jeho trvalému poškodeni. Skontrolujete prosím či zapojenie tohoto zariadenia nespôsobuje skrat.</string>
+    <string name="CircuitErrorMSG3">Problem v obvode.</string>
+    <string name="CircuitErrorMissingErrorBox">V tejto verzii aplikácie chýba zobrazovanie problémov v zapojení pre komponent </string>
+    <string name="ComponentTextResistor">Odpor</string>
+    <string name="ComponentTextAnalogSwitch">Vypínač</string>
+    <string name="ComponentTextVoltageInput">Výstup batérie</string>
+    <string name="ComponentTextGround">Uzemnenie</string>
+    <string name="ComponentTextCapacitorElm">Kondenzátor</string>
+    <string name="ComponentTextInductorElm">Cievka</string>
+    <string name="ComponentTextLamp">Žiarovka</string>
     <string name="ToolboxText">Nástroje</string>
     <string name="DebugText">Debug</string>
     <string name="ObjectExplorerText">Prehliadač objektov</string>
@@ -84,6 +119,13 @@
     <string name="PasteText">Prilepiť</string>
     <string name="DuplicateText">Duplikovať</string>
     <string name="DeleteText">Zmazať</string>
+    <string name="UndoText">Späť</string>
+    <string name="RedoText">Vrátiť</string>
+    <string name="ZoomInText">Priblížiť</string>
+    <string name="ZoomOutText">Oddialiť</string>
+    <string name="RotateLeftText">Otočiť doľava</string>
+    <string name="RotateRightText">Otočiť doprava</string>
+    <string name="ExportText">Export</string>
     <string name="PlayText">Spustiť</string>
     <string name="PauseText">Pozastaviť</string>
     <string name="SettingsText">Nastavenia</string>

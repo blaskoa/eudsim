@@ -19,20 +19,14 @@ public class SwitchTypeLine : MonoBehaviour
                 // Button delay has passed and some keys were pressed.
                 if (_buttonDelay == 0f)
                 {
-                    if (this.gameObject.GetComponent<Line>().TypeOfLine == "NoBreak")
-                    {
-                        this.gameObject.GetComponent<Line>().TypeOfLine = "RightBreak";
-
-                    }
-
-                    else if (this.gameObject.GetComponent<Line>().TypeOfLine == "RightBreak")
+                    if (this.gameObject.GetComponent<Line>().TypeOfLine == "RightBreak")
                     {
                         this.gameObject.GetComponent<Line>().TypeOfLine = "LeftBreak";
                     }
 
                     else if (this.gameObject.GetComponent<Line>().TypeOfLine == "LeftBreak")
                     {
-                        this.gameObject.GetComponent<Line>().TypeOfLine = "NoBreak";
+                        this.gameObject.GetComponent<Line>().TypeOfLine = "RightBreak";
                     }
 
                     _buttonDelay = _delay;
