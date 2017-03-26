@@ -5,11 +5,44 @@ using ClassLibrarySharpCircuit;
 using UnityEngine;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
+using Assets.Scripts.Utils;
+using Ionic.Zip;
+
 public class ExportHTML : MonoBehaviour
 {
     public Camera Camera;
-    public void MakeHTMLExport()
+
+    public void Awake()
     {
+        FileBrowserHandler.Instance.ExportScript = this;
+    }
+
+    private string _zipFileName;
+
+    public string ZipFileName
+    {
+        get { return _zipFileName; }
+        private set { _zipFileName = value.Trim(); }
+    }
+
+    // Exports the current scheme to HTML5
+    public void MakeHtmlExport(string fileName)
+    {
+        // Base folder where all export files are located
+        const string baseFolder = "EduSimExport";
+        const string javascriptPattern = "js/edusim-pattern.js";
+        const string javascriptExport = "js/edusim.js";
+
+        if (!string.IsNullOrEmpty(fileName))
+        {
+            ZipFileName = fileName;
+        }
+        else if (string.IsNullOrEmpty(ZipFileName))
+        {
+            throw new ArgumentNullException("fileName");
+        }
+
         //because canvas to which we make export is printing in another quadrant we need to make rotation
         Camera.transform.rotation *= Quaternion.Euler(180, 0, 0);
         List<string> exportArrayList = new List<string>();
@@ -82,12 +115,44 @@ public class ExportHTML : MonoBehaviour
         }
         //and now make rotation to previous position
         Camera.transform.rotation *= Quaternion.Euler(180, 0, 0);
-        string text = File.ReadAllText("ExportHTML/js/edusim-pattern.js");
+        string text = File.ReadAllText(Path.Combine(baseFolder, javascriptPattern));
         string insertPoint = "let hotspots = [";
         int index = text.IndexOf(insertPoint, StringComparison.Ordinal) + insertPoint.Length;
         text = text.Insert(index, string.Join("", exportArrayList.ToArray()));
-        File.WriteAllText("ExportHTML/js/edusim.js", text);
-        
-        this.GetComponent<Whisp>().Say("HTML export was generated into ExportHTML dir.");
+        File.WriteAllText(Path.Combine(baseFolder, javascriptExport), text);
+
+        // Create a ZIP archive of the export
+        string subfolder = "";
+        string[] files = {};
+        ZipFile zip = new ZipFile();
+
+        // Add base folder to the archive
+        files = Directory.GetFiles(baseFolder, "*", SearchOption.TopDirectoryOnly);
+        zip.AddFiles(files, baseFolder);
+
+        // Add css to the archive
+        subfolder = "css";
+        files = Directory.GetFiles(Path.Combine(baseFolder, subfolder), "*", SearchOption.TopDirectoryOnly);
+        zip.AddFiles(files, Path.Combine(baseFolder, subfolder));
+
+        // Add JavaScript scripts to the archive
+        subfolder = "js";
+        files = Directory.GetFiles(Path.Combine(baseFolder, subfolder), "*", SearchOption.TopDirectoryOnly);
+        zip.AddFiles(files, Path.Combine(baseFolder, subfolder));
+
+        // Add images to the archive
+        subfolder = "images";
+        files = Directory.GetFiles(Path.Combine(baseFolder, subfolder), "*", SearchOption.TopDirectoryOnly);
+        zip.AddFiles(files, Path.Combine(baseFolder, subfolder));
+
+        // Add fonts to the archive
+        subfolder = "fonts";
+        files = Directory.GetFiles(Path.Combine(baseFolder, subfolder), "*", SearchOption.TopDirectoryOnly);
+        zip.AddFiles(files, Path.Combine(baseFolder, subfolder));
+
+        // Save the archive
+        zip.Save(ZipFileName);
+
+        this.GetComponent<Whisp>().Say("HTML export was successfully saved into " + ZipFileName + ".");
     }
 }

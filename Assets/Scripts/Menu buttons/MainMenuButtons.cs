@@ -169,9 +169,15 @@ public class MainMenuButtons : MonoBehaviour {
     {
         FileBrowserHandler.Instance.SaveAsFile();
     }
-    
+
+    // Open basic explorer after buttonClick to Export icon project
+    public void SaveExport()
+    {
+        FileBrowserHandler.Instance.SaveExport();
+    }
+
     // Show or hide File panel menu in Main menu
-	public void ShowFilePanelMenu(GameObject guiComponent)
+    public void ShowFilePanelMenu(GameObject guiComponent)
     {        
         _FilePanelMenuOpen = guiComponent.GetComponent<Canvas>().enabled;
         

@@ -21,6 +21,7 @@ namespace Assets.Scripts.Utils
         private const string FileExtensionFilter = "\"" + EdusimProjectFileDescription + "| *.es\" ";
 
         private Persistance _persistanceScript;
+        private ExportHTML _exportScript;
         private Process _currentRunningProcess;
         private static FileBrowserHandler _instance;
 
@@ -36,6 +37,18 @@ namespace Assets.Scripts.Utils
                 if (_persistanceScript == null)
                 {
                     _persistanceScript = value;
+                }
+            }
+        }
+
+        // Setter for the export script
+        public ExportHTML ExportScript
+        {
+            set
+            {
+                if (_exportScript == null)
+                {
+                    _exportScript = value;
                 }
             }
         }
@@ -86,6 +99,22 @@ namespace Assets.Scripts.Utils
             ConfigureAndStartProcess();
         }
 
+        // Opens file browser and passes the path to the handler
+        public void SaveExport(string rootBrowsingFolder = null, string fileExtension = null) 
+        {
+            if (_currentRunningProcess != null)
+            {
+                throw new Exception("Only one file browsing process can be run at a time");
+            }
+
+            _currentRunningProcess = new Process();
+            _currentRunningProcess.StartInfo.Arguments = BuildArguments(false, SaveWindowTitle, rootBrowsingFolder,
+                fileExtension, "");
+            _currentRunningProcess.OutputDataReceived += HandleOnExportOutputDataReceived;
+
+            ConfigureAndStartProcess();
+        }
+
         private void HandleOnLoadOutputDataReceived(object sender, DataReceivedEventArgs dataReceivedEventArgs)
         {
             string fileName = dataReceivedEventArgs.Data;
@@ -106,6 +135,19 @@ namespace Assets.Scripts.Utils
                 Dispatcher.Invoke(() =>
                 {
                     _persistanceScript.Save(fileName);
+                });
+            }
+        }
+
+        // When user chooses path for export, call exporting function
+        private void HandleOnExportOutputDataReceived(object sender, DataReceivedEventArgs dataReceivedEventArgs)
+        {
+            string fileName = dataReceivedEventArgs.Data;
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    _exportScript.MakeHtmlExport(fileName);
                 });
             }
         }
