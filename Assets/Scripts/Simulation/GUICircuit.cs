@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using Assets.Scripts.Localization;
 using ClassLibrarySharpCircuit;
 
 public class GUICircuit : MonoBehaviour
@@ -104,7 +105,7 @@ public class GUICircuit : MonoBehaviour
                 if (obj.tag.Equals("ActiveItem") && obj.name.Contains("Ampermeter"))
                     if (obj.GetComponent<GUIAmpermeter>().ResistorComponent.getCurrent() > 10)
                     {
-                        string resErrorMsg = FindObjectOfType<Localization>().ResourceReader.GetResource("CircuitErrorMSG2");
+                        string resErrorMsg = ResourceReader.Instance.GetResource("CircuitErrorMSG2");
                         FindObjectOfType<Whisp>().Say(resErrorMsg);
                         stopSignal = true;
                     }

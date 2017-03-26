@@ -13,8 +13,20 @@ namespace Assets.Scripts.Localization
         private const string AttributeName = "name";
         private const SystemLanguage DefaultLanguage = SystemLanguage.English;
         private readonly IDictionary<string, string> _resources;
-        
-        public ResourceReader(SystemLanguage language)
+
+        private static ResourceReader _instance;
+
+        public static ResourceReader Instance
+        {
+            get { return _instance ?? new ResourceReader(DefaultLanguage); }
+        }
+
+        public static void SetLanguage(SystemLanguage language)
+        {
+            _instance = new ResourceReader(language);
+        }
+
+        private ResourceReader(SystemLanguage language)
         {
             XmlDocument xml = new XmlDocument();
             _resources = new Dictionary<string, string>();
