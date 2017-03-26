@@ -78,7 +78,7 @@ public class Destroy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(this.GetType());
+      
         if (HotkeyManager.Instance.CheckHotkey(DeleteHotkeyKey, KeyAction.Down))
         {
             DeleteSelected();

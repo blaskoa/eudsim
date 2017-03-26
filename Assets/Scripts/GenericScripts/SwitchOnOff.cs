@@ -20,6 +20,30 @@ public class SwitchOnOff : MonoBehaviour, IPointerClickHandler {
          _switchOn = Resources.Load<Sprite>("switch2");       
     }
 
+    void Update()
+    {
+        if (SelectObject.SelectedObjects.Count == 1 && SelectObject.SelectedObjects[0] == this.gameObject)
+        {
+            Image image = this.gameObject.GetComponent<Image>();
+            SpriteRenderer spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
+
+            GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
+            Toggle checkBox =
+                propertiesContainer.transform.FindChild("TurnedOffPropertyLabel").gameObject.GetComponent<Toggle>();
+
+            if (checkBox.isOn)
+            {
+                image.sprite = _switchOn;
+                spriteRenderer.sprite = _switchOn;
+            }
+            else
+            {
+                image.sprite = _switchOff;
+                spriteRenderer.sprite = _switchOff;
+            }
+        }
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
         //changing image sprite of switch object
