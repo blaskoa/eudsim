@@ -35,7 +35,7 @@ public class Persistance : MonoBehaviour
     public string LastFileName
     {
         get { return _lastFileName; }
-        private set { _lastFileName = value.Trim(); }
+        private set { _lastFileName = value != null ? value.Trim() : null; }
     }
 
     public void Save(string fileName)
@@ -204,6 +204,7 @@ public class Persistance : MonoBehaviour
         }
 
         fileStream.Close();
+        FindObjectOfType<MultiSelect>().DoDeselect();
     }
 
     void Awake()

@@ -5,7 +5,8 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
-using ClassLibrarySharpCircuit;
+ using Assets.Scripts.Localization;
+ using ClassLibrarySharpCircuit;
 
 
 public class MainMenuButtons : MonoBehaviour {
@@ -146,9 +147,14 @@ public class MainMenuButtons : MonoBehaviour {
             guiComponent.SetActive(false);
         }
     }
-    
+
+    public void NewProject()
+    {
+        FindObjectOfType<Persistance>().NewProject();
+    }
+
     // Open basic explorer after buttonClick to Open project
-	public void OpenProject()
+    public void OpenProject()
     {
         FileBrowserHandler.Instance.LoadFile();
     }
@@ -191,8 +197,8 @@ public class MainMenuButtons : MonoBehaviour {
         string componentName = path.Substring(pos, path.Length - pos);
 
         string toFindInRes = path.Substring(pos, path.Length - pos);
-        string resComponentName = FindObjectOfType<Localization>().ResourceReader.GetResource("ComponentText" + componentName);
-        string resCircuitErrorMsg = FindObjectOfType<Localization>().ResourceReader.GetResource("CircuitErrorMSG1");
+        string resComponentName = ResourceReader.Instance.GetResource("ComponentText" + componentName);
+        string resCircuitErrorMsg = ResourceReader.Instance.GetResource("CircuitErrorMSG1");
         resCircuitErrorMsg= resCircuitErrorMsg.Replace("{COMPONENTNAME}", resComponentName);
 
         string windowName = "ERRORMSG_" + componentName;
@@ -213,7 +219,7 @@ public class MainMenuButtons : MonoBehaviour {
         }
         else
         {
-            whisp.Say(FindObjectOfType<Localization>().ResourceReader.GetResource("CircuitErrorMissingErrorBox") + "{" + resComponentName + "}");
+            whisp.Say(ResourceReader.Instance.GetResource("CircuitErrorMissingErrorBox") + "{" + resComponentName + "}");
         }
         whisp.Say(resCircuitErrorMsg);
     }
