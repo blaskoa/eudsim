@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
+using ClassLibrarySharpCircuit;
 
 public class MainMenuButtons : MonoBehaviour {
 
@@ -336,5 +338,41 @@ public class MainMenuButtons : MonoBehaviour {
             _ReportBugCanvasOpen = false;
             guiComponent.GetComponent<Canvas>().enabled = false;
         }
+    }
+
+    // Circuit error 1
+    public static void CircuitError(ICircuitElement element)
+    {
+        Whisp whisp = FindObjectOfType<Whisp>();
+        string path = element.ToString();
+        int pos = path.LastIndexOf(".", StringComparison.Ordinal) + 1;
+        string componentName = path.Substring(pos, path.Length - pos);
+
+        string toFindInRes = path.Substring(pos, path.Length - pos);
+        string resComponentName = FindObjectOfType<Localization>().ResourceReader.GetResource("ComponentText" + componentName);
+        string resCircuitErrorMsg = FindObjectOfType<Localization>().ResourceReader.GetResource("CircuitErrorMSG1");
+        resCircuitErrorMsg= resCircuitErrorMsg.Replace("{COMPONENTNAME}", resComponentName);
+
+        string windowName = "ERRORMSG_" + componentName;
+
+        if (GameObject.Find(windowName))
+        {
+            bool currentlyEnabled = GameObject.Find(windowName).GetComponent<Canvas>().enabled;
+            if (currentlyEnabled == false)
+            {
+                currentlyEnabled = true;
+                GameObject.Find(windowName).GetComponent<Canvas>().enabled = true;
+            }
+            else
+            {
+                currentlyEnabled = false;
+                GameObject.Find(windowName).GetComponent<Canvas>().enabled = false;
+            }
+        }
+        else
+        {
+            whisp.Say(FindObjectOfType<Localization>().ResourceReader.GetResource("CircuitErrorMissingErrorBox") + "{" + resComponentName + "}");
+        }
+        whisp.Say(resCircuitErrorMsg);
     }
 }
