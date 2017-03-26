@@ -56,6 +56,9 @@
     Tento projekt vznikol v spolupráci s firmou Atos. Hlavná idea je vytvoriť nástroj, pomocou ktorého sa budú vytvárať interaktívne simulácie, pomocou ktorých sa budú môsť testovať aj vedomosti žiakov a študentov. Vytvorené simulácie sa budú exportovať do HTML5 webových stránok, čo umožní jednoduchý prístup každému , keďže stačí mať prehliadač s pripojením na internet. Testovacie moduly budú prepojené s existujúcimi testovacími systémami.
     Softvér je implementovaný v Unity game engine. Bude podporovať viaceré edukačné moduly, ktoré sa budú ľahko vymieňať. V prvej iterácii, teda v rámci predmetu tímový projekt, sa vytvorí jadro nástroja a modul pre elektrické obvody.
     </string>
+    <string name="LoadWindowTitle">"Load a project"</string>
+    <string name="SaveWindowTitle">"Save the project"</string>
+    <string name="EdusimProjectFileDescription">EduSim project files (*.es)</string>
     
   
   </English>
@@ -115,6 +118,9 @@
     Tento projekt vznikol v spolupráci s firmou Atos. Hlavná idea je vytvoriť nástroj, pomocou ktorého sa budú vytvárať interaktívne simulácie, pomocou ktorých sa budú môsť testovať aj vedomosti žiakov a študentov. Vytvorené simulácie sa budú exportovať do HTML5 webových stránok, čo umožní jednoduchý prístup každému , keďže stačí mať prehliadač s pripojením na internet. Testovacie moduly budú prepojené s existujúcimi testovacími systémami.
     Softvér je implementovaný v Unity game engine. Bude podporovať viaceré edukačné moduly, ktoré sa budú ľahko vymieňať. V prvej iterácii, teda v rámci predmetu tímový projekt, sa vytvorí jadro nástroja a modul pre elektrické obvody.
     </string>
+    <string name="LoadWindowTitle">"Načítaj projekt"</string>
+    <string name="SaveWindowTitle">"Ulož projekt"</string>
+    <string name="EdusimProjectFileDescription">Projektový súbor EduSim (*.es)</string>
   </Slovak>
 
 </Languages>

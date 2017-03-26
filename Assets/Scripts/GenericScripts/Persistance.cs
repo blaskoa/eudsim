@@ -211,7 +211,13 @@ public class Persistance : MonoBehaviour
         FileBrowserHandler.Instance.PersistanceScript = this;
     }
 
-    public void ClearScene()
+    public void NewProject()
+    {
+        LastFileName = null;
+        ClearScene();
+    }
+
+    private void ClearScene()
     {
         FindObjectOfType<MultiSelect>().DoDeselect();
         List<GameObject> elementGameObjects = FindObjectsOfType<GUICircuitComponent>().ToList()
