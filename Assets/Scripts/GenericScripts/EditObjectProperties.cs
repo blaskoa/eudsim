@@ -1,8 +1,7 @@
 ﻿using System;
 using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
-using System.Collections.Generic;
+using Assets.Scripts.Localization;
 
 public class EditObjectProperties : MonoBehaviour
 {
@@ -55,7 +54,7 @@ public class EditObjectProperties : MonoBehaviour
 
         // Set property label
         Text propertyLabel = newProperty.transform.FindChild("ObjectPropertyLabel").gameObject.GetComponent<Text>();
-        string labelValue = FindObjectOfType<Localization>().ResourceReader.GetResource(resourceKey);
+        string labelValue = ResourceReader.Instance.GetResource(resourceKey);
         propertyLabel.text = labelValue;
         
         // Set property Slider
@@ -114,7 +113,7 @@ public class EditObjectProperties : MonoBehaviour
 
         // Set Boolean Property Label
         Text propertyLabel = newProperty.transform.FindChild("Label").gameObject.GetComponent<Text>();
-        string labelValue = FindObjectOfType<Localization>().ResourceReader.GetResource(resourceKey);
+        string labelValue = ResourceReader.Instance.GetResource(resourceKey);
         propertyLabel.text = labelValue;
 
         // Setting Toggle value
@@ -140,7 +139,7 @@ public class EditObjectProperties : MonoBehaviour
 
         // Set Property Label
         Text propertyLabel = newProperty.transform.FindChild("Label").gameObject.GetComponent<Text>();
-        string labelValue = FindObjectOfType<Localization>().ResourceReader.GetResource(resourceKey);
+        string labelValue = ResourceReader.Instance.GetResource(resourceKey);
         propertyLabel.text = labelValue;
 
         // Set Property Value

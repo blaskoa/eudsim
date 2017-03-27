@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using Assets.Scripts.Localization;
 using UnityEngine;
 using UnityToolbag;
 
@@ -15,12 +16,14 @@ namespace Assets.Scripts.Utils
         private const string FileExtensionOptionTemplate = " -e {0} ";
         private const string OperationModeOptionTemplate = " -o {0} ";
         private const string FileNameOptionTemplate = " -f {0} ";
-        private const string LoadWindowTitle = " \"_load Es File\" ";
-        private const string SaveWindowTitle = " \"_save Es File\" ";
-        private const string EdusimProjectFileDescription = "EduSim project files(*.es)";
-        private const string FileExtensionFilter = "\"" + EdusimProjectFileDescription + "| *.es\" ";
-        private const string EdusimExportFileDescription = "ZIP Archive (*.zip)";
-        private const string ExportFileExtensionFilter = "\"" + EdusimExportFileDescription + "| *.zip\" ";
+        private const string FileExtensionFilterTemplate = "\" {0} | *.es\" ";
+        private const string ExportFileExtensionFilterTemplate = "\" {0} | *.zip\" ";
+
+        private const string LoadWindowTitleKey = "LoadWindowTitle";
+        private const string SaveWindowTitleKey = "SaveWindowTitle";
+        private const string ExportWindowTitleKey = "ExportWindowTitle";
+        private const string EdusimProjectFileDescriptionKey = "EdusimProjectFileDescription";
+        private const string EdusimExportFileDescriptionKey = "EdusimExportFileDescription";
 
         private Persistance _persistanceScript;
         private ExportHTML _exportScript;
@@ -59,26 +62,29 @@ namespace Assets.Scripts.Utils
         {
         }
 
-        public void LoadFile(string rootBrowsingFolder = null, string fileExtension = FileExtensionFilter)
+        public void LoadFile(string rootBrowsingFolder = null, string fileExtension = FileExtensionFilterTemplate)
         {
             if (_currentRunningProcess != null)
             {
                 throw new Exception("Only one file browsing process can be run at a time");
             }
 
+            string loadWindowTitle = ResourceReader.Instance.GetResource(LoadWindowTitleKey);
+            string fileExtensionDescription = ResourceReader.Instance.GetResource(EdusimProjectFileDescriptionKey);
+
             _currentRunningProcess = new Process();
-            _currentRunningProcess.StartInfo.Arguments = BuildArguments(true, LoadWindowTitle, rootBrowsingFolder,
-                fileExtension, Path.GetFileName(_persistanceScript.LastFileName));
+            _currentRunningProcess.StartInfo.Arguments = BuildArguments(true, loadWindowTitle, rootBrowsingFolder,
+                string.Format(fileExtension, fileExtensionDescription), Path.GetFileName(_persistanceScript.LastFileName));
             _currentRunningProcess.OutputDataReceived += HandleOnLoadOutputDataReceived;
 
             ConfigureAndStartProcess();
         }
 
-        public void SaveFile(string rootBrowsingFolder = null, string fileExtension = FileExtensionFilter)
+        public void SaveFile(string rootBrowsingFolder = null, string fileExtension = FileExtensionFilterTemplate)
         {
             if (string.IsNullOrEmpty(_persistanceScript.LastFileName))
             {
-                SaveAsFile();
+                SaveAsFile(rootBrowsingFolder, fileExtension);
             }
             else
             {
@@ -86,32 +92,38 @@ namespace Assets.Scripts.Utils
             }
         }
 
-        public void SaveAsFile(string rootBrowsingFolder = null, string fileExtension = FileExtensionFilter)
+        public void SaveAsFile(string rootBrowsingFolder = null, string fileExtension = FileExtensionFilterTemplate)
         {
             if (_currentRunningProcess != null)
             {
                 throw new Exception("Only one file browsing process can be run at a time");
             }
 
+            string saveWindowTitle = ResourceReader.Instance.GetResource(SaveWindowTitleKey);
+            string fileExtensionDescription = ResourceReader.Instance.GetResource(EdusimProjectFileDescriptionKey);
+
             _currentRunningProcess = new Process();
-            _currentRunningProcess.StartInfo.Arguments = BuildArguments(false, SaveWindowTitle, rootBrowsingFolder,
-                fileExtension, Path.GetFileName(_persistanceScript.LastFileName));
+            _currentRunningProcess.StartInfo.Arguments = BuildArguments(false, saveWindowTitle, rootBrowsingFolder,
+                string.Format(fileExtension, fileExtensionDescription), Path.GetFileName(_persistanceScript.LastFileName));
             _currentRunningProcess.OutputDataReceived += HandleOnSaveOutputDataReceived;
             
             ConfigureAndStartProcess();
         }
 
         // Opens file browser and passes the path to the handler
-        public void SaveExport(string rootBrowsingFolder = null, string fileExtension = ExportFileExtensionFilter) 
+        public void SaveExport(string rootBrowsingFolder = null, string fileExtension = ExportFileExtensionFilterTemplate) 
         {
             if (_currentRunningProcess != null)
             {
                 throw new Exception("Only one file browsing process can be run at a time");
             }
 
+            string saveWindowTitle = ResourceReader.Instance.GetResource(ExportWindowTitleKey);
+            string fileExtensionDescription = ResourceReader.Instance.GetResource(EdusimExportFileDescriptionKey);
+
             _currentRunningProcess = new Process();
-            _currentRunningProcess.StartInfo.Arguments = BuildArguments(false, SaveWindowTitle, rootBrowsingFolder,
-                fileExtension, "EdusimExport");
+            _currentRunningProcess.StartInfo.Arguments = BuildArguments(false, saveWindowTitle, rootBrowsingFolder,
+                string.Format(fileExtension, fileExtensionDescription), "EdusimExport");
             _currentRunningProcess.OutputDataReceived += HandleOnExportOutputDataReceived;
 
             ConfigureAndStartProcess();

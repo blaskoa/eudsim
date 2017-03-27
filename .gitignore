@@ -36,3 +36,9 @@ sysinfo.txt
 
 #Ignore for our binaries
 !/Assets/StreamingAssets/*
+
+# EduSim executable data
+EduSim_data/*
+EduSim.exe
+edusim-software/ExportHTML/js/edusim.js
+

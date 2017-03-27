@@ -1,16 +1,14 @@
-﻿using System.IO;
-using Assets.Scripts.Localization;
+﻿using Assets.Scripts.Localization;
 using UnityEngine;
 using UnityEngine.UI;
 // Component is meant to be attatched to root element of the whole GUI (canvas)
 public class Localization : MonoBehaviour
 {
-    public ResourceReader ResourceReader { get; private set; }
     private int _languageCycle;
     // instantiate Resource reader and set text elements text from resrouce file
     void Start()
     {
-        ResourceReader = new ResourceReader(Application.systemLanguage);
+        ResourceReader.SetLanguage(Application.systemLanguage);
         SetElementTexts();
         if (Application.systemLanguage == SystemLanguage.Slovak)
         {
@@ -25,7 +23,7 @@ public class Localization : MonoBehaviour
     // create a new instance of resource reader and set text elements text from resrouce file
     public void ChangeLanguage(SystemLanguage language)
     {
-        ResourceReader = new ResourceReader(language);
+        ResourceReader.SetLanguage(language);
         SetElementTexts();
     }
     // cycles trough all child elements and sets their texts according to current language
@@ -34,7 +32,7 @@ public class Localization : MonoBehaviour
         FindObjectOfType<MultiSelect>().DoDeselect();
         foreach (Text textComponent in GetComponentsInChildren<Text>(true))
         {
-            textComponent.text = ResourceReader.GetResource(textComponent.name);
+            textComponent.text = ResourceReader.Instance.GetResource(textComponent.name);
         }
     }
 }

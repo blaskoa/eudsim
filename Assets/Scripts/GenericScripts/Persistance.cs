@@ -35,7 +35,7 @@ public class Persistance : MonoBehaviour
     public string LastFileName
     {
         get { return _lastFileName; }
-        private set { _lastFileName = value.Trim(); }
+        private set { _lastFileName = value != null ? value.Trim() : null; }
     }
 
     public void Save(string fileName)
@@ -112,63 +112,63 @@ public class Persistance : MonoBehaviour
             if (entityType == typeof(BatteryEntity))
             {
                 BatteryEntity concreteEntity = simulationElement as BatteryEntity;
-                GameObject concreteGameObject = InstatiateGameObject(_batteryPrefab);
+                GameObject concreteGameObject = InstantiateGameObject(_batteryPrefab);
                 concreteGameObject.GetComponent<GUIBattery>().Awake();
                 concreteGameObject.GetComponent<GUIBattery>().Entity = concreteEntity;
             }
             else if (entityType == typeof(ResistorEntity))
             {
                 ResistorEntity concreteEntity = simulationElement as ResistorEntity;
-                GameObject concreteGameObject = InstatiateGameObject(_resistorPrefab);
+                GameObject concreteGameObject = InstantiateGameObject(_resistorPrefab);
                 concreteGameObject.GetComponent<GUIResistor>().Awake();
                 concreteGameObject.GetComponent<GUIResistor>().Entity = concreteEntity;
             }
             else if (entityType == typeof(VoltmeterEntity))
             {
                 VoltmeterEntity concreteEntity = simulationElement as VoltmeterEntity;
-                GameObject concreteGameObject = InstatiateGameObject(_voltmeterPrefab);
+                GameObject concreteGameObject = InstantiateGameObject(_voltmeterPrefab);
                 concreteGameObject.GetComponent<GUIVoltmeter>().Awake();
                 concreteGameObject.GetComponent<GUIVoltmeter>().Entity = concreteEntity;
             }
             else if (entityType == typeof(AmpermeterEntity))
             {
                 AmpermeterEntity concreteEntity = simulationElement as AmpermeterEntity;
-                GameObject concreteGameObject = InstatiateGameObject(_ampermeterPrefab);
+                GameObject concreteGameObject = InstantiateGameObject(_ampermeterPrefab);
                 concreteGameObject.GetComponent<GUIAmpermeter>().Awake();
                 concreteGameObject.GetComponent<GUIAmpermeter>().Entity = concreteEntity;
             }
             else if (entityType == typeof(AnalogSwitchEntity))
             {
                 AnalogSwitchEntity concreteEntity = simulationElement as AnalogSwitchEntity;
-                GameObject concreteGameObject = InstatiateGameObject(_analogSwitchPrefab);
+                GameObject concreteGameObject = InstantiateGameObject(_analogSwitchPrefab);
                 concreteGameObject.GetComponent<GUIAnalogSwitch>().Awake();
                 concreteGameObject.GetComponent<GUIAnalogSwitch>().Entity = concreteEntity;
             }
             else if (entityType == typeof(CapacitorEntity))
             {
                 CapacitorEntity concreteEntity = simulationElement as CapacitorEntity;
-                GameObject concreteGameObject = InstatiateGameObject(_capacitorPrefab);
+                GameObject concreteGameObject = InstantiateGameObject(_capacitorPrefab);
                 concreteGameObject.GetComponent<GUICapacitor>().Awake();
                 concreteGameObject.GetComponent<GUICapacitor>().Entity = concreteEntity;
             }
             else if (entityType == typeof(InductorEntity))
             {
                 InductorEntity concreteEntity = simulationElement as InductorEntity;
-                GameObject concreteGameObject = InstatiateGameObject(_inductorPrefab);
+                GameObject concreteGameObject = InstantiateGameObject(_inductorPrefab);
                 concreteGameObject.GetComponent<GUIInductor>().Awake();
                 concreteGameObject.GetComponent<GUIInductor>().Entity = concreteEntity;
             }
             else if (entityType == typeof(LampEntity))
             {
                 LampEntity concreteEntity = simulationElement as LampEntity;
-                GameObject concreteGameObject = InstatiateGameObject(_lampPrefab);
+                GameObject concreteGameObject = InstantiateGameObject(_lampPrefab);
                 concreteGameObject.GetComponent<GUILamp>().Awake();
                 concreteGameObject.GetComponent<GUILamp>().Entity = concreteEntity;
             }
             else if (entityType == typeof(NodeEntity))
             {
                 NodeEntity concreteEntity = simulationElement as NodeEntity;
-                GameObject concreteGameObject = InstatiateGameObject(_nodePrefab);
+                GameObject concreteGameObject = InstantiateGameObject(_nodePrefab);
                 concreteGameObject.GetComponent<GUINode>().Awake();
                 concreteGameObject.GetComponent<GUINode>().Entity = concreteEntity;
             }
@@ -204,6 +204,7 @@ public class Persistance : MonoBehaviour
         }
 
         fileStream.Close();
+        FindObjectOfType<MultiSelect>().DoDeselect();
     }
 
     void Awake()
@@ -211,7 +212,13 @@ public class Persistance : MonoBehaviour
         FileBrowserHandler.Instance.PersistanceScript = this;
     }
 
-    public void ClearScene()
+    public void NewProject()
+    {
+        LastFileName = null;
+        ClearScene();
+    }
+
+    private void ClearScene()
     {
         FindObjectOfType<MultiSelect>().DoDeselect();
         List<GameObject> elementGameObjects = FindObjectsOfType<GUICircuitComponent>().ToList()
@@ -231,7 +238,7 @@ public class Persistance : MonoBehaviour
         }
     }
 
-    private GameObject InstatiateGameObject(GameObject gameObject)
+    private static GameObject InstantiateGameObject(GameObject gameObject)
     {
         GameObject activeGameObject = Instantiate(gameObject);
         activeGameObject.tag = "ActiveItem";

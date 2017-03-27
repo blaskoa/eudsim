@@ -94,4 +94,5 @@ public class GUIAnalogSwitch : GUICircuitComponent
         Connectors[0].DllConnector = analogSwitch.leadIn;
         Connectors[1].DllConnector = analogSwitch.leadOut;
     }
+
 }
