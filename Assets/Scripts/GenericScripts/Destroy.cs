@@ -70,6 +70,7 @@ public class Destroy : MonoBehaviour
             // Delete connected connectors from lists of connectors
             this.gameObject.GetComponent<Line>().Begin.GetComponent<Connectable>().Connected.Remove(this.gameObject.GetComponent<Line>().End.gameObject);
             this.gameObject.GetComponent<Line>().End.GetComponent<Connectable>().Connected.Remove(this.gameObject.GetComponent<Line>().Begin.gameObject);
+            Destroy(this.gameObject);
             SelectObject.SelectedLines.Remove(this.gameObject);
         }
 
