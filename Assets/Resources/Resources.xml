@@ -79,9 +79,9 @@
     </string>
     <string name="LoadWindowTitle">"Load a project"</string>
     <string name="SaveWindowTitle">"Save the project"</string>
+    <string name="ExportWindowTitle">"Export Simulation"</string>
     <string name="EdusimProjectFileDescription">EduSim project files (*.es)</string>
-    
-  
+    <string name="EdusimExportFileDescription">ZIP Archive (*.zip)</string>
   </English>
 
   <Slovak>
@@ -162,7 +162,9 @@
     </string>
     <string name="LoadWindowTitle">"Načítaj projekt"</string>
     <string name="SaveWindowTitle">"Ulož projekt"</string>
+    <string name="ExportWindowTitle">"Vyexportuj simuláciu"</string>
     <string name="EdusimProjectFileDescription">Projektový súbor EduSim (*.es)</string>
+    <string name="EdusimExportFileDescription">ZIP archív (*.zip)</string>
   </Slovak>
 
 </Languages>

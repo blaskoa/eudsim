@@ -17,12 +17,16 @@ namespace Assets.Scripts.Utils
         private const string OperationModeOptionTemplate = " -o {0} ";
         private const string FileNameOptionTemplate = " -f {0} ";
         private const string FileExtensionFilterTemplate = "\" {0} | *.es\" ";
+        private const string ExportFileExtensionFilterTemplate = "\" {0} | *.zip\" ";
 
         private const string LoadWindowTitleKey = "LoadWindowTitle";
         private const string SaveWindowTitleKey = "SaveWindowTitle";
+        private const string ExportWindowTitleKey = "ExportWindowTitle";
         private const string EdusimProjectFileDescriptionKey = "EdusimProjectFileDescription";
+        private const string EdusimExportFileDescriptionKey = "EdusimExportFileDescription";
 
         private Persistance _persistanceScript;
+        private ExportHTML _exportScript;
         private Process _currentRunningProcess;
         private static FileBrowserHandler _instance;
 
@@ -38,6 +42,18 @@ namespace Assets.Scripts.Utils
                 if (_persistanceScript == null)
                 {
                     _persistanceScript = value;
+                }
+            }
+        }
+
+        // Setter for the export script
+        public ExportHTML ExportScript
+        {
+            set
+            {
+                if (_exportScript == null)
+                {
+                    _exportScript = value;
                 }
             }
         }
@@ -94,6 +110,25 @@ namespace Assets.Scripts.Utils
             ConfigureAndStartProcess();
         }
 
+        // Opens file browser and passes the path to the handler
+        public void SaveExport(string rootBrowsingFolder = null, string fileExtension = ExportFileExtensionFilterTemplate) 
+        {
+            if (_currentRunningProcess != null)
+            {
+                throw new Exception("Only one file browsing process can be run at a time");
+            }
+
+            string saveWindowTitle = ResourceReader.Instance.GetResource(ExportWindowTitleKey);
+            string fileExtensionDescription = ResourceReader.Instance.GetResource(EdusimExportFileDescriptionKey);
+
+            _currentRunningProcess = new Process();
+            _currentRunningProcess.StartInfo.Arguments = BuildArguments(false, saveWindowTitle, rootBrowsingFolder,
+                string.Format(fileExtension, fileExtensionDescription), "EdusimExport");
+            _currentRunningProcess.OutputDataReceived += HandleOnExportOutputDataReceived;
+
+            ConfigureAndStartProcess();
+        }
+
         private void HandleOnLoadOutputDataReceived(object sender, DataReceivedEventArgs dataReceivedEventArgs)
         {
             string fileName = dataReceivedEventArgs.Data;
@@ -114,6 +149,19 @@ namespace Assets.Scripts.Utils
                 Dispatcher.Invoke(() =>
                 {
                     _persistanceScript.Save(fileName);
+                });
+            }
+        }
+
+        // When user chooses path for export, call exporting function
+        private void HandleOnExportOutputDataReceived(object sender, DataReceivedEventArgs dataReceivedEventArgs)
+        {
+            string fileName = dataReceivedEventArgs.Data;
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    _exportScript.MakeHtmlExport(fileName);
                 });
             }
         }

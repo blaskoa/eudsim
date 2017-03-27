@@ -170,6 +170,12 @@ public class MainMenuButtons : MonoBehaviour {
     {
         FileBrowserHandler.Instance.SaveAsFile();
     }
+
+    // Open basic explorer after buttonClick to Export icon project
+    public void SaveExport()
+    {
+        FileBrowserHandler.Instance.SaveExport();
+    }
     
     public void Exit()
     {
