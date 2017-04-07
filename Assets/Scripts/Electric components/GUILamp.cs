@@ -30,10 +30,11 @@ public class GUILamp : GUICircuitComponent
     }
 
     // Called during instantiation
-    public void Awake()
+    public override void Awake()
     {
         if (CompareTag("ActiveItem"))
         {
+            id = idCounter++;
             if (_lampEntity == null)
             {
                 _lampEntity = new LampEntity();
@@ -45,10 +46,19 @@ public class GUILamp : GUICircuitComponent
 
     public override void SetSimulationProp(Circuit sim)
     {
-        Debug.Log("insertol som activeItem");
         Lamp lamp = sim.Create<Lamp>();
 
         Connectors[0].DllConnector = lamp.leadIn;
         Connectors[1].DllConnector = lamp.leadOut;
+    }
+
+    public override void SetId(int id)
+    {
+        this.id = id;
+    }
+
+    public override int GetId()
+    {
+        return id;
     }
 }

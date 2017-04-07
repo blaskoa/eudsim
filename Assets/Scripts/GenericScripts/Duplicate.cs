@@ -17,7 +17,7 @@ public class Duplicate : MonoBehaviour
             {
                 // Instantiate new copy GameObject
                 GameObject copy =
-                    (GameObject) Instantiate(objectSelected, objectSelected.transform.position, objectSelected.transform.rotation);
+                    (GameObject)Instantiate(objectSelected, objectSelected.transform.position, objectSelected.transform.rotation);
                 copy.GetComponent<GUICircuitComponent>()
                     .CopyValues(objectSelected.GetComponent<GUICircuitComponent>());
                 copy.transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = false;
@@ -83,5 +83,29 @@ public class Duplicate : MonoBehaviour
 
         // Check for collisions - duplicated are placed on the same position as their originals so there MUST BE a collision
         GetComponent<Draggable>().Colision();
+
+        UndoAction undoAction = new UndoAction();
+        foreach (GameObject objectSelected in SelectObject.SelectedObjects)
+        {
+            if (objectSelected.tag.Equals("ActiveItem") || objectSelected.tag.Equals("ActiveNode"))
+            {
+                GUICircuitComponent component = objectSelected.GetComponent<GUICircuitComponent>();
+                List<float> prop = new List<float>();
+                prop.Add((float)1.0);
+                prop.Add((float)component.GetId());
+                prop.Add((float)objectSelected.gameObject.transform.GetChild(0).GetComponent<Connectable>().GetID());
+                prop.Add((float)objectSelected.gameObject.transform.GetChild(1).GetComponent<Connectable>().GetID());
+
+                CreateDeleteCompChange change = DoUndo.dummyObj.AddComponent<CreateDeleteCompChange>();
+                change.SetPosition(objectSelected.transform.position);
+                change.SetChange(prop);
+                change.SetType(objectSelected.gameObject.GetComponent<GUICircuitComponent>().GetType());
+                change.RememberConnectorsToFirst(objectSelected.gameObject.transform.GetChild(0).GetComponent<Connectable>().Connected);
+                change.RememberConnectorsToSecond(objectSelected.gameObject.transform.GetChild(1).GetComponent<Connectable>().Connected);
+
+                undoAction.AddChange(change);
+            }
+        }
+        GUICircuitComponent.globalUndoList.AddUndo(undoAction);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Entities;
 using UnityEngine;
 using ClassLibrarySharpCircuit;
+using System.Collections.Generic;
 
 public class GUICapacitor : GUICircuitComponent
 {
@@ -30,6 +31,22 @@ public class GUICapacitor : GUICircuitComponent
 
     public void SetCapacitance(double val)
     {
+        if (Capacitance != val)
+        {
+            AttChange change = new AttChange();
+
+            List<float> prop = new List<float>();
+            prop.Add((float)this.GetId());
+            prop.Add((float)1.0);                   // value of attribute index,, not nessesary but just frameword for case of adding attributes
+            prop.Add((float)(Capacitance - val));
+
+            change.SetChange(prop);
+            UndoAction undoAction = new UndoAction();
+            undoAction.AddChange(change);
+
+            GUICircuitComponent.globalUndoList.AddUndo(undoAction);
+        }
+
         Capacitance = val;
     }
 
@@ -46,6 +63,14 @@ public class GUICapacitor : GUICircuitComponent
         return "<p><span class=\"field-title\">" + "Capacitance " + "</span>" + Capacitance + " [uF]" + " </p>";
     }
 
+    public override void SetAllProperties(List<float> properties)
+    {
+        if (properties[1] == 1.0)
+        {
+            Capacitance += properties[2];
+        }
+    }
+
     // Used for duplicating the components - old component is passes so the new one can copy needed values
     public override void CopyValues(GUICircuitComponent old)
     {
@@ -53,10 +78,11 @@ public class GUICapacitor : GUICircuitComponent
     }
 
     // Called during instantiation
-    public void Awake()
+    public override void Awake()
     {
         if (CompareTag("ActiveItem"))
         {
+            id = idCounter++;
             if (_capacitorEntity == null)
             {
                 _capacitorEntity = new CapacitorEntity {Capacitance = DefaultCapacitance};
@@ -67,12 +93,20 @@ public class GUICapacitor : GUICircuitComponent
 
     public override void SetSimulationProp(Circuit sim)
     {
-        Debug.Log("activeItem inserted");
-
         CapacitorElm capacitorElm = sim.Create<CapacitorElm>();
 
         capacitorElm.capacitance = _capacitorEntity.Capacitance;
         Connectors[0].DllConnector = capacitorElm.leadIn;
         Connectors[1].DllConnector = capacitorElm.leadOut;
+    }
+
+    public override void SetId(int id)
+    {
+        this.id = id;
+    }
+
+    public override int GetId()
+    {
+        return id;
     }
 }

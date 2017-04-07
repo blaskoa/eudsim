@@ -15,9 +15,12 @@ public class RotateMultiObject : MonoBehaviour {
         Vector3 point = CalculateCenterPoint();
 
         if (SelectObject.SelectedObjects.Count > 1)
-        {           
+        {
+            UndoAction undoAction = new UndoAction();
             foreach (GameObject objectSelected in SelectObject.SelectedObjects)
             {
+                Vector3 curentPos = objectSelected.transform.position;
+
                 objectSelected.transform.RotateAround(point, new Vector3(0, 0, 1), +90);
 
                 Vector3 finalPos = objectSelected.transform.position;
@@ -26,8 +29,23 @@ public class RotateMultiObject : MonoBehaviour {
                 finalPos = new Vector3(Mathf.Round(finalPos.x), Mathf.Round(finalPos.y));
                 finalPos /= 2;
 
-                objectSelected.transform.position = finalPos;              
+                objectSelected.transform.position = finalPos;
+
+                List<float> properties = new List<float>();
+                properties.Add(objectSelected.GetComponent<GUICircuitComponent>().GetId());
+                properties.Add(0);
+                properties.Add(0);
+                properties.Add(-90);
+                properties.Add(0);
+
+                PosChange change = DoUndo.dummyObj.AddComponent<PosChange>();
+                change.SetChange(properties);
+                change.SetPoint(point);
+                
+                undoAction.AddChange(change);
             }
+
+            GUICircuitComponent.globalUndoList.AddUndo(undoAction);
 
             //checking colision
             GameObject.Find("Container").GetComponent<Draggable>().Colision();
@@ -46,9 +64,12 @@ public class RotateMultiObject : MonoBehaviour {
         Vector3 point = CalculateCenterPoint();
 
         if (SelectObject.SelectedObjects.Count > 1)
-        {          
+        {
+            UndoAction undoAction = new UndoAction();
             foreach (GameObject objectSelected in SelectObject.SelectedObjects)
             {
+               Vector3 curentPos = objectSelected.transform.position;
+
                 objectSelected.transform.RotateAround(point, new Vector3(0, 0, 1), -90);
 
                 Vector3 finalPos = objectSelected.transform.position;
@@ -57,9 +78,22 @@ public class RotateMultiObject : MonoBehaviour {
                 finalPos = new Vector3(Mathf.Round(finalPos.x), Mathf.Round(finalPos.y));
                 finalPos /= 2;
 
-                objectSelected.transform.position = finalPos;                   
-            }
+                objectSelected.transform.position = finalPos;
 
+                List<float> properties = new List<float>();
+                properties.Add(objectSelected.GetComponent<GUICircuitComponent>().GetId());
+                properties.Add(0);
+                properties.Add(0);
+                properties.Add(+90);
+                properties.Add(0);
+
+                PosChange change = DoUndo.dummyObj.AddComponent<PosChange>();
+                change.SetChange(properties);
+                change.SetPoint(point);
+
+                undoAction.AddChange(change);
+            }
+            GUICircuitComponent.globalUndoList.AddUndo(undoAction);
             //checking colision
             GameObject.Find("Container").GetComponent<Draggable>().Colision();
 

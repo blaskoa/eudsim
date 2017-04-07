@@ -5,10 +5,29 @@ using System.Collections.Generic;
 //class for objects which  is used to generate lines between components
 public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    public static int idConnectors = 0;
+    public int idConnector;
+
     public List<GameObject> Connected;
     public GameObject Obj;
     private Line _line;
     private Vector3 _endPos;
+
+    public void Awake()
+    {
+        Connected = new List<GameObject>();
+        idConnector = idConnectors++;
+    }
+
+    public int GetID()
+    {
+        return idConnector;
+    }
+
+    public void SetID(int id)
+    {
+        idConnector = id;
+    }
 
     // Initialization
     public void Start()
@@ -90,9 +109,20 @@ public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
                 Connector con1 = _line.End.GetComponent<Connector>();
                 Connector con2 = gameObject.GetComponent<Connector>();
-                //Debug.Log("Vytvoril som connection");
                 con1.ConnectedConnectors.Add(con2);
                 con2.ConnectedConnectors.Add(con1);
+
+                UndoAction undoAction = new UndoAction();
+
+                List<float> prop = new List<float>();
+                prop.Add((float)1.0);
+                prop.Add((float)_line.End.GetComponent<Connectable>().GetID());
+                prop.Add((float)_line.Begin.GetComponent<Connectable>().GetID());
+
+                CreateDeleteLineChange change = DoUndo.dummyObj.AddComponent<CreateDeleteLineChange>();
+                change.SetChange(prop);
+                undoAction.AddChange(change);
+                GUICircuitComponent.globalUndoList.AddUndo(undoAction);
             }
 
             //destroy all lines which dont connect two connectors except parental Line

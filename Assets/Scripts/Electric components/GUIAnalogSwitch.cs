@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using ClassLibrarySharpCircuit;
 using Assets.Scripts.Entities;
+using System.Collections.Generic;
 
 public class GUIAnalogSwitch : GUICircuitComponent
 {
@@ -26,7 +27,24 @@ public class GUIAnalogSwitch : GUICircuitComponent
     public bool TurnedOff
     {
         get { return _analogSwitchEntity.TurnedOff; }
-        set { _analogSwitchEntity.TurnedOff = value; }
+        set {
+            if (value != _analogSwitchEntity.TurnedOff)
+            {
+                AttChange change = new AttChange();
+
+                List<float> prop = new List<float>();
+                prop.Add((float)this.GetId());
+                prop.Add((float)1.0);                   // value of attribute index,, not nessesary but just frameword for case of adding attributes
+                prop.Add((float)1.0);                   // value as a sign of revertion of bool attribute
+
+                change.SetChange(prop);
+                UndoAction undoAction = new UndoAction();
+                undoAction.AddChange(change);
+
+                GUICircuitComponent.globalUndoList.AddUndo(undoAction);
+            }
+
+            _analogSwitchEntity.TurnedOff = value; }
     }
 
     public override SimulationElement Entity
@@ -69,10 +87,11 @@ public class GUIAnalogSwitch : GUICircuitComponent
 
 
     // Called during instantiation
-    public void Awake()
+    public override void Awake()
     {
         if (CompareTag("ActiveItem"))
         {
+            id = idCounter++;
             if (_analogSwitchEntity == null)
             {
                 _analogSwitchEntity = new AnalogSwitchEntity {TurnedOff = DefaultState};
@@ -95,4 +114,27 @@ public class GUIAnalogSwitch : GUICircuitComponent
         Connectors[1].DllConnector = analogSwitch.leadOut;
     }
 
+    public override void SetAllProperties(List<float> properties)
+    {
+        if ((properties[1] == 1.0) && (properties[2] == 1.0))  // index 1 and revertion value 1 == true
+        {
+            if (TurnedOff == true)
+            {
+                TurnedOff = false;
+            }
+            else
+            {
+                TurnedOff = true;
+            }
+        }
+    }
+    public override void SetId(int id)
+    {
+        this.id = id;
+    }
+
+    public override int GetId()
+    {
+        return id;
+    }
 }

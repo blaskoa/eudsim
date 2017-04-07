@@ -37,10 +37,11 @@ public class GUIVoltmeter : GUICircuitComponent
     }
 
     // Called during instantiation
-    public void Awake()
+    public override void Awake()
     {
         if (CompareTag("ActiveItem"))
         {
+            id = idCounter++;
             if (_voltmeterEntity == null)
             {
                 _voltmeterEntity = new VoltmeterEntity();
@@ -53,10 +54,18 @@ public class GUIVoltmeter : GUICircuitComponent
 
     public override void SetSimulationProp(Circuit sim)
     {
-        Debug.Log("activeItem inserted");
         ResistorComponent = sim.Create<Resistor>();
         Connectors[0].DllConnector = ResistorComponent.leadIn;
         Connectors[1].DllConnector = ResistorComponent.leadOut;
         ResistorComponent.resistance = MaximumResistance;
+    }
+
+    public override void SetId(int id)
+    {
+        this.id = id;
+    }
+    public override int GetId()
+    {
+        return id;
     }
 }

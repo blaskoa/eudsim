@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using ClassLibrarySharpCircuit;
 using Assets.Scripts.Entities;
+using System.Collections.Generic;
 
 
 public class GUIInductor : GUICircuitComponent
@@ -37,11 +38,45 @@ public class GUIInductor : GUICircuitComponent
 
     public void SetInductance(double val)
     {
+        if (Inductance != val)
+        {
+            AttChange change = new AttChange();
+
+            List<float> prop = new List<float>();
+            prop.Add((float)this.GetId());
+            prop.Add((float)1.0);                   // value of attribute index,, not nessesary but just frameword for case of adding attributes
+            prop.Add((float)(Inductance - val));
+            prop.Add((float)0.0);                   // hodnoty ostatnych atributov sa nezmenia
+            prop.Add((float)0.0);
+
+            change.SetChange(prop);
+            UndoAction undoAction = new UndoAction();
+            undoAction.AddChange(change);
+
+            GUICircuitComponent.globalUndoList.AddUndo(undoAction);
+        }
         Inductance = val;
     }
 
     public void SetTrapezoidal(bool val)
     {
+        if (val != IsTrapezoidal)
+        {
+            AttChange change = new AttChange();
+
+            List<float> prop = new List<float>();
+            prop.Add((float)this.GetId());
+            prop.Add((float)0.0);
+            prop.Add((float)0.0);
+            prop.Add((float)1.0);                   // value of attribute index,, not nessesary but just frameword for case of adding attributes
+            prop.Add((float)1.0);                   // value as a sign of revertion of bool attribute
+
+            change.SetChange(prop);
+            UndoAction undoAction = new UndoAction();
+            undoAction.AddChange(change);
+
+            GUICircuitComponent.globalUndoList.AddUndo(undoAction);
+        }
         IsTrapezoidal = val;
     }
 
@@ -68,10 +103,11 @@ public class GUIInductor : GUICircuitComponent
     }
 
     // Called during instantiation
-    public void Awake()
+    public override void Awake()
     {
         if (CompareTag("ActiveItem"))
         {
+            id = idCounter++;
             if (_inductorEntity == null)
             {
                 _inductorEntity = new InductorEntity {IsTrapezoidal = DefaultIsTrapezoidal, Inductance = DefaultInductance};
@@ -82,13 +118,33 @@ public class GUIInductor : GUICircuitComponent
 
     public override void SetSimulationProp(Circuit sim)
     {
-        Debug.Log("activeItem inserted");
-
         InductorElm inductorElm = sim.Create<InductorElm>();
         inductorElm.inductance = _inductorEntity.Inductance;
         inductorElm.isTrapezoidal = _inductorEntity.IsTrapezoidal;
 
         Connectors[0].DllConnector = inductorElm.leadIn;
         Connectors[1].DllConnector = inductorElm.leadOut;
+    }
+
+    public override void SetAllProperties(List<float> properties)
+    {
+        if (properties[1] == 1.0)
+        {
+            Inductance += properties[2];
+        }
+        if (properties[3] == 1.0)
+        {
+            Inductance += properties[4];
+        }
+    }
+
+    public override void SetId(int id)
+    {
+        this.id = id;
+    }
+
+    public override int GetId()
+    {
+        return id;
     }
 }

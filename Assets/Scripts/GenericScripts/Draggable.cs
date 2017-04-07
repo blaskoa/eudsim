@@ -7,6 +7,8 @@ using UnityEngine.EventSystems;
 
 public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    public bool dragging = false;
+    List<Vector3> curentPos = new List<Vector3>();
 
     // Mouse and dragged item positions at the start of dragging.
     private Vector2 _mousePos;
@@ -128,6 +130,11 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         if (_draggingItem != null)
         {
+            if (dragging == false)
+            {
+                curentPos.Add(_draggingItem.transform.position);
+            }
+            dragging = true;
             //Moving the item with the mouse.
             Vector2 mouseDiff = (Vector2) Camera.main.ScreenToWorldPoint(eventData.position) - _mousePos;
             _draggingItem.transform.position = _itemPos + mouseDiff;
@@ -140,9 +147,14 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             
             foreach (GameObject objectSelected in SelectObject.SelectedObjects)
             {
+                if (dragging == false)
+                {
+                    curentPos.Add(objectSelected.transform.position);
+                }
                 objectSelected.transform.position = _itemPoss[i] + mouseDiff;
                 i++;
             }
+            dragging = true;
         }
     }
 
@@ -150,6 +162,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         if (_draggingItem != null)
         {
+            dragging = false;
+
             // Snapping by 0.5f.
             Vector3 finalPos = _draggingItem.transform.position;
 
@@ -159,12 +173,30 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
             _draggingItem.transform.position = finalPos;
 
+            List<float> properties = new List<float>();
+            properties.Add(_draggingItem.GetComponent<GUICircuitComponent>().GetId());
+            properties.Add(curentPos[0][0] - finalPos[0]);
+            properties.Add(curentPos[0][1] - finalPos[1]);
+            
+            PosChange change = DoUndo.dummyObj.AddComponent<PosChange>();
+            change.SetChange(properties);
+
+            UndoAction undoAction = new UndoAction();
+            undoAction.AddChange(change);
+
+            GUICircuitComponent.globalUndoList.AddUndo(undoAction);
+            curentPos.Clear();
+
             //checking colision
             Colision();
             _draggingItem = null;
         }
         else if (SelectObject.SelectedObjects.Count > 1)
         {
+            dragging = false;
+            int i = 0;
+            UndoAction undoAction = new UndoAction();
+
             foreach (GameObject objectSelected in SelectObject.SelectedObjects)
             {
                 Vector3 finalPos = objectSelected.transform.position;
@@ -174,10 +206,21 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 finalPos /= 2;
 
                 objectSelected.transform.position = finalPos;
+                List<float> properties = new List<float>();
+                properties.Add(objectSelected.GetComponent<GUICircuitComponent>().GetId());
+                properties.Add(curentPos[i][0] - finalPos[0]);
+                properties.Add(curentPos[i][1] - finalPos[1]);
+
+                PosChange change = DoUndo.dummyObj.AddComponent<PosChange>();
+                change.SetChange(properties);
+                undoAction.AddChange(change);
+                i++;
 
                 //checking colision
                 Colision();
-            }           
+            }
+            GUICircuitComponent.globalUndoList.AddUndo(undoAction);
+            curentPos.Clear();
         }
 
         _itemPoss.Clear();

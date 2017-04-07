@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using Assets.Scripts.Hotkeys;
+using System.Collections;
+using System.Collections.Generic;
 
 public class Rotate : MonoBehaviour
 {
@@ -13,7 +15,25 @@ public class Rotate : MonoBehaviour
         {
             foreach (GameObject objectSelected in SelectObject.SelectedObjects)
             {
+                Vector3 curentPos = objectSelected.transform.position;
+
                 objectSelected.transform.Rotate(new Vector3(0, 0, +90));
+
+                Vector3 finalPos = objectSelected.transform.position;
+
+                List<float> properties = new List<float>();
+                properties.Add(objectSelected.GetComponent<GUICircuitComponent>().GetId());
+                properties.Add(curentPos[0] - finalPos[0]);
+                properties.Add(curentPos[1] - finalPos[1]);
+                properties.Add(-90);
+
+                PosChange change = DoUndo.dummyObj.AddComponent<PosChange>();
+                change.SetChange(properties);
+
+                UndoAction undoAction = new UndoAction();
+                undoAction.AddChange(change);
+
+                GUICircuitComponent.globalUndoList.AddUndo(undoAction);
             }
         }
 
@@ -32,7 +52,25 @@ public class Rotate : MonoBehaviour
         {
             foreach (GameObject objectSelected in SelectObject.SelectedObjects)
             {
+                Vector3 curentPos = objectSelected.transform.position;
+
                 objectSelected.transform.Rotate(new Vector3(0, 0, -90));
+
+                Vector3 finalPos = objectSelected.transform.position;
+
+                List<float> properties = new List<float>();
+                properties.Add(objectSelected.GetComponent<GUICircuitComponent>().GetId());
+                properties.Add(curentPos[0] - finalPos[0]);
+                properties.Add(curentPos[1] - finalPos[1]);
+                properties.Add(+90);
+
+                PosChange change = DoUndo.dummyObj.AddComponent<PosChange>();
+                change.SetChange(properties);
+
+                UndoAction undoAction = new UndoAction();
+                undoAction.AddChange(change);
+
+                GUICircuitComponent.globalUndoList.AddUndo(undoAction);
             }
 
             //transform position of each lines in scene

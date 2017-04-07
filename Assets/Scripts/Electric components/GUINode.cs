@@ -14,8 +14,7 @@ public class GUINode : GUICircuitComponent
             {
                 _nodeEntity = new NodeEntity();
             }
-
-            Debug.Log("insertol som node");
+            
             SetAndInitializeConnectors();
         }
     }

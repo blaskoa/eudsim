@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using ClassLibrarySharpCircuit;
 using Assets.Scripts.Entities;
+using System.Collections.Generic;
 
 
 public class GUIBattery : GUICircuitComponent
@@ -33,6 +34,21 @@ public class GUIBattery : GUICircuitComponent
 
     public void SetMaxVoltage(double val)
     {
+        if (MaxVoltage != val)
+        {
+           AttChange change = new AttChange();
+
+            List<float> prop = new List<float>();
+            prop.Add((float)this.GetId());
+            prop.Add((float)1.0);                   // value of attribute index,, not nessesary but just frameword for case of adding attributes
+            prop.Add((float)(MaxVoltage - val));
+
+            change.SetChange(prop);
+            UndoAction undoAction = new UndoAction();
+            undoAction.AddChange(change);
+
+            GUICircuitComponent.globalUndoList.AddUndo(undoAction);
+        }
         MaxVoltage = val;
     }
 
@@ -43,6 +59,15 @@ public class GUIBattery : GUICircuitComponent
 
         script.AddNumeric("MaxVoltagePropertyLabel", MaxVoltage.ToString(), MaxVoltage.GetType().ToString(), SetMaxVoltage, false);
     }
+
+    public override void SetAllProperties(List<float> properties)
+    {
+        if (properties[1] == 1.0)
+        {
+            MaxVoltage += properties[2];
+        }
+    }
+
 
     public override string GetPropertiesForExport()
     {
@@ -56,10 +81,11 @@ public class GUIBattery : GUICircuitComponent
     }
 
     // Called during instantiation
-    public void Awake()
+    public override void Awake()
     {
         if (CompareTag("ActiveItem"))
         {
+            id = idCounter++;
             if (_batteryEntity == null)
             {
                 _batteryEntity = new BatteryEntity { MaxVoltage = DefaultVoltage };
@@ -77,5 +103,15 @@ public class GUIBattery : GUICircuitComponent
         Ground ground = sim.Create<Ground>();
         Connectors[0].DllConnector = voltageInput.leadPos;
         Connectors[1].DllConnector = ground.leadIn;
+    }
+
+    public override void SetId(int id)
+    {
+        this.id = id;
+    }
+
+    public override int GetId()
+    {
+        return id;
     }
 }

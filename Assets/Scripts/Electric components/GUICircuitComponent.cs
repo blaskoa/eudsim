@@ -6,12 +6,21 @@ using UnityEngine;
 
 public abstract class GUICircuitComponent : MonoBehaviour
 {
+    public int id;
+    public static UndoList globalUndoList = new UndoList();
+    public static int idCounter = 0;
+
     public List<Connector> Connectors;
     public abstract SimulationElement Entity { get; set; }
 
     public abstract void GetProperties();
     public abstract string GetPropertiesForExport();
     public abstract void SetSimulationProp(Circuit sim);
+
+    public virtual void Awake()
+    {
+
+    }
 
     protected void SetAndInitializeConnectors()
     {
@@ -55,8 +64,21 @@ public abstract class GUICircuitComponent : MonoBehaviour
     // Used for duplicating the components - old component is passes so the new one can copy needed values
     public virtual void CopyValues(GUICircuitComponent old)
     {
-        
+
     }
 
+    public virtual void SetAllProperties(List<float> properties)
+    {
+    }
+
+    public virtual void SetId(int id)
+    {
+
+    }
+
+    public virtual int GetId()
+    {
+        return -1;
+    }
 }
 

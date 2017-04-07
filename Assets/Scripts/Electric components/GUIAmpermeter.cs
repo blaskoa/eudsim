@@ -38,10 +38,11 @@ public class GUIAmpermeter : GUICircuitComponent
     }
 
     // Called during instantiation
-    public void Awake()
+    public override void Awake()
     {
         if (CompareTag("ActiveItem"))
         {
+            id = idCounter++;
             if (_ampermeterEntity == null)
             {
                 _ampermeterEntity = new AmpermeterEntity();
@@ -59,5 +60,13 @@ public class GUIAmpermeter : GUICircuitComponent
         Connectors[0].DllConnector = ResistorComponent.leadIn;
         Connectors[1].DllConnector = ResistorComponent.leadOut;
         ResistorComponent.resistance = MinimalResistance;
+    }
+    public override void SetId(int id)
+    {
+        this.id = id;
+    }
+    public override int GetId()
+    {
+        return id;
     }
 }

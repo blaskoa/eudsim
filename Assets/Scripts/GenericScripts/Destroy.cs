@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Assets.Scripts.Hotkeys;
 using UnityEngine;
 
@@ -10,8 +9,25 @@ public class Destroy : MonoBehaviour
     {
         if (SelectObject.SelectedObjects.Count != 0)
         {
+            UndoAction undoAction = new UndoAction();
             foreach (GameObject objectSelected in SelectObject.SelectedObjects)
             {
+                GUICircuitComponent component = objectSelected.GetComponent<GUICircuitComponent>();
+                List<float> prop = new List<float>();
+                prop.Add((float)0.0);
+                prop.Add((float)component.GetId());
+                prop.Add((float)objectSelected.gameObject.transform.GetChild(0).GetComponent<Connectable>().GetID());
+                prop.Add((float)objectSelected.gameObject.transform.GetChild(1).GetComponent<Connectable>().GetID());
+
+                CreateDeleteCompChange change = DoUndo.dummyObj.AddComponent<CreateDeleteCompChange>();
+                change.SetPosition(objectSelected.transform.position);
+                change.SetChange(prop);
+                change.SetType(objectSelected.gameObject.GetComponent<GUICircuitComponent>().GetType());
+                change.RememberConnectorsToFirst(objectSelected.gameObject.transform.GetChild(0).GetComponent<Connectable>().Connected);
+                change.RememberConnectorsToSecond(objectSelected.gameObject.transform.GetChild(1).GetComponent<Connectable>().Connected);
+                
+                undoAction.AddChange(change);
+
                 if (objectSelected.tag.Equals("ActiveItem"))
                 {
                     // List connected connectors with plusconnector
@@ -59,6 +75,7 @@ public class Destroy : MonoBehaviour
                     Destroy(objectSelected);
                 }                                            
             }
+            GUICircuitComponent.globalUndoList.AddUndo(undoAction);
             SelectObject.SelectedLines.Clear();
             SelectObject.SelectedObjects.Clear();
         }
@@ -67,6 +84,18 @@ public class Destroy : MonoBehaviour
         // Destroy selected line when delete key was pressed 
         if (SelectObject.SelectedLines.Count != 0 && SelectObject.SelectedLines.Contains(this.gameObject))
         {
+            UndoAction undoAction = new UndoAction();
+
+            List<float> prop = new List<float>();
+            prop.Add((float)0.0);
+            prop.Add(this.gameObject.GetComponent<Line>().Begin.GetComponent<Connectable>().GetID());
+            prop.Add(this.gameObject.GetComponent<Line>().End.GetComponent<Connectable>().GetID());
+
+            CreateDeleteLineChange change = DoUndo.dummyObj.AddComponent<CreateDeleteLineChange>();
+            change.SetChange(prop);
+            undoAction.AddChange(change);
+            GUICircuitComponent.globalUndoList.AddUndo(undoAction);
+
             // Delete connected connectors from lists of connectors
             this.gameObject.GetComponent<Line>().Begin.GetComponent<Connectable>().Connected.Remove(this.gameObject.GetComponent<Line>().End.gameObject);
             this.gameObject.GetComponent<Line>().End.GetComponent<Connectable>().Connected.Remove(this.gameObject.GetComponent<Line>().Begin.gameObject);
@@ -79,12 +108,9 @@ public class Destroy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      
         if (HotkeyManager.Instance.CheckHotkey(DeleteHotkeyKey, KeyAction.Down))
         {
             DeleteSelected();
         }
     }
-
-
 }
