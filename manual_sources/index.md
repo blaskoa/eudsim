@@ -1,8 +1,13 @@
 ---
 layout: default
+title: EduSim Manual
 ---
 
-<div id='main-page-language-selector'>
-    <a href='man_sk/sk.html'>SK</a>
-    <a href='man_en/en.html'>EN</a>
+{% include base.html %}
+<div id="main-wrapper">
+    <ul>
+        <li class="welcome-screen-language"><a href="{{ base }}/man_en/en.html">English</a></li>
+        <hr/>
+        <li class="welcome-screen-language"><a href="{{ base }}/man_sk/sk.html">Slovenčina</a></li>
+    </ul>
 </div>

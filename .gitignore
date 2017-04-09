@@ -44,6 +44,7 @@ edusim-software/ExportHTML/js/edusim.js
 # Jekyll generated site
 manual_sources/_site/
 manual_sources/.jekyll-metadata
+manual_sources/.sass-cache/
 
 # Build files
 Installer/Output/
