@@ -71,6 +71,15 @@ public class ExportHTML : MonoBehaviour
                     imageName = "images/coil.png";
                 else if (obj.name.Contains("Resistor"))
                     imageName = "images/resistor.png";
+                else if (obj.name.Contains("TranzistorPNP"))
+                    imageName = "images/PNPTranzistor.png";
+                else if (obj.name.Contains("TranzistorNPN"))
+                    imageName = "images/NPNTranzistor.png";
+                else if (obj.name.Contains("ZenerDiode"))
+                    imageName = "images/ZenerDiode.png";
+                else if (obj.name.Contains("LedDiode"))
+                    imageName = "images/LedDiode.png";
+                
 
                 Vector3 screenPos = Camera.WorldToScreenPoint(obj.transform.position);
 
