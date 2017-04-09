@@ -8,6 +8,12 @@ public abstract class GUICircuitComponent : MonoBehaviour
 {
     public List<Connector> Connectors;
     public abstract SimulationElement Entity { get; set; }
+    private string _name = "Node";
+    
+    public void SetName(string val)
+    {
+        _name = val;
+    }
 
     public abstract void GetProperties();
     public abstract string GetPropertiesForExport();

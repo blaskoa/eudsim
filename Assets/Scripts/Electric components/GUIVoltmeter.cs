@@ -5,10 +5,16 @@ using Assets.Scripts.Entities;
 
 public class GUIVoltmeter : GUICircuitComponent
 {
+    private string _name = "Voltmeter";
     public Resistor ResistorComponent;
     private VoltmeterEntity _voltmeterEntity;
     private const double MaximumResistance = double.PositiveInfinity;
 
+    public void SetName(string val)
+    {
+        _name = val;
+    }
+    
     public override SimulationElement Entity
     {
         get
@@ -28,6 +34,7 @@ public class GUIVoltmeter : GUICircuitComponent
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
+        script.AddString("ComponentNameLabel", _name, SetName);
         script.AddResult("VoltagePropertyLabel", ResistorComponent.getVoltageDelta().ToString(CultureInfo.InvariantCulture), "V");
     }
 
@@ -48,6 +55,11 @@ public class GUIVoltmeter : GUICircuitComponent
             ResistorComponent = new Resistor();
 
             SetAndInitializeConnectors();
+            
+            GameObject componentIdManager = GameObject.Find("_ComponentIdManager");
+            GenerateId script = componentIdManager.GetComponent<GenerateId>();
+            script.generatedIds[8]++;
+            _name += script.generatedIds[8].ToString();
         }
     }
 

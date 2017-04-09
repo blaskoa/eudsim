@@ -10,6 +10,7 @@ public class EditObjectProperties : MonoBehaviour
     [SerializeField] private Toggle _booleanPrefab;
     [SerializeField] private GameObject _sliderPrefab;
     [SerializeField] private GameObject _resultPrefab;
+    [SerializeField] private GameObject _stringPrefab;
 
     // Number of fields in the active component
     private int _fieldNum = 0;
@@ -148,5 +149,33 @@ public class EditObjectProperties : MonoBehaviour
 
         // Add newly created property to the UI
         newProperty.transform.SetParent(_propertyContent.transform, false);
+    }
+    
+    // Add a string property field
+    public void AddString(string resourceKey, string value, Action<string> set)
+    {
+        // Instantiate new Property and set its anchor
+        GameObject newProperty = Instantiate(_stringPrefab);;
+        float anchorPosition = FirstAnchor - _fieldNum * AnchorStep;
+
+        newProperty.GetComponent<RectTransform>().anchorMin = new Vector2(_stringPrefab.GetComponent<RectTransform>().anchorMin.x, anchorPosition);
+        newProperty.GetComponent<RectTransform>().anchorMax = new Vector2(_stringPrefab.GetComponent<RectTransform>().anchorMax.x, anchorPosition);
+
+        // Set property label
+        Text propertyLabel = newProperty.transform.FindChild("ObjectPropertyLabel").gameObject.GetComponent<Text>();
+        string labelValue = ResourceReader.Instance.GetResource(resourceKey);
+        propertyLabel.text = labelValue;
+        
+        GameObject inputFieldGo = newProperty.transform.FindChild("InputField").gameObject;
+        InputField inputField = inputFieldGo.GetComponent<InputField>();
+        inputField.text = value;
+
+        // Set method to be run when the editing is finished
+        inputField.onEndEdit.AddListener(delegate { set(inputField.text); });
+
+        // Add newly created property to the UI
+        newProperty.transform.SetParent(_propertyContent.transform, false);
+        
+        _fieldNum++;
     }
 }

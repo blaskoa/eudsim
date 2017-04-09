@@ -4,10 +4,16 @@ using Assets.Scripts.Entities;
 
 public class GUIResistor : GUICircuitComponent
 {
+    private string _name = "Resistor";
     private ResistorEntity _resistorEntity;
 
     private const double DefaultResistance = 50;
 
+    public void SetName(string val)
+    {
+        _name = val;
+    }
+    
     public double Resistance
     {
         get { return _resistorEntity.Resistance; }
@@ -38,6 +44,7 @@ public class GUIResistor : GUICircuitComponent
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
+        script.AddString("ComponentNameLabel", _name, SetName);
         script.AddNumeric("ResistancePropertyLabel", Resistance.ToString(), Resistance.GetType().ToString(), SetResistance, true, -15.4f, 150.6f);
     }
 
@@ -63,6 +70,11 @@ public class GUIResistor : GUICircuitComponent
             }
 
             SetAndInitializeConnectors();
+            
+            GameObject componentIdManager = GameObject.Find("_ComponentIdManager");
+            GenerateId script = componentIdManager.GetComponent<GenerateId>();
+            script.generatedIds[6]++;
+            _name += script.generatedIds[6].ToString();
         }
     }
 

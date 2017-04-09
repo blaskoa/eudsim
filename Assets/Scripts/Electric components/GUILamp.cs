@@ -4,7 +4,14 @@ using ClassLibrarySharpCircuit;
 
 public class GUILamp : GUICircuitComponent
 {
+    private string _name = "Lamp";
     private LampEntity _lampEntity;
+    
+    public void SetName(string val)
+    {
+        _name = val;
+    }
+    
     public override SimulationElement Entity
     {
         get
@@ -21,7 +28,10 @@ public class GUILamp : GUICircuitComponent
 
     public override void GetProperties()
     {
-
+        GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
+        EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
+        
+        script.AddString("ComponentNameLabel", _name, SetName);
     }
 
     public override string GetPropertiesForExport()
@@ -40,6 +50,11 @@ public class GUILamp : GUICircuitComponent
             }
 
             SetAndInitializeConnectors();
+            
+            GameObject componentIdManager = GameObject.Find("_ComponentIdManager");
+            GenerateId script = componentIdManager.GetComponent<GenerateId>();
+            script.generatedIds[2]++;
+            _name += script.generatedIds[2].ToString();
         }
     }
 

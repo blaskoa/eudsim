@@ -5,10 +5,16 @@ using Assets.Scripts.Entities;
 
 public class GUIInductor : GUICircuitComponent
 {
+    private string _name = "Inductor";
     private InductorEntity _inductorEntity;
     private const double DefaultInductance = 50;
     private const bool DefaultIsTrapezoidal = false;
 
+    public void SetName(string val)
+    {
+        _name = val;
+    }
+    
     public double Inductance
     {
         get { return _inductorEntity.Inductance; }
@@ -50,6 +56,7 @@ public class GUIInductor : GUICircuitComponent
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
+        script.AddString("ComponentNameLabel", _name, SetName);
         script.AddNumeric("InductancePropertyLabel", Inductance.ToString(), Inductance.GetType().ToString(), SetInductance, false);
         script.AddBoolean("TrapezoidalPropertyLabel", IsTrapezoidal.ToString(), SetTrapezoidal);
         script.AddResult("InductancePropertyLabel", "15.6", "Ohm");
@@ -77,6 +84,11 @@ public class GUIInductor : GUICircuitComponent
                 _inductorEntity = new InductorEntity {IsTrapezoidal = DefaultIsTrapezoidal, Inductance = DefaultInductance};
             }
             SetAndInitializeConnectors();
+            
+            GameObject componentIdManager = GameObject.Find("_ComponentIdManager");
+            GenerateId script = componentIdManager.GetComponent<GenerateId>();
+            script.generatedIds[4]++;
+            _name += script.generatedIds[4].ToString();
         }
     }
 

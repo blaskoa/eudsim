@@ -4,7 +4,14 @@ using ClassLibrarySharpCircuit;
 
 public class GUINode : GUICircuitComponent
 {
+    private string _name = "Node";
     private NodeEntity _nodeEntity;
+    
+    public void SetName(string val)
+    {
+        _name = val;
+    }
+    
     // Called during instantiation
     public void Awake()
     {
@@ -17,6 +24,11 @@ public class GUINode : GUICircuitComponent
 
             Debug.Log("insertol som node");
             SetAndInitializeConnectors();
+            
+            GameObject componentIdManager = GameObject.Find("_ComponentIdManager");
+            GenerateId script = componentIdManager.GetComponent<GenerateId>();
+            script.generatedIds[5]++;
+            _name += script.generatedIds[5].ToString();
         }
     }
 
