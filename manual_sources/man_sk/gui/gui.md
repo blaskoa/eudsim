@@ -5,6 +5,7 @@ title: Grafické rozhranie
 {% include base.html %}
 
 Grafické rozhranie simulátora vyzerá nasledovne:
+
 ![Hlavná obrazovka]({{ base }}/images/gui/highlighted_parts.png "Hlavná obrazovka")
 
 Farbami sú ohraničené rôzne časti simulátora. Jednotlivé časti sú nasledovné:

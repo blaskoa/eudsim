@@ -1,0 +1,17 @@
+---
+---
+
+/* Import Google Open Sans fonts which points to the font files */
+@import "open-sans";
+
+/* Import the color scheme */
+@import "colors";
+
+/* Import scss for layouts */
+@import "default";
+@import "manual";
+
+* {
+    font-family: 'Open Sans';
+    color: $dark-bluish-gray;
+}

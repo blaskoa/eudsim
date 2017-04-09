@@ -1,0 +1,3 @@
+{% assign url_parts = page.url | split: '/' %}
+{% assign language = url_parts[1] | split: '_' %}
+{% assign language = language[1] %}

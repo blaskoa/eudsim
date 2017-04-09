@@ -12,7 +12,19 @@
 
     {% include base.html %}
 
+    <h3>Menu</h3>
+    <hr/>
+    <ul>
     {% for doc in site.data.nav_docs %}
-        <a href="{{ base }}/{{ manual }}/{{ doc.path }}.html">{{ doc[title] }}</a>
+        {% assign path = '/' | append: manual | append: '/' | append: doc.path | append: '.html' %}
+
+        {% if page.url == path %}
+            {% assign class = 'active-page' %}
+        {% else %}
+            {% assign class = '' %}
+        {% endif %}
+
+        <li class="{{ class }}"><a href="{{ base }}{{ path }}">{{ doc[title] }}</a></li>
     {% endfor %}
+    </ul>
 </div>
