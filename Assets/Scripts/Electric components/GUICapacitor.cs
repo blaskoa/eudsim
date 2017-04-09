@@ -5,9 +5,15 @@ using System.Collections.Generic;
 
 public class GUICapacitor : GUICircuitComponent
 {
+    private string _name = "Capacitor";
     private CapacitorEntity _capacitorEntity;
     private const double DefaultCapacitance = 50;
 
+    public void SetName(string val)
+    {
+        _name = val;
+    }
+    
     public double Capacitance
     {
         get { return _capacitorEntity.Capacitance; }
@@ -55,6 +61,7 @@ public class GUICapacitor : GUICircuitComponent
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
+        script.AddString("ComponentNameLabel", _name, SetName);
         script.AddNumeric("CapacitancePropertyLabel", Capacitance.ToString(), Capacitance.GetType().ToString(), SetCapacitance, false);
     }
 
@@ -88,6 +95,11 @@ public class GUICapacitor : GUICircuitComponent
                 _capacitorEntity = new CapacitorEntity {Capacitance = DefaultCapacitance};
             }
             SetAndInitializeConnectors();
+            
+            GameObject componentIdManager = GameObject.Find("_ComponentIdManager");
+            GenerateId script = componentIdManager.GetComponent<GenerateId>();
+            script.generatedIds[3]++;
+            _name += script.generatedIds[3].ToString();
         }
     }
 

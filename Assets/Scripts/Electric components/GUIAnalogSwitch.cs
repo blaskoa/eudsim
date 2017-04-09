@@ -5,9 +5,15 @@ using System.Collections.Generic;
 
 public class GUIAnalogSwitch : GUICircuitComponent
 {
+    private string _name = "Switch";
     private AnalogSwitchEntity _analogSwitchEntity;
     private const bool DefaultState = true;
 
+    public void SetName(string val)
+    {
+        _name = val;
+    }
+    
     //public bool TurnedOff
     //{
     //    get { return MyComponent.open; }
@@ -77,6 +83,7 @@ public class GUIAnalogSwitch : GUICircuitComponent
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
+        script.AddString("ComponentNameLabel", _name, SetName);
         script.AddBoolean("TurnedOffPropertyLabel", TurnedOff.ToString(), SetTurnedOff);
     }
 
@@ -97,6 +104,11 @@ public class GUIAnalogSwitch : GUICircuitComponent
                 _analogSwitchEntity = new AnalogSwitchEntity {TurnedOff = DefaultState};
             }
             SetAndInitializeConnectors();
+            
+            GameObject componentIdManager = GameObject.Find("_ComponentIdManager");
+            GenerateId script = componentIdManager.GetComponent<GenerateId>();
+            script.generatedIds[7]++;
+            _name += script.generatedIds[7].ToString();
         }
     }
 

@@ -5,10 +5,16 @@ using Assets.Scripts.Entities;
 
 public class GUIAmpermeter : GUICircuitComponent
 {
+    private string _name = "Ampermeter";
     public Resistor ResistorComponent;
     private AmpermeterEntity _ampermeterEntity;
     private const double MinimalResistance = 0.01;
 
+    public void SetName(string val)
+    {
+        _name = val;
+    }
+    
     public override SimulationElement Entity
     {
         get
@@ -28,6 +34,7 @@ public class GUIAmpermeter : GUICircuitComponent
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
+        script.AddString("ComponentNameLabel", _name, SetName);
         script.AddResult("CurrentPropertyLabel", ResistorComponent.getCurrent().ToString(CultureInfo.InvariantCulture), "A");
     }
 
@@ -51,6 +58,11 @@ public class GUIAmpermeter : GUICircuitComponent
             ResistorComponent = new Resistor();
 
             SetAndInitializeConnectors();
+            
+            GameObject componentIdManager = GameObject.Find("_ComponentIdManager");
+            GenerateId script = componentIdManager.GetComponent<GenerateId>();
+            script.generatedIds[1]++;
+            _name += script.generatedIds[1].ToString();
         }
     }
 

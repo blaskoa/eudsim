@@ -9,6 +9,7 @@
     <string name="CircuitErrorMSG2">Connection of ampermeter device would be deadly for this device. Please check scheme for this device cut off.</string>
     <string name="CircuitErrorMSG3">Problem in circuit.</string>
     <string name="CircuitErrorMissingErrorBox">In this version of application you are missing error window for component </string>
+    <string name="ComponentNameLabel">Name</string>
     <string name="ComponentTextResistor">Resistor</string>
     <string name="ComponentTextAnalogSwitch">Switch</string>
     <string name="ComponentTextVoltageInput">VoltageInput</string>
@@ -92,6 +93,7 @@
     <string name="CircuitErrorMSG2">Aktuálne zapojenie meracieho zariadeni ampérmeter by viedlo k jeho trvalému poškodeni. Skontrolujete prosím či zapojenie tohoto zariadenia nespôsobuje skrat.</string>
     <string name="CircuitErrorMSG3">Problem v obvode.</string>
     <string name="CircuitErrorMissingErrorBox">V tejto verzii aplikácie chýba zobrazovanie problémov v zapojení pre komponent </string>
+    <string name="ComponentNameLabel">Názov</string>
     <string name="ComponentTextResistor">Odpor</string>
     <string name="ComponentTextAnalogSwitch">Vypínač</string>
     <string name="ComponentTextVoltageInput">Výstup batérie</string>

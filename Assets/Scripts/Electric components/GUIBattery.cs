@@ -8,9 +8,15 @@ using System.Collections.Generic;
 
 public class GUIBattery : GUICircuitComponent
 {
+    private string _name = "Batery";
     private BatteryEntity _batteryEntity;
 
     private const double DefaultVoltage = 10;
+    
+    public void SetName(string val)
+    {
+        _name = val;
+    }
     
     public double MaxVoltage
     {
@@ -57,6 +63,7 @@ public class GUIBattery : GUICircuitComponent
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
+        script.AddString("ComponentNameLabel", _name, SetName);
         script.AddNumeric("MaxVoltagePropertyLabel", MaxVoltage.ToString(), MaxVoltage.GetType().ToString(), SetMaxVoltage, false);
     }
 
@@ -92,6 +99,11 @@ public class GUIBattery : GUICircuitComponent
             }
 
             SetAndInitializeConnectors();
+            
+            GameObject componentIdManager = GameObject.Find("_ComponentIdManager");
+            GenerateId script = componentIdManager.GetComponent<GenerateId>();
+            script.generatedIds[0]++;
+            _name += script.generatedIds[0].ToString();
         }
     }
 
