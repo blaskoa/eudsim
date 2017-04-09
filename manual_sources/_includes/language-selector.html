@@ -1,0 +1,9 @@
+{% include base.html %}
+{% assign url_parts = page.url | split: '/' %}
+{% assign language = url_parts[1] | split: '_' %}
+{% assign language = language[1] %}
+
+<div id='language-selector'>
+    <a href="{{ base }}{{ page.url | replace: language, 'en' }}">EN</a>
+    <a href="{{ base }}{{ page.url | replace: language, 'sk' }}">SK</a>
+</div>

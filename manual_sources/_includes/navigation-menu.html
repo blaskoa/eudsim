@@ -1,0 +1,18 @@
+<div id="navigation-docs">
+    {% if page.url contains 'sk' %}
+        {% assign manual = 'man_sk' %}
+        {% assign title = 'sk_title' %}
+    {% elsif page.url contains 'en' %}
+        {% assign manual = 'man_en' %}
+        {% assign title = 'en_title' %}
+    {% else %}
+        {% assign manual = 'man_sk' %}
+        {% assign title = 'sk_title' %}
+    {% endif %}
+
+    {% include base.html %}
+
+    {% for doc in site.data.nav_docs %}
+        <a href="{{ base }}/{{ manual }}/{{ doc.path }}.html">{{ doc[title] }}</a>
+    {% endfor %}
+</div>

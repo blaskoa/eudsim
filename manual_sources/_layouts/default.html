@@ -3,7 +3,9 @@
     <head>
         <title>EduSim Documentation</title>
         <meta charset="UTF-8"/>
-        <link rel="icon" href="/images/edusim-logo.png"/>
+        {% include base.html %}
+        <link rel="icon" href="{{ base }}/images/edusim-logo.png"/>
+        <link res="stylesheet" href="{{ base }}/css/edusim.css"
     </head>
     <body>
         {{ content }}
