@@ -56,6 +56,7 @@ public class GUILamp : GUICircuitComponent
             GenerateId script = componentIdManager.GetComponent<GenerateId>();
             script.generatedIds[2]++;
             _name += script.generatedIds[2].ToString();
+            this.gameObject.AddComponent<Light>();
         }
     }
 

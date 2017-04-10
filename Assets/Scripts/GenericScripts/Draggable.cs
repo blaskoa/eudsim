@@ -76,6 +76,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             _draggingItem.transform.localScale = new Vector3(1,1,0);
             _draggingItem.GetComponent<SpriteRenderer>().enabled = true;
             _draggingItem.GetComponent<SpriteRenderer>().sortingLayerName = "ActiveItem";
+            
 
             for (int i = 0; i < _draggingItem.transform.childCount; i++)
             {
@@ -129,15 +130,17 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public void OnDrag(PointerEventData eventData)
     {
         if (_draggingItem != null)
-        {
+        {           
             if (dragging == false)
             {
                 curentPos.Add(_draggingItem.transform.position);
             }
             dragging = true;
+            
             //Moving the item with the mouse.
             Vector2 mouseDiff = (Vector2) Camera.main.ScreenToWorldPoint(eventData.position) - _mousePos;
             _draggingItem.transform.position = _itemPos + mouseDiff;
+            _draggingItem.transform.position = new Vector3(_draggingItem.transform.position.x, _draggingItem.transform.position.y,-9);
         }
         else if (SelectObject.SelectedObjects.Count > 1)
         {
@@ -160,6 +163,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        
         if (_draggingItem != null)
         {
             dragging = false;
@@ -172,6 +176,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             finalPos /= 2;
 
             _draggingItem.transform.position = finalPos;
+            _draggingItem.transform.position = new Vector3(_draggingItem.transform.position.x, _draggingItem.transform.position.y, -9);
+            
 
             List<float> properties = new List<float>();
             properties.Add(_draggingItem.GetComponent<GUICircuitComponent>().GetId());
@@ -189,6 +195,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
             //checking colision
             Colision();
+            _draggingItem.transform.position = new Vector3(_draggingItem.transform.position.x, _draggingItem.transform.position.y, -9);
+            Debug.Log(_draggingItem.GetComponent<RectTransform>().anchoredPosition3D);
             _draggingItem = null;
         }
         else if (SelectObject.SelectedObjects.Count > 1)
