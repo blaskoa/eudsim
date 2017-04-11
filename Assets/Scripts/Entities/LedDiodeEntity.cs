@@ -5,6 +5,7 @@ namespace Assets.Scripts.Entities
     [Serializable]
     public class LedDiodeEntity : SimulationElement
     {
-        public double Resistance { get; set; }
+        public double Current { get; set; }
+        public double Voltage { get; set; }
     }
 }

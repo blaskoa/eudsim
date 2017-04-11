@@ -4,52 +4,30 @@ using Assets.Scripts.Entities;
 
 public class GUITranzistorNPN : GUICircuitComponent
 {
-    private ResistorEntity _resistorEntity;
-
-    private const double DefaultResistance = 50;
-
-    public double Resistance
-    {
-        get { return _resistorEntity.Resistance; }
-        set { _resistorEntity.Resistance = value; }   // GUI check - accept only positive integer
-    }
+    private TranzistorNPNEntity _transistorEntity;
 
     public override SimulationElement Entity
     {
         get
         {
-            FillEntity(_resistorEntity);
-            return _resistorEntity;
+            FillEntity(_transistorEntity);
+            return _transistorEntity;
         }
         set
         {
-            _resistorEntity = (ResistorEntity) value;
-            TransformFromEntity(_resistorEntity);
+            _transistorEntity = (TranzistorNPNEntity) value;
+            TransformFromEntity(_transistorEntity);
         }
-    }
-
-    public void SetResistance(double val)
-    {
-        Resistance = val;
     }
 
     public override void GetProperties()
     {
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
-
-        script.AddNumeric("ResistancePropertyLabel", Resistance.ToString(), Resistance.GetType().ToString(), SetResistance, true, -15.4f, 150.6f);
     }
-
     public override string GetPropertiesForExport()
     {
         return "<p><span class=\"field-title\">" + "Type " + "</span>" + " NPN" + " </p>";
-    }
-
-    // Used for duplicating the components - old component is passes so the new one can copy needed values
-    public override void CopyValues(GUICircuitComponent old)
-    {
-        Resistance = ((GUIResistor) old).Resistance;
     }
 
     // Called during instantiation
@@ -57,9 +35,9 @@ public class GUITranzistorNPN : GUICircuitComponent
     {
         if (CompareTag("ActiveItem"))
         {
-            if (_resistorEntity == null)
+            if (_transistorEntity == null)
             {
-                _resistorEntity = new ResistorEntity {Resistance = DefaultResistance};
+                _transistorEntity = new TranzistorNPNEntity();
             }
 
             SetAndInitializeConnectors();
@@ -70,10 +48,11 @@ public class GUITranzistorNPN : GUICircuitComponent
     {
         Debug.Log("activeItem inserted");
 
-        Resistor resistor = sim.Create<Resistor>();
-        resistor.resistance = _resistorEntity.Resistance;
+        Transistor transistor = sim.Create<Transistor>();
+        transistor.IsPNP = false;
 
-        Connectors[0].DllConnector = resistor.leadIn;
-        Connectors[1].DllConnector = resistor.leadOut;
+        Connectors[0].DllConnector = transistor.leadCollector;
+        Connectors[1].DllConnector = transistor.leadEmitter;
+        Connectors[2].DllConnector = transistor.leadBase;
     }
 }

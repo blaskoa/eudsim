@@ -1,36 +1,24 @@
-﻿using UnityEngine;
+﻿using System.Globalization;
+using UnityEngine;
 using ClassLibrarySharpCircuit;
 using Assets.Scripts.Entities;
 
 public class GUILedDiode : GUICircuitComponent
 {
-    private ResistorEntity _resistorEntity;
-
-    private const double DefaultResistance = 50;
-
-    public double Resistance
-    {
-        get { return _resistorEntity.Resistance; }
-        set { _resistorEntity.Resistance = value; }   // GUI check - accept only positive integer
-    }
+    private LedDiodeEntity _ledDiodeEntity;
 
     public override SimulationElement Entity
     {
         get
         {
-            FillEntity(_resistorEntity);
-            return _resistorEntity;
+            FillEntity(_ledDiodeEntity);
+            return _ledDiodeEntity;
         }
         set
         {
-            _resistorEntity = (ResistorEntity) value;
-            TransformFromEntity(_resistorEntity);
+            _ledDiodeEntity = (LedDiodeEntity) value;
+            TransformFromEntity(_ledDiodeEntity);
         }
-    }
-
-    public void SetResistance(double val)
-    {
-        Resistance = val;
     }
 
     public override void GetProperties()
@@ -38,18 +26,20 @@ public class GUILedDiode : GUICircuitComponent
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
-        script.AddNumeric("ResistancePropertyLabel", Resistance.ToString(), Resistance.GetType().ToString(), SetResistance, true, -15.4f, 150.6f);
+        script.AddResult("CurrentPropertyLabel", _ledDiodeEntity.Current.ToString(CultureInfo.InvariantCulture), "A");
+        script.AddResult("VoltagePropertyLabel", _ledDiodeEntity.Voltage.ToString(CultureInfo.InvariantCulture), "V");
     }
 
     public override string GetPropertiesForExport()
     {
-        return "<p><span class=\"field-title\">" + "Resistance " + "</span>" + Resistance + " [Ohm]" + " </p>";
+        return "<p><span class=\"field-title\">" + "Measured Voltage " + "</span>" + _ledDiodeEntity.Voltage + " [V]" + " </p>" +
+        "<p><span class=\"field-title\">" + "Measured current " + "</span>" + _ledDiodeEntity.Current.ToString(CultureInfo.InvariantCulture) + " [A]" + " </p>";
+
     }
 
     // Used for duplicating the components - old component is passes so the new one can copy needed values
     public override void CopyValues(GUICircuitComponent old)
     {
-        Resistance = ((GUIResistor) old).Resistance;
     }
 
     // Called during instantiation
@@ -57,11 +47,10 @@ public class GUILedDiode : GUICircuitComponent
     {
         if (CompareTag("ActiveItem"))
         {
-            if (_resistorEntity == null)
+            if (_ledDiodeEntity == null)
             {
-                _resistorEntity = new ResistorEntity {Resistance = DefaultResistance};
+                _ledDiodeEntity = new LedDiodeEntity();
             }
-
             SetAndInitializeConnectors();
         }
     }
@@ -70,10 +59,9 @@ public class GUILedDiode : GUICircuitComponent
     {
         Debug.Log("activeItem inserted");
 
-        Resistor resistor = sim.Create<Resistor>();
-        resistor.resistance = _resistorEntity.Resistance;
+        LEDElm ledDiode = sim.Create<LEDElm>();
 
-        Connectors[0].DllConnector = resistor.leadIn;
-        Connectors[1].DllConnector = resistor.leadOut;
+        Connectors[0].DllConnector = ledDiode.leadIn;
+        Connectors[1].DllConnector = ledDiode.leadOut;
     }
 }

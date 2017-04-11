@@ -4,15 +4,7 @@ using Assets.Scripts.Entities;
 
 public class GUIZenerDiode : GUICircuitComponent
 {
-    private ResistorEntity _resistorEntity;
-
-    private const double DefaultResistance = 50;
-
-    public double Resistance
-    {
-        get { return _resistorEntity.Resistance; }
-        set { _resistorEntity.Resistance = value; }   // GUI check - accept only positive integer
-    }
+    private ZenerDiodeEntity _resistorEntity;
 
     public override SimulationElement Entity
     {
@@ -23,14 +15,9 @@ public class GUIZenerDiode : GUICircuitComponent
         }
         set
         {
-            _resistorEntity = (ResistorEntity) value;
+            _resistorEntity = (ZenerDiodeEntity) value;
             TransformFromEntity(_resistorEntity);
         }
-    }
-
-    public void SetResistance(double val)
-    {
-        Resistance = val;
     }
 
     public override void GetProperties()
@@ -38,7 +25,7 @@ public class GUIZenerDiode : GUICircuitComponent
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
-        script.AddNumeric("ResistancePropertyLabel", Resistance.ToString(), Resistance.GetType().ToString(), SetResistance, true, -15.4f, 150.6f);
+        //script.AddNumeric("ResistancePropertyLabel", Resistance.ToString(), Resistance.GetType().ToString(), SetResistance, true, -15.4f, 150.6f);
     }
 
     public override string GetPropertiesForExport()
@@ -49,7 +36,6 @@ public class GUIZenerDiode : GUICircuitComponent
     // Used for duplicating the components - old component is passes so the new one can copy needed values
     public override void CopyValues(GUICircuitComponent old)
     {
-        Resistance = ((GUIResistor) old).Resistance;
     }
 
     // Called during instantiation
@@ -57,11 +43,6 @@ public class GUIZenerDiode : GUICircuitComponent
     {
         if (CompareTag("ActiveItem"))
         {
-            if (_resistorEntity == null)
-            {
-                _resistorEntity = new ResistorEntity {Resistance = DefaultResistance};
-            }
-
             SetAndInitializeConnectors();
         }
     }
@@ -70,10 +51,9 @@ public class GUIZenerDiode : GUICircuitComponent
     {
         Debug.Log("activeItem inserted");
 
-        Resistor resistor = sim.Create<Resistor>();
-        resistor.resistance = _resistorEntity.Resistance;
+        ZenerElm diode = sim.Create<ZenerElm>();
 
-        Connectors[0].DllConnector = resistor.leadIn;
-        Connectors[1].DllConnector = resistor.leadOut;
+        Connectors[0].DllConnector = diode.leadIn;
+        Connectors[1].DllConnector = diode.leadOut;
     }
 }
