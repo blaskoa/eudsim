@@ -21,7 +21,7 @@ public class RotateMultiObject : MonoBehaviour {
             {
                 Vector3 curentPos = objectSelected.transform.position;
 
-                objectSelected.transform.RotateAround(point, new Vector3(0, 0, 1), +90);
+                objectSelected.transform.RotateAround(point, new Vector3(0, 0, 1), -90);
 
                 Vector3 finalPos = objectSelected.transform.position;
 
@@ -35,7 +35,7 @@ public class RotateMultiObject : MonoBehaviour {
                 properties.Add(objectSelected.GetComponent<GUICircuitComponent>().GetId());
                 properties.Add(0);
                 properties.Add(0);
-                properties.Add(-90);
+                properties.Add(+90);
                 properties.Add(0);
 
                 PosChange change = DoUndo.dummyObj.AddComponent<PosChange>();
@@ -70,7 +70,7 @@ public class RotateMultiObject : MonoBehaviour {
             {
                Vector3 curentPos = objectSelected.transform.position;
 
-                objectSelected.transform.RotateAround(point, new Vector3(0, 0, 1), -90);
+                objectSelected.transform.RotateAround(point, new Vector3(0, 0, 1), +90);
 
                 Vector3 finalPos = objectSelected.transform.position;
 
@@ -84,7 +84,7 @@ public class RotateMultiObject : MonoBehaviour {
                 properties.Add(objectSelected.GetComponent<GUICircuitComponent>().GetId());
                 properties.Add(0);
                 properties.Add(0);
-                properties.Add(+90);
+                properties.Add(-90);
                 properties.Add(0);
 
                 PosChange change = DoUndo.dummyObj.AddComponent<PosChange>();

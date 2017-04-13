@@ -41,11 +41,11 @@ public class Line : MonoBehaviour, IPointerClickHandler
             float offset;
             if (StartPos.x > EndPos.x)
             {
-                offset = 0.015f;
+                offset = 0.5f;
             }
             else
             {
-                offset = -0.015f;
+                offset = -0.5f;
             }
 
             //when space was 1 times pressed - right break line

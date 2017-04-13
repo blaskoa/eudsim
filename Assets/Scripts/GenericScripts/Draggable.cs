@@ -196,7 +196,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             //checking colision
             Colision();
             _draggingItem.transform.position = new Vector3(_draggingItem.transform.position.x, _draggingItem.transform.position.y, -6);
-            Debug.Log(_draggingItem.GetComponent<RectTransform>().anchoredPosition3D);
             _draggingItem = null;
         }
         else if (SelectObject.SelectedObjects.Count > 1)

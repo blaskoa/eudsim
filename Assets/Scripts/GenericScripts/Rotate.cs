@@ -17,7 +17,7 @@ public class Rotate : MonoBehaviour
             {
                 Vector3 curentPos = objectSelected.transform.position;
 
-                objectSelected.transform.Rotate(new Vector3(0, 0, +90));
+                objectSelected.transform.Rotate(new Vector3(0, 0, -90));
 
                 Vector3 finalPos = objectSelected.transform.position;
 
@@ -25,7 +25,7 @@ public class Rotate : MonoBehaviour
                 properties.Add(objectSelected.GetComponent<GUICircuitComponent>().GetId());
                 properties.Add(curentPos[0] - finalPos[0]);
                 properties.Add(curentPos[1] - finalPos[1]);
-                properties.Add(-90);
+                properties.Add(+90);
 
                 PosChange change = DoUndo.dummyObj.AddComponent<PosChange>();
                 change.SetChange(properties);
@@ -54,7 +54,7 @@ public class Rotate : MonoBehaviour
             {
                 Vector3 curentPos = objectSelected.transform.position;
 
-                objectSelected.transform.Rotate(new Vector3(0, 0, -90));
+                objectSelected.transform.Rotate(new Vector3(0, 0, +90));
 
                 Vector3 finalPos = objectSelected.transform.position;
 
@@ -62,7 +62,7 @@ public class Rotate : MonoBehaviour
                 properties.Add(objectSelected.GetComponent<GUICircuitComponent>().GetId());
                 properties.Add(curentPos[0] - finalPos[0]);
                 properties.Add(curentPos[1] - finalPos[1]);
-                properties.Add(+90);
+                properties.Add(-90);
 
                 PosChange change = DoUndo.dummyObj.AddComponent<PosChange>();
                 change.SetChange(properties);
