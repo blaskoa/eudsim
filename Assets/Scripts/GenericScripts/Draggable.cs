@@ -140,7 +140,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             //Moving the item with the mouse.
             Vector2 mouseDiff = (Vector2) Camera.main.ScreenToWorldPoint(eventData.position) - _mousePos;
             _draggingItem.transform.position = _itemPos + mouseDiff;
-            _draggingItem.transform.position = new Vector3(_draggingItem.transform.position.x, _draggingItem.transform.position.y,-9);
+            _draggingItem.transform.position = new Vector3(_draggingItem.transform.position.x, _draggingItem.transform.position.y);
         }
         else if (SelectObject.SelectedObjects.Count > 1)
         {
@@ -176,7 +176,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             finalPos /= 2;
 
             _draggingItem.transform.position = finalPos;
-            _draggingItem.transform.position = new Vector3(_draggingItem.transform.position.x, _draggingItem.transform.position.y, -9);
+            _draggingItem.transform.position = new Vector3(_draggingItem.transform.position.x, _draggingItem.transform.position.y, -6);
             
 
             List<float> properties = new List<float>();
@@ -195,7 +195,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
             //checking colision
             Colision();
-            _draggingItem.transform.position = new Vector3(_draggingItem.transform.position.x, _draggingItem.transform.position.y, -9);
+            _draggingItem.transform.position = new Vector3(_draggingItem.transform.position.x, _draggingItem.transform.position.y, -6);
             Debug.Log(_draggingItem.GetComponent<RectTransform>().anchoredPosition3D);
             _draggingItem = null;
         }
@@ -262,7 +262,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             startPositions[index] = new Vector3(
                 SelectObject.SelectedObjects[index].transform.position.x,
                 SelectObject.SelectedObjects[index].transform.position.y,
-                0
+                -6
             );
             // Get the leftmost coordinates of the selection
             if (SelectObject.SelectedObjects[index].transform.position.x < topLeftMost.x)
