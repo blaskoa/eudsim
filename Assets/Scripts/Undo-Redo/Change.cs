@@ -7,6 +7,7 @@ using UnityEngine;
 public class Change : MonoBehaviour
 {
     public bool CreateDestroyType;
+    public Vector3 position = new Vector3();
 
     public Change()
     {

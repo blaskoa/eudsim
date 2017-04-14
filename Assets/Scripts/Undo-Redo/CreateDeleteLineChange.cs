@@ -42,12 +42,16 @@ class CreateDeleteLineChange : Change
 
     void CreateLine()
     {
+        Connector con1 = null;
+        Connector con2 = null;
+
         GameObject connector1 = null;
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Connector"))
         {
             if ((obj.GetComponent<Connectable>() != null) && (obj.GetComponent<Connectable>().GetID() == connectorsID[0]))
             {
                 connector1 = obj;
+                con1 = obj.GetComponent<Connector>();
                 break;
             }
         }
@@ -58,12 +62,16 @@ class CreateDeleteLineChange : Change
             if ((obj.GetComponent<Connectable>() != null) && (obj.GetComponent<Connectable>().GetID() == connectorsID[1]))
             {
                 connector2 = obj;
+                con2 = obj.GetComponent<Connector>();
                 break;
             }
         }
 
         connector1.GetComponent<Connectable>().Connected.Add(connector2);
         connector2.GetComponent<Connectable>().Connected.Add(connector1);
+
+        con1.ConnectedConnectors.Add(con2);
+        con2.ConnectedConnectors.Add(con1);
 
         GameObject ObjOrg = GameObject.Find("Line");
         GameObject Obj = Instantiate(ObjOrg);
@@ -96,19 +104,12 @@ class CreateDeleteLineChange : Change
             }
         }
 
-        List<GameObject> connected1 = connector1.GetComponent<Connectable>().Connected;
-        List<GameObject> connected2 = connector2.GetComponent<Connectable>().Connected;
+        connector1.GetComponent<Connectable>().Connected.Remove(connector2);
+        connector2.GetComponent<Connectable>().Connected.Remove(connector1);
 
-        foreach (GameObject c in connected1)
-        {
-            c.gameObject.GetComponent<Connectable>().Connected.Remove(connector2.gameObject);
-        }
-
-        foreach (GameObject c in connected2)
-        {
-            c.gameObject.GetComponent<Connectable>().Connected.Remove(connector1.gameObject);
-        }
-
+        connector1.GetComponent<Connector>().ConnectedConnectors.Remove(connector2.GetComponent<Connector>());
+        connector2.GetComponent<Connector>().ConnectedConnectors.Remove(connector1.GetComponent<Connector>());
+        
         GameObject[] lines = GameObject.FindGameObjectsWithTag("ActiveLine");
         foreach (GameObject currentLine in lines)
         {

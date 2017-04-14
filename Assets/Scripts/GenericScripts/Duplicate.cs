@@ -77,6 +77,8 @@ public class Duplicate : MonoBehaviour
             duplicateLine.GetComponent<Line>().Begin.GetComponent<Connectable>().AddConnected(duplicateLine.GetComponent<Line>().End);
             duplicateLine.GetComponent<Line>().End.GetComponent<Connectable>().AddConnected(duplicateLine.GetComponent<Line>().Begin);
 
+            beginComponent.GetComponent<Connector>().ConnectedConnectors.Remove(endComponent.GetComponent<Connector>());
+            endComponent.GetComponent<Connector>().ConnectedConnectors.Remove(beginComponent.GetComponent<Connector>());
             duplicateLine.GetComponent<Line>().Begin.GetComponent<Connector>().ConnectedConnectors.Add(duplicateLine.GetComponent<Line>().End.GetComponent<Connector>());
             duplicateLine.GetComponent<Line>().End.GetComponent<Connector>().ConnectedConnectors.Add(duplicateLine.GetComponent<Line>().Begin.GetComponent<Connector>());
         }

@@ -12,7 +12,6 @@ class CreateDeleteCompChange : Change
     int componentID;
     List<int> connectorsID = new List<int>();
     List<float> properties = new List<float>();
-    Vector3 position = new Vector3();
 
     List<int> connectedToFirstConnector = new List<int>();
     List<int> connectedToSecondConnector = new List<int>();
@@ -125,6 +124,9 @@ class CreateDeleteCompChange : Change
                   inConnector1.GetComponent<Connectable>().Connected.Add(outConnector1);
                   outConnector1.GetComponent<Connectable>().Connected.Add(inConnector1);
 
+                  inConnector1.GetComponent<Connector>().ConnectedConnectors.Add(outConnector1.GetComponent<Connector>());
+                  outConnector1.GetComponent<Connector>().ConnectedConnectors.Add(inConnector1.GetComponent<Connector>());
+
                   GameObject ObjOrg = GameObject.Find("Line");
                   GameObject Obj = Instantiate(ObjOrg);
                   Line _line = Obj.AddComponent<Line>();
@@ -150,6 +152,10 @@ class CreateDeleteCompChange : Change
               
                   inConnector2.GetComponent<Connectable>().Connected.Add(outConnector2);
                   outConnector2.GetComponent<Connectable>().Connected.Add(inConnector2);
+
+                  inConnector2.GetComponent<Connector>().ConnectedConnectors.Add(outConnector2.GetComponent<Connector>());
+                  outConnector2.GetComponent<Connector>().ConnectedConnectors.Add(inConnector2.GetComponent<Connector>());
+
                   GameObject ObjOrg = GameObject.Find("Line");
                   GameObject Obj = Instantiate(ObjOrg);
                   Line _line = Obj.AddComponent<Line>();
@@ -179,16 +185,18 @@ class CreateDeleteCompChange : Change
         List<GameObject> connected1 =  g.transform.GetChild(0).GetComponent<Connectable>().Connected;
         List<GameObject> connected2 =  g.transform.GetChild(1).GetComponent<Connectable>().Connected;
         
+        // toto je problem tiez vyriesit
+
         foreach (GameObject c in connected1)
         {
-            c.gameObject.GetComponent<Connectable>()
-                .Connected.Remove(g.transform.GetChild(0).gameObject);
+            c.gameObject.GetComponent<Connectable>().Connected.Remove(g.transform.GetChild(0).gameObject);
+            c.gameObject.GetComponent<Connector>().ConnectedConnectors.Remove(g.transform.GetChild(0).GetComponent<Connector>());
         }
 
         foreach (GameObject c in connected2)
         {
-            c.gameObject.GetComponent<Connectable>()
-                .Connected.Remove(g.transform.GetChild(1).gameObject);
+            c.gameObject.GetComponent<Connectable>().Connected.Remove(g.transform.GetChild(1).gameObject);
+            c.gameObject.GetComponent<Connector>().ConnectedConnectors.Remove(g.transform.GetChild(1).GetComponent<Connector>());
         }
 
         GameObject[] lines = GameObject.FindGameObjectsWithTag("ActiveLine");

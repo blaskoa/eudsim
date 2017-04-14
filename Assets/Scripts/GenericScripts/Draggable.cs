@@ -9,6 +9,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 {
     public bool dragging = false;
     List<Vector3> curentPos = new List<Vector3>();
+    Boolean tbitem = false;
 
     // Mouse and dragged item positions at the start of dragging.
     private Vector2 _mousePos;
@@ -67,6 +68,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         // ToolboxItemActive tagged GameObjects are used to generate new instances for the working panel.
         if (this.gameObject.tag == "ToolboxItemActive")
         {
+            tbitem = true;
             this.gameObject.tag = "ActiveItem";
             // Awake() function of every script is called when GameObject is instatiated. We need it to be instantiated as ActiveItem.
             _draggingItem = Instantiate(this.gameObject);
@@ -83,8 +85,25 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 _draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().enabled = true;
                 _draggingItem.transform.GetChild(i).gameObject.layer = 8;
             }
+
             // Newly created component needs to be selected otherwise an error will occur
             SelectObject.AddToSelection(_draggingItem);
+
+            UndoAction undoAction = new UndoAction();
+            GUICircuitComponent component = _draggingItem.GetComponent<GUICircuitComponent>();
+            List<float> prop = new List<float>();
+            prop.Add((float)1.0);
+            prop.Add((float)component.GetId());
+            prop.Add((float)_draggingItem.gameObject.transform.GetChild(0).GetComponent<Connectable>().GetID());
+            prop.Add((float)_draggingItem.gameObject.transform.GetChild(1).GetComponent<Connectable>().GetID());
+            CreateDeleteCompChange change = DoUndo.dummyObj.AddComponent<CreateDeleteCompChange>();
+            change.SetPosition(_draggingItem.transform.position);
+            change.SetChange(prop);
+            change.SetType(_draggingItem.gameObject.GetComponent<GUICircuitComponent>().GetType());
+            change.RememberConnectorsToFirst(_draggingItem.gameObject.transform.GetChild(0).GetComponent<Connectable>().Connected);
+            change.RememberConnectorsToSecond(_draggingItem.gameObject.transform.GetChild(1).GetComponent<Connectable>().Connected);
+            undoAction.AddChange(change);
+            GUICircuitComponent.globalUndoList.AddUndo(undoAction);
         }
         else if (SelectObject.SelectedObjects.Count == 0 || SelectObject.SelectedObjects.Count == 1 && SelectObject.SelectedObjects[0] == this.gameObject)
         {           
@@ -173,19 +192,26 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
             _draggingItem.transform.position = finalPos;
 
-            List<float> properties = new List<float>();
-            properties.Add(_draggingItem.GetComponent<GUICircuitComponent>().GetId());
-            properties.Add(curentPos[0][0] - finalPos[0]);
-            properties.Add(curentPos[0][1] - finalPos[1]);
-            
-            PosChange change = DoUndo.dummyObj.AddComponent<PosChange>();
-            change.SetChange(properties);
+            if (tbitem == false) {
+                List<float> properties = new List<float>();
+                properties.Add(_draggingItem.GetComponent<GUICircuitComponent>().GetId());
+                properties.Add(curentPos[0][0] - finalPos[0]);
+                properties.Add(curentPos[0][1] - finalPos[1]);
 
-            UndoAction undoAction = new UndoAction();
-            undoAction.AddChange(change);
+                PosChange change = DoUndo.dummyObj.AddComponent<PosChange>();
+                change.SetChange(properties);
 
-            GUICircuitComponent.globalUndoList.AddUndo(undoAction);
+                UndoAction undoAction = new UndoAction();
+                undoAction.AddChange(change);
+
+                GUICircuitComponent.globalUndoList.AddUndo(undoAction);
+            }
+            else
+            {
+                GUICircuitComponent.globalUndoList.undoList.Last.Value.changes[GUICircuitComponent.globalUndoList.undoList.Last.Value.changes.Count-1].position = finalPos;
+            }
             curentPos.Clear();
+            tbitem = false;
 
             //checking colision
             Colision();

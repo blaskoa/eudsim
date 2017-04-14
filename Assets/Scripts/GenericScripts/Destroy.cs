@@ -38,17 +38,20 @@ public class Destroy : MonoBehaviour
                     List<GameObject> connected2 =
                         objectSelected.transform.GetChild(1).GetComponent<Connectable>().Connected;
 
+                    Connector con1 = objectSelected.transform.GetChild(0).GetComponent<Connector>();
+                    Connector con2 = objectSelected.transform.GetChild(1).GetComponent<Connector>();
+
                     // First update list of connected connectors in connected component with this component
                     foreach (GameObject c in connected1)
                     {
-                        c.gameObject.GetComponent<Connectable>()
-                            .Connected.Remove(objectSelected.transform.GetChild(0).gameObject);
+                        c.gameObject.GetComponent<Connectable>().Connected.Remove(objectSelected.transform.GetChild(0).gameObject);
+                        c.gameObject.GetComponent<Connector>().ConnectedConnectors.Remove(con1);
                     }
 
                     foreach (GameObject c in connected2)
                     {
-                        c.gameObject.GetComponent<Connectable>()
-                            .Connected.Remove(objectSelected.transform.GetChild(1).gameObject);
+                        c.gameObject.GetComponent<Connectable>().Connected.Remove(objectSelected.transform.GetChild(1).gameObject);
+                        c.gameObject.GetComponent<Connector>().ConnectedConnectors.Remove(con2);
                     }
 
                     // For each lines in scene
@@ -99,6 +102,10 @@ public class Destroy : MonoBehaviour
             // Delete connected connectors from lists of connectors
             this.gameObject.GetComponent<Line>().Begin.GetComponent<Connectable>().Connected.Remove(this.gameObject.GetComponent<Line>().End.gameObject);
             this.gameObject.GetComponent<Line>().End.GetComponent<Connectable>().Connected.Remove(this.gameObject.GetComponent<Line>().Begin.gameObject);
+
+            this.gameObject.GetComponent<Line>().Begin.GetComponent<Connector>().ConnectedConnectors.Remove(this.gameObject.GetComponent<Line>().End.GetComponent<Connector>());
+            this.gameObject.GetComponent<Line>().End.GetComponent<Connector>().ConnectedConnectors.Remove(this.gameObject.GetComponent<Line>().Begin.GetComponent<Connector>());
+
             Destroy(this.gameObject);
             SelectObject.SelectedLines.Remove(this.gameObject);
         }
