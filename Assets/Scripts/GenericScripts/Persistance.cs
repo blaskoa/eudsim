@@ -187,19 +187,19 @@ public class Persistance : MonoBehaviour
                 concreteGameObject.GetComponent<GUILedDiode>().Awake();
                 concreteGameObject.GetComponent<GUILedDiode>().Entity = concreteEntity;
             }
-            else if (entityType == typeof(TranzistorNPNEntity))
+            else if (entityType == typeof(TransistorNPNEntity))
             {
-                TranzistorNPNEntity concreteEntity = simulationElement as TranzistorNPNEntity;
+                TransistorNPNEntity concreteEntity = simulationElement as TransistorNPNEntity;
                 GameObject concreteGameObject = InstantiateGameObject(_transistorNPNPrefab);
-                concreteGameObject.GetComponent<GUITranzistorNPN>().Awake();
-                concreteGameObject.GetComponent<GUITranzistorNPN>().Entity = concreteEntity;
+                concreteGameObject.GetComponent<GUITransistorNPN>().Awake();
+                concreteGameObject.GetComponent<GUITransistorNPN>().Entity = concreteEntity;
             }
-            else if (entityType == typeof(TranzistorPNPEntity))
+            else if (entityType == typeof(TransistorPNPEntity))
             {
-                TranzistorPNPEntity concreteEntity = simulationElement as TranzistorPNPEntity;
+                TransistorPNPEntity concreteEntity = simulationElement as TransistorPNPEntity;
                 GameObject concreteGameObject = InstantiateGameObject(_transistorPNPPrefab);
-                concreteGameObject.GetComponent<GUITranzistorPNP>().Awake();
-                concreteGameObject.GetComponent<GUITranzistorPNP>().Entity = concreteEntity;
+                concreteGameObject.GetComponent<GUITransistorPNP>().Awake();
+                concreteGameObject.GetComponent<GUITransistorPNP>().Entity = concreteEntity;
             }
             else if (entityType == typeof(ZenerDiodeEntity))
             {

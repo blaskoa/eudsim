@@ -2,9 +2,9 @@
 using ClassLibrarySharpCircuit;
 using Assets.Scripts.Entities;
 
-public class GUITranzistorPNP : GUICircuitComponent
+public class GUITransistorNPN : GUICircuitComponent
 {
-    private TranzistorPNPEntity _transistorEntity;
+    private TransistorNPNEntity _transistorEntity;
 
     public override SimulationElement Entity
     {
@@ -15,20 +15,17 @@ public class GUITranzistorPNP : GUICircuitComponent
         }
         set
         {
-            _transistorEntity = (TranzistorPNPEntity) value;
+            _transistorEntity = (TransistorNPNEntity) value;
             TransformFromEntity(_transistorEntity);
         }
     }
 
     public override void GetProperties()
     {
-        GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
-        EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
     }
-
     public override string GetPropertiesForExport()
     {
-        return "<p><span class=\"field-title\">" + "Type " + "</span>" + "PNP" + " </p>";
+        return "<p><span class=\"field-title\">" + "Type " + "</span>" + " NPN" + " </p>";
     }
 
     // Called during instantiation
@@ -38,9 +35,8 @@ public class GUITranzistorPNP : GUICircuitComponent
         {
             if (_transistorEntity == null)
             {
-                _transistorEntity = new TranzistorPNPEntity();
+                _transistorEntity = new TransistorNPNEntity();
             }
-
             SetAndInitializeConnectors();
         }
     }
@@ -50,7 +46,7 @@ public class GUITranzistorPNP : GUICircuitComponent
         Debug.Log("activeItem inserted");
 
         Transistor transistor = sim.Create<Transistor>();
-        transistor.IsPNP = true;
+        transistor.IsPNP = false;
 
         Connectors[0].DllConnector = transistor.leadCollector;
         Connectors[1].DllConnector = transistor.leadEmitter;

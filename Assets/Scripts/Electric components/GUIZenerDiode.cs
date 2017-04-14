@@ -1,22 +1,24 @@
-﻿using UnityEngine;
+﻿using System.Globalization;
+using UnityEngine;
 using ClassLibrarySharpCircuit;
 using Assets.Scripts.Entities;
 
 public class GUIZenerDiode : GUICircuitComponent
 {
-    private ZenerDiodeEntity _resistorEntity;
+    private ZenerDiodeEntity _zenerEntity;
+    private ZenerElm diodeComponent;
 
     public override SimulationElement Entity
     {
         get
         {
-            FillEntity(_resistorEntity);
-            return _resistorEntity;
+            FillEntity(_zenerEntity);
+            return _zenerEntity;
         }
         set
         {
-            _resistorEntity = (ZenerDiodeEntity) value;
-            TransformFromEntity(_resistorEntity);
+            _zenerEntity = (ZenerDiodeEntity) value;
+            TransformFromEntity(_zenerEntity);
         }
     }
 
@@ -25,12 +27,13 @@ public class GUIZenerDiode : GUICircuitComponent
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
-        //script.AddNumeric("ResistancePropertyLabel", Resistance.ToString(), Resistance.GetType().ToString(), SetResistance, true, -15.4f, 150.6f);
+        script.AddResult("CurrentPropertyLabel", diodeComponent.getCurrent().ToString(CultureInfo.InvariantCulture), "A");
     }
 
     public override string GetPropertiesForExport()
     {
-        return "<p><span class=\"field-title\">" + "Current " + "</span>" + "TODO" + " [A]" + " </p>";
+        return "<p><span class=\"field-title\">" + "Current " + "</span>" +
+            diodeComponent.getCurrent().ToString(CultureInfo.InvariantCulture) + " [A]" + " </p>";
     }
 
     // Used for duplicating the components - old component is passes so the new one can copy needed values
@@ -43,6 +46,12 @@ public class GUIZenerDiode : GUICircuitComponent
     {
         if (CompareTag("ActiveItem"))
         {
+            if (_zenerEntity == null)
+            {
+                _zenerEntity = new ZenerDiodeEntity();
+            }
+            diodeComponent = new ZenerElm();
+
             SetAndInitializeConnectors();
         }
     }
@@ -51,9 +60,9 @@ public class GUIZenerDiode : GUICircuitComponent
     {
         Debug.Log("activeItem inserted");
 
-        ZenerElm diode = sim.Create<ZenerElm>();
+        diodeComponent = sim.Create<ZenerElm>();
 
-        Connectors[0].DllConnector = diode.leadIn;
-        Connectors[1].DllConnector = diode.leadOut;
+        Connectors[0].DllConnector = diodeComponent.leadIn;
+        Connectors[1].DllConnector = diodeComponent.leadOut;
     }
 }

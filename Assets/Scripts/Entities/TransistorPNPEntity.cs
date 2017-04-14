@@ -3,7 +3,7 @@
 namespace Assets.Scripts.Entities
 {
     [Serializable]
-    public class TranzistorPNPEntity : SimulationElement
+    public class TransistorPNPEntity : SimulationElement
     {
         public double Resistance { get; set; }
     }

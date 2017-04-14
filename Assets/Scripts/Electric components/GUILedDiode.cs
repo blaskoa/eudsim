@@ -6,6 +6,7 @@ using Assets.Scripts.Entities;
 public class GUILedDiode : GUICircuitComponent
 {
     private LedDiodeEntity _ledDiodeEntity;
+    private LEDElm _ledDiodeComponent;
 
     public override SimulationElement Entity
     {
@@ -26,15 +27,13 @@ public class GUILedDiode : GUICircuitComponent
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
-        script.AddResult("CurrentPropertyLabel", _ledDiodeEntity.Current.ToString(CultureInfo.InvariantCulture), "A");
-        script.AddResult("VoltagePropertyLabel", _ledDiodeEntity.Voltage.ToString(CultureInfo.InvariantCulture), "V");
+        script.AddResult("CurrentPropertyLabel", _ledDiodeComponent.getCurrent().ToString(CultureInfo.InvariantCulture), "A");
     }
 
     public override string GetPropertiesForExport()
     {
-        return "<p><span class=\"field-title\">" + "Measured Voltage " + "</span>" + _ledDiodeEntity.Voltage + " [V]" + " </p>" +
-        "<p><span class=\"field-title\">" + "Measured current " + "</span>" + _ledDiodeEntity.Current.ToString(CultureInfo.InvariantCulture) + " [A]" + " </p>";
-
+        return "<p><span class=\"field-title\">" + "Current " + "</span>" +
+            _ledDiodeComponent.getCurrent().ToString(CultureInfo.InvariantCulture) + " [A]" + " </p>";
     }
 
     // Used for duplicating the components - old component is passes so the new one can copy needed values
@@ -51,6 +50,9 @@ public class GUILedDiode : GUICircuitComponent
             {
                 _ledDiodeEntity = new LedDiodeEntity();
             }
+            //just for handling null references before we start the simulation
+            _ledDiodeComponent = new LEDElm();
+
             SetAndInitializeConnectors();
         }
     }
@@ -59,9 +61,9 @@ public class GUILedDiode : GUICircuitComponent
     {
         Debug.Log("activeItem inserted");
 
-        LEDElm ledDiode = sim.Create<LEDElm>();
+        _ledDiodeComponent = sim.Create<LEDElm>();
 
-        Connectors[0].DllConnector = ledDiode.leadIn;
-        Connectors[1].DllConnector = ledDiode.leadOut;
+        Connectors[0].DllConnector = _ledDiodeComponent.leadIn;
+        Connectors[1].DllConnector = _ledDiodeComponent.leadOut;
     }
 }
