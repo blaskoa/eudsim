@@ -69,9 +69,8 @@ public class CamZoom : MonoBehaviour {
                 {
                     ZoomOut();
                 }
-            }
-
-            GetComponent<Camera>().orthographicSize = _zoomSize;
+            }            
         }
+        GetComponent<Camera>().orthographicSize = _zoomSize;
     }
 }

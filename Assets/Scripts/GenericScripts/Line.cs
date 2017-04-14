@@ -151,7 +151,7 @@ public class Line : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         //deselect item
-        GameObject item = GameObject.Find("Container");
+        GameObject item = GameObject.Find("Canvas");
         item.GetComponent<SelectObject>().DeselectObject();
 
         //deselect previous selected lines

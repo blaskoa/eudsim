@@ -31,7 +31,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         if (SelectObject.SelectedObjects.Count != 0 && !SelectObject.SelectedObjects.Contains(this.gameObject))
         {
             //deselect item
-            GameObject item = GameObject.Find("Container");
+            GameObject item = GameObject.Find("Canvas");
             item.GetComponent<SelectObject>().DeselectObject();
 
             // Deselect line

@@ -48,7 +48,9 @@ public class RotateMultiObject : MonoBehaviour {
             GUICircuitComponent.globalUndoList.AddUndo(undoAction);
 
             //checking colision
-            GameObject.Find("Container").GetComponent<Draggable>().Colision();
+            GameObject.Find("" +
+                            "Canvas" +
+                            "").GetComponent<Draggable>().Colision();
 
             //transform position of each lines in scene
             GameObject line = GameObject.Find("Line(Clone)");
@@ -95,7 +97,7 @@ public class RotateMultiObject : MonoBehaviour {
             }
             GUICircuitComponent.globalUndoList.AddUndo(undoAction);
             //checking colision
-            GameObject.Find("Container").GetComponent<Draggable>().Colision();
+            GameObject.Find("Canvas").GetComponent<Draggable>().Colision();
 
             //transform position of each lines in scene
             GameObject line = GameObject.Find("Line(Clone)");
