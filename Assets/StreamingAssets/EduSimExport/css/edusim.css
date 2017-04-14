@@ -1,0 +1,92 @@
+/* Import Google Open Sans fonts which points to the font files */
+/* open-sans-regular - latin_latin-ext */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/open-sans-v13-latin_latin-ext-regular.eot");
+  /* IE9 Compat Modes */
+  src: local("Open Sans"), local("OpenSans"), url("../fonts/open-sans-v13-latin_latin-ext-regular.eot?#iefix") format("embedded-opentype"), url("../fonts/open-sans-v13-latin_latin-ext-regular.woff2") format("woff2"), url("../fonts/open-sans-v13-latin_latin-ext-regular.woff") format("woff"), url("../fonts/open-sans-v13-latin_latin-ext-regular.ttf") format("truetype"), url("../fonts/open-sans-v13-latin_latin-ext-regular.svg#OpenSans") format("svg");
+  /* Legacy iOS */ }
+/* open-sans-italic - latin_latin-ext */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 400;
+  src: url("../fonts/open-sans-v13-latin_latin-ext-italic.eot");
+  /* IE9 Compat Modes */
+  src: local("Open Sans Italic"), local("OpenSans-Italic"), url("../fonts/open-sans-v13-latin_latin-ext-italic.eot?#iefix") format("embedded-opentype"), url("../fonts/open-sans-v13-latin_latin-ext-italic.woff2") format("woff2"), url("../fonts/open-sans-v13-latin_latin-ext-italic.woff") format("woff"), url("../fonts/open-sans-v13-latin_latin-ext-italic.ttf") format("truetype"), url("../fonts/open-sans-v13-latin_latin-ext-italic.svg#OpenSans") format("svg");
+  /* Legacy iOS */ }
+/* Import the color scheme */
+/* Import scss for layouts */
+/* Main navigation Menu */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 50px;
+  background-color: #454a4f;
+  z-index: 5; }
+  nav div#nav-content {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%; }
+    /* Currently unused - language picker like in manual */
+    /*nav div#nav-content ul#language-selector {
+      position: relative;
+      margin: 0;
+      float: right;
+      height: 50px; }
+      nav div#nav-content ul#language-selector li {
+        display: inline; }
+      nav div#nav-content ul#language-selector a {
+        padding: 0.5em;
+        color: #ddd;
+        border-radius: 20px;
+        text-decoration: none;
+        line-height: 50px; }
+      nav div#nav-content ul#language-selector a:hover {
+        color: white; }*/
+
+div#push-bottom {
+  margin-bottom: 3em; }
+
+body {
+  background-color: #f9f9f9; }
+
+/* Main content wrapper */
+div#main-wrapper {
+  position: relative;
+  margin-top: 5em;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  /* Navigation docs tothe left */
+  /* Manual content */ }
+  div#main-wrapper div#canvas-wrapper {
+    float: right;
+    width: 80%; }
+  div#main-wrapper div#details {
+    float: left;
+    padding-right: 1em;
+    width: calc(20% - 1em); }
+    div#main-wrapper div#details h1.details-title {
+      font-size: 2.5em; }
+    div#main-wrapper div#details strong {
+      color: #00afd8; }
+    div#main-wrapper div#details span.field-title {
+      color: #00afd8;
+      font-weight: bold;
+      font-size: 1.2em; }
+    
+* {
+  font-family: 'Open Sans';
+  color: #454a4f; }
+
+/* Headers */
+h1, h2, h3 {
+  margin: 0.2em 0; }

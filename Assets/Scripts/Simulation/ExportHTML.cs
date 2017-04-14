@@ -30,9 +30,11 @@ public class ExportHTML : MonoBehaviour
     public void MakeHtmlExport(string fileName)
     {
         // Base folder where all export files are located
-        const string baseFolder = "EduSimExport";
+        string baseFolder = "EduSimExport";
         const string javascriptPattern = "js/edusim-pattern.js";
         const string javascriptExport = "js/edusim.js";
+
+        string pathToExport = System.IO.Path.Combine(Application.streamingAssetsPath, baseFolder);
 
         if (!string.IsNullOrEmpty(fileName))
         {
@@ -115,11 +117,11 @@ public class ExportHTML : MonoBehaviour
         }
         //and now make rotation to previous position
         Camera.transform.rotation *= Quaternion.Euler(180, 0, 0);
-        string text = File.ReadAllText(Path.Combine(baseFolder, javascriptPattern));
+        string text = File.ReadAllText(Path.Combine(pathToExport, javascriptPattern));
         string insertPoint = "let hotspots = [";
         int index = text.IndexOf(insertPoint, StringComparison.Ordinal) + insertPoint.Length;
         text = text.Insert(index, string.Join("", exportArrayList.ToArray()));
-        File.WriteAllText(Path.Combine(baseFolder, javascriptExport), text);
+        File.WriteAllText(Path.Combine(pathToExport, javascriptExport), text);
 
         // Create a ZIP archive of the export
         string subfolder = "";
@@ -127,31 +129,33 @@ public class ExportHTML : MonoBehaviour
         ZipFile zip = new ZipFile();
 
         // Add base folder to the archive
-        files = Directory.GetFiles(baseFolder, "*", SearchOption.TopDirectoryOnly);
+        files = Directory.GetFiles(pathToExport, "*", SearchOption.TopDirectoryOnly);
         zip.AddFiles(files, baseFolder);
 
         // Add css to the archive
         subfolder = "css";
-        files = Directory.GetFiles(Path.Combine(baseFolder, subfolder), "*", SearchOption.TopDirectoryOnly);
+        files = Directory.GetFiles(Path.Combine(pathToExport, subfolder), "*", SearchOption.TopDirectoryOnly);
         zip.AddFiles(files, Path.Combine(baseFolder, subfolder));
 
         // Add JavaScript scripts to the archive
         subfolder = "js";
-        files = Directory.GetFiles(Path.Combine(baseFolder, subfolder), "*", SearchOption.TopDirectoryOnly);
+        files = Directory.GetFiles(Path.Combine(pathToExport, subfolder), "*", SearchOption.TopDirectoryOnly);
         zip.AddFiles(files, Path.Combine(baseFolder, subfolder));
 
         // Add images to the archive
         subfolder = "images";
-        files = Directory.GetFiles(Path.Combine(baseFolder, subfolder), "*", SearchOption.TopDirectoryOnly);
+        files = Directory.GetFiles(Path.Combine(pathToExport, subfolder), "*", SearchOption.TopDirectoryOnly);
         zip.AddFiles(files, Path.Combine(baseFolder, subfolder));
 
         // Add fonts to the archive
         subfolder = "fonts";
-        files = Directory.GetFiles(Path.Combine(baseFolder, subfolder), "*", SearchOption.TopDirectoryOnly);
+        files = Directory.GetFiles(Path.Combine(pathToExport, subfolder), "*", SearchOption.TopDirectoryOnly);
         zip.AddFiles(files, Path.Combine(baseFolder, subfolder));
 
         // Save the archive
-        zip.Save(ZipFileName);
+        FileStream fileStream = new FileStream(ZipFileName, FileMode.OpenOrCreate);
+        zip.Save(fileStream);
+        fileStream.Close();
 
         this.GetComponent<Whisp>().Say("HTML export was successfully saved into " + ZipFileName + ".");
     }
