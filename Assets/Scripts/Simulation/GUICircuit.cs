@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections;
 using Assets.Scripts.Localization;
 using ClassLibrarySharpCircuit;
+using System.Collections.Generic;
 
 public class GUICircuit : MonoBehaviour
 {
@@ -58,6 +59,8 @@ public class GUICircuit : MonoBehaviour
         //Debug.Log(dllconnectionsOfComponents.Length);
         _countOfMadeConnections = 0;
 
+        List<Circuit.Lead[]> alreadyConnected = new List<Circuit.Lead[]>();
+
         for (int i = 0; i < dllconnectionsOfComponents.Length; i++)
         {
             for (int a = 0; a < dllconnectionsOfComponents[i].dllconnections.Length; a++)
@@ -66,9 +69,25 @@ public class GUICircuit : MonoBehaviour
                 {
                     if (dllconnectionsOfComponents[i].dllconnections[a].dllconector != dllconnectionsOfComponents[i].dllconnections[a].connectedDllconnectors[b])
                     {
-                        //Debug.Log("Komponent cislo: " + i + " konektor ku ktoremu sa pripaja: " + a + " pripajany konektor: " + b + " cislo conections: " + _countOfMadeConnections);
-                        sim.Connect(dllconnectionsOfComponents[i].dllconnections[a].dllconector, dllconnectionsOfComponents[i].dllconnections[a].connectedDllconnectors[b]);
-                        _countOfMadeConnections += 1;
+                        Boolean alreadyThere = false;
+                        foreach (Circuit.Lead[] pair in alreadyConnected)
+                        {
+                            if ((pair[0] == dllconnectionsOfComponents[i].dllconnections[a].connectedDllconnectors[b]) && (pair[1] == dllconnectionsOfComponents[i].dllconnections[a].dllconector))
+                            {
+                                alreadyThere = true;
+                            }
+                        }
+                        
+                        if(alreadyThere == false)
+                        { 
+                            Circuit.Lead[] newPair = new Circuit.Lead[2];
+                            newPair[0] = dllconnectionsOfComponents[i].dllconnections[a].dllconector;
+                            newPair[1] = dllconnectionsOfComponents[i].dllconnections[a].connectedDllconnectors[b];
+                            alreadyConnected.Add(newPair);
+                            //Debug.Log("Komponent cislo: " + i + " konektor ku ktoremu sa pripaja: " + a + " pripajany konektor: " + b + " cislo conections: " + _countOfMadeConnections);
+                            sim.Connect(dllconnectionsOfComponents[i].dllconnections[a].dllconector, dllconnectionsOfComponents[i].dllconnections[a].connectedDllconnectors[b]);
+                            _countOfMadeConnections += 1;
+                        }
                     }
                 }
             }
