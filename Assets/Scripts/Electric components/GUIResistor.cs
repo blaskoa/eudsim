@@ -53,6 +53,10 @@ public class GUIResistor : GUICircuitComponent
             GUICircuitComponent.globalUndoList.AddUndo(undoAction);
         }
         Resistance = val;
+        if (GameObject.Find("PlayToggle").GetComponent<UnityEngine.UI.Toggle>().isOn)
+        {
+            GameObject.Find("PlayButton").GetComponent<GUICircuit>().RunSimulation();
+        }
     }
 
     public override void GetProperties()

@@ -50,7 +50,12 @@ public class GUIAnalogSwitch : GUICircuitComponent
                 GUICircuitComponent.globalUndoList.AddUndo(undoAction);
             }
 
-            _analogSwitchEntity.TurnedOff = value; }
+            _analogSwitchEntity.TurnedOff = value;
+            if (GameObject.Find("PlayToggle").GetComponent<UnityEngine.UI.Toggle>().isOn)
+            {
+                GameObject.Find("PlayButton").GetComponent<GUICircuit>().RunSimulation();
+            }
+        }
     }
 
     public override SimulationElement Entity

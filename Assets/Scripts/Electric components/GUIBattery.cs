@@ -56,6 +56,11 @@ public class GUIBattery : GUICircuitComponent
             GUICircuitComponent.globalUndoList.AddUndo(undoAction);
         }
         MaxVoltage = val;
+
+        if (GameObject.Find("PlayToggle").GetComponent<UnityEngine.UI.Toggle>().isOn)
+        {
+            GameObject.Find("PlayButton").GetComponent<GUICircuit>().RunSimulation();
+        }
     }
 
     public override void GetProperties()

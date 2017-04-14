@@ -62,6 +62,10 @@ public class GUIInductor : GUICircuitComponent
             GUICircuitComponent.globalUndoList.AddUndo(undoAction);
         }
         Inductance = val;
+        if (GameObject.Find("PlayToggle").GetComponent<UnityEngine.UI.Toggle>().isOn)
+        {
+            GameObject.Find("PlayButton").GetComponent<GUICircuit>().RunSimulation();
+        }
     }
 
     public void SetTrapezoidal(bool val)
@@ -84,6 +88,10 @@ public class GUIInductor : GUICircuitComponent
             GUICircuitComponent.globalUndoList.AddUndo(undoAction);
         }
         IsTrapezoidal = val;
+        if (GameObject.Find("PlayToggle").GetComponent<UnityEngine.UI.Toggle>().isOn)
+        {
+            GameObject.Find("PlayButton").GetComponent<GUICircuit>().RunSimulation();
+        }
     }
 
     public override void GetProperties()
