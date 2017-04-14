@@ -208,7 +208,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             }
             else
             {
-                GUICircuitComponent.globalUndoList.undoList.Last.Value.changes[GUICircuitComponent.globalUndoList.undoList.Last.Value.changes.Count-1].position = finalPos;
+                GUICircuitComponent.globalUndoList.undoList.First.Value.changes[GUICircuitComponent.globalUndoList.undoList.Last.Value.changes.Count-1].position = finalPos;
             }
             curentPos.Clear();
             tbitem = false;

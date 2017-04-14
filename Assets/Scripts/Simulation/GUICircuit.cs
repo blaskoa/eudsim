@@ -7,10 +7,11 @@ using System.Collections.Generic;
 
 public class GUICircuit : MonoBehaviour
 {
-    public static Circuit sim = new Circuit();
-    private Stack _sceneItems = new Stack();
+    public static List<Circuit> simList = new List<Circuit>();
+    //private Stack _sceneItems = new Stack();
     private int _countOfMadeConnections;
     private bool stopSignal = true;
+    private List<GUICircuitComponent[]> _listOfNetworks = new List<GUICircuitComponent[]>();
 
     public void RunSimulation()
     {
@@ -18,11 +19,10 @@ public class GUICircuit : MonoBehaviour
         GameObject pauseButton = GameObject.Find("PauseButton");
         playButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
         pauseButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
-        sim = new Circuit();
+
         // setForSimulation all objects from scene 
 
-        GetObjectsFromScene(sim);
-
+        GetObjectsFromScene();
         stopSignal = false;
         SimulationFlow();
     }
@@ -36,68 +36,129 @@ public class GUICircuit : MonoBehaviour
         stopSignal = true;
     }
 
-    void GetObjectsFromScene(Circuit sim)  // tato funkcia len vypise vsetky objekty zo scenky, ktorych tag sa rovna toolboxitem,, je to dobry zaciatok pre vypis objektov s ktorymi si pracuje, nejak sa otaguju a je to
+    List<GUICircuitComponent> traveledNodes = new List<GUICircuitComponent>();
+    void DFS(GUICircuitComponent startNode)
     {
+        if (!traveledNodes.Contains(startNode))
+        {
+            traveledNodes.Add(startNode);
+            foreach (Connector c in startNode.Connectors[0].ConnectedConnectors)
+            {
+                if ((c != startNode.Connectors[0])|| (c != startNode.Connectors[1])) {
+                    DFS(c.Component);
+                }
+            }
+
+            foreach (Connector c in startNode.Connectors[1].ConnectedConnectors)
+            {
+                if ((c != startNode.Connectors[0]) || (c != startNode.Connectors[1]))
+                {
+                    DFS(c.Component);
+                }
+            }
+        }
+    }
+
+    void GetObjectsFromScene()
+    {
+        List<GUICircuitComponent> sceneItems = new List<GUICircuitComponent>();
         foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
         {
             if (obj.tag.Equals("ActiveItem"))
             {
-                obj.GetComponent<GUICircuitComponent>().SetSimulationProp(sim);
-                _sceneItems.Push(obj.GetComponent<GUICircuitComponent>());
+                //obj.GetComponent<GUICircuitComponent>().SetSimulationProp(sim);
+                //_sceneItems.Push(obj.GetComponent<GUICircuitComponent>());
+                sceneItems.Add(obj.GetComponent<GUICircuitComponent>());
             }
+        }
+
+        while (sceneItems.Count > 0)
+        {
+            DFS(sceneItems[0]);
+            GUICircuitComponent[] newList = new GUICircuitComponent[traveledNodes.Count];
+
+            traveledNodes.CopyTo(newList);
+            _listOfNetworks.Add(newList);
+
+            for (int i = 0; i < sceneItems.Count; i++)
+            {
+                if (traveledNodes.Contains(sceneItems[i]))
+                {
+                    sceneItems.RemoveAt(i);
+                    i--;
+                }
+            }
+            traveledNodes.Clear();
         }
     }
 
     void SimulationFlow() // tato funkcia zavola objekty so scenky, prepoji ich umelo, zavola algoritmus na zrusenie uzlov, prepoji zoznamy dllconectorov a spusti simulaciu
     {
-        GUICircuitComponent[] listOfComponents = new GUICircuitComponent[_sceneItems.Count];
-
-        GraphAlgorithm algorithm = new GraphAlgorithm();
-        _sceneItems.CopyTo(listOfComponents, 0);
-        ConnectionsOfComponent[] dllconnectionsOfComponents = algorithm.Untangle(listOfComponents);
-
-        //Debug.Log(dllconnectionsOfComponents.Length);
-        _countOfMadeConnections = 0;
-
-        List<Circuit.Lead[]> alreadyConnected = new List<Circuit.Lead[]>();
-
-        for (int i = 0; i < dllconnectionsOfComponents.Length; i++)
+        foreach (GUICircuitComponent[] network in _listOfNetworks) 
         {
-            for (int a = 0; a < dllconnectionsOfComponents[i].dllconnections.Length; a++)
+            int numOfBatteries = 0;
+            foreach (GUICircuitComponent component in network)
             {
-                for (int b = 0; b < dllconnectionsOfComponents[i].dllconnections[a].connectedDllconnectors.Length; b++)
+                if (component.GetType() == GameObject.Find("Accumulator").GetComponent<GUICircuitComponent>().GetType())
                 {
-                    if (dllconnectionsOfComponents[i].dllconnections[a].dllconector != dllconnectionsOfComponents[i].dllconnections[a].connectedDllconnectors[b])
+                    numOfBatteries++;
+                }
+            }
+
+            if ((numOfBatteries < 2)&&(network.Length > 1))
+            {
+                Circuit newSimulation = new Circuit();
+                simList.Add(newSimulation);
+                foreach (GUICircuitComponent component in network)
+                {
+                    component.SetSimulationProp(newSimulation);
+                }
+
+                GraphAlgorithm algorithm = new GraphAlgorithm();
+                ConnectionsOfComponent[] dllconnectionsOfComponents = algorithm.Untangle(network);
+
+                //Debug.Log(dllconnectionsOfComponents.Length);
+                _countOfMadeConnections = 0;
+
+                List<Circuit.Lead[]> alreadyConnected = new List<Circuit.Lead[]>();
+
+                for (int i = 0; i < dllconnectionsOfComponents.Length; i++)
+                {
+                    for (int a = 0; a < dllconnectionsOfComponents[i].dllconnections.Length; a++)
                     {
-                        Boolean alreadyThere = false;
-                        foreach (Circuit.Lead[] pair in alreadyConnected)
+                        for (int b = 0; b < dllconnectionsOfComponents[i].dllconnections[a].connectedDllconnectors.Length; b++)
                         {
-                            if ((pair[0] == dllconnectionsOfComponents[i].dllconnections[a].connectedDllconnectors[b]) && (pair[1] == dllconnectionsOfComponents[i].dllconnections[a].dllconector))
+                            if (dllconnectionsOfComponents[i].dllconnections[a].dllconector != dllconnectionsOfComponents[i].dllconnections[a].connectedDllconnectors[b])
                             {
-                                alreadyThere = true;
+                                Boolean alreadyThere = false;
+                                foreach (Circuit.Lead[] pair in alreadyConnected)
+                                {
+                                    if ((pair[0] == dllconnectionsOfComponents[i].dllconnections[a].connectedDllconnectors[b]) && (pair[1] == dllconnectionsOfComponents[i].dllconnections[a].dllconector))
+                                    {
+                                        alreadyThere = true;
+                                    }
+                                }
+
+                                if (alreadyThere == false)
+                                {
+                                    Circuit.Lead[] newPair = new Circuit.Lead[2];
+                                    newPair[0] = dllconnectionsOfComponents[i].dllconnections[a].dllconector;
+                                    newPair[1] = dllconnectionsOfComponents[i].dllconnections[a].connectedDllconnectors[b];
+                                    alreadyConnected.Add(newPair);
+                                    //Debug.Log("Komponent cislo: " + i + " konektor ku ktoremu sa pripaja: " + a + " pripajany konektor: " + b + " cislo conections: " + _countOfMadeConnections);
+                                    newSimulation.Connect(dllconnectionsOfComponents[i].dllconnections[a].dllconector, dllconnectionsOfComponents[i].dllconnections[a].connectedDllconnectors[b]);
+                                    _countOfMadeConnections += 1;
+                                }
                             }
-                        }
-                        
-                        if(alreadyThere == false)
-                        { 
-                            Circuit.Lead[] newPair = new Circuit.Lead[2];
-                            newPair[0] = dllconnectionsOfComponents[i].dllconnections[a].dllconector;
-                            newPair[1] = dllconnectionsOfComponents[i].dllconnections[a].connectedDllconnectors[b];
-                            alreadyConnected.Add(newPair);
-                            //Debug.Log("Komponent cislo: " + i + " konektor ku ktoremu sa pripaja: " + a + " pripajany konektor: " + b + " cislo conections: " + _countOfMadeConnections);
-                            sim.Connect(dllconnectionsOfComponents[i].dllconnections[a].dllconector, dllconnectionsOfComponents[i].dllconnections[a].connectedDllconnectors[b]);
-                            _countOfMadeConnections += 1;
                         }
                     }
                 }
+
+                Debug.Log("Simulation complete with " + _countOfMadeConnections + " connections");
+                Debug.Log("Sim Elements count " + newSimulation.elements.Count);
             }
         }
-
-        Debug.Log("Simulation complete with " + _countOfMadeConnections + " connections");
-        Debug.Log("Sim Elements count " + sim.elements.Count);
-
-
-        _sceneItems.Clear();
+        _listOfNetworks.Clear();
     }
 
     // Update is called once per frame
@@ -107,7 +168,10 @@ public class GUICircuit : MonoBehaviour
         {
             try
             {
-                sim.doTick();
+                foreach (Circuit sim in simList)
+                {
+                    sim.doTick();
+                }
             }
             catch (Circuit.Exception e)
             {

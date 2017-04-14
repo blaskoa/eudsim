@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class Change : MonoBehaviour
+public abstract class Change : MonoBehaviour
 {
     public bool CreateDestroyType;
     public Vector3 position = new Vector3();
@@ -14,18 +14,7 @@ public class Change : MonoBehaviour
         CreateDestroyType = false;
     }
 
-    public virtual void SetChange(List<float> properties)
-    {
-
-    }
-
-    public virtual void UndoChange()
-    {
-
-    }
-
-    public virtual void RedoChange()
-    {
-
-    }
+    public abstract void SetChange(List<float> properties);
+    public abstract void UndoChange();
+    public abstract void RedoChange();
 }

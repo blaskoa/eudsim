@@ -205,8 +205,8 @@ public class MainMenuButtons : MonoBehaviour
     // Circuit error 1
     public static void CircuitError(ICircuitElement element)
     {
-        Whisp whisp = FindObjectOfType<Whisp>();
-        string path = element.ToString();
+        Whisp whisp = FindObjectOfType<Whisp>();            // tuna je ta chyba niekde,, bez tohto nevyhadzuje nikde chybu
+        /*string path = element.ToString();
         int pos = path.LastIndexOf(".", StringComparison.Ordinal) + 1;
         string componentName = path.Substring(pos, path.Length - pos);
 
@@ -235,7 +235,7 @@ public class MainMenuButtons : MonoBehaviour
         {
             whisp.Say(ResourceReader.Instance.GetResource("CircuitErrorMissingErrorBox") + "{" + resComponentName + "}");
         }
-        whisp.Say(resCircuitErrorMsg);
+        whisp.Say(resCircuitErrorMsg);*/
     }
 
     // Open the HTML Manual
