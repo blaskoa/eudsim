@@ -28,52 +28,41 @@ public class Line : MonoBehaviour, IPointerClickHandler
     {  
         StartPos.x = Begin.transform.position.x;
         StartPos.y = Begin.transform.position.y;
-        StartPos.z = Begin.transform.position.z;
+        StartPos.z = 0;
 
         //when i correctly connect two connectors
         if (End != null)
         {
             EndPos.x = End.transform.position.x;
             EndPos.y = End.transform.position.y;
-            EndPos.z = End.transform.position.z;          
-
-            //get offset for filling curve
-            float offset;
-            if (StartPos.x > EndPos.x)
-            {
-                offset = 0.5f;
-            }
-            else
-            {
-                offset = -0.5f;
-            }
+            EndPos.z = 0;          
 
             //when space was 1 times pressed - right break line
             if (TypeOfLine == "RightBreak")
             {
                 _line = GetComponent<LineRenderer>();
-                _line.SetVertexCount(4);
+                _line.numPositions = 3;
+                _line.numCornerVertices = 1;
 
-                _line.SetPosition(0, new Vector3(StartPos.x, StartPos.y, -1));
-                _line.SetPosition(1, new Vector3(EndPos.x + offset, StartPos.y, -1));
-                _line.SetPosition(2, new Vector3(EndPos.x, StartPos.y, -1));
-                _line.SetPosition(3, new Vector3(EndPos.x, EndPos.y, -1));
+                _line.SetPosition(0, new Vector3(StartPos.x, StartPos.y, 0));
+                _line.SetPosition(1, new Vector3(EndPos.x, StartPos.y, 0));
+                _line.SetPosition(2, new Vector3(EndPos.x, EndPos.y, 0));
 
-                MiddlePos = new Vector3(EndPos.x, StartPos.y, -1);
+                MiddlePos = new Vector3(EndPos.x, StartPos.y, 0);
             }
 
             //when space was 2 times pressed - left break line
             else if (TypeOfLine == "LeftBreak")
             {
                 _line = GetComponent<LineRenderer>();
-                _line.SetVertexCount(4);
+                _line.numPositions = 3;
+                _line.numCornerVertices = 1;
 
-                _line.SetPosition(0, new Vector3(EndPos.x, EndPos.y, -1));
-                _line.SetPosition(1, new Vector3(StartPos.x - offset, EndPos.y, -1));
-                _line.SetPosition(2, new Vector3(StartPos.x, EndPos.y, -1));
-                _line.SetPosition(3, new Vector3(StartPos.x, StartPos.y, -1));
+                _line.SetPosition(0, new Vector3(EndPos.x, EndPos.y, 0));
+                _line.SetPosition(1, new Vector3(StartPos.x, EndPos.y, 0));
+                _line.SetPosition(2, new Vector3(StartPos.x, StartPos.y, 0));
 
-                MiddlePos = new Vector3(StartPos.x, EndPos.y, -1);
+                MiddlePos = new Vector3(StartPos.x, EndPos.y, 0);
             }
             
 
@@ -92,7 +81,7 @@ public class Line : MonoBehaviour, IPointerClickHandler
         else
         {
             _line = GetComponent<LineRenderer>();
-            _line.SetVertexCount(2);
+            _line.numPositions = 2;
             _line.SetPosition(0, StartPos);
             _line.SetPosition(1, EndPos);
         }
