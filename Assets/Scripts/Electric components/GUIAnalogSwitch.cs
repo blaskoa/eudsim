@@ -7,7 +7,8 @@ public class GUIAnalogSwitch : GUICircuitComponent
 {
     private string _name = "Switch";
     private AnalogSwitchEntity _analogSwitchEntity;
-    private const bool DefaultState = true;
+    private SwitchSPST _analogSwitchComponent;
+    private const bool DefaultState = false;
 
     public void SetName(string val)
     {
@@ -51,6 +52,23 @@ public class GUIAnalogSwitch : GUICircuitComponent
             }
 
             _analogSwitchEntity.TurnedOff = value;
+            if (_analogSwitchEntity.TurnedOff == true)
+            {
+                if (_analogSwitchComponent.IsOpen == true)
+                {
+                    _analogSwitchComponent.toggle();
+                    Debug.Log("Zavrel som switch");
+                }
+            }
+            else if (_analogSwitchEntity.TurnedOff == false)
+            {
+                if (_analogSwitchComponent.IsOpen == false)
+                {
+                    _analogSwitchComponent.toggle();
+                    Debug.Log("Otvoril som switch");
+                }
+            }
+          
             if (GameObject.Find("PlayToggle").GetComponent<UnityEngine.UI.Toggle>().isOn)
             {
                 GameObject.Find("PlayButton").GetComponent<GUICircuit>().RunSimulation();
@@ -108,6 +126,7 @@ public class GUIAnalogSwitch : GUICircuitComponent
             {
                 _analogSwitchEntity = new AnalogSwitchEntity {TurnedOff = DefaultState};
             }
+            _analogSwitchComponent = new SwitchSPST();
             SetAndInitializeConnectors();
             
             GameObject componentIdManager = GameObject.Find("_ComponentIdManager");
@@ -119,27 +138,10 @@ public class GUIAnalogSwitch : GUICircuitComponent
 
     public override void SetSimulationProp(Circuit sim)
     {
-        //todo toto ani boh neive ako funguje, budeme musiet spravit vlastny switch - mozno nejako len nespajat veci v obvode ak je vypnuty
-        //todo a.k.a nieco podobne (toto asi bude padat)
-        if (!_analogSwitchEntity.TurnedOff)
-        {
-        }
+        _analogSwitchComponent = sim.Create<SwitchSPST>();
 
-        AnalogSwitch analogSwitch = sim.Create<AnalogSwitch>();
-
-        if (analogSwitch.open && _analogSwitchEntity.TurnedOff == false)
-        {
-            analogSwitch.invert = true;
-        }
-        else if (analogSwitch.open == false && _analogSwitchEntity.TurnedOff == true)
-        {
-            analogSwitch.invert = true;
-        }
-
-       
-
-        Connectors[0].DllConnector = analogSwitch.leadIn;
-        Connectors[1].DllConnector = analogSwitch.leadOut;
+        Connectors[0].DllConnector = _analogSwitchComponent.leadA;
+        Connectors[1].DllConnector = _analogSwitchComponent.leadB;
     }
 
     public override void SetAllProperties(List<float> properties)
