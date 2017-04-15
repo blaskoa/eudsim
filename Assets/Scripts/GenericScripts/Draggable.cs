@@ -32,7 +32,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         if (SelectObject.SelectedObjects.Count != 0 && !SelectObject.SelectedObjects.Contains(this.gameObject))
         {
             //deselect item
-            GameObject item = GameObject.Find("Container");
+            GameObject item = GameObject.Find("Canvas");
             item.GetComponent<SelectObject>().DeselectObject();
 
             // Deselect line
@@ -78,10 +78,30 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             _draggingItem.transform.localScale = new Vector3(1,1,0);
             _draggingItem.GetComponent<SpriteRenderer>().enabled = true;
             _draggingItem.GetComponent<SpriteRenderer>().sortingLayerName = "ActiveItem";
+            
 
             for (int i = 0; i < _draggingItem.transform.childCount; i++)
             {
                 _draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingLayerName = "ActiveItem";
+                _draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().enabled = true;
+                _draggingItem.transform.GetChild(i).gameObject.layer = 8;
+            }
+            // Newly created component needs to be selected otherwise an error will occur
+            SelectObject.AddToSelection(_draggingItem);
+        }
+        else if (this.gameObject.tag == "Node")
+        {
+            _draggingItem = Instantiate(this.gameObject);
+            _draggingItem.tag = "ActiveNode";
+            _draggingItem.layer = 8; //Name of 8th layer is ActiveItem
+            _draggingItem.transform.localScale = new Vector3(1, 1, 0);
+            _draggingItem.GetComponent<SpriteRenderer>().enabled = true;
+            _draggingItem.GetComponent<SpriteRenderer>().sortingLayerName = "ActiveItem";
+
+            for (int i = 0; i < _draggingItem.transform.childCount; i++)
+            {
+                _draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingLayerName = "ActiveItem";
+                _draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().transform.localScale = new Vector3(1, 1, 0);
                 _draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().enabled = true;
                 _draggingItem.transform.GetChild(i).gameObject.layer = 8;
             }
@@ -126,37 +146,23 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
 
 
-        if (this.gameObject.tag == "Node")
-        {
-            _draggingItem = Instantiate(this.gameObject);
-            _draggingItem.tag = "ActiveNode";
-            _draggingItem.layer = 8; //Name of 8th layer is ActiveItem
-            _draggingItem.transform.localScale = new Vector3(1, 1, 0);
-            _draggingItem.GetComponent<SpriteRenderer>().enabled = true;
-            _draggingItem.GetComponent<SpriteRenderer>().sortingLayerName = "ActiveItem";
-
-            for (int i = 0; i < _draggingItem.transform.childCount; i++)
-            {
-                _draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingLayerName = "ActiveItem";
-                _draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().transform.localScale = new Vector3(1,1,0);
-                _draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().enabled = true;
-                _draggingItem.transform.GetChild(i).gameObject.layer = 8;
-            }
-        }
+        
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         if (_draggingItem != null)
-        {
+        {           
             if (dragging == false)
             {
                 curentPos.Add(_draggingItem.transform.position);
             }
             dragging = true;
+            
             //Moving the item with the mouse.
             Vector2 mouseDiff = (Vector2) Camera.main.ScreenToWorldPoint(eventData.position) - _mousePos;
             _draggingItem.transform.position = _itemPos + mouseDiff;
+            _draggingItem.transform.position = new Vector3(_draggingItem.transform.position.x, _draggingItem.transform.position.y);
         }
         else if (SelectObject.SelectedObjects.Count > 1)
         {
@@ -179,6 +185,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        
         if (_draggingItem != null)
         {
             dragging = false;
@@ -191,6 +198,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             finalPos /= 2;
 
             _draggingItem.transform.position = finalPos;
+            _draggingItem.transform.position = new Vector3(_draggingItem.transform.position.x, _draggingItem.transform.position.y, -6);
+            
 
             if (tbitem == false) {
                 List<float> properties = new List<float>();
@@ -215,6 +224,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
             //checking colision
             Colision();
+            _draggingItem.transform.position = new Vector3(_draggingItem.transform.position.x, _draggingItem.transform.position.y, -6);
             _draggingItem = null;
         }
         else if (SelectObject.SelectedObjects.Count > 1)
@@ -280,7 +290,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             startPositions[index] = new Vector3(
                 SelectObject.SelectedObjects[index].transform.position.x,
                 SelectObject.SelectedObjects[index].transform.position.y,
-                0
+                -6
             );
             // Get the leftmost coordinates of the selection
             if (SelectObject.SelectedObjects[index].transform.position.x < topLeftMost.x)

@@ -107,7 +107,7 @@ public class MultiSelect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public void DoDeselect()
     {
         //deselect item
-        GameObject item = GameObject.Find("Container");
+        GameObject item = GameObject.Find("Canvas");
         item.GetComponent<SelectObject>().DeselectObject();
 
         // Deselect line

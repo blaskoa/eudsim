@@ -42,7 +42,7 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
             
-        if (this.gameObject.tag == "ToolboxItem" || this.gameObject.tag == "Node" || this.gameObject.tag == "ToolboxItemActive")
+        if (this.gameObject.tag == "ToolboxItem" || this.gameObject.tag == "Node" || this.gameObject.tag == "ToolboxItemActive" || this.gameObject.tag == "Untagged")
         {
             return;
         }

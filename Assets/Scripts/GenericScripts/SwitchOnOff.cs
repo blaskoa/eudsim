@@ -31,15 +31,19 @@ public class SwitchOnOff : MonoBehaviour, IPointerClickHandler {
             Toggle checkBox =
                 propertiesContainer.transform.FindChild("TurnedOffPropertyLabel").gameObject.GetComponent<Toggle>();
 
+            GUIAnalogSwitch guiSwitch = this.gameObject.GetComponent<GUIAnalogSwitch>();
+
             if (checkBox.isOn)
             {
                 image.sprite = _switchOn;
                 spriteRenderer.sprite = _switchOn;
+                guiSwitch.TurnedOff = true;
             }
             else
             {
                 image.sprite = _switchOff;
                 spriteRenderer.sprite = _switchOff;
+                guiSwitch.TurnedOff = false;
             }
         }
     }
@@ -54,19 +58,22 @@ public class SwitchOnOff : MonoBehaviour, IPointerClickHandler {
 
             GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
             Toggle checkBox = propertiesContainer.transform.FindChild("TurnedOffPropertyLabel").gameObject.GetComponent<Toggle>();
-            
+
+            GUIAnalogSwitch guiSwitch = this.gameObject.GetComponent<GUIAnalogSwitch>();
 
             if (image.sprite.name == _switchOff.name)
             {
                 image.sprite = _switchOn;
                 spriteRenderer.sprite = _switchOn;
                 checkBox.isOn = true;
+                guiSwitch.SetTurnedOff(true);
             }
             else if (image.sprite.name == _switchOn.name)
             {
                 image.sprite = _switchOff;
                 spriteRenderer.sprite = _switchOff;
                 checkBox.isOn = false;
+                guiSwitch.SetTurnedOff(false);
             }
 
         }

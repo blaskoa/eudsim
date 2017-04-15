@@ -21,7 +21,7 @@ public class RotateMultiObject : MonoBehaviour {
             {
                 Vector3 curentPos = objectSelected.transform.position;
 
-                objectSelected.transform.RotateAround(point, new Vector3(0, 0, 1), +90);
+                objectSelected.transform.RotateAround(point, new Vector3(0, 0, 1), -90);
 
                 Vector3 finalPos = objectSelected.transform.position;
 
@@ -35,7 +35,7 @@ public class RotateMultiObject : MonoBehaviour {
                 properties.Add(objectSelected.GetComponent<GUICircuitComponent>().GetId());
                 properties.Add(0);
                 properties.Add(0);
-                properties.Add(-90);
+                properties.Add(+90);
                 properties.Add(0);
 
                 PosChange change = DoUndo.dummyObj.AddComponent<PosChange>();
@@ -48,7 +48,9 @@ public class RotateMultiObject : MonoBehaviour {
             GUICircuitComponent.globalUndoList.AddUndo(undoAction);
 
             //checking colision
-            GameObject.Find("Container").GetComponent<Draggable>().Colision();
+            GameObject.Find("" +
+                            "Canvas" +
+                            "").GetComponent<Draggable>().Colision();
 
             //transform position of each lines in scene
             GameObject line = GameObject.Find("Line(Clone)");
@@ -70,7 +72,7 @@ public class RotateMultiObject : MonoBehaviour {
             {
                Vector3 curentPos = objectSelected.transform.position;
 
-                objectSelected.transform.RotateAround(point, new Vector3(0, 0, 1), -90);
+                objectSelected.transform.RotateAround(point, new Vector3(0, 0, 1), +90);
 
                 Vector3 finalPos = objectSelected.transform.position;
 
@@ -84,7 +86,7 @@ public class RotateMultiObject : MonoBehaviour {
                 properties.Add(objectSelected.GetComponent<GUICircuitComponent>().GetId());
                 properties.Add(0);
                 properties.Add(0);
-                properties.Add(+90);
+                properties.Add(-90);
                 properties.Add(0);
 
                 PosChange change = DoUndo.dummyObj.AddComponent<PosChange>();
@@ -95,7 +97,7 @@ public class RotateMultiObject : MonoBehaviour {
             }
             GUICircuitComponent.globalUndoList.AddUndo(undoAction);
             //checking colision
-            GameObject.Find("Container").GetComponent<Draggable>().Colision();
+            GameObject.Find("Canvas").GetComponent<Draggable>().Colision();
 
             //transform position of each lines in scene
             GameObject line = GameObject.Find("Line(Clone)");

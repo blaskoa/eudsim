@@ -127,6 +127,17 @@ public class GUIAnalogSwitch : GUICircuitComponent
 
         AnalogSwitch analogSwitch = sim.Create<AnalogSwitch>();
 
+        if (analogSwitch.open && _analogSwitchEntity.TurnedOff == false)
+        {
+            analogSwitch.invert = true;
+        }
+        else if (analogSwitch.open == false && _analogSwitchEntity.TurnedOff == true)
+        {
+            analogSwitch.invert = true;
+        }
+
+       
+
         Connectors[0].DllConnector = analogSwitch.leadIn;
         Connectors[1].DllConnector = analogSwitch.leadOut;
     }
