@@ -29,6 +29,14 @@ public class Persistance : MonoBehaviour
     private GameObject _voltmeterPrefab;
     [SerializeField]
     private GameObject _linePrefab;
+    [SerializeField]
+    private GameObject _ledDiodePrefab;
+    [SerializeField]
+    private GameObject _transistorNPNPrefab;
+    [SerializeField]
+    private GameObject _transistorPNPPrefab;
+    [SerializeField]
+    private GameObject _zenerDiodePrefab;
 
     private string _lastFileName;
 
@@ -172,6 +180,34 @@ public class Persistance : MonoBehaviour
                 concreteGameObject.GetComponent<GUINode>().Awake();
                 concreteGameObject.GetComponent<GUINode>().Entity = concreteEntity;
             }
+            else if (entityType == typeof(LedDiodeEntity))
+            {
+                LedDiodeEntity concreteEntity = simulationElement as LedDiodeEntity;
+                GameObject concreteGameObject = InstantiateGameObject(_ledDiodePrefab);
+                concreteGameObject.GetComponent<GUILedDiode>().Awake();
+                concreteGameObject.GetComponent<GUILedDiode>().Entity = concreteEntity;
+            }
+            else if (entityType == typeof(TransistorNPNEntity))
+            {
+                TransistorNPNEntity concreteEntity = simulationElement as TransistorNPNEntity;
+                GameObject concreteGameObject = InstantiateGameObject(_transistorNPNPrefab);
+                concreteGameObject.GetComponent<GUITransistorNPN>().Awake();
+                concreteGameObject.GetComponent<GUITransistorNPN>().Entity = concreteEntity;
+            }
+            else if (entityType == typeof(TransistorPNPEntity))
+            {
+                TransistorPNPEntity concreteEntity = simulationElement as TransistorPNPEntity;
+                GameObject concreteGameObject = InstantiateGameObject(_transistorPNPPrefab);
+                concreteGameObject.GetComponent<GUITransistorPNP>().Awake();
+                concreteGameObject.GetComponent<GUITransistorPNP>().Entity = concreteEntity;
+            }
+            else if (entityType == typeof(ZenerDiodeEntity))
+            {
+                ZenerDiodeEntity concreteEntity = simulationElement as ZenerDiodeEntity;
+                GameObject concreteGameObject = InstantiateGameObject(_zenerDiodePrefab);
+                concreteGameObject.GetComponent<GUIZenerDiode>().Awake();
+                concreteGameObject.GetComponent<GUIZenerDiode>().Entity = concreteEntity;
+            }
         }
 
         List<Connector> connectors = FindObjectsOfType<Connector>().ToList();
@@ -254,6 +290,7 @@ public class Persistance : MonoBehaviour
         }
         return activeGameObject;
     }
+
     [Serializable]
     private class SerializationPackage
     {

@@ -71,6 +71,15 @@ public class ExportHTML : MonoBehaviour
                     imageName = "images/coil.png";
                 else if (obj.name.Contains("Resistor"))
                     imageName = "images/resistor.png";
+                else if (obj.name.Contains("TransistorPNP"))
+                    imageName = "images/PNPTranzistor.png";
+                else if (obj.name.Contains("TransistorNPN"))
+                    imageName = "images/NPNTransistor.png";
+                else if (obj.name.Contains("ZenerDiode"))
+                    imageName = "images/ZenerDiode.png";
+                else if (obj.name.Contains("LedDiode"))
+                    imageName = "images/LedDiode.png";
+                
 
                 Vector3 screenPos = Camera.WorldToScreenPoint(obj.transform.position);
 
@@ -90,6 +99,16 @@ public class ExportHTML : MonoBehaviour
                     screenPos =
                         Camera.WorldToScreenPoint(
                             obj.GetComponent<GUICircuitComponent>().Connectors[1].transform.position);
+                    exportArrayList.Add("{x:" + screenPos.x + ",y:" + screenPos.y +
+                        ",radius:7, img:'images/connector.png',componentName:'n/a'},");
+                }
+
+                if (obj.name.Contains("Transistor") == true)
+                //as this is so far only way how to determine count of connectors we relay on name
+                {
+                    screenPos =
+                        Camera.WorldToScreenPoint(
+                            obj.GetComponent<GUICircuitComponent>().Connectors[2].transform.position);
                     exportArrayList.Add("{x:" + screenPos.x + ",y:" + screenPos.y +
                         ",radius:7, img:'images/connector.png',componentName:'n/a'},");
                 }
