@@ -88,6 +88,22 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             }
             // Newly created component needs to be selected otherwise an error will occur
             SelectObject.AddToSelection(_draggingItem);
+
+            UndoAction undoAction = new UndoAction();
+            GUICircuitComponent component = _draggingItem.GetComponent<GUICircuitComponent>();
+            List<float> prop = new List<float>();
+            prop.Add((float)1.0);
+            prop.Add((float)component.GetId());
+            prop.Add((float)_draggingItem.gameObject.transform.GetChild(0).GetComponent<Connectable>().GetID());
+            prop.Add((float)_draggingItem.gameObject.transform.GetChild(1).GetComponent<Connectable>().GetID());
+            CreateDeleteCompChange change = DoUndo.dummyObj.AddComponent<CreateDeleteCompChange>();
+            change.SetPosition(_draggingItem.transform.position);
+            change.SetChange(prop);
+            change.SetType(_draggingItem.gameObject.GetComponent<GUICircuitComponent>().GetType());
+            change.RememberConnectorsToFirst(_draggingItem.gameObject.transform.GetChild(0).GetComponent<Connectable>().Connected);
+            change.RememberConnectorsToSecond(_draggingItem.gameObject.transform.GetChild(1).GetComponent<Connectable>().Connected);
+            undoAction.AddChange(change);
+            GUICircuitComponent.globalUndoList.AddUndo(undoAction);
         }
         else if (this.gameObject.tag == "Node")
         {
@@ -108,22 +124,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
             // Newly created component needs to be selected otherwise an error will occur
             SelectObject.AddToSelection(_draggingItem);
-
-            UndoAction undoAction = new UndoAction();
-            GUICircuitComponent component = _draggingItem.GetComponent<GUICircuitComponent>();
-            List<float> prop = new List<float>();
-            prop.Add((float)1.0);
-            prop.Add((float)component.GetId());
-            prop.Add((float)_draggingItem.gameObject.transform.GetChild(0).GetComponent<Connectable>().GetID());
-            prop.Add((float)_draggingItem.gameObject.transform.GetChild(1).GetComponent<Connectable>().GetID());
-            CreateDeleteCompChange change = DoUndo.dummyObj.AddComponent<CreateDeleteCompChange>();
-            change.SetPosition(_draggingItem.transform.position);
-            change.SetChange(prop);
-            change.SetType(_draggingItem.gameObject.GetComponent<GUICircuitComponent>().GetType());
-            change.RememberConnectorsToFirst(_draggingItem.gameObject.transform.GetChild(0).GetComponent<Connectable>().Connected);
-            change.RememberConnectorsToSecond(_draggingItem.gameObject.transform.GetChild(1).GetComponent<Connectable>().Connected);
-            undoAction.AddChange(change);
-            GUICircuitComponent.globalUndoList.AddUndo(undoAction);
+        
         }
         else if (SelectObject.SelectedObjects.Count == 0 || SelectObject.SelectedObjects.Count == 1 && SelectObject.SelectedObjects[0] == this.gameObject)
         {           

@@ -27,8 +27,8 @@ public class CamZoom : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         // Checking for max zoom in.
         if (_zoomSize > _maxZoomIn)
         {
-            _zoomSize -= 1f;
-            _zoomPercent += 25;
+            _zoomSize -= 0.2f;
+            _zoomPercent += 5;
             GameObject zoomField = GameObject.Find("ZoomText");
             zoomField.GetComponent<UnityEngine.UI.Text>().text = _zoomPercent + "%";
         }
@@ -40,8 +40,8 @@ public class CamZoom : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         // Checking for max zoom in.
         if (_zoomSize < _maxZoomOut)
         {
-            _zoomSize += 1f;
-            _zoomPercent -= 25;
+            _zoomSize += 0.2f;
+            _zoomPercent -= 5;
             GameObject zoomField = GameObject.Find("ZoomText");
             zoomField.GetComponent<UnityEngine.UI.Text>().text = _zoomPercent + "%";
         }
