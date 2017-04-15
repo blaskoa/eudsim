@@ -87,6 +87,25 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             // Newly created component needs to be selected otherwise an error will occur
             SelectObject.AddToSelection(_draggingItem);
         }
+        else if (this.gameObject.tag == "Node")
+        {
+            _draggingItem = Instantiate(this.gameObject);
+            _draggingItem.tag = "ActiveNode";
+            _draggingItem.layer = 8; //Name of 8th layer is ActiveItem
+            _draggingItem.transform.localScale = new Vector3(1, 1, 0);
+            _draggingItem.GetComponent<SpriteRenderer>().enabled = true;
+            _draggingItem.GetComponent<SpriteRenderer>().sortingLayerName = "ActiveItem";
+
+            for (int i = 0; i < _draggingItem.transform.childCount; i++)
+            {
+                _draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingLayerName = "ActiveItem";
+                _draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().transform.localScale = new Vector3(1, 1, 0);
+                _draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().enabled = true;
+                _draggingItem.transform.GetChild(i).gameObject.layer = 8;
+            }
+            // Newly created component needs to be selected otherwise an error will occur
+            SelectObject.AddToSelection(_draggingItem);
+        }
         else if (SelectObject.SelectedObjects.Count == 0 || SelectObject.SelectedObjects.Count == 1 && SelectObject.SelectedObjects[0] == this.gameObject)
         {           
             _draggingItem = this.gameObject;
@@ -108,23 +127,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
 
 
-        if (this.gameObject.tag == "Node")
-        {
-            _draggingItem = Instantiate(this.gameObject);
-            _draggingItem.tag = "ActiveNode";
-            _draggingItem.layer = 8; //Name of 8th layer is ActiveItem
-            _draggingItem.transform.localScale = new Vector3(1, 1, 0);
-            _draggingItem.GetComponent<SpriteRenderer>().enabled = true;
-            _draggingItem.GetComponent<SpriteRenderer>().sortingLayerName = "ActiveItem";
-
-            for (int i = 0; i < _draggingItem.transform.childCount; i++)
-            {
-                _draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingLayerName = "ActiveItem";
-                _draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().transform.localScale = new Vector3(1,1,0);
-                _draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().enabled = true;
-                _draggingItem.transform.GetChild(i).gameObject.layer = 8;
-            }
-        }
+        
     }
 
     public void OnDrag(PointerEventData eventData)
