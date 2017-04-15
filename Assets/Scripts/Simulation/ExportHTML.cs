@@ -74,7 +74,7 @@ public class ExportHTML : MonoBehaviour
                 else if (obj.name.Contains("TransistorPNP"))
                     imageName = "images/PNPTranzistor.png";
                 else if (obj.name.Contains("TransistorNPN"))
-                    imageName = "images/NPNTransistor.png";
+                    imageName = "images/NPNTranzistor.png";
                 else if (obj.name.Contains("ZenerDiode"))
                     imageName = "images/ZenerDiode.png";
                 else if (obj.name.Contains("LedDiode"))
