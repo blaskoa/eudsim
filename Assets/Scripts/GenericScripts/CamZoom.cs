@@ -1,13 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
 
-public class CamZoom : MonoBehaviour {
+public class CamZoom : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+{
 
     // Zooming parameters.
     private float _zoomSize;
     private float _maxZoomIn;
     private float _maxZoomOut;
     private int _zoomPercent;
+    private bool _isListening = false;
 
     // Use this for initialization
     void Start () {
@@ -44,14 +47,12 @@ public class CamZoom : MonoBehaviour {
         }
     }
 
-    // Update is called once per frame
-    void Update () {       
-
-        //scrolling only if mouse position is on background grid
-        if (Input.mousePosition.x > 193 && Input.mousePosition.x < 555 && Input.mousePosition.y < 269 &&
-            Input.mousePosition.y > 104)
+    void OnGUI()
+    {
+        if (!_isListening)
         {
-            
+            //scrolling only if mouse position is on background grid
+
             // Scrolling up.
             if (Input.GetAxis("Mouse ScrollWheel") > 0)
             {
@@ -69,8 +70,23 @@ public class CamZoom : MonoBehaviour {
                 {
                     ZoomOut();
                 }
-            }            
+            }
         }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        _isListening = true;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        _isListening = false;
+    }
+
+    // Update is called once per frame
+    void Update ()
+    {       
         GetComponent<Camera>().orthographicSize = _zoomSize;
     }
 }
