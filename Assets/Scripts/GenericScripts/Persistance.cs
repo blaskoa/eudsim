@@ -37,6 +37,8 @@ public class Persistance : MonoBehaviour
     private GameObject _transistorPNPPrefab;
     [SerializeField]
     private GameObject _zenerDiodePrefab;
+    [SerializeField]
+    private GameObject _potentiometerPrefab;
 
     private string _lastFileName;
 
@@ -208,6 +210,14 @@ public class Persistance : MonoBehaviour
                 concreteGameObject.GetComponent<GUIZenerDiode>().Awake();
                 concreteGameObject.GetComponent<GUIZenerDiode>().Entity = concreteEntity;
             }
+            else if (entityType == typeof(PotentiometerEntity))
+            {
+                PotentiometerEntity concreteEntity = simulationElement as PotentiometerEntity;
+                GameObject concreteGameObject = InstantiateGameObject(_potentiometerPrefab);
+                concreteGameObject.GetComponent<GUIPotentiometer>().Awake();
+                concreteGameObject.GetComponent<GUIPotentiometer>().Entity = concreteEntity;
+            }
+            
         }
 
         List<Connector> connectors = FindObjectsOfType<Connector>().ToList();
