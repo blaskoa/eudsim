@@ -5,6 +5,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+ using System.IO;
  using Assets.Scripts.Localization;
  using ClassLibrarySharpCircuit;
 
@@ -158,6 +159,12 @@ public class MainMenuButtons : MonoBehaviour
     public void NewProject()
     {
         FindObjectOfType<Persistance>().NewProject();
+    }
+
+    public void OpenExample(int exampleNumber)
+    {
+        FindObjectOfType<Persistance>().Load(Directory.GetCurrentDirectory() + "/ExampleCircuits/example" + exampleNumber + ".es");
+        GameObject.Find("ExampleCircuitCanvas").GetComponent<Canvas>().enabled = false;
     }
 
     // Open basic explorer after buttonClick to Open project
