@@ -21,14 +21,14 @@ public class MainMenuButtons : MonoBehaviour
         GameObject properties = GameObject.Find("PropertiesButton");
         GameObject objectExplorer = GameObject.Find("ObjectExplorerButton");
         GameObject debug = GameObject.Find("DebugButton");
-        toolbox.GetComponent<UnityEngine.UI.Image>().color = Color.grey;
-        properties.GetComponent<UnityEngine.UI.Image>().color = Color.grey;
-        objectExplorer.GetComponent<UnityEngine.UI.Image>().color = Color.grey;
-        debug.GetComponent<UnityEngine.UI.Image>().color = Color.grey;
+        toolbox.GetComponent<UnityEngine.UI.Image>().color = Color.white;
+        properties.GetComponent<UnityEngine.UI.Image>().color = Color.white;
+        //objectExplorer.GetComponent<UnityEngine.UI.Image>().color = Color.white;
+        debug.GetComponent<UnityEngine.UI.Image>().color = Color.white;
 
         // Scroll up to first row
         GameObject aboutViewport = GameObject.Find("AboutViewport");
-        aboutViewport.GetComponent<UnityEngine.UI.ScrollRect>().velocity = new Vector2(-0f, -10000f);
+        aboutViewport.GetComponent<UnityEngine.UI.ScrollRect>().velocity = new Vector2(0f, -10000f);
     }
 
     // Function to handle play and pause buttons
@@ -47,8 +47,8 @@ public class MainMenuButtons : MonoBehaviour
         {
             checkboxPlay.GetComponent<UnityEngine.UI.Toggle>().isOn = true;
             checkboxPause.GetComponent<UnityEngine.UI.Toggle>().isOn = false;
-            menuPlayButton.GetComponent<UnityEngine.UI.Image>().color = Color.grey;
-            menuPauseButton.GetComponent<UnityEngine.UI.Image>().color = Color.black;
+            menuPlayButton.GetComponent<UnityEngine.UI.Image>().color = new Color32(200, 200, 200, 255);
+            menuPauseButton.GetComponent<UnityEngine.UI.Image>().color = Color.white;
             playButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
             pauseButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
         }
@@ -56,8 +56,8 @@ public class MainMenuButtons : MonoBehaviour
         {
             checkboxPlay.GetComponent<UnityEngine.UI.Toggle>().isOn = false;
             checkboxPause.GetComponent<UnityEngine.UI.Toggle>().isOn = true;
-            menuPlayButton.GetComponent<UnityEngine.UI.Image>().color = Color.black;
-            menuPauseButton.GetComponent<UnityEngine.UI.Image>().color = Color.grey;
+            menuPlayButton.GetComponent<UnityEngine.UI.Image>().color = Color.white;
+            menuPauseButton.GetComponent<UnityEngine.UI.Image>().color = new Color32(200, 200, 200, 255);
             playButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
             pauseButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
         }
@@ -72,12 +72,12 @@ public class MainMenuButtons : MonoBehaviour
         if (guiComponent.activeSelf == false)
         {
             checkbox.GetComponent<UnityEngine.UI.Toggle>().isOn = true;
-            button.GetComponent<UnityEngine.UI.Image>().color = Color.grey;
+            button.GetComponent<UnityEngine.UI.Image>().color = Color.white;
         }
         else
         {
             checkbox.GetComponent<UnityEngine.UI.Toggle>().isOn = false;
-            button.GetComponent<UnityEngine.UI.Image>().color = Color.black;
+            button.GetComponent<UnityEngine.UI.Image>().color = new Color32(200, 200, 200, 255);
         }
 
         ShowPanel(guiComponent);
@@ -92,12 +92,12 @@ public class MainMenuButtons : MonoBehaviour
         if (guiComponent.activeSelf == false)
         {
             checkbox.GetComponent<UnityEngine.UI.Toggle>().isOn = true;
-            button.GetComponent<UnityEngine.UI.Image>().color = Color.grey;
+            button.GetComponent<UnityEngine.UI.Image>().color = Color.white;
         }
         else
         {
             checkbox.GetComponent<UnityEngine.UI.Toggle>().isOn = false;
-            button.GetComponent<UnityEngine.UI.Image>().color = Color.black;
+            button.GetComponent<UnityEngine.UI.Image>().color = new Color32(200, 200, 200, 255);
         }
 
         ShowPanel(guiComponent);
@@ -112,12 +112,12 @@ public class MainMenuButtons : MonoBehaviour
         if (guiComponent.activeSelf == false)
         {
             checkbox.GetComponent<UnityEngine.UI.Toggle>().isOn = true;
-            button.GetComponent<UnityEngine.UI.Image>().color = Color.grey;
+            button.GetComponent<UnityEngine.UI.Image>().color = Color.white;
         }
         else
         {
             checkbox.GetComponent<UnityEngine.UI.Toggle>().isOn = false;
-            button.GetComponent<UnityEngine.UI.Image>().color = Color.black;
+            button.GetComponent<UnityEngine.UI.Image>().color = new Color32(200, 200, 200, 255);
         }
 
         ShowPanel(guiComponent);
@@ -132,12 +132,12 @@ public class MainMenuButtons : MonoBehaviour
         if (guiComponent.activeSelf == false)
         {
             checkbox.GetComponent<UnityEngine.UI.Toggle>().isOn = true;
-            button.GetComponent<UnityEngine.UI.Image>().color = Color.grey;
+            button.GetComponent<UnityEngine.UI.Image>().color = Color.white;
         }
         else
         {
             checkbox.GetComponent<UnityEngine.UI.Toggle>().isOn = false;
-            button.GetComponent<UnityEngine.UI.Image>().color = Color.black;
+            button.GetComponent<UnityEngine.UI.Image>().color = new Color32(200, 200, 200, 255);
         }
 
         ShowPanel(guiComponent);

@@ -4,7 +4,13 @@ using Assets.Scripts.Entities;
 
 public class GUITransistorNPN : GUICircuitComponent
 {
+    private string _name = "Transistor NPN";
     private TransistorNPNEntity _transistorEntity;
+    
+    public void SetName(string val)
+    {
+        _name = val;
+    }
 
     public override SimulationElement Entity
     {
@@ -22,7 +28,12 @@ public class GUITransistorNPN : GUICircuitComponent
 
     public override void GetProperties()
     {
+        GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
+        EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
+
+        script.AddString("ComponentNameLabel", _name, SetName);
     }
+    
     public override string GetPropertiesForExport()
     {
         return "<p><span class=\"field-title\">" + "Type " + "</span>" + " NPN" + " </p>";
@@ -38,6 +49,11 @@ public class GUITransistorNPN : GUICircuitComponent
                 _transistorEntity = new TransistorNPNEntity();
             }
             SetAndInitializeConnectors();
+            
+            GameObject componentIdManager = GameObject.Find("_ComponentIdManager");
+            GenerateId script = componentIdManager.GetComponent<GenerateId>();
+            script.generatedIds[11]++;
+            _name += script.generatedIds[11].ToString();
         }
     }
 

@@ -102,8 +102,8 @@ public class GUIPotentiometer : GUICircuitComponent
             
             GameObject componentIdManager = GameObject.Find("_ComponentIdManager");
             GenerateId script = componentIdManager.GetComponent<GenerateId>();
-            script.generatedIds[6]++;
-            _name += script.generatedIds[6].ToString();
+            script.generatedIds[12]++;
+            _name += script.generatedIds[12].ToString();
         }
     }
 

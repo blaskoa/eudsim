@@ -136,7 +136,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 SelectObject.SelectedObjects.Add(_draggingItem);
                 _draggingItem.GetComponent<SelectObject>().SelectionBox.GetComponent<SpriteRenderer>().enabled = true;
             }
-            _tbu.EnableToolbarButtons();
 
             // Clear the Properties Window
             script.Clear();
@@ -145,9 +144,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             GUICircuitComponent componentScript = _draggingItem.GetComponent<GUICircuitComponent>();
             componentScript.GetProperties();
         }
-
-
         
+        _tbu.EnableToolbarButtons();
     }
 
     public void OnDrag(PointerEventData eventData)

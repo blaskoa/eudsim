@@ -5,9 +5,15 @@ using Assets.Scripts.Entities;
 
 public class GUIZenerDiode : GUICircuitComponent
 {
+    private string _name = "Zener Diode";
     private ZenerDiodeEntity _zenerEntity;
     private ZenerElm diodeComponent;
 
+    public void SetName(string val)
+    {
+        _name = val;
+    }
+    
     public override SimulationElement Entity
     {
         get
@@ -27,6 +33,7 @@ public class GUIZenerDiode : GUICircuitComponent
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
+        script.AddString("ComponentNameLabel", _name, SetName);
         script.AddResult("CurrentPropertyLabel", diodeComponent.getCurrent().ToString(CultureInfo.InvariantCulture), "A");
     }
 
@@ -53,6 +60,11 @@ public class GUIZenerDiode : GUICircuitComponent
             diodeComponent = new ZenerElm();
 
             SetAndInitializeConnectors();
+            
+            GameObject componentIdManager = GameObject.Find("_ComponentIdManager");
+            GenerateId script = componentIdManager.GetComponent<GenerateId>();
+            script.generatedIds[9]++;
+            _name += script.generatedIds[9].ToString();
         }
     }
 
