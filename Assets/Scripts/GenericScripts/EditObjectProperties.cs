@@ -145,7 +145,8 @@ public class EditObjectProperties : MonoBehaviour
 
         // Set Property Value
         Text propertyValue = newProperty.transform.FindChild("Value").gameObject.GetComponent<Text>();
-        propertyValue.text = value + " " + unit;
+        float numericVal = float.Parse(value);
+        propertyValue.text = Math.Round(numericVal, 3) + " " + unit;
 
         // Add newly created property to the UI
         newProperty.transform.SetParent(_propertyContent.transform, false);
