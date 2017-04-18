@@ -1,8 +1,7 @@
 
 ﻿using Assets.Scripts.Utils;
-
-
-﻿using System;
+using Assets.Scripts.Hotkeys;
+using System;
 using UnityEngine;
 using System.Collections;
  using System.IO;
@@ -12,6 +11,17 @@ using System.Collections;
 
 public class MainMenuButtons : MonoBehaviour
 {
+    private const string _manualHotkey = "Manual";
+
+    // Handle hotkeys
+    public void Update()
+    {
+        bool check = HotkeyManager.Instance.CheckHotkey(_manualHotkey, KeyAction.Down);
+        if (HotkeyManager.Instance.CheckHotkey(_manualHotkey, KeyAction.Down))
+        {
+            OpenManual();
+        }
+    }
 
     void Start()
     {
@@ -246,7 +256,7 @@ public class MainMenuButtons : MonoBehaviour
     }
 
     // Open the HTML Manual
-    public void openManual()
+    public void OpenManual()
     {
         string manualPath = "manual/index.html";
         Application.OpenURL(System.IO.Path.Combine(Application.streamingAssetsPath, manualPath));

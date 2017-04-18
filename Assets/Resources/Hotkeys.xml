@@ -19,5 +19,7 @@
   <Hotkey name="MoveUp">119</Hotkey>
   <!--space key-->
   <Hotkey name="LineBreak">32</Hotkey>
+  <!--F1-->
+  <Hotkey name="Manual">282</Hotkey>
 </Hotkeys>
 
