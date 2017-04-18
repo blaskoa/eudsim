@@ -6,6 +6,8 @@ public class CameraMovement : MonoBehaviour
     // Mouse and dragged item positions at the start of dragging.
     private Vector2 _mousePos;
     private Vector3 _cameraPos;
+    private int _xLimit = 200;
+    private int _yLimit = 230;
 
     // Item we're dragging.
     [SerializeField] private Camera _mainCamera;
@@ -31,6 +33,26 @@ public class CameraMovement : MonoBehaviour
             newPos.x = _cameraPos.x + mouseDiff.x;
             newPos.y = _cameraPos.y + mouseDiff.y;
             newPos.z = _cameraPos.z;
+
+            // Check for X limits
+            if (newPos.x < -_xLimit)
+            {
+                newPos.x = -_xLimit;
+            }
+            else if (newPos.x > _xLimit)
+            {
+                newPos.x = _xLimit;
+            }
+
+            // Check for Y limits
+            if (newPos.y < -_yLimit)
+            {
+                newPos.y = -_yLimit;
+            }
+            else if (newPos.y > _yLimit)
+            {
+                newPos.y = _yLimit;
+            }
             _mainCamera.transform.position = newPos;
         }
     }
