@@ -26,13 +26,42 @@ public class ExportHTML : MonoBehaviour
         private set { _zipFileName = value.Trim(); }
     }
 
+    // Limit the distance from the component - usually to half radius, used for components and lines during export
+    private Vector3 _getRelativePosition(Vector3 absPositon, Vector3 componentPosition, int maxDistance)
+    {
+        Vector3 relativePosition = absPositon;
+        if (absPositon.x < componentPosition.x)
+        {
+            relativePosition.x = componentPosition.x - maxDistance;
+        }
+        else if (absPositon.x > componentPosition.x)
+        {
+            relativePosition.x = componentPosition.x + maxDistance;
+        }
+
+        if (absPositon.y < componentPosition.y)
+        {
+            relativePosition.y = componentPosition.y - maxDistance;
+        }
+        else if (absPositon.y > componentPosition.y)
+        {
+            relativePosition.y = componentPosition.y + maxDistance;
+        }
+
+        return relativePosition;
+    }
+
     // Exports the current scheme to HTML5
     public void MakeHtmlExport(string fileName)
     {
         // Base folder where all export files are located
-        const string baseFolder = "EduSimExport";
+        string baseFolder = "EduSimExport";
         const string javascriptPattern = "js/edusim-pattern.js";
         const string javascriptExport = "js/edusim.js";
+        const int radius = 36;
+        const int halfRadius = radius / 2;
+
+        string pathToExport = System.IO.Path.Combine(Application.streamingAssetsPath, baseFolder);
 
         if (!string.IsNullOrEmpty(fileName))
         {
@@ -52,7 +81,9 @@ public class ExportHTML : MonoBehaviour
             {
                 float x = obj.transform.position.x;
                 float y = obj.transform.position.y;
-                string imageName = "images/bulb.png"; //make bulb as default image
+
+                // Set image to be exported
+                string imageName;
                 if (obj.name.Contains("Node"))
                     imageName = "images/Node.png";
                 else if (obj.name.Contains("Bulb"))
@@ -79,28 +110,26 @@ public class ExportHTML : MonoBehaviour
                     imageName = "images/ZenerDiode.png";
                 else if (obj.name.Contains("LedDiode"))
                     imageName = "images/LedDiode.png";
-                
+                else
+                    imageName = "images/bulb.png";
 
+                // Get Screen position of the component
                 Vector3 screenPos = Camera.WorldToScreenPoint(obj.transform.position);
 
-                exportArrayList.Add("{x:" + screenPos.x + ",y:" + screenPos.y + ",radius:50, rotate:" +
+                exportArrayList.Add("{x:" + screenPos.x + ",y:" + screenPos.y + ",radius:" + radius.ToString() + ", rotate:" +
                          obj.GetComponent<GUICircuitComponent>().transform.rotation.eulerAngles.z + ", img:'" +
                          imageName + "' , componentName: '" + obj.GetComponent<GUICircuitComponent>().GetPropertiesForExport() + "'},");
 
-                //and connctros
-                screenPos =
-                    Camera.WorldToScreenPoint(obj.GetComponent<GUICircuitComponent>().Connectors[0].transform.position);
-                exportArrayList.Add("{x:" + screenPos.x + ",y:" + screenPos.y +
-                         ",radius:7, img:'images/connector.png',componentName:'n/a'},");
-
-                if (obj.name.Contains("Node") == false)
-                //as this is so far only way how to determine count of connectors we relay on name
+                // Export component's Connectors
+                List<Connector> connectors = obj.GetComponent<GUICircuitComponent>().Connectors;
+                foreach (Connector conn in connectors)
                 {
-                    screenPos =
-                        Camera.WorldToScreenPoint(
-                            obj.GetComponent<GUICircuitComponent>().Connectors[1].transform.position);
-                    exportArrayList.Add("{x:" + screenPos.x + ",y:" + screenPos.y +
-                        ",radius:7, img:'images/connector.png',componentName:'n/a'},");
+                    Vector3 connectorScreenPosition =
+                        Camera.WorldToScreenPoint(conn.transform.position);
+                    connectorScreenPosition = _getRelativePosition(connectorScreenPosition, screenPos, halfRadius);
+
+                    exportArrayList.Add("{x:" + connectorScreenPosition.x + ",y:" + connectorScreenPosition.y +
+                             ",radius:7, img:'images/connector.png',componentName:'n/a'},");
                 }
 
                 if (obj.name.Contains("Transistor") == true)
@@ -113,32 +142,47 @@ public class ExportHTML : MonoBehaviour
                         ",radius:7, img:'images/connector.png',componentName:'n/a'},");
                 }
             }
+
             if (obj.tag.Equals("ActiveLine") && obj.name.Contains("(Clone)"))
             {
-                Vector3 screenPosBegin = Camera.WorldToScreenPoint(obj.GetComponent<Line>().StartPos);
-                Vector3 screenPosMiddle = Camera.WorldToScreenPoint(obj.GetComponent<Line>().MiddlePos);
-                Vector3 screenPosEnd = Camera.WorldToScreenPoint(obj.GetComponent<Line>().EndPos);
-                if (obj.GetComponent<Line>().TypeOfLine != "NoBreak")
+                // Get Line and calculate it's relative position same as for the connectors
+                Line line = obj.GetComponent<Line>();
+                Vector3 screenPosBegin = Camera.WorldToScreenPoint(line.Begin.transform.position);
+                Vector3 componentPos = line.Begin.transform.parent.position;
+                componentPos = Camera.WorldToScreenPoint(componentPos);
+                screenPosBegin = _getRelativePosition(screenPosBegin, componentPos, halfRadius);
+                
+                Vector3 screenPosEnd = Camera.WorldToScreenPoint(line.End.transform.position);
+                componentPos = line.End.transform.parent.position;
+                componentPos = Camera.WorldToScreenPoint(componentPos);
+                screenPosEnd = _getRelativePosition(screenPosEnd, componentPos, halfRadius);
+                
+                Vector3 screenPosMiddle = Camera.WorldToScreenPoint(line.MiddlePos);
+                screenPosMiddle.x = line.MiddlePos.x == line.StartPos.x ? screenPosBegin.x : screenPosEnd.x;
+                screenPosMiddle.y = line.MiddlePos.y == line.StartPos.y ? screenPosBegin.y : screenPosEnd.y;
+
+                // Line has a middle point - it's broken
+                if (line.TypeOfLine != "NoBreak")
                 {
                     exportArrayList.Add("{x:" + screenPosBegin.x + ",y:" + screenPosBegin.y + ",z:" + screenPosMiddle.x + ",q:" +
-                             screenPosMiddle.y + ",radius:50, img:'images/wire.png',componentName:'n/a'},");
+                             screenPosMiddle.y + ",radius:" + radius.ToString() + ", img:'images/wire.png',componentName:'n/a'},");
                     exportArrayList.Add("{x:" + screenPosMiddle.x + ",y:" + screenPosMiddle.y + ",z:" + screenPosEnd.x + ",q:" +
-                             screenPosEnd.y + ",radius:50, img:'images/wire.png',componentName:'n/a'},");
+                             screenPosEnd.y + ",radius:" + radius.ToString() + ", img:'images/wire.png',componentName:'n/a'},");
                 }
                 else
                 {
                     exportArrayList.Add("{x:" + screenPosBegin.x + ",y:" + screenPosBegin.y + ",z:" + screenPosEnd.x + ",q:" +
-                             screenPosEnd.y + ",radius:50, img:'images/wire.png',componentName:'n/a'},");
+                             screenPosEnd.y + ",radius:" + radius.ToString() + ", img:'images/wire.png',componentName:'n/a'},");
                 }
             }
         }
         //and now make rotation to previous position
         Camera.transform.rotation *= Quaternion.Euler(180, 0, 0);
-        string text = File.ReadAllText(Path.Combine(baseFolder, javascriptPattern));
+        string text = File.ReadAllText(Path.Combine(pathToExport, javascriptPattern));
         string insertPoint = "let hotspots = [";
         int index = text.IndexOf(insertPoint, StringComparison.Ordinal) + insertPoint.Length;
         text = text.Insert(index, string.Join("", exportArrayList.ToArray()));
-        File.WriteAllText(Path.Combine(baseFolder, javascriptExport), text);
+        File.WriteAllText(Path.Combine(pathToExport, javascriptExport), text);
 
         // Create a ZIP archive of the export
         string subfolder = "";
@@ -146,31 +190,33 @@ public class ExportHTML : MonoBehaviour
         ZipFile zip = new ZipFile();
 
         // Add base folder to the archive
-        files = Directory.GetFiles(baseFolder, "*", SearchOption.TopDirectoryOnly);
+        files = Directory.GetFiles(pathToExport, "*", SearchOption.TopDirectoryOnly);
         zip.AddFiles(files, baseFolder);
 
         // Add css to the archive
         subfolder = "css";
-        files = Directory.GetFiles(Path.Combine(baseFolder, subfolder), "*", SearchOption.TopDirectoryOnly);
+        files = Directory.GetFiles(Path.Combine(pathToExport, subfolder), "*", SearchOption.TopDirectoryOnly);
         zip.AddFiles(files, Path.Combine(baseFolder, subfolder));
 
         // Add JavaScript scripts to the archive
         subfolder = "js";
-        files = Directory.GetFiles(Path.Combine(baseFolder, subfolder), "*", SearchOption.TopDirectoryOnly);
+        files = Directory.GetFiles(Path.Combine(pathToExport, subfolder), "*", SearchOption.TopDirectoryOnly);
         zip.AddFiles(files, Path.Combine(baseFolder, subfolder));
 
         // Add images to the archive
         subfolder = "images";
-        files = Directory.GetFiles(Path.Combine(baseFolder, subfolder), "*", SearchOption.TopDirectoryOnly);
+        files = Directory.GetFiles(Path.Combine(pathToExport, subfolder), "*", SearchOption.TopDirectoryOnly);
         zip.AddFiles(files, Path.Combine(baseFolder, subfolder));
 
         // Add fonts to the archive
         subfolder = "fonts";
-        files = Directory.GetFiles(Path.Combine(baseFolder, subfolder), "*", SearchOption.TopDirectoryOnly);
+        files = Directory.GetFiles(Path.Combine(pathToExport, subfolder), "*", SearchOption.TopDirectoryOnly);
         zip.AddFiles(files, Path.Combine(baseFolder, subfolder));
 
         // Save the archive
-        zip.Save(ZipFileName);
+        FileStream fileStream = new FileStream(ZipFileName, FileMode.OpenOrCreate);
+        zip.Save(fileStream);
+        fileStream.Close();
 
         this.GetComponent<Whisp>().Say("HTML export was successfully saved into " + ZipFileName + ".");
     }

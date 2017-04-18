@@ -1,6 +1,6 @@
 const EduSim = (function init() {
     // --- CACHE DOM ---
-    const $summaryWrapper = document.getElementById('summary-value-wrapper');
+    const $summaryWrapper = document.getElementById('details-content');
     const $canvas = document.getElementById('canvas');
 
     // --- ATTRIBUTES ---
@@ -8,7 +8,7 @@ const EduSim = (function init() {
     let hotspots = [];
 
     // Padding for circuit components
-    const circuitComponentPadding = 50;
+    const circuitComponentPadding = 36;
 
     // Get the key coordinates of the circuit
     const circuitRectangle = {};
@@ -145,7 +145,7 @@ const EduSim = (function init() {
             if ((dx * dx) + (dy * dy) < h.radius * h.radius) {
                 if (h.img.indexOf('connector.png') === -1 && h.img.indexOf('wire.png') === -1) {
                     html += h.componentName;
-                    html += `<p>X:${h.x} Y:${h.y}</p>`;
+                    html += `<p><strong>X:</strong>${h.x} <strong>Y:</strong>${h.y}</p>`;
                 }
             }
         }
@@ -161,12 +161,15 @@ const EduSim = (function init() {
     // Move the circuit components to fit the canvas
     hotspots = hotspots.map((hotspot) => {
         const newHotspot = Object.assign({}, hotspot);
+
         newHotspot.x -= circuitRectangle.left;
         newHotspot.y -= circuitRectangle.top;
         newHotspot.x = (((newHotspot.x - circuitRectangle.middle.x)
             / circuitRectangle.middle.x) * canvasMid.x) + canvasMid.x;
         newHotspot.y = (((newHotspot.y - circuitRectangle.middle.y)
             / circuitRectangle.middle.y) * canvasMid.y) + canvasMid.y;
+
+        // Wires also have an ending
         if (Object.prototype.hasOwnProperty.call(newHotspot, 'z')) {
             newHotspot.z -= circuitRectangle.left;
             newHotspot.q -= circuitRectangle.top;
