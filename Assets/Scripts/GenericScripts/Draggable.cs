@@ -25,6 +25,11 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (eventData.button != PointerEventData.InputButton.Left)
+        {
+            return;
+        }
+
         GameObject propertiesContainer = GameObject.Find("PropertiesWindowContainer");
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
         
@@ -150,6 +155,11 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (eventData.button != PointerEventData.InputButton.Left)
+        {
+            return;
+        }
+
         if (_draggingItem != null)
         {           
             if (dragging == false)
@@ -184,7 +194,11 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        
+        if (eventData.button != PointerEventData.InputButton.Left)
+        {
+            return;
+        }
+
         if (_draggingItem != null)
         {
             dragging = false;

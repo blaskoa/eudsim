@@ -80,7 +80,7 @@ public class Destroy : MonoBehaviour
             }
             GUICircuitComponent.globalUndoList.AddUndo(undoAction);
             SelectObject.SelectedLines.Clear();
-            SelectObject.SelectedObjects.Clear();
+            GetComponent<SelectObject>().DeselectObject();
         }
 
         

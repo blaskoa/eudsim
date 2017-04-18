@@ -40,21 +40,27 @@ public class MultiSelect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     // If we press the left mouse button, save mouse location and begin selection
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (eventData.button == PointerEventData.InputButton.Left)
-        {           
-            //deselect items first
-            DoDeselect();
-
-            //initialize variable
-            _isSelecting = true;
-            _mousePosition1 = Input.mousePosition;
+        if (eventData.button != PointerEventData.InputButton.Left)
+        {
+            return;
         }
+           
+        //deselect items first
+        DoDeselect();
 
+        //initialize variable
+        _isSelecting = true;
+        _mousePosition1 = Input.mousePosition;
     }
 
     // If we let go of the left mouse button, end selection
     public void OnPointerUp(PointerEventData eventData)
     {
+        if (eventData.button != PointerEventData.InputButton.Left)
+        {
+            return;
+        }
+
         //select every item in selection bounds
         foreach (GameObject selectableObject in GameObject.FindGameObjectsWithTag("ActiveItem"))
         {

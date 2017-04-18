@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 public class SelectObject : MonoBehaviour, IPointerClickHandler
 {   
@@ -41,8 +42,7 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-            
-        if (this.gameObject.tag == "ToolboxItem" || this.gameObject.tag == "Node" || this.gameObject.tag == "ToolboxItemActive" || this.gameObject.tag == "Untagged")
+        if (eventData.button == PointerEventData.InputButton.Middle || this.gameObject.tag == "ToolboxItem" || this.gameObject.tag == "Node" || this.gameObject.tag == "ToolboxItemActive" || this.gameObject.tag == "Untagged")
         {
             return;
         }

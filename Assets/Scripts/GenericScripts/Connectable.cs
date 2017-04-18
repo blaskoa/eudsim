@@ -42,6 +42,11 @@ public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (eventData.button != PointerEventData.InputButton.Left)
+        {
+            return;
+        }
+
         //if gameobject is in desktop, not in toolbox
         if (this.gameObject.transform.parent.tag == "ActiveItem" || this.gameObject.transform.parent.tag == "ActiveNode")
         {
@@ -55,6 +60,11 @@ public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (eventData.button != PointerEventData.InputButton.Left)
+        {
+            return;
+        }
+
         //if gameobject is in desktop, not in toolbox
         if ((this.gameObject.transform.parent.tag == "ActiveItem") || (this.gameObject.transform.parent.tag == "ActiveNode"))
         {
@@ -67,6 +77,11 @@ public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (eventData.button != PointerEventData.InputButton.Left)
+        {
+            return;
+        }
+
         GameObject end = null;
         _endPos *= 2;
         _endPos = new Vector3(Mathf.Round(_endPos.x), Mathf.Round(_endPos.y));

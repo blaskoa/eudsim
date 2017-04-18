@@ -139,6 +139,11 @@ public class Line : MonoBehaviour, IPointerClickHandler
     //select line with mouse click and change color of selected line
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (eventData.button != PointerEventData.InputButton.Left)
+        {
+            return;
+        }
+
         //deselect item
         GameObject item = GameObject.Find("Canvas");
         item.GetComponent<SelectObject>().DeselectObject();
