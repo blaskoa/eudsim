@@ -70,6 +70,9 @@ div#main-wrapper {
   div#main-wrapper div#canvas-wrapper {
     float: right;
     width: 80%; }
+    div#main-wrapper div#canvas-wrapper canvas#canvas {
+      max-width: 100%;
+    }
   div#main-wrapper div#details {
     float: left;
     padding-right: 1em;

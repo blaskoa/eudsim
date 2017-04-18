@@ -8,7 +8,7 @@ const EduSim = (function init() {
     let hotspots = [];
 
     // Padding for circuit components
-    const circuitComponentPadding = 50;
+    const circuitComponentPadding = 36;
 
     // Get the key coordinates of the circuit
     const circuitRectangle = {};
@@ -161,12 +161,15 @@ const EduSim = (function init() {
     // Move the circuit components to fit the canvas
     hotspots = hotspots.map((hotspot) => {
         const newHotspot = Object.assign({}, hotspot);
+
         newHotspot.x -= circuitRectangle.left;
         newHotspot.y -= circuitRectangle.top;
         newHotspot.x = (((newHotspot.x - circuitRectangle.middle.x)
             / circuitRectangle.middle.x) * canvasMid.x) + canvasMid.x;
         newHotspot.y = (((newHotspot.y - circuitRectangle.middle.y)
             / circuitRectangle.middle.y) * canvasMid.y) + canvasMid.y;
+
+        // Wires also have an ending
         if (Object.prototype.hasOwnProperty.call(newHotspot, 'z')) {
             newHotspot.z -= circuitRectangle.left;
             newHotspot.q -= circuitRectangle.top;
