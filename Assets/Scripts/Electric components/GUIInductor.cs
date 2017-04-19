@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using ClassLibrarySharpCircuit;
 using Assets.Scripts.Entities;
 using System.Collections.Generic;
@@ -107,7 +108,7 @@ public class GUIInductor : GUICircuitComponent
 
     public override string GetPropertiesForExport()
     {
-        return "<p><span class=\"field-title\">" + "Inductance " + "</span>" + Inductance + " [H]" + " </p>";
+        return "<p><span class=\"field-title\">" + "Inductance " + "</span>" + Math.Round(Inductance, 3) + " [H]" + " </p>";
     }
 
     // Used for duplicating the components - old component is passes so the new one can copy needed values

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using ClassLibrarySharpCircuit;
 using System.Globalization;
 using Assets.Scripts.Entities;
@@ -41,7 +42,7 @@ public class GUIAmpermeter : GUICircuitComponent
     public override string GetPropertiesForExport()
     {
         return "<p><span class=\"field-title\">" + "Measured current " + "</span>" +
-            ResistorComponent.getCurrent().ToString(CultureInfo.InvariantCulture) + " [A]" + " </p>";
+            Math.Round(ResistorComponent.getCurrent(), 3).ToString(CultureInfo.InvariantCulture) + " [A]" + " </p>";
     }
 
     // Called during instantiation

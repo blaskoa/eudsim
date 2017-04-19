@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using ClassLibrarySharpCircuit;
 using Assets.Scripts.Entities;
 using System.Collections.Generic;
@@ -78,7 +79,7 @@ public class GUIResistor : GUICircuitComponent
 
     public override string GetPropertiesForExport()
     {
-        return "<p><span class=\"field-title\">" + "Resistance " + "</span>" + Resistance + " [Ohm]" + " </p>";
+        return "<p><span class=\"field-title\">" + "Resistance " + "</span>" + Math.Round(Resistance, 3) + " [Ohm]" + " </p>";
     }
 
     // Used for duplicating the components - old component is passes so the new one can copy needed values

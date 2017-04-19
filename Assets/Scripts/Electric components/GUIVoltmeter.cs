@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using ClassLibrarySharpCircuit;
 using System.Globalization;
 using Assets.Scripts.Entities;
@@ -40,7 +41,7 @@ public class GUIVoltmeter : GUICircuitComponent
 
     public override string GetPropertiesForExport()
     {
-        return "<p><span class=\"field-title\">" + "Measured Voltage " + "</span>" + ResistorComponent.getVoltageDelta() + " [V]" + " </p>";
+        return "<p><span class=\"field-title\">" + "Measured Voltage " + "</span>" + Math.Round(ResistorComponent.getVoltageDelta(), 3) + " [V]" + " </p>";
     }
 
     // Called during instantiation

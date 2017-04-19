@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Entities;
+﻿using System;
+using Assets.Scripts.Entities;
 using UnityEngine;
 using ClassLibrarySharpCircuit;
 using System.Collections.Generic;
@@ -71,7 +72,7 @@ public class GUICapacitor : GUICircuitComponent
 
     public override string GetPropertiesForExport()
     {
-        return "<p><span class=\"field-title\">" + "Capacitance " + "</span>" + Capacitance + " [uF]" + " </p>";
+        return "<p><span class=\"field-title\">" + "Capacitance " + "</span>" + Math.Round(Capacitance, 3) + " [uF]" + " </p>";
     }
 
     public override void SetAllProperties(List<float> properties)

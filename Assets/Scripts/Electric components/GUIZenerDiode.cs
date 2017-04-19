@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using UnityEngine;
 using ClassLibrarySharpCircuit;
 using Assets.Scripts.Entities;
@@ -40,7 +41,7 @@ public class GUIZenerDiode : GUICircuitComponent
     public override string GetPropertiesForExport()
     {
         return "<p><span class=\"field-title\">" + "Current " + "</span>" +
-            diodeComponent.getCurrent().ToString(CultureInfo.InvariantCulture) + " [A]" + " </p>";
+            Math.Round(diodeComponent.getCurrent(), 3).ToString(CultureInfo.InvariantCulture) + " [A]" + " </p>";
     }
 
     // Used for duplicating the components - old component is passes so the new one can copy needed values

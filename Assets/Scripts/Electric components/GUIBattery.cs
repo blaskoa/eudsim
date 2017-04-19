@@ -83,7 +83,7 @@ public class GUIBattery : GUICircuitComponent
 
     public override string GetPropertiesForExport()
     {
-        return "<p><span class=\"field-title\">" + "Voltage " + "</span>" + MaxVoltage + " [V]" + " </p>";
+        return "<p><span class=\"field-title\">" + "Voltage " + "</span>" + Math.Round(MaxVoltage, 3) + " [V]" + " </p>";
     }
 
     // Used for duplicating the components - old component is passes so the new one can copy needed values
