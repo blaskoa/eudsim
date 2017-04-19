@@ -145,7 +145,6 @@ const EduSim = (function init() {
             if ((dx * dx) + (dy * dy) < h.radius * h.radius) {
                 if (h.img.indexOf('connector.png') === -1 && h.img.indexOf('wire.png') === -1) {
                     html += h.componentName;
-                    html += `<p><strong>X:</strong>${h.x} <strong>Y:</strong>${h.y}</p>`;
                 }
             }
         }
