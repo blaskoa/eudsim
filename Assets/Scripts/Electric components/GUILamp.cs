@@ -7,24 +7,25 @@ public class GUILamp : GUICircuitComponent
 {
     private string _name = "Lamp";
     private LampEntity _lampEntity;
-    public Resistor ResistorComponent;
-    private const double MinimalResistance = 0.01;
     private const float MaxIntensity = 8;
     private const float MaxSpotAngle = 179;
-    private const float MaxCurrent = 10000;
-    private const float MinCurrent = 10;
+    private const float MaxCurrent = 100;
+    private const float MinCurrent = 1;
     private const float MaxVoltage = 100;
     private const float MinVoltage = 1;
+    private Lamp _lamp;
 
     void Update()
     {
         //if is there current and voltage in the active item lamp
-        if (CompareTag("ActiveItem") 
-            && Mathf.Abs((float)ResistorComponent.getCurrent()) > 0
-            && Mathf.Abs((float)ResistorComponent.getVoltageDelta()) > 0)
+        if (CompareTag("ActiveItem")
+            && _lamp != null
+            && Mathf.Abs((float)_lamp.getCurrent()) > 0
+            && Mathf.Abs((float)_lamp.getVoltageDelta()) > 0
+            )
         {
-            float current = Mathf.Abs((float)ResistorComponent.getCurrent());
-            float voltage = Mathf.Abs((float)ResistorComponent.getVoltageDelta());
+            float current = Mathf.Abs((float)_lamp.getCurrent());
+            float voltage = Mathf.Abs((float)_lamp.getVoltageDelta());
             Light light = this.gameObject.GetComponent<Light>();
 
             // show light
@@ -52,7 +53,8 @@ public class GUILamp : GUICircuitComponent
             }
 
             //dinamically set the Light options in scene
-            light.intensity = MaxIntensity * current / MaxCurrent;
+           // Debug.Log(current + "   " + voltage);
+            light.intensity = MaxIntensity * voltage / MaxVoltage;
             light.spotAngle = MaxSpotAngle * voltage / MaxVoltage;
         }
     }
@@ -99,7 +101,6 @@ public class GUILamp : GUICircuitComponent
             {
                 _lampEntity = new LampEntity();
             }
-            ResistorComponent = new Resistor();
 
             SetAndInitializeConnectors();
             
@@ -112,16 +113,10 @@ public class GUILamp : GUICircuitComponent
 
     public override void SetSimulationProp(Circuit sim)
     {
-        Lamp lamp = sim.Create<Lamp>();
+        _lamp = sim.Create<Lamp>();
 
-        Connectors[0].DllConnector = lamp.leadIn;
-        Connectors[1].DllConnector = lamp.leadOut;
-
-        //to get info of current and voltage in lamp
-        ResistorComponent = sim.Create<Resistor>();
-        Connectors[0].DllConnector = ResistorComponent.leadIn;
-        Connectors[1].DllConnector = ResistorComponent.leadOut;
-        ResistorComponent.resistance = MinimalResistance;
+        Connectors[0].DllConnector = _lamp.leadIn;
+        Connectors[1].DllConnector = _lamp.leadOut;
     }
 
     public override void SetId(int id)
