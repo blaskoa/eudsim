@@ -14,6 +14,7 @@ public class EditObjectProperties : MonoBehaviour
 
     // Number of fields in the active component
     private int _fieldNum = 0;
+    private KeysUtils _ku = new KeysUtils();
 
     // Change in every anchor and anchor's position for the first property
     private const float AnchorStep = 0.075f;
@@ -169,10 +170,13 @@ public class EditObjectProperties : MonoBehaviour
         
         GameObject inputFieldGo = newProperty.transform.FindChild("InputField").gameObject;
         InputField inputField = inputFieldGo.GetComponent<InputField>();
-        inputField.text = value;
+        inputField.text = value;        
+        
+        //Set mehtod to be run when the editing started
+        inputField.onValueChanged.AddListener(delegate { _ku.DisableAllMonoScripts(); });
 
         // Set method to be run when the editing is finished
-        inputField.onEndEdit.AddListener(delegate { set(inputField.text); });
+        inputField.onEndEdit.AddListener(delegate { set(inputField.text); _ku.EnableAllMonoScripts(); });
 
         // Add newly created property to the UI
         newProperty.transform.SetParent(_propertyContent.transform, false);
