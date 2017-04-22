@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ClassLibrarySharpCircuit;
 using UnityEngine.EventSystems;
 
 public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
@@ -14,10 +15,14 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     // Mouse and dragged item positions at the start of dragging.
     private Vector2 _mousePos;
     private Vector2 _itemPos;
+    private Vector2 _arrowPos;
+    private Vector2 _connectorPotentiometerPos;
     private List<Vector2> _itemPoss = new List<Vector2>();
 
     // Item we're dragging.
     private GameObject _draggingItem;
+    private GameObject _arrow;
+    private GameObject _connectorPotentiometer;
 
     //util class for work with toolbar buttons 
     private ToolbarButtonUtils _tbu = new ToolbarButtonUtils();
@@ -69,27 +74,41 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         // Setting starting posiitons.
         _mousePos = Camera.main.ScreenToWorldPoint(eventData.position);
         _itemPos = this.gameObject.transform.position;
-
+        
         // ToolboxItemActive tagged GameObjects are used to generate new instances for the working panel.
-        if (this.gameObject.tag == "ToolboxItemActive")
+        if (this.gameObject.tag == "Arrow" && this.gameObject.transform.parent.tag != "ToolboxItemActive")
         {
+            _arrow = this.gameObject;
+            _arrowPos = new Vector2(this.gameObject.transform.parent.transform.position.x, _arrow.transform.position.y);
+            _connectorPotentiometer = this.gameObject.transform.parent.gameObject.transform.FindChild("PlusConnector").gameObject;
+            _connectorPotentiometerPos = new Vector2(this.gameObject.transform.parent.transform.position.x, _connectorPotentiometer.transform.position.y);
+        }
+        else if ((this.gameObject.tag == "Arrow" && this.gameObject.transform.parent.tag == "ToolboxItemActive" )
+            || this.gameObject.tag == "ToolboxItemActive")
+        {
+           // Debug.Log(this.gameObject.transform.parent);
+            GameObject item = this.gameObject;
+            if (this.gameObject.transform.parent.tag == "ToolboxItemActive")
+            {
+                item = item.gameObject.transform.parent.gameObject;
+            }
+           
             tbitem = true;
-            this.gameObject.tag = "ActiveItem";
+            item.gameObject.tag = "ActiveItem";
             // Awake() function of every script is called when GameObject is instatiated. We need it to be instantiated as ActiveItem.
-            _draggingItem = Instantiate(this.gameObject);
-            this.gameObject.tag = "ToolboxItemActive";
+            _draggingItem = Instantiate(item.gameObject);
+            item.gameObject.tag = "ToolboxItemActive";
             _draggingItem.tag = "ActiveItem";
             _draggingItem.layer = 8; //Name of 8th layer is ActiveItem
             _draggingItem.transform.localScale = new Vector3(1,1,0);
             _draggingItem.GetComponent<SpriteRenderer>().enabled = true;
             _draggingItem.GetComponent<SpriteRenderer>().sortingLayerName = "ActiveItem";
-            
 
             for (int i = 0; i < _draggingItem.transform.childCount; i++)
             {
                 _draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingLayerName = "ActiveItem";
                 _draggingItem.transform.GetChild(i).GetComponent<SpriteRenderer>().enabled = true;
-                _draggingItem.transform.GetChild(i).gameObject.layer = 8;
+                _draggingItem.transform.GetChild(i).gameObject.layer = 8;                             
             }
             // Newly created component needs to be selected otherwise an error will occur
             SelectObject.AddToSelection(_draggingItem);
@@ -130,11 +149,10 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             // Newly created component needs to be selected otherwise an error will occur
             SelectObject.AddToSelection(_draggingItem);
         
-        }
+        }       
         else if (SelectObject.SelectedObjects.Count == 0 || SelectObject.SelectedObjects.Count == 1 && SelectObject.SelectedObjects[0] == this.gameObject)
-        {           
+        {            
             _draggingItem = this.gameObject;
-
             if (SelectObject.SelectedObjects.Count == 0)
             {
                 // Select new object.        
@@ -148,8 +166,9 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             // Call the script from component that fills the Properties Window
             GUICircuitComponent componentScript = _draggingItem.GetComponent<GUICircuitComponent>();
             componentScript.GetProperties();
+          
         }
-        
+
         _tbu.EnableToolbarButtons();
     }
 
@@ -189,6 +208,28 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 i++;
             }
             dragging = true;
+        }
+
+        if (_arrow != null)
+        {
+            if (dragging == false)
+            {
+                curentPos.Add(_arrow.transform.position);
+                curentPos.Add(_connectorPotentiometer.transform.position);
+            }
+            dragging = true;
+
+            //Moving the item with the mouse.
+            Vector2 mouseDiff = (Vector2)Camera.main.ScreenToWorldPoint(eventData.position) - _mousePos;
+            mouseDiff.y = 0;
+
+            if (Mathf.Abs(mouseDiff.x) <= 0.2f)
+            {
+                _arrow.transform.position = _arrowPos + mouseDiff;
+                _arrow.transform.position = new Vector3(_arrow.transform.position.x, _arrow.transform.position.y);
+                _connectorPotentiometer.transform.position = _connectorPotentiometerPos + mouseDiff;
+                _connectorPotentiometer.transform.position = new Vector3(_connectorPotentiometer.transform.position.x, _connectorPotentiometer.transform.position.y);
+            }
         }
     }
 
@@ -279,6 +320,15 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         if (line != null)
         {
             line.GetComponent<Line>().TransformLines();
+        }
+
+        if (_arrow != null)
+        {
+            dragging = false;
+            _arrow.transform.position = new Vector3(_arrow.transform.position.x, _arrow.transform.position.y, -6);
+            _connectorPotentiometer.transform.position = new Vector3(_connectorPotentiometer.transform.position.x, _connectorPotentiometer.transform.position.y, 0);
+            _connectorPotentiometer = null;
+            _arrow = null;
         }
     }
 
