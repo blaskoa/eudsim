@@ -4,42 +4,57 @@ using UnityEngine.UI;
 // Component is meant to be attatched to root element of the whole GUI (canvas)
 public class Localization : MonoBehaviour
 {
+    private int _languageCycle;
     // instantiate Resource reader and set text elements text from resrouce file
     void Start()
     {
         ResourceReader.SetLanguage(Application.systemLanguage);
         SetElementTexts();
-        SetLanguage(Application.systemLanguage);
+        
+        // initialize
+        switch (Application.systemLanguage)
+        {
+            case SystemLanguage.Slovak:
+                SetLanguage("SK");
+                break;
+            case SystemLanguage.English:
+                SetLanguage("EN");
+                break;
+            default:
+                break;
+        }
     }
     
     // set language "SK" or "EN"
-    private void SetLanguage(SystemLanguage language)
+    public void SetLanguage(string lang)
     {
         GameObject captionSK = GameObject.Find("CaptionSlovakText");
         GameObject captionEN = GameObject.Find("CaptionEnglishText");
         GameObject iconSK = GameObject.Find("IconSKText");
         GameObject iconEN = GameObject.Find("IconENText");
         GameObject zoomField = GameObject.Find("ZoomText");
-        string pom = zoomField.GetComponent<Text>().text; //workaround for localization erasing calculated zoomText value
+        string pom = zoomField.GetComponent<UnityEngine.UI.Text>().text; //workaround for localization erasing calculated zoomText value
         
-        switch (language)
+        switch (lang)
         {
-            case SystemLanguage.Slovak:
+            case "SK":
                 ChangeLanguage(SystemLanguage.Slovak);
-                captionSK.GetComponent<Text>().enabled = true;
-                captionEN.GetComponent<Text>().enabled = false;
-                iconSK.GetComponent<Text>().enabled = true;
-                iconEN.GetComponent<Text>().enabled = false;
+                captionSK.GetComponent<UnityEngine.UI.Text>().enabled = true;
+                captionEN.GetComponent<UnityEngine.UI.Text>().enabled = false;
+                iconSK.GetComponent<UnityEngine.UI.Text>().enabled = true;
+                iconEN.GetComponent<UnityEngine.UI.Text>().enabled = false;
                 break;
-            case SystemLanguage.English:
+            case "EN":
                 ChangeLanguage(SystemLanguage.English);
-                captionSK.GetComponent<Text>().enabled = false;
-                captionEN.GetComponent<Text>().enabled = true;
-                iconSK.GetComponent<Text>().enabled = false;
-                iconEN.GetComponent<Text>().enabled = true;
+                captionSK.GetComponent<UnityEngine.UI.Text>().enabled = false;
+                captionEN.GetComponent<UnityEngine.UI.Text>().enabled = true;
+                iconSK.GetComponent<UnityEngine.UI.Text>().enabled = false;
+                iconEN.GetComponent<UnityEngine.UI.Text>().enabled = true;
+                break;
+            default:
                 break;
         }
-        zoomField.GetComponent<Text>().text = pom; // set value back
+        zoomField.GetComponent<UnityEngine.UI.Text>().text = pom; // set value back
     }
     
     // create a new instance of resource reader and set text elements text from resrouce file
