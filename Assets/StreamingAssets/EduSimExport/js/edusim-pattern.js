@@ -8,7 +8,7 @@ const EduSim = (function init() {
     let hotspots = [];
 
     // Padding for circuit components
-    const circuitComponentPadding = 36;
+    const circuitComponentPadding = 40;
 
     // Get the key coordinates of the circuit
     const circuitRectangle = {};
@@ -46,8 +46,8 @@ const EduSim = (function init() {
     circuitRectangle.middle.y = (circuitRectangle.bottom - circuitRectangle.top) / 2;
 
     // Set canvas to match the exported circuit
-    ctx.canvas.width = circuitRectangle.right;
-    ctx.canvas.height = circuitRectangle.bottom;
+    ctx.canvas.width = circuitRectangle.right - circuitRectangle.left;
+    ctx.canvas.height = circuitRectangle.bottom - circuitRectangle.top;
 
     // Get the middle coordinates of the canvas
     const canvasMid = {};
