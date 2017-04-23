@@ -9,7 +9,7 @@ public class GUIPotentiometer : GUICircuitComponent
     private string _name = "Potentiometer";
     private PotentiometerEntity _potentiometerEntity;
     private Potentiometer _potentiometer = new Potentiometer();
-    private GameObject _arrow;
+    public GameObject arrow;
 
     private const double DefaultPosition = 0.5;
 
@@ -136,12 +136,12 @@ public class GUIPotentiometer : GUICircuitComponent
         {
             if (this.gameObject.transform.GetChild(i).gameObject.tag == "Arrow")
             {
-                _arrow = this.gameObject.transform.GetChild(i).gameObject;
+                arrow = this.gameObject.transform.GetChild(i).gameObject;
                 break;
             }
         }
 
-        float diff = _arrow.transform.position.x - this.gameObject.transform.position.x;
+        float diff = arrow.transform.position.x - this.gameObject.transform.position.x;
         float normalizeDiff = diff * 2.5f + 0.5f;
         float resistance = (float) _potentiometer.maxResistance * normalizeDiff;
         //SetResistance(resistance);
