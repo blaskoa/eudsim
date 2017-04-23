@@ -10,22 +10,60 @@ public class Localization : MonoBehaviour
     {
         ResourceReader.SetLanguage(Application.systemLanguage);
         SetElementTexts();
-        if (Application.systemLanguage == SystemLanguage.Slovak)
+        
+        // initialize
+        switch (Application.systemLanguage)
         {
-            _languageCycle = _languageCycle + 1;
+            case SystemLanguage.Slovak:
+                SetLanguage("SK");
+                break;
+            case SystemLanguage.English:
+                SetLanguage("EN");
+                break;
+            default:
+                break;
         }
     }
-    // used for testing purposes - cycles language between Slovak and English
-    public void CycleLanguage()
+    
+    // set language "SK" or "EN"
+    public void SetLanguage(string lang)
     {
-        ChangeLanguage(_languageCycle++%2 == 0 ? SystemLanguage.Slovak : SystemLanguage.English);
+        GameObject captionSK = GameObject.Find("CaptionSlovakText");
+        GameObject captionEN = GameObject.Find("CaptionEnglishText");
+        GameObject iconSK = GameObject.Find("IconSKText");
+        GameObject iconEN = GameObject.Find("IconENText");
+        GameObject zoomField = GameObject.Find("ZoomText");
+        string pom = zoomField.GetComponent<UnityEngine.UI.Text>().text; //workaround for localization erasing calculated zoomText value
+        
+        switch (lang)
+        {
+            case "SK":
+                ChangeLanguage(SystemLanguage.Slovak);
+                captionSK.GetComponent<UnityEngine.UI.Text>().enabled = true;
+                captionEN.GetComponent<UnityEngine.UI.Text>().enabled = false;
+                iconSK.GetComponent<UnityEngine.UI.Text>().enabled = true;
+                iconEN.GetComponent<UnityEngine.UI.Text>().enabled = false;
+                break;
+            case "EN":
+                ChangeLanguage(SystemLanguage.English);
+                captionSK.GetComponent<UnityEngine.UI.Text>().enabled = false;
+                captionEN.GetComponent<UnityEngine.UI.Text>().enabled = true;
+                iconSK.GetComponent<UnityEngine.UI.Text>().enabled = false;
+                iconEN.GetComponent<UnityEngine.UI.Text>().enabled = true;
+                break;
+            default:
+                break;
+        }
+        zoomField.GetComponent<UnityEngine.UI.Text>().text = pom; // set value back
     }
+    
     // create a new instance of resource reader and set text elements text from resrouce file
     public void ChangeLanguage(SystemLanguage language)
     {
         ResourceReader.SetLanguage(language);
         SetElementTexts();
     }
+    
     // cycles trough all child elements and sets their texts according to current language
     private void SetElementTexts()
     {
