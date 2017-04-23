@@ -173,7 +173,8 @@ public class MainMenuButtons : MonoBehaviour
 
     public void OpenExample(int exampleNumber)
     {
-        FindObjectOfType<Persistance>().Load(Directory.GetCurrentDirectory() + "/ExampleCircuits/example" + exampleNumber + ".es");
+        string file = "ExampleCircuits/example" + exampleNumber + ".es";
+        FindObjectOfType<Persistance>().Load(Path.Combine(Application.streamingAssetsPath, file));
         GameObject.Find("ExampleCircuitCanvas").GetComponent<Canvas>().enabled = false;
     }
 
