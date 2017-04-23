@@ -250,7 +250,6 @@ public class Persistance : MonoBehaviour
         }
 
         fileStream.Close();
-        FindObjectOfType<MultiSelect>().DoDeselect();
     }
 
     void Awake()
@@ -298,6 +297,7 @@ public class Persistance : MonoBehaviour
             activeGameObject.transform.GetChild(i).GetComponent<SpriteRenderer>().enabled = true;
             activeGameObject.transform.GetChild(i).gameObject.layer = 8;
         }
+        activeGameObject.transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = false;
         return activeGameObject;
     }
 
