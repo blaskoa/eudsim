@@ -6,6 +6,7 @@ using UnityEngine;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Text;
 using Assets.Scripts.Utils;
 using Ionic.Zip;
 
@@ -178,11 +179,10 @@ public class ExportHTML : MonoBehaviour
         }
         //and now make rotation to previous position
         Camera.transform.rotation *= Quaternion.Euler(180, 0, 0);
-        string text = File.ReadAllText(Path.Combine(pathToExport, javascriptPattern));
+        string edusimJs = File.ReadAllText(Path.Combine(pathToExport, javascriptPattern));
         string insertPoint = "let hotspots = [";
-        int index = text.IndexOf(insertPoint, StringComparison.Ordinal) + insertPoint.Length;
-        text = text.Insert(index, string.Join("", exportArrayList.ToArray()));
-        File.WriteAllText(Path.Combine(pathToExport, javascriptExport), text);
+        int index = edusimJs.IndexOf(insertPoint, StringComparison.Ordinal) + insertPoint.Length;
+        edusimJs = edusimJs.Insert(index, string.Join("", exportArrayList.ToArray()));
 
         // Create a ZIP archive of the export
         string subfolder = "";
@@ -202,6 +202,7 @@ public class ExportHTML : MonoBehaviour
         subfolder = "js";
         files = Directory.GetFiles(Path.Combine(pathToExport, subfolder), "*", SearchOption.TopDirectoryOnly);
         zip.AddFiles(files, Path.Combine(baseFolder, subfolder));
+        zip.AddEntry(Path.Combine(baseFolder, javascriptExport), edusimJs);
 
         // Add images to the archive
         subfolder = "images";

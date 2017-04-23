@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "EduSim"
-#define MyAppVersion "0.2"
+#define MyAppVersion "0.3"
 #define MyAppPublisher "Atos"
 #define MyAppExeName "EduSim.exe"
 
@@ -30,8 +30,6 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 Source: "..\EduSim.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\EduSim_Data\*"; DestDir: "{app}\EduSim_Data"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "..\ExportHTML\*"; DestDir: "{app}\ExportHTML"; Flags: ignoreversion
-Source: "..\ExportHTML\css\*"; DestDir: "{app}\ExportHTML\css"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

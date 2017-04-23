@@ -111,7 +111,7 @@ public class Persistance : MonoBehaviour
         LastFileName = fileName;
         ClearScene();
         BinaryFormatter binaryFormatter = new BinaryFormatter();
-        FileStream fileStream = new FileStream(LastFileName, FileMode.Open);
+        FileStream fileStream = new FileStream(LastFileName, FileMode.Open, FileAccess.Read);
 
         object o = binaryFormatter.Deserialize(fileStream);
         SerializationPackage package = (SerializationPackage) o;
