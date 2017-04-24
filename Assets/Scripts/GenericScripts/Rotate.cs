@@ -27,7 +27,7 @@ public class Rotate : MonoBehaviour
                 properties.Add(curentPos[1] - finalPos[1]);
                 properties.Add(+90);
 
-                PosChange change = DoUndo.dummyObj.AddComponent<PosChange>();
+                PosChange change = new PosChange();  
                 change.SetChange(properties);
 
                 UndoAction undoAction = new UndoAction();
@@ -64,7 +64,7 @@ public class Rotate : MonoBehaviour
                 properties.Add(curentPos[1] - finalPos[1]);
                 properties.Add(-90);
 
-                PosChange change = DoUndo.dummyObj.AddComponent<PosChange>();
+                PosChange change = new PosChange();  
                 change.SetChange(properties);
 
                 UndoAction undoAction = new UndoAction();

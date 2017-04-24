@@ -38,7 +38,7 @@ public class RotateMultiObject : MonoBehaviour {
                 properties.Add(+90);
                 properties.Add(0);
 
-                PosChange change = DoUndo.dummyObj.AddComponent<PosChange>();
+                PosChange change = new PosChange(); 
                 change.SetChange(properties);
                 change.SetPoint(point);
                 
@@ -89,7 +89,7 @@ public class RotateMultiObject : MonoBehaviour {
                 properties.Add(-90);
                 properties.Add(0);
 
-                PosChange change = DoUndo.dummyObj.AddComponent<PosChange>();
+                PosChange change = new PosChange(); 
                 change.SetChange(properties);
                 change.SetPoint(point);
 

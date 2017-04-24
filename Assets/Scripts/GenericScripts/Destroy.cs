@@ -19,7 +19,7 @@ public class Destroy : MonoBehaviour
                 prop.Add((float)objectSelected.gameObject.transform.GetChild(0).GetComponent<Connectable>().GetID());
                 prop.Add((float)objectSelected.gameObject.transform.GetChild(1).GetComponent<Connectable>().GetID());
 
-                CreateDeleteCompChange change = DoUndo.dummyObj.AddComponent<CreateDeleteCompChange>();
+                CreateDeleteCompChange change = new CreateDeleteCompChange(); 
                 change.SetPosition(objectSelected.transform.position);
                 change.SetChange(prop);
                 change.SetType(objectSelected.gameObject.GetComponent<GUICircuitComponent>().GetType());
@@ -94,7 +94,7 @@ public class Destroy : MonoBehaviour
             prop.Add(this.gameObject.GetComponent<Line>().Begin.GetComponent<Connectable>().GetID());
             prop.Add(this.gameObject.GetComponent<Line>().End.GetComponent<Connectable>().GetID());
 
-            CreateDeleteLineChange change = DoUndo.dummyObj.AddComponent<CreateDeleteLineChange>();
+            CreateDeleteLineChange change = new CreateDeleteLineChange(); 
             change.SetChange(prop);
             undoAction.AddChange(change);
             GUICircuitComponent.globalUndoList.AddUndo(undoAction);

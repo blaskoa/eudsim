@@ -8,13 +8,6 @@ using System.Collections;
 
 class DoUndo : MonoBehaviour
 {
-    public static GameObject dummyObj;
-
-    public void Awake()
-    {
-        dummyObj = Instantiate(GameObject.FindGameObjectWithTag("ToolboxItemActive")) as GameObject;
-    }
-
     public void PerformUndo()
     {
         GUICircuitComponent.globalUndoList.Undo();

@@ -98,7 +98,7 @@ public class Duplicate : MonoBehaviour
                 prop.Add((float)objectSelected.gameObject.transform.GetChild(0).GetComponent<Connectable>().GetID());
                 prop.Add((float)objectSelected.gameObject.transform.GetChild(1).GetComponent<Connectable>().GetID());
 
-                CreateDeleteCompChange change = DoUndo.dummyObj.AddComponent<CreateDeleteCompChange>();
+                CreateDeleteCompChange change = new CreateDeleteCompChange();
                 change.SetPosition(objectSelected.transform.position);
                 change.SetChange(prop);
                 change.SetType(objectSelected.gameObject.GetComponent<GUICircuitComponent>().GetType());

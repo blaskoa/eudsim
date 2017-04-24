@@ -101,7 +101,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             prop.Add((float)component.GetId());
             prop.Add((float)_draggingItem.gameObject.transform.GetChild(0).GetComponent<Connectable>().GetID());
             prop.Add((float)_draggingItem.gameObject.transform.GetChild(1).GetComponent<Connectable>().GetID());
-            CreateDeleteCompChange change = DoUndo.dummyObj.AddComponent<CreateDeleteCompChange>();
+            CreateDeleteCompChange change = new CreateDeleteCompChange();  
             change.SetPosition(_draggingItem.transform.position);
             change.SetChange(prop);
             change.SetType(_draggingItem.gameObject.GetComponent<GUICircuitComponent>().GetType());
@@ -220,7 +220,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 properties.Add(curentPos[0][0] - finalPos[0]);
                 properties.Add(curentPos[0][1] - finalPos[1]);
 
-                PosChange change = DoUndo.dummyObj.AddComponent<PosChange>();
+                PosChange change = new PosChange(); 
                 change.SetChange(properties);
 
                 UndoAction undoAction = new UndoAction();
@@ -260,7 +260,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 properties.Add(curentPos[i][0] - finalPos[0]);
                 properties.Add(curentPos[i][1] - finalPos[1]);
 
-                PosChange change = DoUndo.dummyObj.AddComponent<PosChange>();
+                PosChange change = new PosChange(); 
                 change.SetChange(properties);
                 undoAction.AddChange(change);
                 i++;

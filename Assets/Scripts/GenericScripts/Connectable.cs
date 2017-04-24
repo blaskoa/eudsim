@@ -134,7 +134,7 @@ public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
                 prop.Add((float)_line.End.GetComponent<Connectable>().GetID());
                 prop.Add((float)_line.Begin.GetComponent<Connectable>().GetID());
 
-                CreateDeleteLineChange change = DoUndo.dummyObj.AddComponent<CreateDeleteLineChange>();
+                CreateDeleteLineChange change = new CreateDeleteLineChange(); 
                 change.SetChange(prop);
                 undoAction.AddChange(change);
                 GUICircuitComponent.globalUndoList.AddUndo(undoAction);
