@@ -28,10 +28,8 @@ public class Localization : MonoBehaviour
     // set language "SK" or "EN"
     public void SetLanguage(string lang)
     {
-        GameObject captionSK = GameObject.Find("CaptionSlovakText");
-        GameObject captionEN = GameObject.Find("CaptionEnglishText");
-        GameObject iconSK = GameObject.Find("IconSKText");
-        GameObject iconEN = GameObject.Find("IconENText");
+        GameObject langCaptionText = GameObject.Find("LangCaptionText");
+        GameObject langIcon = GameObject.Find("LangIconText");
         GameObject zoomField = GameObject.Find("ZoomText");
         string pom = zoomField.GetComponent<UnityEngine.UI.Text>().text; //workaround for localization erasing calculated zoomText value
         
@@ -39,17 +37,13 @@ public class Localization : MonoBehaviour
         {
             case "SK":
                 ChangeLanguage(SystemLanguage.Slovak);
-                captionSK.GetComponent<UnityEngine.UI.Text>().enabled = true;
-                captionEN.GetComponent<UnityEngine.UI.Text>().enabled = false;
-                iconSK.GetComponent<UnityEngine.UI.Text>().enabled = true;
-                iconEN.GetComponent<UnityEngine.UI.Text>().enabled = false;
+                langCaptionText.GetComponent<UnityEngine.UI.Text>().text = "Slovenčina";
+                langIcon.GetComponent<UnityEngine.UI.Text>().text = "SVK";
                 break;
             case "EN":
                 ChangeLanguage(SystemLanguage.English);
-                captionSK.GetComponent<UnityEngine.UI.Text>().enabled = false;
-                captionEN.GetComponent<UnityEngine.UI.Text>().enabled = true;
-                iconSK.GetComponent<UnityEngine.UI.Text>().enabled = false;
-                iconEN.GetComponent<UnityEngine.UI.Text>().enabled = true;
+                langCaptionText.GetComponent<UnityEngine.UI.Text>().text = "English";
+                langIcon.GetComponent<UnityEngine.UI.Text>().text = "ENG";
                 break;
             default:
                 break;
