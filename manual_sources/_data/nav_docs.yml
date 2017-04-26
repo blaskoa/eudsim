@@ -1,24 +1,24 @@
 - path: installation/installation
   sk_title: Inštalácia
-  en_title: 
+  en_title: Instalation
 - path: gui/gui
   sk_title: Grafické rozhranie
-  en_title: 
+  en_title: Graphical Interface
 - path: file_management/file_management
   sk_title: Súbory
-  en_title: 
+  en_title: File Management
 - path: user_interaction/workbench_interaction
   sk_title: Pracovná plocha
-  en_title: 
+  en_title: Workbench
 - path: user_interaction/hotkeys
   sk_title: Skratky
-  en_title: 
+  en_title: Keyboard Shortcuts
 - path: simulation/simulation_creation
   sk_title: Tvorba simulácií
-  en_title: 
+  en_title: Simulation Creation
 - path: simulation/simulation_control
   sk_title: Priebeh simulácií
-  en_title: 
+  en_title: Simulation Control
 - path: settings/settings
   sk_title: Nastavenia
-  en_title: 
+  en_title: Settings
