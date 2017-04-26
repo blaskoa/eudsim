@@ -75,7 +75,7 @@ public class GUIZenerDiode : GUICircuitComponent
 
         diodeComponent = sim.Create<ZenerElm>();
 
-        Connectors[0].DllConnector = diodeComponent.leadIn;
-        Connectors[1].DllConnector = diodeComponent.leadOut;
+        Connectors[0].DllConnector = diodeComponent.leadOut;
+        Connectors[1].DllConnector = diodeComponent.leadIn;
     }
 }

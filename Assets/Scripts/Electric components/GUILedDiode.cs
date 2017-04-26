@@ -64,7 +64,7 @@ public class GUILedDiode : GUICircuitComponent
 
         _ledDiodeComponent = sim.Create<LEDElm>();
 
-        Connectors[0].DllConnector = _ledDiodeComponent.leadIn;
-        Connectors[1].DllConnector = _ledDiodeComponent.leadOut;
+        Connectors[0].DllConnector = _ledDiodeComponent.leadOut;
+        Connectors[1].DllConnector = _ledDiodeComponent.leadIn;
     }
 }

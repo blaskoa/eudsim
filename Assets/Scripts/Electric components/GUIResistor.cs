@@ -66,7 +66,7 @@ public class GUIResistor : GUICircuitComponent
         EditObjectProperties script = propertiesContainer.GetComponent<EditObjectProperties>();
 
         script.AddString("ComponentNameLabel", _name, SetName);
-        script.AddNumeric("ResistancePropertyLabel", Resistance.ToString(), Resistance.GetType().ToString(), SetResistance, true, -15.4f, 150.6f);
+        script.AddNumeric("ResistancePropertyLabel", Resistance.ToString(), Resistance.GetType().ToString(), SetResistance, true, 0, 150.6f);
     }
 
     public override void SetAllProperties(List<float> properties)
