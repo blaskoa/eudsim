@@ -53,11 +53,7 @@ public class RotateMultiObject : MonoBehaviour {
                             "").GetComponent<Draggable>().Colision();
 
             //transform position of each lines in scene
-            GameObject line = GameObject.Find("Line(Clone)");
-            if (line != null)
-            {
-                line.GetComponent<Line>().TransformLines();
-            }
+            Line.TransformLines();
         }
     }
 
@@ -100,11 +96,7 @@ public class RotateMultiObject : MonoBehaviour {
             GameObject.Find("Canvas").GetComponent<Draggable>().Colision();
 
             //transform position of each lines in scene
-            GameObject line = GameObject.Find("Line(Clone)");
-            if (line != null)
-            {
-                line.GetComponent<Line>().TransformLines();
-            }
+            Line.TransformLines();
         }
     }
 

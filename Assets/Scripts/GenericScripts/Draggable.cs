@@ -44,7 +44,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             GameObject line = GameObject.Find("Line(Clone)");
             if (line != null)
             {
-                line.GetComponent<Line>().DeselectLine();
+                item.GetComponent<SelectObject>().DeselectLine();
             }           
         }
         else if (SelectObject.SelectedObjects.Count > 1 && SelectObject.SelectedObjects.Contains(this.gameObject))
@@ -62,7 +62,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             GameObject line = GameObject.Find("Line(Clone)");
             if (line != null)
             {
-                line.GetComponent<Line>().DeselectLine();
+                GameObject.Find("Canvas").GetComponent<SelectObject>().DeselectLine();
             }
         }
 
@@ -92,7 +92,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 _draggingItem.transform.GetChild(i).gameObject.layer = 8;
             }
             // Newly created component needs to be selected otherwise an error will occur
-            SelectObject.AddToSelection(_draggingItem);
+            SelectObject.AddItemToSelection(_draggingItem);
 
             UndoAction undoAction = new UndoAction();
             GUICircuitComponent component = _draggingItem.GetComponent<GUICircuitComponent>();
@@ -128,7 +128,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             }
 
             // Newly created component needs to be selected otherwise an error will occur
-            SelectObject.AddToSelection(_draggingItem);
+            SelectObject.AddItemToSelection(_draggingItem);
         
         }
         else if (SelectObject.SelectedObjects.Count == 0 || SelectObject.SelectedObjects.Count == 1 && SelectObject.SelectedObjects[0] == this.gameObject)
@@ -275,11 +275,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         _itemPoss.Clear();
 
         //transform position of each lines in scene
-        GameObject line = GameObject.Find("Line(Clone)");
-        if (line != null)
-        {
-            line.GetComponent<Line>().TransformLines();
-        }
+        Line.TransformLines();
     }
 
     //checking colision
@@ -378,5 +374,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             }
             i++;
         }
+
+        Line.TransformLines();
     }
 }

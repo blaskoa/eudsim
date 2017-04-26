@@ -27,7 +27,7 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
     }
 
     // Add a new item to the selection
-    public static void AddToSelection(GameObject go)
+    public static void AddItemToSelection(GameObject go)
     {
         SelectedObjects.Add(go);
         go.transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = true;
@@ -37,6 +37,26 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
         {
             GUICircuitComponent componentScript = SelectedObjects[0].GetComponent<GUICircuitComponent>();
             componentScript.GetProperties();
+        }
+    }
+
+    // Add a list of new items to the selection
+    public static void AddItemsToSelection(List<GameObject> gameObjects)
+    {
+        foreach (GameObject gameObject in gameObjects)
+        {
+            SelectedObjects.Add(gameObject);
+            gameObject.transform.FindChild("SelectionBox").GetComponent<SpriteRenderer>().enabled = true;
+        }
+    }
+
+    // Add a list of new lines to the selection
+    public static void AddLinesToSelection(List<GameObject> gameObjects)
+    {
+        foreach (GameObject gameObject in gameObjects)
+        {
+            SelectedLines.Add(gameObject);
+            gameObject.GetComponent<Line>().MarkAsSelected();
         }
     }
 
@@ -59,7 +79,7 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
             GameObject line = GameObject.Find("Line(Clone)");
             if (line != null)
             {
-                line.GetComponent<Line>().DeselectLine();
+                DeselectLine();
             }
         }
 
@@ -83,6 +103,7 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
         }
     }
 
+    // Deselect object(s)
     public void DeselectObject()
     {        
         //deselect component
@@ -94,6 +115,20 @@ public class SelectObject : MonoBehaviour, IPointerClickHandler
             }
             SelectedObjects.Clear();
             _script.Clear();
+        }
+    }
+
+    // Deselect Line(s)
+    public void DeselectLine()
+    {
+        // Deselect line
+        if (SelectedLines.Count != 0)
+        {
+            foreach (GameObject linesSelected in SelectedLines)
+            {
+                linesSelected.GetComponent<Line>().UnmarkAsSelected();
+            }
+            SelectedLines.Clear();
         }
     }
 }

@@ -38,11 +38,7 @@ public class Rotate : MonoBehaviour
         }
 
         //transform position of each lines in scene
-        GameObject line = GameObject.Find("Line(Clone)");
-        if (line != null)
-        {
-            line.GetComponent<Line>().TransformLines();
-        }
+        Line.TransformLines();
     }
 
     //Rotate functionality to invoke rotation from button, -90 degrees
@@ -74,11 +70,7 @@ public class Rotate : MonoBehaviour
             }
 
             //transform position of each lines in scene
-            GameObject line = GameObject.Find("Line(Clone)");
-            if (line != null)
-            {
-                line.GetComponent<Line>().TransformLines();
-            }
+            Line.TransformLines();
         }
     }
 

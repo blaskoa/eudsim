@@ -8,7 +8,8 @@ public class Duplicate : MonoBehaviour
 {
     public void DuplicateComponent()
     {
-        List<GameObject> clones = new List<GameObject>();
+        List<GameObject> cloneComponents = new List<GameObject>();
+        List<GameObject> cloneLines = new List<GameObject>();
 
         // Get all game objects and find the top-left and bottom-right most components
         foreach (GameObject objectSelected in SelectObject.SelectedObjects)
@@ -30,7 +31,7 @@ public class Duplicate : MonoBehaviour
                 }
 
                 // Add newly created clone to the list of clones
-                clones.Add(copy);
+                cloneComponents.Add(copy);
             }
         }
 
@@ -38,6 +39,7 @@ public class Duplicate : MonoBehaviour
         foreach (GameObject line in SelectObject.SelectedLines)
         {
             GameObject duplicateLine = Instantiate(line);
+            duplicateLine.GetComponent<Line>().KeepColiders();
 
             // Set the Begin of the duplicated line
             GameObject beginComponent = line.GetComponent<Line>().Begin.transform.parent.gameObject;
@@ -53,7 +55,7 @@ public class Duplicate : MonoBehaviour
             }
             // Get index of component in the List of SelectedObjects
             int beginComponentIndex = SelectObject.SelectedObjects.IndexOf(beginComponent);
-            GameObject cloneBegin = clones[beginComponentIndex];
+            GameObject cloneBegin = cloneComponents[beginComponentIndex];
             duplicateLine.GetComponent<Line>().Begin = cloneBegin.transform.GetChild(beginChildConnectorIndex).gameObject;
 
             // Set the End of the duplicated line
@@ -70,18 +72,25 @@ public class Duplicate : MonoBehaviour
             }
             // Get index of component in the List of SelectedObjects
             int endComponentIndex = SelectObject.SelectedObjects.IndexOf(endComponent);
-            GameObject cloneEnd = clones[endComponentIndex];
+            GameObject cloneEnd = cloneComponents[endComponentIndex];
             duplicateLine.GetComponent<Line>().End = cloneEnd.transform.GetChild(endChildConnectorIndex).gameObject;
 
             // Add references of each other to both newly connected connectors of the duplicated objects
             duplicateLine.GetComponent<Line>().Begin.GetComponent<Connectable>().AddConnected(duplicateLine.GetComponent<Line>().End);
             duplicateLine.GetComponent<Line>().End.GetComponent<Connectable>().AddConnected(duplicateLine.GetComponent<Line>().Begin);
 
-            beginComponent.GetComponent<Connector>().ConnectedConnectors.Remove(endComponent.GetComponent<Connector>());
-            endComponent.GetComponent<Connector>().ConnectedConnectors.Remove(beginComponent.GetComponent<Connector>());
             duplicateLine.GetComponent<Line>().Begin.GetComponent<Connector>().ConnectedConnectors.Add(duplicateLine.GetComponent<Line>().End.GetComponent<Connector>());
             duplicateLine.GetComponent<Line>().End.GetComponent<Connector>().ConnectedConnectors.Add(duplicateLine.GetComponent<Line>().Begin.GetComponent<Connector>());
+
+            // Add new line to the list of duplicated lines
+            cloneLines.Add(duplicateLine);
         }
+        
+        SelectObject selectionComponent = GameObject.Find("Canvas").GetComponent<SelectObject>();
+        selectionComponent.DeselectObject();
+        selectionComponent.DeselectLine();
+        SelectObject.AddItemsToSelection(cloneComponents);
+        SelectObject.AddLinesToSelection(cloneLines);
 
         // Check for collisions - duplicated are placed on the same position as their originals so there MUST BE a collision
         GetComponent<Draggable>().Colision();

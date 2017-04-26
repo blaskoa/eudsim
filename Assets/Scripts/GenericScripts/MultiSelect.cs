@@ -120,7 +120,7 @@ public class MultiSelect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         GameObject line = GameObject.Find("Line(Clone)");
         if (line != null)
         {
-            line.GetComponent<Line>().DeselectLine();
+            item.GetComponent<SelectObject>().DeselectLine();
         }
 
         _tbu.DisableToolbarButtons();

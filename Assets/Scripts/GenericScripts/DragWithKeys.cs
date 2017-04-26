@@ -109,11 +109,7 @@ public class DragWithKeys : MonoBehaviour {
                     _buttonDelay = _delay;
 
                     //transform position of each lines in scene
-                    GameObject line = GameObject.Find("Line(Clone)");
-                    if (line != null)
-                    {
-                        line.GetComponent<Line>().TransformLines();
-                    }
+                    Line.TransformLines();
                 }
             }
         }

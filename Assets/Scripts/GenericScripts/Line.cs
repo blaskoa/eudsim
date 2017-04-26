@@ -20,7 +20,7 @@ public class Line : MonoBehaviour, IPointerClickHandler
 
     void Awake()
     {
-        GetComponent<LineRenderer>().SetColors(Color.black, Color.black);
+        UnmarkAsSelected();
     }
 
     // Update is called once per frame
@@ -136,6 +136,26 @@ public class Line : MonoBehaviour, IPointerClickHandler
         _col2.gameObject.layer = 8;
     }
 
+    // Mark this line as Selected
+    public void MarkAsSelected()
+    {
+        GetComponent<LineRenderer>().startColor = Color.red;
+        GetComponent<LineRenderer>().endColor = Color.red;
+    }
+
+    // Unmark this line as Selected
+    public void UnmarkAsSelected()
+    {
+        GetComponent<LineRenderer>().startColor = Color.black;
+        GetComponent<LineRenderer>().endColor = Color.black;
+    }
+
+    // When the line is duplicated its coliders are duplicated as well - no need to create new ones
+    public void KeepColiders()
+    {
+        _addedCollider = true;
+    }
+
     //select line with mouse click and change color of selected line
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -151,34 +171,21 @@ public class Line : MonoBehaviour, IPointerClickHandler
         //deselect previous selected lines
         if (!SelectObject.SelectedLines.Contains(this.gameObject))
         {
-            DeselectLine();
+            item.GetComponent<SelectObject>().DeselectLine();
         }
 
         SelectObject.SelectedLines.Add(this.gameObject);
-        SelectObject.SelectedLines[0].GetComponent<LineRenderer>().SetColors(Color.red, Color.red);
+        MarkAsSelected();
     }
 
-    public void TransformLines()
+    public static void TransformLines()
     {
         GameObject[] lines;
         lines = GameObject.FindGameObjectsWithTag("ActiveLine");
         foreach (GameObject l in lines)
         {
-            l.transform.position = new Vector2((l.GetComponent<Line>().Begin.transform.position.x + l.GetComponent<Line>().EndPos.x) / 2,
-                    (l.GetComponent<Line>().Begin.transform.position.y + l.GetComponent<Line>().EndPos.y) / 2);
-        }
-    }
-
-    public void DeselectLine()
-    {
-        // Deselect line
-        if (SelectObject.SelectedLines.Count != 0)
-        {
-            foreach (GameObject linesSelected in SelectObject.SelectedLines)
-            {
-                linesSelected.GetComponent<LineRenderer>().SetColors(Color.black, Color.black);
-            }
-            SelectObject.SelectedLines.Clear();
+            l.transform.position = new Vector2((l.GetComponent<Line>().Begin.transform.position.x + l.GetComponent<Line>().End.transform.position.x) / 2,
+                    (l.GetComponent<Line>().Begin.transform.position.y + l.GetComponent<Line>().End.transform.position.y) / 2);
         }
     }
 }
