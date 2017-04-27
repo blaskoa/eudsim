@@ -49,7 +49,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             GameObject line = GameObject.Find("Line(Clone)");
             if (line != null)
             {
-                line.GetComponent<SelectObject>().DeselectLine();
+                GameObject.Find("Canvas").GetComponent<SelectObject>().DeselectLine();
             }
         }
         else if (SelectObject.SelectedObjects.Count > 1 && SelectObject.SelectedObjects.Contains(this.gameObject))

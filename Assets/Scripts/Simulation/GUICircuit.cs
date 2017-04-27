@@ -25,6 +25,14 @@ public class GUICircuit : MonoBehaviour
         GetObjectsFromScene();
         stopSignal = false;
         SimulationFlow();
+
+        foreach (GameObject lamp in GameObject.FindGameObjectsWithTag("ActiveItem"))
+        {
+            if (lamp.ToString() == "Bulb(Clone)")
+            {
+                lamp.GetComponent<Light>().enabled = true;
+            }
+        }
     }
 
     public void StopSimulation()
@@ -34,6 +42,14 @@ public class GUICircuit : MonoBehaviour
         playButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
         pauseButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
         stopSignal = true;
+
+        foreach (GameObject lamp in GameObject.FindGameObjectsWithTag("ActiveItem"))
+        {
+            if (lamp.ToString() == "Bulb(Clone)")
+            {
+                lamp.GetComponent<Light>().enabled = false;
+            }
+        }
     }
 
     List<GUICircuitComponent> traveledNodes = new List<GUICircuitComponent>();
