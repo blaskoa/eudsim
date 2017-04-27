@@ -1,0 +1,15 @@
+diff a/Assets/Scripts/GenericScripts/Draggable.cs b/Assets/Scripts/GenericScripts/Draggable.cs	(rejected hunks)
+@@ -149,11 +149,10 @@
+             // Newly created component needs to be selected otherwise an error will occur
+             SelectObject.AddToSelection(_draggingItem);
+         
+-        }
++        }       
+         else if (SelectObject.SelectedObjects.Count == 0 || SelectObject.SelectedObjects.Count == 1 && SelectObject.SelectedObjects[0] == this.gameObject)
+-        {           
++        {            
+             _draggingItem = this.gameObject;
+-
+             if (SelectObject.SelectedObjects.Count == 0)
+             {
+                 // Select new object.        
