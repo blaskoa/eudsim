@@ -6,7 +6,7 @@ using UnityEngine;
 public class KeysUtils
 {
 
-    public static void DisableAllMonoScripts()
+    public void DisableAllMonoScripts()
     {
        //treba to spravit tak, ze najdem  vsetky scripty so specifickym nazvom a disablnem ho v kazdom objekte
         GameObject[] allObjects = Object.FindObjectsOfType<GameObject>();
@@ -45,7 +45,7 @@ public class KeysUtils
         }
     }
 
-    public static void EnableAllMonoScripts()
+    public void EnableAllMonoScripts()
     {
         //treba to spravit tak, ze najdem  vsetky scripty so specifickym nazvom a disablnem ho v kazdom objekte
         GameObject[] allObjects = Object.FindObjectsOfType<GameObject>();

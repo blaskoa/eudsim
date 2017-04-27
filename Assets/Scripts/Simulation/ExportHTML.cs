@@ -78,7 +78,7 @@ public class ExportHTML : MonoBehaviour
         List<string> exportArrayList = new List<string>();
         foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType(typeof(GameObject)))
         {
-            if (obj.tag.Equals("ActiveItem") || obj.tag.Equals("ActiveNode"))
+            if (obj.tag.Equals("ActiveItem") || obj.tag.Equals("ActiveNode") || obj.tag.Equals("Arrow"))
             {
                 float x = obj.transform.position.x;
                 float y = obj.transform.position.y;
@@ -103,6 +103,8 @@ public class ExportHTML : MonoBehaviour
                     imageName = "images/coil.png";
                 else if (obj.name.Contains("Resistor"))
                     imageName = "images/resistor.png";
+                else if (obj.name.Contains("Potentiometer"))
+                    imageName = "images/potentiometer.png";
                 else if (obj.name.Contains("TransistorPNP"))
                     imageName = "images/PNPTranzistor.png";
                 else if (obj.name.Contains("TransistorNPN"))
@@ -111,6 +113,21 @@ public class ExportHTML : MonoBehaviour
                     imageName = "images/ZenerDiode.png";
                 else if (obj.name.Contains("LedDiode"))
                     imageName = "images/LedDiode.png";
+                else if (obj.name.Contains("Arrow"))
+                {
+                    if (obj.GetComponentInParent<GUICircuitComponent>().tag.Equals("ActiveItem")) //do not make export from toolbox
+                    {
+                        imageName = "images/PotentiometerArrow.png";
+                        Vector3 screenPos2 = Camera.WorldToScreenPoint(obj.transform.position);
+
+                        exportArrayList.Add("{x:" + screenPos2.x + ",y:" + screenPos2.y + ",radius:0, rotate:" +
+                                            -obj.transform.rotation.eulerAngles.z + ", img:'" +
+                                            imageName + "' , componentName: '" + "no properties" + "'},");
+                    }
+                    continue;
+                    //as this is just arrow continue without connectors
+
+                }
                 else
                     imageName = "images/bulb.png";
 
@@ -118,7 +135,7 @@ public class ExportHTML : MonoBehaviour
                 Vector3 screenPos = Camera.WorldToScreenPoint(obj.transform.position);
 
                 exportArrayList.Add("{x:" + screenPos.x + ",y:" + screenPos.y + ",radius:" + radius.ToString() + ", rotate:" +
-                         obj.GetComponent<GUICircuitComponent>().transform.rotation.eulerAngles.z + ", img:'" +
+                         -obj.GetComponent<GUICircuitComponent>().transform.rotation.eulerAngles.z + ", img:'" +
                          imageName + "' , componentName: '" + obj.GetComponent<GUICircuitComponent>().GetPropertiesForExport() + "'},");
 
                 // Export component's Connectors
@@ -131,16 +148,6 @@ public class ExportHTML : MonoBehaviour
 
                     exportArrayList.Add("{x:" + connectorScreenPosition.x + ",y:" + connectorScreenPosition.y +
                              ",radius:7, img:'images/connector.png',componentName:'n/a'},");
-                }
-
-                if (obj.name.Contains("Transistor") == true)
-                //as this is so far only way how to determine count of connectors we relay on name
-                {
-                    screenPos =
-                        Camera.WorldToScreenPoint(
-                            obj.GetComponent<GUICircuitComponent>().Connectors[2].transform.position);
-                    exportArrayList.Add("{x:" + screenPos.x + ",y:" + screenPos.y +
-                        ",radius:7, img:'images/connector.png',componentName:'n/a'},");
                 }
             }
 
