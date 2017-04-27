@@ -17,6 +17,14 @@ public class GUILamp : GUICircuitComponent
 
     void Update()
     {
+        GameObject playButton = GameObject.Find("PlayButton");
+        Light light = this.gameObject.GetComponent<Light>();
+        if (playButton.GetComponent<UnityEngine.UI.Button>().interactable == true)
+        {
+            light.enabled = false;
+            return;
+        } 
+
         //if is there current and voltage in the active item lamp
         if (CompareTag("ActiveItem")
             && _lamp != null
@@ -26,7 +34,8 @@ public class GUILamp : GUICircuitComponent
         {
             float current = Mathf.Abs((float)_lamp.getCurrent());
             float voltage = Mathf.Abs((float)_lamp.getVoltageDelta());
-            Light light = this.gameObject.GetComponent<Light>();
+            
+
 
             // show light
             light.enabled = true; 
