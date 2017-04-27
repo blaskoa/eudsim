@@ -141,8 +141,9 @@ public class GUIPotentiometer : GUICircuitComponent
             }
         }
 
-        float diff = arrow.transform.position.x - this.gameObject.transform.position.x;
-        float normalizeDiff = diff * 2.5f + 0.5f;
+        float diff = arrow.transform.position.x - this.gameObject.transform.position.x;       
+        float normalizeDiff = diff * 1.25f + 0.5f;
+
         float resistance = (float) _potentiometer.maxResistance * normalizeDiff;
         //SetResistance(resistance);
     }

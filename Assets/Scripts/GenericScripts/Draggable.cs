@@ -223,7 +223,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             Vector2 mouseDiff = (Vector2)Camera.main.ScreenToWorldPoint(eventData.position) - _mousePos;
             mouseDiff.y = 0;
 
-            if (Mathf.Abs(mouseDiff.x) <= 0.2f)
+            if (Mathf.Abs(mouseDiff.x) <= 0.4f)
             {
                 _arrow.transform.position = _arrowPos + mouseDiff;
                 _arrow.transform.position = new Vector3(_arrow.transform.position.x, _arrow.transform.position.y);

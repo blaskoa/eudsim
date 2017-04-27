@@ -44,7 +44,7 @@ public class GUILamp : GUICircuitComponent
 
             if (voltage > MaxVoltage)
             {
-                voltage = MaxVoltage;
+                light.enabled = false;
             }
 
             if (voltage < MinVoltage)
@@ -53,7 +53,7 @@ public class GUILamp : GUICircuitComponent
             }
 
             //dinamically set the Light options in scene
-           // Debug.Log(current + "   " + voltage);
+            // Debug.Log(current + "   " + voltage);          
             light.intensity = MaxIntensity * voltage / MaxVoltage;
             light.spotAngle = MaxSpotAngle * voltage / MaxVoltage;
         }

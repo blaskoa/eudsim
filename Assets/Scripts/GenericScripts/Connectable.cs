@@ -46,7 +46,7 @@ public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         {
             return;
         }
-
+        
         //if gameobject is in desktop, not in toolbox
         if (this.gameObject.transform.parent.tag == "ActiveItem" || this.gameObject.transform.parent.tag == "ActiveNode")
         {
@@ -64,7 +64,7 @@ public class Connectable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         {
             return;
         }
-
+        
         //if gameobject is in desktop, not in toolbox
         if ((this.gameObject.transform.parent.tag == "ActiveItem") || (this.gameObject.transform.parent.tag == "ActiveNode"))
         {
