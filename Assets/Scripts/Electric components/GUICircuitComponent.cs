@@ -33,7 +33,7 @@ public abstract class GUICircuitComponent : MonoBehaviour
 
     protected void TransformFromEntity(SimulationElement simulationElement)
     {
-        transform.position = new Vector3(simulationElement.PositionX, simulationElement.PositionY);
+        transform.position = new Vector3(simulationElement.PositionX, simulationElement.PositionY, -6);
         transform.rotation = new Quaternion(0, 0, simulationElement.RotationZ, simulationElement.RotationW);
 
         int indexer = 0;
