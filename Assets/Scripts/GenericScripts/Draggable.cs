@@ -425,5 +425,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             }
             i++;
         }
+        Line.TransformLines();
     }
 }
