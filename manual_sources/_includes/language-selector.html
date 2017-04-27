@@ -1,7 +1,8 @@
 {% include base.html %}
 {% include language.html %}
+{% assign manlanguage = 'man_' | append: language %}
 
 <ul id="language-selector">
-    <li><a href="{{ base }}{{ page.url | replace: language, 'en' }}">EN</a></li>
-    <li><a href="{{ base }}{{ page.url | replace: language, 'sk' }}">SK</a></li>
+    <li><a href="{{ base }}{{ page.url | replace: manlanguage, 'man_en' }}">EN</a></li>
+    <li><a href="{{ base }}{{ page.url | replace: manlanguage, 'man_sk' }}">SK</a></li>
 </ul>

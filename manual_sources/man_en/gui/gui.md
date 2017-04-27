@@ -1,0 +1,23 @@
+---
+title: Graphical User Interface
+---
+
+...
+
+# Main Menu
+...
+
+## File
+...
+
+## Edit
+...
+
+## View
+...
+
+## Help
+...
+
+# Context Menu
+...
