@@ -1,4 +1,4 @@
----
+﻿---
 title: Ovládacie prvky pracovnej plochy
 ---
 
@@ -89,3 +89,17 @@ Priblížiť a vzdialiť komponenty pracovnej plochy môžete dvomi spôsobmi:
 1. Pomocou tlačidiel v hlavnom panely nástrojou:
     1. Stlačte na ![Priblížiť - ikona]({{ base }}/images/user_interaction/zoom_in_icon.png "Priblížiť") pre priblíženie
     1. Stlačte na ![Vzdialiť - ikona]({{ base }}/images/user_interaction/zoom_out_icon.png "Vzdialiť") pre vzdialenie.
+
+# Undo/redo zmeny vykonanej na ploche
+Typy zmien, ktoré môžu byť navrátené sú:
+
+1. Vytvorenie súčiastky, alebo skupiny súčiastok
+2. Vymazanie súčiastky, alebo skupiny súčiastok
+3. Presunutie súčiastky, alebo skupiny súčiastok
+4. Rotácia súčiastky, alebo skupiny súčiastok
+5. Vymazanie čiary
+
+Pre vykonanie undo/redo akcií stlačte nasledovné tlačidlá v hlavnom panely:
+
+1. Stlačte na ![Redo - ikona]({{ base }}/images/user_interaction/undo_icon.png "Redo") pre redo akciu
+2. Stlačte na ![Undo - ikona]({{ base }}/images/user_interaction/redo_icon.png "Undo") pre undo akciu
