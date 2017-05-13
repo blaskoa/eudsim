@@ -54,7 +54,7 @@ Rotovať komponent pomocou tlačidiel hlavného panelu nástrojov môžete nasle
 # Mazanie súčiastok
 Keď chcete zmazať súčiastku z pracovnej plochy, postupujte nasledovne:
 
-1. Stlačte ľavým tlačidlom myšky na súčiastku, ktorú chcete vymazať z pracovnej ploche.
+1. Stlačte ľavým tlačidlom myšky na súčiastku, ktorú chcete vymazať z pracovnej plochy.
 1. Vykonajte jednu zo 4 možností:
     1. Stlačte klávesu Del na klávesnici
     1. Stlačte pravým tlačidlom myšky na súčiastku a vyberte možnosť "Zmazať"

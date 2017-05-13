@@ -2,7 +2,7 @@
 title: Tvorba simulácií elektrického obvodu
 ---
 
-Na vytvorenie simulácie elektrického obvodu budete používať nástroje a pracovnú plochu. Simuláciu vytvoríte v dvoch krokoch:
+Na vytvorenie simulácie elektrického obvodu budete používať nástroje a pracovnú plochu. Simuláciu vytvoríte v troch krokoch:
 
 1. Umiestnite súčiastky elektrického obvodu na pracovnú plochu
 1. Nastavíte vlastnosti umiestnených súčiastok
@@ -44,7 +44,7 @@ Na nastavenie jednotlivých typov hodnôt postupujte nasledovne:
 1. Celočíselná hodnota s obmedzením - použite posuvník na nastavenie hodnoty alebo vpíšte hodnotu do políčka.
 1. Desatinné číslo bez obmedzenia - vpíšte celočíselnú hodnotu do políčka. Desatinnú čast oddeľte bodkou (".").
 1. Desatinné číslo s obmedzením - použite posuvník na nastavenie hodnoty alebo vpíšte hodnotu do políčka. Desatinnú čast oddeľte bodkou (".").
-1. Pravdivostná hodnota (áno/nie) - stlačte na štvorčet na zmenu hodnoty.
+1. Pravdivostná hodnota (áno/nie) - stlačte na štvorček na zmenu hodnoty.
     1. Keď je štvorček označený, hodnota je "áno".
     1. Keď štvorček nie je označený, hodnota je "nie".
 
