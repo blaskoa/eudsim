@@ -13,7 +13,6 @@ Farbami sú ohraničené rôzne časti simulátora. Jednotlivé časti sú nasle
 * Oranžová: Hlavné menu
 * Modrá: Panel s hlavnými nástrojmi
 * Červená: Panel so súčiastkami
-* Biela: Prehliadač objektov
 * Žltá: Pracovná plocha
 * Zelená: Vlastnosti súčiastky
 * Ružová: Výpis chýb a hlášok
@@ -32,6 +31,7 @@ Hlavné menu obsahuje položky:
 Položka súbor v hlavnom menu obsahuje nasledovné položky:
 
 * Nový projekt - na vytvorenie nového projektu
+* Zavrieť projekt - na vymazanie pracovnej plochy
 * Otvoriť - na načítanie projektu
 * Uložiť - na uloženie projektu
 * Uložiť ako - na uloženie projektu s iným menom a/alebo koncovkou
@@ -54,7 +54,6 @@ Položka upraviť v hlavnom menu obsahuje nasledovné položky:
 Položka zobrazenie v hlavnom menu obsahuje nasledovné položky na zobrazenie/schovanie okien nástroja:
 
 * Vlastnosti objektu - okno na nastavenie vlastností komponentov na pracovnej ploche, napr. vlastnosti súčiastok elektrického obvodu
-* Prehliadač objektov - okno na prehľadávanie komponentov na pracovnej ploche, napr. súčiastky elektrického obvodu
 * Nástroje - okno s komponentami, napr. súčiastky elektrického obvodu
 * Debug - okno s kontrolnými a chybovými hláškami simulátora
 
@@ -63,11 +62,9 @@ Položka zobrazenie v hlavnom menu obsahuje nasledovné položky na zobrazenie/s
 
 Položka pomoc v hlavnom menu obsahuje nasledovné položky:
 
-* O programe - výpis informácií o nástroji  
-* Manuál - zobrazí manuál na použitie nástroja  
-* O verzií - zobrazí aktuálnu verziu a základné informácie o nej  
-* Nahlásiť chybu - nahlásenie chyby vývojárom  
-* Kontakt - na kontaktovanie vývojárskej spoločnosti, ktorá má nástroj na starosti  
+* O programe - výpis informácií o nástroji a zobrazí aktuálnu verziu  
+* Manuál - zobrazí manuál na použitie nástroja. Manuál je možné otvoriť aj príslušným tlačidlom na toolbare.  
+* Ukážkové obvody - zobrazí panel s tlačidlami pre načítanie pred-pripravených obvodov
 
 # Kontextové menu
 ![Kontextové menu]({{ base }}/images/gui/context_menu.png "Kontextové menu")

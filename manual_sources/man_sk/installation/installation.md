@@ -2,14 +2,11 @@
 title: Inštalácia
 ---
 
-EduSim neobsahuje inštalačný súbor.
+EduSim nainštalujete spustiteľným súborom EduSim_setup.exe, ktorý nainštaluje program použitím inštalačného systému Windows - klasické 
+inštalačné okno s voľbou cieľového inštalačného priečinku a vytvorenia ikonky na desktope na žiadosť.
 
-Pre spustenie EduSim-u je potrebné rozbaliť EduSim.rar, ktorý obsahuje:
+Nainštalovaný softvér obsahuje nasledovné položky:
 
 * EduSim_Data - dáta, ktoré sú potrebné pre správnu funkcionalitu softvéru
-* ExportHTML - obsahuje šablóny a obrázky pre generovanie HTML exportu. Po vygenerovaní obsahuje aj samotný html export: index.html.
+* unins000.exe - odinštalovanie
 * EduSim.exe - spúšťač
-
-Všetky 3 zložky musia byť v jednom priečinku.
-
-Pri spúšťaní v nastaveniach odporúčame zaškrtnúť mód Windowed, inak nie je možné vidieť vrchný toolbar (a tak nie je možné minimalizovať ani zavrieť program).

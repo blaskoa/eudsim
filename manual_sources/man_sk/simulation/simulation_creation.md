@@ -57,7 +57,7 @@ V simulačnom nástroji sú káble predstavené čiarami. Prepojiť môžete iba
 # Zalomenie čiar
 Vykreslenú čiaru môžete zalomiť v tvare písmenka L.
 
-Na zalomenie čiare, postupujte nasledovne:
+Na zalomenie čiary, postupujte nasledovne:
 
 1. Stlačte ľavým tlačidlom myšky na čiaru, ktorú chcete zalomiť.
 1. Stlačte tlačidlo Space na klávesnici.
@@ -71,6 +71,6 @@ Na vymazanie čiary, postupujte nasledovne:
 1. Stlačte tlačidlo Del na klávesnici.
 
 # Vygenerovanie HTML exportu
-Pre vygenerovanie exportu kliknite ľavým tlačidlom myšky na ikonku obláčika v hlavnom panely nástrojov.
+Pre vygenerovanie exportu kliknite ľavým tlačidlom myšky na ikonku obláčika v hlavnom panely nástrojov, ktorý otvorí bežný Windows Explorer.
 
-HTML export bude uložený do priečinka ExportHTML ako index.html.
+HTML export bude uložený do vami vybraného priečinka.

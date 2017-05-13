@@ -8,6 +8,8 @@ title: Nastavenia
 
 V hlavnom menu Upraviť → Nastavenia sa nachádzajú nastavenia aplikácie.
 
-Kliknutím na tlačidlo Zmeň jazyk je možné prepínať medzi slovenčinou a angličtinou.
+Kliknutím na tlačidlo s aktuálnym jazykom je možné zobraziť a vybrať dostupné jazyky (slovenčina a angličtina).
 
 Pre opustenie nastavenia kliknite na tlačidlo Zrušiť alebo Uložiť.
+
+Jazyk je možné nastaviť podobným spôsobom, tlačidlom v hornom pravom rohu nástroja.

@@ -12,3 +12,4 @@ Existujúce klávesové skratky:
 * Posunúť dole: S
 * Posunúť hore: W
 * Zalomenie čiary: space
+* Manuál: F1
