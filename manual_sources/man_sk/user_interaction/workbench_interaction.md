@@ -1,4 +1,4 @@
-﻿---
+---
 title: Ovládacie prvky pracovnej plochy
 ---
 
