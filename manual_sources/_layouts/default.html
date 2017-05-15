@@ -1,0 +1,22 @@
+<!DOCTYPE html5>
+<html>
+    <head>
+        <title>EduSim Documentation</title>
+        <meta charset="UTF-8"/>
+        {% include base.html %}
+        <link rel="icon" href="{{ base }}/images/edusim-logo.png"/>
+        <link rel="stylesheet" type="text/css" href="{{ base }}/css/edusim.css"/>
+    </head>
+    <body>
+        <nav>
+            <div id="nav-content">
+                {% include language.html %}
+                <a href="{{ base }}/man_{{ language }}/{{ language }}.html"><img id="nav-logo" src="{{ base }}/images/edusim-nav-logo.png"/></a>
+                {% if page.url contains 'man' %}
+                {% include language-selector.html %}
+                {% endif %}
+            </div>
+        </nav>
+        {{ content }}
+    </body>
+</html>

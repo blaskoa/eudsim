@@ -1,0 +1,17 @@
+---
+defaults:
+- scope:
+    path: ''
+    type: pages
+  values:
+    layout: default
+- scope:
+    path: man_en
+    type: pages
+  values:
+    layout: manual
+- scope:
+    path: man_sk
+    type: pages
+  values:
+    layout: manual

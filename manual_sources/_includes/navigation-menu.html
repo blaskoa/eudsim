@@ -1,0 +1,30 @@
+<div id="navigation-docs">
+    {% if page.url contains 'sk' %}
+        {% assign manual = 'man_sk' %}
+        {% assign title = 'sk_title' %}
+    {% elsif page.url contains 'en' %}
+        {% assign manual = 'man_en' %}
+        {% assign title = 'en_title' %}
+    {% else %}
+        {% assign manual = 'man_sk' %}
+        {% assign title = 'sk_title' %}
+    {% endif %}
+
+    {% include base.html %}
+
+    <h3>Menu</h3>
+    <hr/>
+    <ul>
+    {% for doc in site.data.nav_docs %}
+        {% assign path = '/' | append: manual | append: '/' | append: doc.path | append: '.html' %}
+
+        {% if page.url == path %}
+            {% assign class = 'active-page' %}
+        {% else %}
+            {% assign class = '' %}
+        {% endif %}
+
+        <li class="{{ class }}"><a href="{{ base }}{{ path }}">{{ doc[title] }}</a></li>
+    {% endfor %}
+    </ul>
+</div>

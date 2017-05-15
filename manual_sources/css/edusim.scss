@@ -1,0 +1,30 @@
+---
+---
+
+/* Import Google Open Sans fonts which points to the font files */
+@import "open-sans";
+
+/* Import the color scheme */
+@import "colors";
+
+/* Import scss for layouts */
+@import "default";
+@import "manual";
+
+* {
+    font-family: 'Open Sans';
+    color: $dark-bluish-gray;
+}
+
+li.welcome-screen-language {
+    margin: 0.5em;
+    padding: 0.5em;
+    font-size: 3em;
+    text-align: center;
+    border-radius: 8px;
+    list-style: none;
+
+    a {
+        text-decoration: none;
+    }
+}

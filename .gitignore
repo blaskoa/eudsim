@@ -23,7 +23,6 @@ ExportedObj/
 *.booproj
 *.svd
 
-
 # Unity3D generated meta files
 *.pidb.meta
 
@@ -33,3 +32,22 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+#Ignore for our binaries
+!/Assets/StreamingAssets/*
+
+# EduSim executable data
+EduSim_data/*
+EduSim.exe
+edusim-software/ExportHTML/js/edusim.js
+
+# Jekyll generated site
+manual_sources/_site/
+manual_sources/.jekyll-metadata
+manual_sources/.sass-cache/
+
+# Build files
+Installer/Output/
+build.exe
+build_Data/
+
